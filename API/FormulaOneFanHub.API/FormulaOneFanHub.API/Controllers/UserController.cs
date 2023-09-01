@@ -22,7 +22,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(user);
+            return Ok(loginDto);
 
         }
         [HttpPost("Register")]
@@ -32,6 +32,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "Client");
             User userToCreate = new User
             {
                 UserName = userDto.UserName,
@@ -39,6 +40,32 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 Password = userDto.Password,
+                RoleId = clientRole.Id,
+                CreatedBy = "System",
+                CreatedOn = DateTime.Now
+            };
+            _fanHubContext.Users.Add(userToCreate);
+            _fanHubContext.SaveChanges();
+            return StatusCode(201);
+
+        }
+
+        [HttpPost("RegisterAdmin")]
+        public IActionResult RegisterAdmin(UserDto userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var adminRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "Admin");
+            User userToCreate = new User
+            {
+                UserName = userDto.UserName,
+                Email = userDto.Email,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Password = userDto.Password,
+                RoleId = adminRole.Id,
                 CreatedBy = "System",
                 CreatedOn = DateTime.Now
             };

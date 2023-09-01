@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string RoleName { get; set; } = string.Empty;
         public string? CreatedBy { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
 
     }
 
