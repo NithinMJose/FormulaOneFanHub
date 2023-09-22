@@ -69,3 +69,10 @@ D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\obj\De
 D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\obj\Debug\net7.0\FormulaOneFanHub.API.pdb
 D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\obj\Debug\net7.0\FormulaOneFanHub.API.genruntimeconfig.cache
 D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\obj\Debug\net7.0\ref\FormulaOneFanHub.API.dll
+D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Humanizer.dll
+D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Mono.TextTemplating.dll
+D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\System.CodeDom.dll
+D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\obj\Debug\net7.0\FormulaOneFanHub.API.sourcelink.json
+D:\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
