@@ -4144,11 +4144,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
+      "projectUniqueName": "d:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
       "projectName": "FormulaOneFanHub.API",
-      "projectPath": "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
+      "projectPath": "d:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
       "packagesPath": "C:\\Users\\Nithin-PC\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\obj\\",
+      "outputPath": "d:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Nithin-PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4171,9 +4171,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "default"
       }
     },
     "frameworks": {
