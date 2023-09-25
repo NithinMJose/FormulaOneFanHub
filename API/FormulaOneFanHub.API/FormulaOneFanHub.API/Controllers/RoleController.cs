@@ -1,4 +1,4 @@
-﻿using FormulaOneFanHub.API.Data;
+﻿    using FormulaOneFanHub.API.Data;
 using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 

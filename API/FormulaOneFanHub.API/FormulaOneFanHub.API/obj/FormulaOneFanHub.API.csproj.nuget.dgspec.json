@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj": {}
+    "D:\\Study\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj": {}
   },
   "projects": {
-    "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj": {
+    "D:\\Study\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
+        "projectUniqueName": "D:\\Study\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
         "projectName": "FormulaOneFanHub.API",
-        "projectPath": "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
-        "packagesPath": "C:\\Users\\Nithin-PC\\.nuget\\packages\\",
-        "outputPath": "D:\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\obj\\",
+        "projectPath": "D:\\Study\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\FormulaOneFanHub.API.csproj",
+        "packagesPath": "C:\\Users\\Nithin\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\Project\\FormulaOneFanHub\\API\\FormulaOneFanHub.API\\FormulaOneFanHub.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nithin-PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nithin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "BCrypt.Net-Core": {
+              "target": "Package",
+              "version": "[1.6.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[7.0.11, )"
@@ -82,24 +86,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.11, 7.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[7.0.11, 7.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.11, 7.0.11]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.11, 7.0.11]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -108,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.1.23455.8\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
