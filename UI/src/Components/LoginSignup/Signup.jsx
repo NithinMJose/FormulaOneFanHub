@@ -47,7 +47,7 @@ const Signup = () => {
 
     // Additional form validation can be added here
 
-    const url = 'http://localhost:5263/api/User/Register'; // Direct URL
+    const url = 'https://localhost:7092/api/User/Register'; // Updated to use HTTPS
 
     setLoading(true);
 

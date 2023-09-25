@@ -1,13 +1,31 @@
-.container{
-    display :flex;
+/* Add this CSS for the semi-transparent purple background */
+.container {
+    display: flex;
     flex-direction: column;
     margin: auto;
     margin-top: 50px;
     width: 500px;
-    background: #fff;
+    background: rgba(255, 0, 130, 0.7); /* Semi-transparent purple background */
     padding-bottom: 10px;
     border-radius: 30px;
+    position: relative; /* Add this to position the overlay */
 }
+
+/* Add this for the background overlay */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Inherit the purple background color */
+    filter: blur(10px); /* Adjust the blur amount as needed */
+    opacity: 0.7; /* Adjust the opacity as needed */
+    z-index: -1; /* Place it behind the container */
+    border-radius: inherit; /* Inherit the border radius from the container */
+}
+
 
 .header{
     display: flex;

@@ -6,6 +6,7 @@ import password_icon from '../Assets/ghi.png';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import jwt_decode from 'jwt-decode';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -23,8 +24,20 @@ const Signin = () => {
         // Store the token in local storage
         localStorage.setItem('jwtToken', response.data.token);
 
+        // Parse the token to get the RoleId
+        const tokenPayload = jwt_decode(response.data.token);
+        const roleId = tokenPayload["RoleId"];
+
         toast.success('Login successful');
-        navigate('/Home'); // Successful login, navigate to Home.jsx
+
+        // Navigate based on the RoleId
+        if (roleId === "1") {
+          navigate('/AdminHome'); // Navigate to AdminHome if RoleId is 1
+        } else if (roleId === "2") {
+          navigate('/UserHome'); // Navigate to UserHome if RoleId is 2
+        } else {
+          navigate('/Home'); // Default navigation for other RoleIds
+        }
       } else {
         toast.error('Password is incorrect');
       }
@@ -32,6 +45,11 @@ const Signin = () => {
       console.error(error);
       if (error.response && error.response.status === 401) {
         toast.error('Invalid username or password');
+      } else if (
+          error.response &&
+          error.response.data === 'Username is already taken'
+      ) {
+        toast.error('Username already in use, please try using another one');
       } else {
         toast.error('An error occurred during login');
       }
