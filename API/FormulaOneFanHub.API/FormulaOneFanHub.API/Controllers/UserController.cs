@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Linq;  
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -56,7 +56,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 var claims = new[]
                 {
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim("Name", user.UserName),
             new Claim("RoleId", user.RoleId.ToString()) // Add RoleId claim
         };
 
@@ -67,7 +67,7 @@ namespace FormulaOneFanHub.API.Controllers
                     issuer: _config["Jwt:Issuer"],
                     audience: _config["Jwt:Audience"],
                     claims: claims,
-                    expires: DateTime.UtcNow.AddMinutes(15), // Adjust the expiration time as needed
+                    expires: DateTime.UtcNow.AddMinutes(2), // Adjust the expiration time as needed
                     signingCredentials: credentials
                 );
 
@@ -153,11 +153,69 @@ namespace FormulaOneFanHub.API.Controllers
 
 
 
-        [HttpGet("GetAllUsers")]
-        public IActionResult GetAllUsers()
-        {
-            List<User> users = _fanHubContext.Users.ToList();
-            return Ok(users);
-        }
+            [HttpGet("GetAllUsers")]
+            public IActionResult GetAllUsers()
+            {
+                List<User> users = _fanHubContext.Users.ToList();
+                return Ok(users);
+            }
+        
+            [HttpGet("viewProfile")]
+            public IActionResult ViewProfile(string userName)
+            {
+                try
+                {
+                    // Get the token from the request headers
+                    //var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+                    // Validate and decode the token to get user claims
+                    //var tokenHandler = new JwtSecurityTokenHandler();
+                    //var tokenValidationParameters = new TokenValidationParameters
+                    //{
+                    //    ValidateIssuer = true,
+                    //    ValidateAudience = true,
+                    //    ValidIssuer = _config["Jwt:Issuer"],
+                    //    ValidAudience = _config["Jwt:Audience"],
+                    //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"])),
+                    //};
+
+                    //SecurityToken validatedToken;
+                    //var claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out validatedToken);
+
+                    // Extract the user's Id from claims
+                    //var userName = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.ToString();
+                    // if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                    if (string.IsNullOrEmpty(userName))
+                    {
+                        return Unauthorized("Invalid token or user not found.");
+                    }
+
+                    // Find the user by Id
+                    var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userName);
+
+                    if (user == null)
+                    {
+                        return NotFound("User not found.");
+                    }
+                
+                    UserProfileDto userProfile = new()
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName
+                    };
+
+
+                    // Return the user's profile data
+                    return Ok(userProfile);
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception (e.g., log it) and return an error response
+                    return StatusCode(500, "An error occurred while processing the request.");
+                }
+            }
+
     }
 }
