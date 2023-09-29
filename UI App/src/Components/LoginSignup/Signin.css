@@ -1,0 +1,131 @@
+/* Add this CSS for the semi-transparent purple background */
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 30px; /* Reduce margin-top */
+    width: 400px; /* Reduce the width */
+    background: rgba(255, 0, 130, 0.7); /* Semi-transparent purple background */
+    padding-bottom: 10px;
+    border-radius: 20px; /* Reduce border radius */
+    position: relative; /* Add this to position the overlay */
+}
+
+/* Add this for the background overlay */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Inherit the purple background color */
+    filter: blur(10px); /* Adjust the blur amount as needed */
+    opacity: 0.7; /* Adjust the opacity as needed */
+    z-index: -1; /* Place it behind the container */
+    border-radius: inherit; /* Inherit the border radius from the container */
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px; /* Reduce the gap */
+    width: 100%;
+    margin-top: 20px; /* Reduce margin-top */
+}
+
+.text {
+    color: #3c009d;
+    font-size: 36px; /* Reduce font size */
+    font-weight: 700;
+}
+
+.underline {
+    width: 45px; /* Reduce the width */
+    height: 4px; /* Reduce the height */
+    background: #3c009d;
+    border-radius: 90px;
+}
+
+.inputs {
+    margin-top: 20px; /* Reduce margin-top */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Reduce the gap */
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 330px; /* Reduce the width */
+    height: 50px; /* Reduce the height */
+    background: #eaeaea;
+    border-radius: 6px;
+}
+
+.input img {
+    margin: 0px 20px; /* Reduce the margin */
+}
+
+.input input {
+    height: 40px; /* Reduce the height */
+    width: 340px; /* Reduce the width */
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 16px; /* Reduce font size */
+}
+
+.forgot-password {
+    padding-left: 50px; /* Reduce padding-left */
+    margin-top: 10px; /* Reduce margin-top */
+    color: #797979;
+    font-size: 16px; /* Reduce font size */
+}
+
+.forgot-password span {
+    color: #4c00b4;
+    cursor: pointer;
+}
+
+.submit-container {
+    display: flex;
+    gap: 20px; /* Reduce the gap */
+    margin: 15px auto; /* Reduce margin */
+}
+
+.submit {
+    display: flex;
+    width: 180px; /* Reduce the width */
+    height: 50px; /* Reduce the height */
+    background: #4c00b4;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 18px; /* Reduce font size */
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.submit-red {
+    display: flex;
+    width: 180px; /* Reduce the width */
+    height: 50px; /* Reduce the height */
+    background: darkred;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 18px; /* Reduce font size */
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.gray {
+    background: #eaeaea;
+    color: #676767;
+}

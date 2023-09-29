@@ -1,0 +1,59 @@
+/* UserViewProfile.css */
+
+/* Style for the heading */
+.headingUserProfile {
+    text-align: center; /* Center-align the heading */
+    font-size: 40px; /* Larger font size */
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Style for table rows */
+  tr {
+    border: none; /* Remove borders */
+  }
+  
+  /* Style for table data cells */
+  td {
+    padding: 16px; /* Increased cell padding for larger items */
+    text-align: left; /* Align table data to the left */
+    font-size: 18px; /* Larger font size */
+  }
+  
+  /* Style for the "Edit" column as a blue button */
+  .edit button {
+    background-color: blue; /* Blue button background color */
+    color: white;
+    border: none;
+    padding: 10px 16px; /* Increased padding for a larger button */
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    font-size: 18px; /* Larger font size */
+  }
+  
+  /* Style for the "Delete" button */
+  .deleteButton {
+    text-align: right; /* Align the "Delete" button column to the right */
+  }
+  
+  .deleteButton button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px; /* Larger font size */
+  }
+  
+  /* Center the table in the container */
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+  
