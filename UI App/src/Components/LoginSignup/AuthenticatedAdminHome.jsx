@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import AdminNavbar from './AdminNavbar';
+import Footer from './Footer';
+import './AuthenticatedAdminHome.css';
 
 const AuthenticatedAdminHome = () => {
     const navigate = useNavigate();
@@ -51,22 +54,15 @@ const AuthenticatedAdminHome = () => {
     };
 
     return (
-        <div>
-        <div className="container">
-            <h1>Hello Admin</h1>
-            <h1>Welcome to the Admin Home Page</h1>
-            {/* Add your home page content here */}
-            <button className="submit" onClick={handleLogout}>
-                Logout
-            </button>
-
-            {/* Button to list users */}
-            <button className="submit" style={{ backgroundColor: 'red', color: 'white' }} onClick={handleListUsers}>
-                List Users
-            </button>
+        <div className="wrapper">
+            <AdminNavbar />
+            <div className="content">
+                <h1>Hello Admin</h1>
+                <h1>Welcome to the Admin Home Page</h1>
+            </div>
+            <Footer />
         </div>
-        </div>
-);
+    );
 };
 
 export default AuthenticatedAdminHome;
