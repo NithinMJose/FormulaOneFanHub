@@ -165,26 +165,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 try
                 {
-                    // Get the token from the request headers
-                    //var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
-                    // Validate and decode the token to get user claims
-                    //var tokenHandler = new JwtSecurityTokenHandler();
-                    //var tokenValidationParameters = new TokenValidationParameters
-                    //{
-                    //    ValidateIssuer = true,
-                    //    ValidateAudience = true,
-                    //    ValidIssuer = _config["Jwt:Issuer"],
-                    //    ValidAudience = _config["Jwt:Audience"],
-                    //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"])),
-                    //};
-
-                    //SecurityToken validatedToken;
-                    //var claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out validatedToken);
-
-                    // Extract the user's Id from claims
-                    //var userName = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.ToString();
-                    // if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                   
                     if (string.IsNullOrEmpty(userName))
                     {
                         return Unauthorized("Invalid token or user not found.");
