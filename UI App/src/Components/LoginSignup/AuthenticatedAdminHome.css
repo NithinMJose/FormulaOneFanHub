@@ -1,0 +1,30 @@
+/* AuthenticatedAdminHome.css */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the transparency (last value) as needed */
+    backdrop-filter: blur(5px); /* Adjust the blur strength as needed */
+    box-sizing: border-box;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align content to the left */
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(144, 238, 144, 0.5); /* Light green background with transparency */
+    backdrop-filter: blur(5px); /* Blurred background effect */
+}
+
+.footer {
+    margin-top: auto; /* Push the footer to the bottom */
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}

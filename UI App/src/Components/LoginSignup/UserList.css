@@ -1,0 +1,79 @@
+/* UserList.css */
+
+/* Container styles */
+.user-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  background-color: rgba(0, 0, 0, 0.8); /* Darker background with more blur */
+  backdrop-filter: blur(10px); /* Increased blur strength for background */
+  color: white; /* Set text color to white */
+}
+
+/* Content styles */
+.user-content {
+  width: 100%;
+  max-width: 800px; /* Adjust the max-width as needed */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Table styles */
+.user-table-responsive {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: auto;
+  max-width: 100%;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  color: white; /* Set text color to white */
+}
+
+.user-table th {
+  background-color: #333; /* Dark background color for table headers */
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #444; /* Dark background color for even rows */
+}
+
+.user-table tr:hover {
+  background-color: #555; /* Slightly lighter background for hover effect */
+}
+
+/* Button styles */
+.user-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.user-buttons button {
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.user-buttons .btn-manage {
+  background-color: #007bff; /* Blue color for "Manage" button */
+  color: white;
+}
+
+.user-buttons .btn-delete {
+  background-color: #dc3545; /* Red color for "Delete" button */
+  color: white;
+}
