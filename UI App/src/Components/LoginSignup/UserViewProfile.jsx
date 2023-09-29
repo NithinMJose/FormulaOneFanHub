@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
 import './UserViewProfile.css';
+import Footer from './Footer';
 
 const UserViewProfile = () => {
   const navigate = useNavigate();
@@ -100,7 +101,12 @@ const UserViewProfile = () => {
   return (
     <div>
       <UserNavbar />
+      <br />
+      <br />
       <div className="container">{renderUserData()}</div>
+      <br />
+      <br />
+      <Footer />
     </div>
   );
 };

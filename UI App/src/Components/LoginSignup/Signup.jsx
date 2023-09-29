@@ -234,6 +234,9 @@ const Signup = () => {
   return (
     <div>
       <HomeNavbar />
+      <br />
+      <br />
+      
       <div className='container' style={{ backgroundImage: `url(${car_icon2})` }}>
         <div className='right-panel'>
           <div className='header'>
@@ -332,6 +335,8 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      <br />
+      <br />
       <Footer />
     </div>
   );

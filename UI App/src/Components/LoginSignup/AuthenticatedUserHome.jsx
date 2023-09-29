@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import UserNavbar from './UserNavbar';
 import Footer from './Footer';
 import './AuthenticatedUserHome.css';
+import jwt_decode from 'jwt-decode';
 
 const AuthenticatedUserHome = () => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const AuthenticatedUserHome = () => {
         const token = localStorage.getItem('jwtToken');
 
         if (!token) {
-            // If token is not present, show a toast and redirect to the login page
+            // If the token is not present, show a toast and redirect to the login page
             toast.error('Login and then access the Home page');
             navigate('/Signin');
         }
@@ -26,22 +27,19 @@ const AuthenticatedUserHome = () => {
         navigate('/Signin'); // Redirect to the login page
     };
 
-    // Add margin to push the footer down
-    const containerStyle = {
-        marginBottom: '20px', // Adjust this value as needed
-    };
+    const token = localStorage.getItem('jwtToken');
+    const tokenPayload = jwt_decode(token);
+    const userName = tokenPayload.Name;
 
     return (
-        <div>
+        <div className="wrapper">
             <UserNavbar />
-            <div className="container" style={containerStyle}>
-                <h1>Hello User</h1>
+            <br />
+            <div className="content">
+                <h1>Hello {userName}</h1>
                 <h1>Welcome to the Fan Hub</h1>
-                {/* Add your home page content here */}
-                <button className="submit" onClick={handleLogout}>
-                    Logout
-                </button>
             </div>
+            <br />
             <Footer />
         </div>
     );

@@ -1,64 +1,79 @@
 /* Footer.css */
 
 .footer {
-    background-color: #333;
-    color: #fff;
-    padding: 40px 0;
-  }
-  
-  .footer-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  .footer-logo {
-    flex: 1;
-    max-width: 200px;
-  }
-  
-  .footer-logo img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .footer-links ul,
-  .footer-social ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .footer-links ul li,
-  .footer-social ul li {
-    margin-bottom: 10px;
-  }
-  
-  .footer-links a,
-  .footer-social a {
-    text-decoration: none;
-    color: #fff;
-    transition: color 0.3s ease;
-  }
-  
-  .footer-links a:hover,
-  .footer-social a:hover {
-    color: #4caf50;
-  }
-  
-  .footer-bottom {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.footer h1,
+.place,
+.date {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.footer-center {
+  flex: 1;
+  text-align: center;
+}
+
+.quotation {
+  font-style: italic;
+  font-size: 20px;
+  margin: 20px 0;
+}
+
+.caption {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.links {
+  margin-top: 20px;
+}
+
+.links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Copyright section at the bottom */
+
+.copyright {
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+.copyright::before {
+  content: "\00a9"; /* Copyright symbol */
+  margin-right: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #4caf50;
-    font-size: 14px;
   }
-  
-  .footer-bottom a {
-    color: #4caf50;
-    text-decoration: none;
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    margin-bottom: 20px;
   }
-  
+}

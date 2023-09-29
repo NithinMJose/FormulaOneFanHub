@@ -83,6 +83,10 @@ const Signin = () => {
   return (
     <div>
       <HomeNavbar />
+      <br />
+      <br />
+      <br />
+
       <div className="container" style={containerStyle}>
         <div className="header">
           <div className="text">Login</div>
@@ -120,6 +124,8 @@ const Signin = () => {
           </Link>
         </div>
       </div>
+      <br />
+      <br />
       <Footer />
     </div>
   );

@@ -1,36 +1,30 @@
-// Footer.js
-
 import React from 'react';
-import './Footer.css';
-import user_icon from '../Assets/abc.png';
+import './Footer.css'; // Import the CSS file for styling
 
 function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-logo">
-          <img src="../Assets/abc.png" alt="Logo" />
-        </div>
-        <div className="footer-links">
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </div>
-        <div className="footer-social">
-          <ul>
-            <li><a href="#"><i className="fab fa-facebook"></i></a></li>
-            <li><a href="#"><i className="fab fa-twitter"></i></a></li>
-            <li><a href="#"><i className="fab fa-instagram"></i></a></li>
-          </ul>
+    <div className="footer">
+      <div className="footer-left">
+        <h1>Formula One Grand Prix</h1>
+        <p className="place">Location: Monaco</p>
+        <p className="date">Date: July 25, 2023</p>
+      </div>
+      <div className="footer-center">
+        <blockquote className="quotation">
+          "Formula One is the pinnacle of motorsport."
+        </blockquote>
+        <p className="caption">The world's most prestigious motorsport event.</p>
+      </div>
+      <div className="footer-right">
+        <nav className="links">
+          <a href="/contact">Contact Us</a>
+          <a href="/about">About</a>
+        </nav>
+        <div className="copyright">
+          &copy; 2023 Formula One Grand Prix. All rights reserved.
         </div>
       </div>
-      <div className="footer-bottom">
-        &copy; {new Date().getFullYear()} Your Company. All rights reserved.
-      </div>
-    </footer>
+    </div>
   );
 }
 

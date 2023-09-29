@@ -1,15 +1,17 @@
-/* Add this CSS for the semi-transparent purple background */
 .container {
     display: flex;
     flex-direction: column;
+    max-height: 80vh; /* Set a maximum height */
+    overflow-y: auto; /* Add vertical scrollbar if content overflows */
     margin: auto;
-    margin-top: 30px; /* Reduce margin-top */
-    width: 400px; /* Reduce the width */
-    background: rgba(255, 0, 130, 0.7); /* Semi-transparent purple background */
+    width: 400px;
+    background: rgba(255, 0, 130, 0.7);
     padding-bottom: 10px;
-    border-radius: 20px; /* Reduce border radius */
-    position: relative; /* Add this to position the overlay */
+    border-radius: 20px;
+    position: relative;
+    margin-bottom: 20px;
 }
+
 
 /* Add this for the background overlay */
 .container::before {
@@ -19,11 +21,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: inherit; /* Inherit the purple background color */
-    filter: blur(10px); /* Adjust the blur amount as needed */
-    opacity: 0.7; /* Adjust the opacity as needed */
-    z-index: -1; /* Place it behind the container */
-    border-radius: inherit; /* Inherit the border radius from the container */
+    background: inherit;
+    filter: blur(10px);
+    opacity: 0.7;
+    z-index: -1;
+    border-radius: inherit;
 }
 
 .header {
@@ -128,4 +130,14 @@
 .gray {
     background: #eaeaea;
     color: #676767;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push content and footer to the top and bottom */
+}
+
+/* Add this to ensure the footer sticks to the bottom */
+.Footer {
+    align-self: flex-end; /* Align the footer to the end of the container */
 }

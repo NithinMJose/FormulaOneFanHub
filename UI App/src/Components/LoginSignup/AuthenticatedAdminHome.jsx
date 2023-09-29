@@ -65,25 +65,6 @@ const AuthenticatedAdminHome = () => {
                 List Users
             </button>
         </div>
-
-    {/* Display the list of names in a table outside the container */}
-    <div className="user-list">
-        <h2>User Names:</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            {users.map((name, index) => (
-                <tr key={index}>
-                    <td>{name}</td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
-    </div>
         </div>
 );
 };
