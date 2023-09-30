@@ -24,14 +24,12 @@ function HomeNavbar() {
         <span></span>
       </button>
       <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
-        <h2 className="HomeNavHome">
-          <a href="/">Home</a>
-        </h2>
+        <h2 className="HomeNavHome"><a href="/">Home</a></h2>
         <h2 className='HomeNavAbout full-height-background'><a href="/about">About</a></h2>
         <h2 className='HomeNavServices full-height-background'><a href="/service">Service</a></h2>
         <h2 className='HomeNavPages full-height-background'><a href="/pages">Pages</a></h2>
-        <h2 className='HomeNavUsers full-height-background'><a href="/users">Users</a></h2>
-        <h2 className="HomeNavRegisterNew"><a href="">RegisterNew</a></h2>
+        <h2 className='Sinin full-height-background'><a href="/Signin">Login Now</a></h2>
+        <h2 className="HomeNavRegisterNew"><a href="/Signup">RegisterNew</a></h2>
       </div>
     </nav>
   );

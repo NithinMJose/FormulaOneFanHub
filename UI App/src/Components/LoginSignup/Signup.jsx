@@ -11,10 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 
-// ... (previous imports)
-
 const Signup = () => {
-  // State variables to store form input values
   const [uname, setUName] = useState('');
   const [fname, setFName] = useState('');
   const [lname, setLName] = useState('');
@@ -23,7 +20,6 @@ const Signup = () => {
   const [cpass, setCPass] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Error message states for each field
   const [unameError, setUNameError] = useState('');
   const [fnameError, setFNameError] = useState('');
   const [lnameError, setLNameError] = useState('');
@@ -34,18 +30,13 @@ const Signup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if there is a valid token in localStorage
     const token = localStorage.getItem('jwtToken');
-
     if (token) {
-      // Redirect to UserHome if a valid token exists
       navigate('/UserHome');
     }
   }, [navigate]);
 
-  // Function to handle form submission
   const handleSave = async () => {
-    // Check if any field is empty
     if (!uname || !fname || !lname || !email || !pass || !cpass) {
       toast.error('Please enter all details.');
       return;
@@ -56,20 +47,18 @@ const Signup = () => {
       return;
     }
 
-    // Validate email format
     if (!validateEmail(email)) {
       setEmailError('Not a valid email format');
       return;
     }
 
-    // Validate password format
     const passwordValidationResult = validatePassword(pass);
     if (passwordValidationResult) {
       setPassError(passwordValidationResult);
       return;
     }
 
-    const url = 'https://localhost:7092/api/User/Register'; 
+    const url = 'https://localhost:7092/api/User/Register';
 
     setLoading(true);
 
@@ -98,7 +87,6 @@ const Signup = () => {
     }
   };
 
-  // Function to clear the form input values
   const clearForm = () => {
     setUName('');
     setFName('');
@@ -108,23 +96,18 @@ const Signup = () => {
     setCPass('');
   };
 
-  // Email format validation function
   const validateEmail = (email) => {
-    // Use a regular expression to validate the email format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailRegex.test(email);
   };
 
-  // Function to validate password format
   const validatePassword = (password) => {
-    // Password format conditions
     const digitRegex = /\d/;
     const upperCaseRegex = /[A-Z]/;
     const lowerCaseRegex = /[a-z]/;
     const specialCharRegex = /[@#$%^&+=!]/;
     const minLength = password.length >= 8;
 
-    // Validate each condition and return the error message for the first unmet condition
     if (!digitRegex.test(password)) {
       return 'At least 1 digit is required.';
     } else if (!upperCaseRegex.test(password)) {
@@ -137,11 +120,9 @@ const Signup = () => {
       return 'Password should be at least 8 characters long.';
     }
 
-    // Return an empty string if all conditions are met
     return '';
   };
 
-  // Function to handle input blur event and show/remove error messages
   const handleInputBlur = (e) => {
     const { name, value } = e.target;
 
@@ -177,7 +158,6 @@ const Signup = () => {
     }
   };
 
-  // Function to handle input change event and remove error messages
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -213,7 +193,6 @@ const Signup = () => {
     }
   };
 
-  // Function to validate name format (only alphabets, minimum 4 characters)
   const validateName = (name, setError) => {
     const nameRegex = /^[A-Za-z]+$/;
     const minLength = name.length >= 4;
@@ -234,7 +213,6 @@ const Signup = () => {
       <HomeNavbar />
       <br />
       <br />
-      
       <div className='container' style={{ backgroundImage: `url(${car_icon2})` }}>
         <div className='right-panel'>
           <div className='header'>
@@ -254,7 +232,6 @@ const Signup = () => {
                 required
               />
             </div>
-            {/* Additional textbox for username error */}
             {unameError && <div className='error-box'>{unameError}</div>}
             <div className='input'>
               <img src={user_icon} alt='' />
@@ -268,7 +245,6 @@ const Signup = () => {
                 required
               />
             </div>
-            {/* Additional textbox for first name error */}
             {fnameError && <div className='error-box'>{fnameError}</div>}
             <div className='input'>
               <img src={user_icon} alt='' />
@@ -282,7 +258,6 @@ const Signup = () => {
                 required
               />
             </div>
-            {/* Additional textbox for last name error */}
             {lnameError && <div className='error-box'>{lnameError}</div>}
             <div className='input'>
               <img src={email_icon} alt='' />
@@ -296,7 +271,6 @@ const Signup = () => {
                 required
               />
             </div>
-            {/* Additional textbox for email error */}
             {emailError && <div className='error-box'>{emailError}</div>}
             <div className='input'>
               <img src={password_icon} alt='' />
@@ -311,7 +285,6 @@ const Signup = () => {
                 required
               />
             </div>
-            {/* Additional textbox for password error */}
             {passError && <div className='error-box'>{passError}</div>}
             <div className='input'>
               <img src={password_icon} alt='' />
@@ -326,16 +299,12 @@ const Signup = () => {
                 required
               />
             </div>
-            {/* Additional textbox for confirm password error */}
             {cpassError && <div className='error-box'>{cpassError}</div>}
           </div>
           <div className='submit-container'>
             <div className='submit' onClick={handleSave} disabled={loading}>
               {loading ? 'Signing Up...' : 'Sign Up'}
             </div>
-            <Link to='/Signin' style={{ textDecoration: 'none' }}>
-              <div className='submit-red'>Sign In</div>
-            </Link>
           </div>
         </div>
       </div>

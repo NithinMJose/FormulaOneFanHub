@@ -6,17 +6,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 20px;
-  background-color: rgba(0, 0, 0, 0.8); /* Darker background with more blur */
-  backdrop-filter: blur(10px); /* Increased blur strength for background */
-  color: white; /* Set text color to white */
+  margin: 10px; /* Reduced margin */
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px); /* Reduced blur strength */
+  color: white;
 }
 
 /* Content styles */
 .user-content {
   width: 100%;
-  max-width: 800px; /* Adjust the max-width as needed */
-  padding: 20px;
+  max-width: 600px; /* Adjusted max-width */
+  padding: 10px; /* Reduced padding */
   box-sizing: border-box;
 }
 
@@ -29,7 +29,7 @@
 .user-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 10px; /* Reduced margin-top */
   table-layout: auto;
   max-width: 100%;
 }
@@ -37,43 +37,45 @@
 .user-table th,
 .user-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 5px; /* Reduced padding */
   text-align: left;
-  color: white; /* Set text color to white */
+  font-size: 12px; /* Reduced font size */
+  color: white;
 }
 
 .user-table th {
-  background-color: #333; /* Dark background color for table headers */
+  background-color: #333;
 }
 
 .user-table tr:nth-child(even) {
-  background-color: #444; /* Dark background color for even rows */
+  background-color: #444;
 }
 
 .user-table tr:hover {
-  background-color: #555; /* Slightly lighter background for hover effect */
+  background-color: #555;
 }
 
 /* Button styles */
 .user-buttons {
   display: flex;
-  gap: 10px;
+  gap: 5px; /* Reduced gap */
 }
 
 .user-buttons button {
-  padding: 5px 10px;
+  padding: 3  px 8px; /* Reduced padding */
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 3px; /* Reduced border-radius */
   font-weight: bold;
+  font-size: 12px; /* Reduced font size */
 }
 
 .user-buttons .btn-manage {
-  background-color: #007bff; /* Blue color for "Manage" button */
+  background-color: #007bff;
   color: white;
 }
 
 .user-buttons .btn-delete {
-  background-color: #dc3545; /* Red color for "Delete" button */
+  background-color: #dc3545;
   color: white;
 }

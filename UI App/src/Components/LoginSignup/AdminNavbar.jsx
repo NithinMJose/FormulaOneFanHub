@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCut } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
-import './AdminNavbar.css';
+import '../LoginSignup/AdminNavbar.css';
 import { toast } from 'react-toastify';
 import './UserList' 
 
-function HomeNavbar() {
+function AdminNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -21,6 +21,8 @@ function HomeNavbar() {
   };
 
   return (
+    <div>
+  <AdminNavbar />
     <nav className="navbar">
       <div className="navbar-brand">
         <FontAwesomeIcon icon={faCut} />
@@ -40,7 +42,8 @@ function HomeNavbar() {
         <h2 className="UserNavLogout" onClick={handleLogout}><Link to="/">Logout</Link></h2>
       </div>
     </nav>
+    </div>
   );
 }
 
-export default HomeNavbar;
+export default AdminNavbar;
