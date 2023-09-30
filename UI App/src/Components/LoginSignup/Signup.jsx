@@ -11,19 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 
+// ... (previous imports)
+
 const Signup = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if there is a valid token in localStorage
-    const token = localStorage.getItem('jwtToken');
-
-    if (token) {
-      // Redirect to UserHome if a valid token exists
-      navigate('/UserHome');
-    }
-  }, [navigate]);
-
   // State variables to store form input values
   const [uname, setUName] = useState('');
   const [fname, setFName] = useState('');
@@ -40,6 +30,18 @@ const Signup = () => {
   const [emailError, setEmailError] = useState('');
   const [passError, setPassError] = useState('');
   const [cpassError, setCPassError] = useState('');
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if there is a valid token in localStorage
+    const token = localStorage.getItem('jwtToken');
+
+    if (token) {
+      // Redirect to UserHome if a valid token exists
+      navigate('/UserHome');
+    }
+  }, [navigate]);
 
   // Function to handle form submission
   const handleSave = async () => {
@@ -67,9 +69,7 @@ const Signup = () => {
       return;
     }
 
-    // Additional form validation can be added here
-
-    const url = 'https://localhost:7092/api/User/Register'; // Updated to use HTTPS
+    const url = 'https://localhost:7092/api/User/Register'; 
 
     setLoading(true);
 
@@ -97,8 +97,6 @@ const Signup = () => {
       setLoading(false);
     }
   };
-
-  // Rest of your component code...
 
   // Function to clear the form input values
   const clearForm = () => {
@@ -255,8 +253,9 @@ const Signup = () => {
                 onBlur={handleInputBlur}
                 required
               />
-              {unameError && <div className='error-box'>{unameError}</div>}
             </div>
+            {/* Additional textbox for username error */}
+            {unameError && <div className='error-box'>{unameError}</div>}
             <div className='input'>
               <img src={user_icon} alt='' />
               <input
@@ -268,8 +267,9 @@ const Signup = () => {
                 onBlur={handleInputBlur}
                 required
               />
-              {fnameError && <div className='error-box'>{fnameError}</div>}
             </div>
+            {/* Additional textbox for first name error */}
+            {fnameError && <div className='error-box'>{fnameError}</div>}
             <div className='input'>
               <img src={user_icon} alt='' />
               <input
@@ -281,8 +281,9 @@ const Signup = () => {
                 onBlur={handleInputBlur}
                 required
               />
-              {lnameError && <div className='error-box'>{lnameError}</div>}
             </div>
+            {/* Additional textbox for last name error */}
+            {lnameError && <div className='error-box'>{lnameError}</div>}
             <div className='input'>
               <img src={email_icon} alt='' />
               <input
@@ -294,8 +295,9 @@ const Signup = () => {
                 onBlur={handleInputBlur}
                 required
               />
-              {emailError && <div className='error-box'>{emailError}</div>}
             </div>
+            {/* Additional textbox for email error */}
+            {emailError && <div className='error-box'>{emailError}</div>}
             <div className='input'>
               <img src={password_icon} alt='' />
               <input
@@ -308,8 +310,9 @@ const Signup = () => {
                 onBlur={handleInputBlur}
                 required
               />
-              {passError && <div className='error-box'>{passError}</div>}
             </div>
+            {/* Additional textbox for password error */}
+            {passError && <div className='error-box'>{passError}</div>}
             <div className='input'>
               <img src={password_icon} alt='' />
               <input
@@ -322,8 +325,9 @@ const Signup = () => {
                 onBlur={handleInputBlur}
                 required
               />
-              {cpassError && <div className='error-box'>{cpassError}</div>}
             </div>
+            {/* Additional textbox for confirm password error */}
+            {cpassError && <div className='error-box'>{cpassError}</div>}
           </div>
           <div className='submit-container'>
             <div className='submit' onClick={handleSave} disabled={loading}>

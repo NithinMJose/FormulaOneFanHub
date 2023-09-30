@@ -165,7 +165,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 try
                 {
-                   
+                    
                     if (string.IsNullOrEmpty(userName))
                     {
                         return Unauthorized("Invalid token or user not found.");

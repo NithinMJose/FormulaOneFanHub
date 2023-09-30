@@ -6,10 +6,11 @@ import AuthenticatedAdminHome from './Components/LoginSignup/AuthenticatedAdminH
 import AuthenticatedUserHome from './Components/LoginSignup/AuthenticatedUserHome';
 import UserViewProfile from './Components/LoginSignup/UserViewProfile'; // Import UserViewProfile
 import UserList from './Components/LoginSignup/UserList'; // Import UserList
+import CarouselComponent from './Components/LoginSignup/CarouselComponent';
 import Errors from './Components/LoginSignup/Errors';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
+import './App.css'; 
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Signup />} />
           <Route path="/Signin" element={<Signin />} />
+          <Route path='/CarouselComponent' element={<CarouselComponent />} />
           <Route path="/AdminHome" element={<AuthenticatedAdminHome />} />
           <Route path="/UserHome" element={<AuthenticatedUserHome />} />
           <Route path="/UserViewProfile" element={<UserViewProfile />} /> {/* Define the route for UserViewProfile */}

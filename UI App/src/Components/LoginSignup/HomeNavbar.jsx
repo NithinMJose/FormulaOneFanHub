@@ -1,16 +1,16 @@
+// HomeNavbar.js
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCut } from '@fortawesome/free-solid-svg-icons';
-import './HomeNavbar.css'
+import './HomeNavbar.css';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
-
 
 function HomeNavbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   return (
     <nav className="navbar">
@@ -24,7 +24,9 @@ function HomeNavbar() {
         <span></span>
       </button>
       <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
-        <h2 className="HomeNavHome"><a href="/">Home</a></h2>
+        <h2 className="HomeNavHome">
+          <a href="/">Home</a>
+        </h2>
         <h2 className='HomeNavAbout full-height-background'><a href="/about">About</a></h2>
         <h2 className='HomeNavServices full-height-background'><a href="/service">Service</a></h2>
         <h2 className='HomeNavPages full-height-background'><a href="/pages">Pages</a></h2>
