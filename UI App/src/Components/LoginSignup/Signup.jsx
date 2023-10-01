@@ -4,7 +4,6 @@ import './Signup.css';
 import user_icon from '../Assets/abc.png';
 import email_icon from '../Assets/def.png';
 import password_icon from '../Assets/ghi.png';
-import car_icon2 from '../Assets/c.jpg'; // Import the new background image
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -213,7 +212,7 @@ const Signup = () => {
       <HomeNavbar />
       <br />
       <br />
-      <div className='container' style={{ backgroundImage: `url(${car_icon2})` }}>
+      <div className='container'>
         <div className='right-panel'>
           <div className='header'>
             <div className='text'>Sign Up</div>

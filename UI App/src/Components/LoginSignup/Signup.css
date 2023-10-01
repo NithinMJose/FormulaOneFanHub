@@ -52,7 +52,6 @@
 }
 
 body {
-  background: url('../Assets/d.jpg'); /* Replace 'your-new-image.jpg' with the path to your new background image */
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed; /* Keep the background fixed while scrolling */
