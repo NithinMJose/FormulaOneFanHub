@@ -86,6 +86,58 @@ const Signup = () => {
     }
   };
 
+  const clearErrorsOnTyping = (name, value) => {
+    // Check validation conditions and clear error if satisfied
+    switch (name) {
+      case 'username':
+        validateName(value, setUsernameError);
+        break;
+      case 'firstName':
+        validateName(value, setFirstNameError);
+        break;
+      case 'lastName':
+        validateName(value, setLastNameError);
+        break;
+      case 'email':
+        if (validateEmail(value)) {
+          setEmailError('');
+        }
+        break;
+      case 'password':
+        const passwordValidationResult = validatePassword(value);
+        if (!passwordValidationResult) {
+          setPasswordError('');
+        }
+        break;
+      case 'confirmPassword':
+        if (value === password) {
+          setConfirmPasswordError('');
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getErrorState = (name) => {
+    switch (name) {
+      case 'username':
+        return usernameError;
+      case 'firstName':
+        return firstNameError;
+      case 'lastName':
+        return lastNameError;
+      case 'email':
+        return emailError;
+      case 'password':
+        return passwordError;
+      case 'confirmPassword':
+        return confirmPasswordError;
+      default:
+        return null;
+    }
+  };
+
   const clearForm = () => {
     setUsername('');
     setFirstName('');
@@ -120,6 +172,21 @@ const Signup = () => {
     }
 
     return '';
+  };
+
+  const validateName = (name, setError) => {
+    const nameRegex = /^[A-Za-z]+$/;
+    const minLength = name.length >= 4;
+
+    if (!nameRegex.test(name) && !minLength) {
+      setError('Only alphabets, minimum 4 characters');
+    } else if (!nameRegex.test(name)) {
+      setError('Only alphabets are allowed');
+    } else if (!minLength) {
+      setError('Minimum 4 characters required');
+    } else {
+      setError('');
+    }
   };
 
   const handleInputBlur = (e) => {
@@ -160,50 +227,34 @@ const Signup = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
+    // Handle input change
     switch (name) {
       case 'username':
-        validateName(value, setUsernameError);
+        clearErrorsOnTyping('username', value);
+        setUsername(value);
         break;
       case 'firstName':
-        validateName(value, setFirstNameError);
+        clearErrorsOnTyping('firstName', value);
+        setFirstName(value);
         break;
       case 'lastName':
-        validateName(value, setLastNameError);
+        clearErrorsOnTyping('lastName', value);
+        setLastName(value);
         break;
       case 'email':
-        if (!validateEmail(value)) {
-          setEmailError('Not a valid email format');
-        } else {
-          setEmailError('');
-        }
+        clearErrorsOnTyping('email', value);
+        setEmail(value);
         break;
       case 'password':
-        setPasswordError(validatePassword(value));
+        clearErrorsOnTyping('password', value);
+        setPassword(value);
         break;
       case 'confirmPassword':
-        if (value !== password) {
-          setConfirmPasswordError('Passwords do not match.');
-        } else {
-          setConfirmPasswordError('');
-        }
+        clearErrorsOnTyping('confirmPassword', value);
+        setConfirmPassword(value);
         break;
       default:
         break;
-    }
-  };
-
-  const validateName = (name, setError) => {
-    const nameRegex = /^[A-Za-z]+$/;
-    const minLength = name.length >= 4;
-
-    if (!nameRegex.test(name) && !minLength) {
-      setError('Only alphabets, minimum 4 characters');
-    } else if (!nameRegex.test(name)) {
-      setError('Only alphabets are allowed');
-    } else if (!minLength) {
-      setError('Minimum 4 characters required');
-    } else {
-      setError('');
     }
   };
 
@@ -212,7 +263,7 @@ const Signup = () => {
       <HomeNavbar />
       <br />
       <br />
-      <div className='signup-container'>
+      <div className='signup_container'>
         <div className='right-panel'>
           <div className='signup-header'>
             <div className='signup-text'>Sign Up</div>
@@ -226,7 +277,9 @@ const Signup = () => {
                 placeholder='Username'
                 name='username'
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
                 onBlur={handleInputBlur}
                 required
               />
@@ -239,7 +292,9 @@ const Signup = () => {
                 placeholder='First Name'
                 name='firstName'
                 value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
                 onBlur={handleInputBlur}
                 required
               />
@@ -252,7 +307,9 @@ const Signup = () => {
                 placeholder='Last Name'
                 name='lastName'
                 value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
                 onBlur={handleInputBlur}
                 required
               />
@@ -265,7 +322,9 @@ const Signup = () => {
                 placeholder='Email'
                 name='email'
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
                 onBlur={handleInputBlur}
                 required
               />
@@ -278,7 +337,9 @@ const Signup = () => {
                 placeholder='Password'
                 name='password'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
                 minLength='8'
                 onBlur={handleInputBlur}
                 required
@@ -292,7 +353,9 @@ const Signup = () => {
                 placeholder='Confirm Password'
                 name='confirmPassword'
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
                 minLength='8'
                 onBlur={handleInputBlur}
                 required

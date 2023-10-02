@@ -1,4 +1,4 @@
-.signup-container {
+.signup_container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -8,25 +8,26 @@
   min-width: 350px;
   margin-top: 50px;
   width: 70%;
-  background: inherit; /* Remove the background color */
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 0px;
   position: relative;
-  overflow: hidden; /* Ensure that the blur effect doesn't overflow */
+  overflow: hidden;
 }
 
-.signup-container::before {
+.signup_container::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('../Assets/a.jpg') center/cover; /* Set the background image */
-  filter: blur(10px); /* Apply the blur effect */
+  background: inherit;
+  filter: blur(0px);
   opacity: 0.7;
   z-index: -1;
   border-radius: inherit;
+  background-color: #eaeaea;
+
 }
 
 .left-panel {
@@ -42,27 +43,13 @@
   flex: 4;
 }
 
-.signup-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  filter: blur(10px);
-  opacity: 0.7;
-  z-index: -1;
-  border-radius: inherit;
-}
-
 .signup-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 9px;
   width: 100%;
-  margin-top: 30px;
+  margin-top: 0px;
 }
 
 .signup-text {
@@ -150,10 +137,4 @@
 
 .error-message {
   margin: 0;
-}
-
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  background: url('../Assets/d.jpg') center/cover fixed no-repeat;
 }
