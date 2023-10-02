@@ -29,6 +29,7 @@
   height: 3px;
   background-color: white;
   transition: all 0.3s linear;
+  position: relative;
 }
 
 .navbar-links {
@@ -96,8 +97,8 @@
     flex-direction: column;
   }
 
-  .navbar-toggle {
-    display: flex;
+  .navbar-toggler {
+    order: -1; /* Moves the button to the top */
     margin-bottom: 10px;
   }
 
@@ -114,6 +115,18 @@
   .navbar-links h2 {
     width: 100%;
   }
+}
+
+.navbar-toggler {
+  border: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 10px; /* Adjust the left position as needed */
+  top: 20px; /* Adjust the top position as needed */
 }
 
 .navbar-brand {

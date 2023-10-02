@@ -87,7 +87,7 @@ const Signin = () => {
       <br />
       <br />
 
-      <div className="container" style={containerStyle}>
+      <div className="container2" style={containerStyle}>
         <div className="header">
           <div className="text">Login</div>
           <div className="underline"></div>

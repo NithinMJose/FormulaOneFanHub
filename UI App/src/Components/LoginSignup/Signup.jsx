@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
-import user_icon from '../Assets/abc.png';
-import email_icon from '../Assets/def.png';
-import password_icon from '../Assets/ghi.png';
+import userIcon from '../Assets/abc.png';
+import emailIcon from '../Assets/def.png';
+import passwordIcon from '../Assets/ghi.png';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,20 +11,20 @@ import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 
 const Signup = () => {
-  const [uname, setUName] = useState('');
-  const [fname, setFName] = useState('');
-  const [lname, setLName] = useState('');
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [cpass, setCPass] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [unameError, setUNameError] = useState('');
-  const [fnameError, setFNameError] = useState('');
-  const [lnameError, setLNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [passError, setPassError] = useState('');
-  const [cpassError, setCPassError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const navigate = useNavigate();
 
@@ -36,12 +36,12 @@ const Signup = () => {
   }, [navigate]);
 
   const handleSave = async () => {
-    if (!uname || !fname || !lname || !email || !pass || !cpass) {
+    if (!username || !firstName || !lastName || !email || !password || !confirmPassword) {
       toast.error('Please enter all details.');
       return;
     }
 
-    if (pass !== cpass) {
+    if (password !== confirmPassword) {
       toast.error('Passwords do not match. Please check your inputs.');
       return;
     }
@@ -51,9 +51,9 @@ const Signup = () => {
       return;
     }
 
-    const passwordValidationResult = validatePassword(pass);
+    const passwordValidationResult = validatePassword(password);
     if (passwordValidationResult) {
-      setPassError(passwordValidationResult);
+      setPasswordError(passwordValidationResult);
       return;
     }
 
@@ -63,12 +63,12 @@ const Signup = () => {
 
     try {
       const response = await axios.post(url, {
-        userName: uname,
-        password: pass,
-        confirmPassword: cpass,
+        userName: username,
+        password: password,
+        confirmPassword: confirmPassword,
         email: email,
-        firstName: fname,
-        lastName: lname,
+        firstName: firstName,
+        lastName: lastName,
       });
 
       if (response.data.success) {
@@ -87,12 +87,12 @@ const Signup = () => {
   };
 
   const clearForm = () => {
-    setUName('');
-    setFName('');
-    setLName('');
+    setUsername('');
+    setFirstName('');
+    setLastName('');
     setEmail('');
-    setPass('');
-    setCPass('');
+    setPassword('');
+    setConfirmPassword('');
   };
 
   const validateEmail = (email) => {
@@ -126,14 +126,14 @@ const Signup = () => {
     const { name, value } = e.target;
 
     switch (name) {
-      case 'uname':
-        validateName(value, setUNameError);
+      case 'username':
+        validateName(value, setUsernameError);
         break;
-      case 'fname':
-        validateName(value, setFNameError);
+      case 'firstName':
+        validateName(value, setFirstNameError);
         break;
-      case 'lname':
-        validateName(value, setLNameError);
+      case 'lastName':
+        validateName(value, setLastNameError);
         break;
       case 'email':
         if (!validateEmail(value)) {
@@ -142,14 +142,14 @@ const Signup = () => {
           setEmailError('');
         }
         break;
-      case 'pass':
-        setPassError(validatePassword(value));
+      case 'password':
+        setPasswordError(validatePassword(value));
         break;
-      case 'cpass':
-        if (value !== pass) {
-          setCPassError('Passwords do not match.');
+      case 'confirmPassword':
+        if (value !== password) {
+          setConfirmPasswordError('Passwords do not match.');
         } else {
-          setCPassError('');
+          setConfirmPasswordError('');
         }
         break;
       default:
@@ -161,14 +161,14 @@ const Signup = () => {
     const { name, value } = e.target;
 
     switch (name) {
-      case 'uname':
-        validateName(value, setUNameError);
+      case 'username':
+        validateName(value, setUsernameError);
         break;
-      case 'fname':
-        validateName(value, setFNameError);
+      case 'firstName':
+        validateName(value, setFirstNameError);
         break;
-      case 'lname':
-        validateName(value, setLNameError);
+      case 'lastName':
+        validateName(value, setLastNameError);
         break;
       case 'email':
         if (!validateEmail(value)) {
@@ -177,14 +177,14 @@ const Signup = () => {
           setEmailError('');
         }
         break;
-      case 'pass':
-        setPassError(validatePassword(value));
+      case 'password':
+        setPasswordError(validatePassword(value));
         break;
-      case 'cpass':
-        if (value !== pass) {
-          setCPassError('Passwords do not match.');
+      case 'confirmPassword':
+        if (value !== password) {
+          setConfirmPasswordError('Passwords do not match.');
         } else {
-          setCPassError('');
+          setConfirmPasswordError('');
         }
         break;
       default:
@@ -212,54 +212,54 @@ const Signup = () => {
       <HomeNavbar />
       <br />
       <br />
-      <div className='container'>
+      <div className='signup-container'>
         <div className='right-panel'>
-          <div className='header'>
-            <div className='text'>Sign Up</div>
-            <div className='underline'></div>
+          <div className='signup-header'>
+            <div className='signup-text'>Sign Up</div>
+            <div className='signup-underline'></div>
           </div>
-          <div className='inputs'>
-            <div className='input'>
-              <img src={user_icon} alt='' />
+          <div className='signup-inputs'>
+            <div className='signup-input'>
+              <img src={userIcon} alt='' />
               <input
                 type='text'
-                placeholder='User Name'
-                name='uname'
-                value={uname}
-                onChange={(e) => setUName(e.target.value)}
+                placeholder='Username'
+                name='username'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 onBlur={handleInputBlur}
                 required
               />
             </div>
-            {unameError && <div className='error-box'>{unameError}</div>}
-            <div className='input'>
-              <img src={user_icon} alt='' />
+            {usernameError && <div className='signup-error-box'>{usernameError}</div>}
+            <div className='signup-input'>
+              <img src={userIcon} alt='' />
               <input
                 type='text'
                 placeholder='First Name'
-                name='fname'
-                value={fname}
-                onChange={(e) => setFName(e.target.value)}
+                name='firstName'
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 onBlur={handleInputBlur}
                 required
               />
             </div>
-            {fnameError && <div className='error-box'>{fnameError}</div>}
-            <div className='input'>
-              <img src={user_icon} alt='' />
+            {firstNameError && <div className='signup-error-box'>{firstNameError}</div>}
+            <div className='signup-input'>
+              <img src={userIcon} alt='' />
               <input
                 type='text'
                 placeholder='Last Name'
-                name='lname'
-                value={lname}
-                onChange={(e) => setLName(e.target.value)}
+                name='lastName'
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 onBlur={handleInputBlur}
                 required
               />
             </div>
-            {lnameError && <div className='error-box'>{lnameError}</div>}
-            <div className='input'>
-              <img src={email_icon} alt='' />
+            {lastNameError && <div className='signup-error-box'>{lastNameError}</div>}
+            <div className='signup-input'>
+              <img src={emailIcon} alt='' />
               <input
                 type='email'
                 placeholder='Email'
@@ -270,38 +270,38 @@ const Signup = () => {
                 required
               />
             </div>
-            {emailError && <div className='error-box'>{emailError}</div>}
-            <div className='input'>
-              <img src={password_icon} alt='' />
+            {emailError && <div className='signup-error-box'>{emailError}</div>}
+            <div className='signup-input'>
+              <img src={passwordIcon} alt='' />
               <input
                 type='password'
                 placeholder='Password'
-                name='pass'
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
+                name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 minLength='8'
                 onBlur={handleInputBlur}
                 required
               />
             </div>
-            {passError && <div className='error-box'>{passError}</div>}
-            <div className='input'>
-              <img src={password_icon} alt='' />
+            {passwordError && <div className='signup-error-box'>{passwordError}</div>}
+            <div className='signup-input'>
+              <img src={passwordIcon} alt='' />
               <input
                 type='password'
                 placeholder='Confirm Password'
-                name='cpass'
-                value={cpass}
-                onChange={(e) => setCPass(e.target.value)}
+                name='confirmPassword'
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 minLength='8'
                 onBlur={handleInputBlur}
                 required
               />
             </div>
-            {cpassError && <div className='error-box'>{cpassError}</div>}
+            {confirmPasswordError && <div className='signup-error-box'>{confirmPasswordError}</div>}
           </div>
-          <div className='submit-container'>
-            <div className='submit' onClick={handleSave} disabled={loading}>
+          <div className='signup-submit-container'>
+            <div className='signup-submit' onClick={handleSave} disabled={loading}>
               {loading ? 'Signing Up...' : 'Sign Up'}
             </div>
           </div>

@@ -10,7 +10,6 @@ import UserList from './Components/LoginSignup/UserList'; // Import UserList
 import Errors from './Components/LoginSignup/Errors';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css'; 
 import { About } from './Components/LoginSignup/About';
 
 function App() {
