@@ -56,7 +56,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 var claims = new[]
                 {
-            new Claim("Name", user.UserName),
+            new Claim("userName", user.UserName),
             new Claim("RoleId", user.RoleId.ToString()) // Add RoleId claim
         };
 
@@ -116,6 +116,34 @@ namespace FormulaOneFanHub.API.Controllers
                 CreatedOn = DateTime.Now
             };
             _fanHubContext.Users.Add(userToCreate);
+            _fanHubContext.SaveChanges();
+
+            // Return a JSON response with success:true
+            return Ok(new { success = true });
+        }
+
+        [HttpPost("UpdaterUser")]
+        public IActionResult UpdateUser (UserUpdateDto  userUpdateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Find the user by userName
+            var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userUpdateDto.UserName);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Update the user's properties
+            user.Email = userUpdateDto.Email;
+            user.FirstName = userUpdateDto.FirstName;
+            user.LastName = userUpdateDto.LastName;
+
+            // Save the changes to the database
             _fanHubContext.SaveChanges();
 
             // Return a JSON response with success:true
