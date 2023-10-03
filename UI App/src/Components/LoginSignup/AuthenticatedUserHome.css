@@ -1,25 +1,36 @@
-/* AuthenticatedUserHome.css */
-
 .wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the transparency (last value) as needed */
-    backdrop-filter: blur(5px); /* Adjust the blur strength as needed */
     padding: 20px;
     box-sizing: border-box;
 }
 
-.content {
+.Usercontent1 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align content to the left */
+    align-items: flex-start;
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
-    background-color: rgba(144, 238, 144, 0.5); /* Light green background with transparency */
-    backdrop-filter: blur(5px); /* Blurred background effect */
+    position: relative; /* Added for absolute positioning */
+}
+
+.Usercontent1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../Assets/b.jpg') center center/cover; /* Replace 'your-image-url.jpg' with the image path */
+    filter: blur(5px); /* Blurred background effect */
+    z-index: -1; /* Behind the content */
+}
+
+.Usercontent1 h1 {
+    color: white; /* Set text color to white */
 }
 
 body {
@@ -27,6 +38,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .container {
     display: flex;
     flex-direction: column;
@@ -34,6 +46,7 @@ body {
     justify-content: center;
     max-height: 100vh;
 }
+
 .container > * {
     margin: 10px;
 }

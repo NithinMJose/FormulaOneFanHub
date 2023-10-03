@@ -1,13 +1,15 @@
 /* HomeNavbar.css */
 
+
 .navbar {
-    font-family: 'JetBrains Mono', monospace;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 10px 20px;
-  }
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+  
+}
   
   .navbar h1 {
     color: white;
@@ -116,3 +118,12 @@
     gap: 10px;
   }
   
+  .dropdown-item a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .dropdown-item:hover {
+    background-color: red; /* Change the hover background color as needed */
+  }

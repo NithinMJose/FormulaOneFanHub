@@ -5,6 +5,8 @@ import UserNavbar from './UserNavbar';
 import Footer from './Footer';
 import './AuthenticatedUserHome.css';
 import jwt_decode from 'jwt-decode';
+import { HomeCarousel } from './HomeCarousel';
+import { About } from './About';
 
 const AuthenticatedUserHome = () => {
     const navigate = useNavigate();
@@ -29,20 +31,21 @@ const AuthenticatedUserHome = () => {
 
     const token = localStorage.getItem('jwtToken');
     const tokenPayload = jwt_decode(token);
-    const userName = tokenPayload.Name;
+    const userName = tokenPayload.userName;
 
     return (
         <div className="wrapper">
             <UserNavbar />
             <br />
-            <div className="content">
+            <div className="Usercontent1">
                 <h1>Hello {userName}</h1>
-                <h1>Welcome to the Fan Hub</h1>
+                <h1>Welcome Back to the Fan Hub</h1>
             </div>
-            <br />
+            <HomeCarousel />
+            <About />
             <Footer />
         </div>
     );
-};
+    };
 
 export default AuthenticatedUserHome;

@@ -35,10 +35,10 @@ function HomeNavbar() {
             <a href="/" className="nav-item nav-link active">
               Home
             </a>
-            <a href="about.html" className="nav-item nav-link">
+            <a href="/About" className="nav-item nav-link">
               About
             </a>
-            <a href="service.html" className="nav-item nav-link">
+            <a href="/" className="nav-item nav-link">
               Service
             </a>
             <div className="nav-item dropdown">
@@ -50,20 +50,20 @@ function HomeNavbar() {
                 Pages{' '}
               </a>
               <div className="dropdown-menu m-0">
-                <a href="price.html" className="dropdown-item">
-                  Pricing Plan
+                <a href="/" className="dropdown-item">
+                  Drivers
                 </a>
-                <a href="team.html" className="dropdown-item">
-                  Our Barber
+                <a href="/" className="dropdown-item">
+                  Race Fixtures
                 </a>
-                <a href="open.html" className="dropdown-item">
-                  Working Hours
+                <a href="/" className="dropdown-item">
+                  Team members
                 </a>
-                <a href="testimonial.html" className="dropdown-item">
-                  Testimonial
+                <a href="/" className="dropdown-item">
+                  Team History
                 </a>
-                <a href="404.html" className="dropdown-item">
-                  404 Page
+                <a href="/" className="dropdown-item">
+                  F1 History
                 </a>
               </div>
             </div>

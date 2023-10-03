@@ -1,37 +1,14 @@
-body {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center center;
-}
-
 .container2 {
-    display: flex;
-    flex-direction: column;
+    position: relative;
     max-height: 80vh;
     overflow-y: auto;
     margin: auto;
     width: 400px;
-    background: rgba(255, 0, 130, 0.7);
-    padding-bottom: 10px;
-    border-radius: 20px;
-    position: relative;
+    background: #fff; /* White background color */
+    border-radius: 10px;
     margin-bottom: 20px;
 }
 
-.container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: inherit;
-    filter: blur(10px);
-    opacity: 0.7;
-    z-index: -1;
-    border-radius: inherit;
-}
 
 .header {
     display: flex;
@@ -67,7 +44,7 @@ body {
     align-items: center;
     margin: auto;
     width: 330px;
-    height: 50px;
+    height: 40px;
     background: #eaeaea;
     border-radius: 6px;
 }
@@ -100,7 +77,8 @@ body {
 
 .submit-container {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center; /* Center the items horizontally */
     margin: 15px auto;
 }
 
@@ -116,6 +94,7 @@ body {
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
+    margin-top: 10px; /* Add some top margin for spacing */
 }
 
 .submit-red {

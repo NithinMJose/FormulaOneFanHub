@@ -126,7 +126,7 @@ namespace FormulaOneFanHub.API.Controllers
         public IActionResult UpdateUser (UserUpdateDto  userUpdateDto)
         {
             if (!ModelState.IsValid)
-            {
+            {   
                 return BadRequest(ModelState);
             }
 

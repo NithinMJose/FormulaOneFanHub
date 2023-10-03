@@ -53,9 +53,9 @@ const Signin = () => {
         toast.success('Login successful');
 
         // Navigate based on the RoleId
-        if (roleId === '1') {
+        if (roleId === '2') {
           navigate('/AdminHome');
-        } else if (roleId === '2') {
+        } else if (roleId === '1') {
           navigate('/UserHome');
         } else {
           navigate('/Home');
@@ -119,9 +119,6 @@ const Signin = () => {
           <div className="submit" onClick={handleLogin}>
             Login
           </div>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <div className="submit-red">Sign Up</div>
-          </Link>
         </div>
       </div>
       <br />
