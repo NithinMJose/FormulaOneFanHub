@@ -6,6 +6,8 @@ import Footer from './Footer';
 import './AuthenticatedAdminHome.css';
 
 const AuthenticatedAdminHome = () => {
+
+    console.log("haiiiiiiiiiiiiiiiiiiiiiii")
     const navigate = useNavigate();
     const [users, setUsers] = useState([]); // State to store the list of users
 
@@ -20,12 +22,12 @@ const AuthenticatedAdminHome = () => {
         }
     }, [navigate]);
 
-    const handleLogout = () => {
-        // Remove the JWT token from local storage
-        localStorage.removeItem('jwtToken');
-        toast.success('Logged out successfully');
-        navigate('/Signin'); // Redirect to the login page
-    };
+    // const handleLogout = () => {
+    //     // Remove the JWT token from local storage
+    //     localStorage.removeItem('jwtToken');
+    //     toast.success('Logged out successfully');
+    //     navigate('/Signin'); // Redirect to the login page
+    // };
 
     const handleListUsers = async () => {
         try {
@@ -55,7 +57,7 @@ const AuthenticatedAdminHome = () => {
 
     return (
         <div className="wrapper">
-            <AdminNavbar />
+            <AdminNavbar/>
             <div className="content">
                 <h1>Hello Admin</h1>
                 <h1>Welcome to the Admin Home Page</h1>
