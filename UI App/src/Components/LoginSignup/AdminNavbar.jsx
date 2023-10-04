@@ -77,8 +77,8 @@ function AdminNavbar() {
                 </a>
               </div>
             </div>
-            <a href="/Signin" className="nav-item nav-link">
-              Drivers
+            <a href="/UserList" className="nav-item nav-link">
+              Users
             </a>
           </div>
           <div className="nav-item dropdown">

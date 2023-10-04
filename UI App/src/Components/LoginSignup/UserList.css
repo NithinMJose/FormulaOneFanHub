@@ -1,5 +1,3 @@
-/* UserList.css */
-
 /* Container styles */
 .user-container {
   display: flex;
@@ -15,7 +13,7 @@
 /* Content styles */
 .user-content {
   width: 100%;
-  max-width: 600px; /* Adjusted max-width */
+  max-width: 1000px; /* Adjusted max-width */
   padding: 10px; /* Reduced padding */
   box-sizing: border-box;
 }
@@ -55,6 +53,12 @@
   background-color: #555;
 }
 
+/* Heading background color */
+.user-heading-bg {
+  background-color: #007bff;
+  color: white;
+}
+
 /* Button styles */
 .user-buttons {
   display: flex;
@@ -62,7 +66,7 @@
 }
 
 .user-buttons button {
-  padding: 3  px 8px; /* Reduced padding */
+  padding: 3px 8px; /* Reduced padding */
   border: none;
   cursor: pointer;
   border-radius: 3px; /* Reduced border-radius */
@@ -71,7 +75,7 @@
 }
 
 .user-buttons .btn-manage {
-  background-color: #007bff;
+  background-color: #28a745; /* Green color */
   color: white;
 }
 
