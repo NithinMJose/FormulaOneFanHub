@@ -1,0 +1,123 @@
+/* HomeNavbar.css */
+
+.navbar {
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+}
+
+.navbar h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 22px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.navbar-toggle span {
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s linear;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.navbar-links .link a {
+  color: red;
+  text-decoration: none;
+  background-color: transparent;
+  padding: 5px;
+  border-radius: 5px;
+  height: 100%;
+  font-weight: bold;
+}
+
+.navbar-links h2 a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar-links h2:hover {
+  background-color: red;
+  background-size: contain;
+}
+
+.navbar-links h2 {
+  color: white;
+  font-weight: bold;
+}
+
+.navbar-links h2.HomeNavHome a,
+.navbar-links h2.HomeNavRegisterNew a {
+  color: red;
+}
+
+/* Add full-height-background class for specific items */
+.navbar-links h2.HomeNavAbout.full-height-background:hover,
+.navbar-links h2.HomeNavServices.full-height-background:hover,
+.navbar-links h2.HomeNavPages.full-height-background:hover,
+.navbar-links h2.HomeNavUsers.full-height-background:hover {
+  background-color: red;
+  background-size: auto 100%;
+  color: white;
+}
+
+/* Apply full-height-background class for specific items */
+.navbar-links h2.full-height-background {
+  background-color: transparent;
+  height: 100%;
+}
+
+/* Remove background hover effect for Home and RegisterNewAdmin */
+.navbar-links h2.HomeNavHome:hover,
+.navbar-links h2.HomeNavRegisterNew:hover {
+  background-color: transparent;
+  color: red;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+
+  .navbar-toggle {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .navbar-links h2 {
+    width: 100%;
+  }
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
