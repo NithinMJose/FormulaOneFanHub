@@ -187,8 +187,69 @@ namespace FormulaOneFanHub.API.Controllers
                 List<User> users = _fanHubContext.Users.ToList();
                 return Ok(users);
             }
-        
-            [HttpGet("viewProfile")]
+
+        [HttpDelete("DeleteUser")]
+        public IActionResult DeleteUser(string userName)
+        {
+            try
+            {
+                var userToDelete = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userName);
+
+                if (userToDelete == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                _fanHubContext.Users.Remove(userToDelete);
+                _fanHubContext.SaveChanges();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+
+        [HttpPost("UpgradeUser")]
+        public IActionResult UpgradeUser(string userName)
+        {
+            try
+            {
+                // Find the user by userName
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userName);
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Get the RoleId for "admin"
+                var adminRoleId = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "Admin")?.Id;
+
+                if (adminRoleId == null)
+                {
+                    return StatusCode(500, "Admin role not found.");
+                }
+
+                // Upgrade the user's RoleId to adminRoleId
+                user.RoleId = adminRoleId.Value;
+
+                // Save the changes to the database
+                _fanHubContext.SaveChanges();
+
+                // Return a JSON response with success:true
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+
+        [HttpGet("viewProfile")]
             public IActionResult ViewProfile(string userName)
             {
                 try
