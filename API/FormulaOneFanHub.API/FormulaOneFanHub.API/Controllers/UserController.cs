@@ -3,6 +3,7 @@ using FormulaOneFanHub.API.DTO;
 using FormulaOneFanHub.API.Entities;
 using FormulaOneFanHub.API.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -28,7 +29,10 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpPost("Login")]
         public IActionResult Authenticate(LoginDto loginDto)
         {
-            User user = _fanHubContext.Users.FirstOrDefault(x => x.UserName == loginDto.UserName);
+              var user = _fanHubContext.Users
+                 .Include(u => u.Role) // Include the Role in the query
+                 .FirstOrDefault(x => x.UserName == loginDto.UserName);
+
             if (user is null)
             {
                 return Unauthorized();
@@ -52,11 +56,13 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 var claims = new[]
                 {
-            new Claim("userName", user.UserName),
-            new Claim("RoleId", user.RoleId.ToString()) // Add RoleId claim
-        };
+                    new Claim("userName", user.UserName),
+                    new Claim("RoleId", user.Role?.RoleName!), 
+                    new Claim(ClaimTypes.Role, user.Role?.RoleName!),
+                    new Claim(ClaimTypes.Name, user.UserName)
+                };
 
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken(
@@ -111,7 +117,7 @@ namespace FormulaOneFanHub.API.Controllers
                 Password = passwordHash, // Store the hashed password
                 ConfirmEmailToken = token.ToString(),
                 EmailConfirmed = false,
-                RoleId = clientRole.Id,
+                RoleId = clientRole?.Id,
                 CreatedBy = "System",
                 CreatedOn = DateTime.Now
             };
@@ -130,7 +136,7 @@ namespace FormulaOneFanHub.API.Controllers
         {
             try
             {
-                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userName
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName.ToLower() == userName.ToLower()
                                                          && u.ConfirmEmailToken == OtpToken.Trim());
                 if (user is null)
                 {
