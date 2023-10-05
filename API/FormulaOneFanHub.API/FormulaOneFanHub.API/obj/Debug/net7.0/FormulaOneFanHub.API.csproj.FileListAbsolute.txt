@@ -85,17 +85,14 @@ D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\FormulaOneFanHub.API.pdb
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Azure.Core.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Azure.Identity.dll
-D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Humanizer.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.Identity.Client.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
@@ -107,11 +104,9 @@ D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.OpenApi.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Mono.TextTemplating.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\System.CodeDom.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\System.Drawing.Common.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
@@ -154,3 +149,6 @@ D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\obj\Debug\net7.0\FormulaOneFanHub.API.genruntimeconfig.cache
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\obj\Debug\net7.0\ref\FormulaOneFanHub.API.dll
 D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\BCrypt.Net-Core.dll
+D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\Newtonsoft.Json.dll
+D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\SendGrid.dll
+D:\Study\Project\FormulaOneFanHub\API\FormulaOneFanHub.API\FormulaOneFanHub.API\bin\Debug\net7.0\StarkbankEcdsa.dll

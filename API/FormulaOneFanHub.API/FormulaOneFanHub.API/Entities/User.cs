@@ -10,6 +10,9 @@ namespace FormulaOneFanHub.API.Entities
         public required string Email { get; set; } = string.Empty;
         public required string FirstName { get; set; } = string.Empty;
         public string? LastName { get; set; }
+        public bool EmailConfirmed { get; set; } = false;
+        public string? ConfirmEmailToken { get; set; }
+            
         [ForeignKey("Role")]
         public int? RoleId { get; set; }
         public string? CreatedBy { get; set; }

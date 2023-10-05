@@ -1,18 +1,12 @@
 ﻿using FormulaOneFanHub.API.Data;
 using FormulaOneFanHub.API.DTO;
 using FormulaOneFanHub.API.Entities;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using FormulaOneFanHub.API.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;  
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using BCrypt.Net; // Add this namespace for BCrypt
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -22,11 +16,13 @@ namespace FormulaOneFanHub.API.Controllers
     {
         private readonly FormulaOneFanHubContxt _fanHubContext;
         private readonly IConfiguration _config;
+        private readonly EmailSendUtility _emailSendUtility;
 
         public UserController(FormulaOneFanHubContxt fanHubContxt, IConfiguration configuration)
         {
             _fanHubContext = fanHubContxt;
             _config = configuration;
+            _emailSendUtility = new EmailSendUtility(_config);
         }
 
         [HttpPost("Login")]
@@ -99,6 +95,8 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest("Username is already taken");
             }
 
+            var token = Guid.NewGuid();
+
             // Hash the password using BCrypt
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
@@ -111,6 +109,8 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 Password = passwordHash, // Store the hashed password
+                ConfirmEmailToken = token.ToString(),
+                EmailConfirmed = false,
                 RoleId = clientRole.Id,
                 CreatedBy = "System",
                 CreatedOn = DateTime.Now
@@ -118,8 +118,35 @@ namespace FormulaOneFanHub.API.Controllers
             _fanHubContext.Users.Add(userToCreate);
             _fanHubContext.SaveChanges();
 
+            //send verification email on successful registration
+            _emailSendUtility.SendEmail(userToCreate);
+
             // Return a JSON response with success:true
             return Ok(new { success = true });
+        }
+
+        [HttpPost("ConfirmEmail")]
+        public IActionResult ConfirmEmail(string userName,string OtpToken)
+        {
+            try
+            {
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userName
+                                                         && u.ConfirmEmailToken == OtpToken.Trim());
+                if (user is null)
+                {
+                    return NotFound("User not found or Token is Invalid");
+                }
+                //update EmailConfirmed to true and remove the token if the token is valid
+                user.EmailConfirmed = true;
+                user.ConfirmEmailToken = null;
+                _fanHubContext.SaveChanges();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
         }
 
         [HttpPost("UpdaterUser")]
