@@ -69,7 +69,7 @@ namespace FormulaOneFanHub.API.Controllers
                     issuer: _config["Jwt:Issuer"],
                     audience: _config["Jwt:Audience"],
                     claims: claims,
-                    expires: DateTime.UtcNow.AddMinutes(2), // Adjust the expiration time as needed
+                    expires: DateTime.UtcNow.AddMinutes(30), // Adjust the expiration time as needed
                     signingCredentials: credentials
                 );
 
@@ -106,7 +106,7 @@ namespace FormulaOneFanHub.API.Controllers
             // Hash the password using BCrypt
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
-            var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "user");
+            var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
 
             User userToCreate = new User
             {

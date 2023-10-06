@@ -19,7 +19,12 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpGet("ListUsers")]
         public IActionResult ListUsers()
         {
-            var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "user");
+            var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
+
+            if (clientRole == null)
+            {
+                return NotFound();
+            }
 
             var users = _fanHubContext.Users
                 .Where(u => u.RoleId == clientRole.Id)
