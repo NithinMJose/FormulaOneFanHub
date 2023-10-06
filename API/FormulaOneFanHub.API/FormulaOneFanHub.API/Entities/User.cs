@@ -16,6 +16,8 @@ namespace FormulaOneFanHub.API.Entities
         [ForeignKey("Role")]
         public int? RoleId { get; set; }
         public string? CreatedBy { get; set; }
+        //add Status of user
+        public string Status { get; set; } = string.Empty;
         public DateTime? CreatedOn { get; set; }
         public Role? Role { get; set; } // Navigation property for the related Role entity
     }

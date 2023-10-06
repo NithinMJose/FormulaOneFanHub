@@ -119,6 +119,7 @@ namespace FormulaOneFanHub.API.Controllers
                 EmailConfirmed = false,
                 RoleId = clientRole?.Id,
                 CreatedBy = "System",
+                Status = "inactive",
                 CreatedOn = DateTime.Now
             };
             _fanHubContext.Users.Add(userToCreate);
@@ -145,6 +146,7 @@ namespace FormulaOneFanHub.API.Controllers
                 //update EmailConfirmed to true and remove the token if the token is valid
                 user.EmailConfirmed = true;
                 user.ConfirmEmailToken = null;
+                user.Status = "active";
                 _fanHubContext.SaveChanges();
 
                 return Ok(new { success = true });
@@ -204,6 +206,7 @@ namespace FormulaOneFanHub.API.Controllers
                 LastName = userDto.LastName,
                 Password = passwordHash, // Store the hashed password
                 RoleId = adminRole.Id,
+                Status = "active",
                 CreatedBy = "System",
                 CreatedOn = DateTime.Now
             };
@@ -243,6 +246,32 @@ namespace FormulaOneFanHub.API.Controllers
                 return StatusCode(500, "An error occurred while processing the request.");
             }
         }
+
+        [HttpPut("DeactivateUser")]
+        public IActionResult DeactivateUser(string userName)
+        {
+            try
+            {
+                var userToDeactivate = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userName);
+
+                if (userToDeactivate == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Assuming 'Status' is a field in your User model
+                userToDeactivate.Status = "Inactive"; // Set the status to inactive
+
+                _fanHubContext.SaveChanges();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
 
 
         [HttpPost("UpgradeUser")]
