@@ -6,34 +6,56 @@ import axios from 'axios';
 import './UserList.css';
 import Footer from './Footer';
 import AdminNavbar from './AdminNavbar';
+import jwt_decode from 'jwt-decode';
 
 const UserList = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [managedUser, setManagedUser] = useState(null);
+  const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
 
     if (!token) {
-      toast.error('You are not authorized to access this page');
-      navigate('/Signin');
-    } else {
-      try {
-        axios
-          .get(`https://localhost:7092/api/Admin/ListUsers`)
-          .then((response) => {
-            setUserData(response.data);
-          })
-          .catch((error) => {
-            console.error('Error fetching user data:', error);
-            toast.error('An error occurred while fetching user data');
-          });
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        toast.error('An error occurred while decoding the token');
-        navigate('/Signin');
+      toast.error('You have to login as Admin to access the page');
+      navigate('/');
+      return;
+    }
+
+    try {
+      const tokenPayload = jwt_decode(token);
+      const roleId = tokenPayload['RoleId'];
+
+      if (roleId !== 'Admin') {
+        toast.error('You have to be logged in as Admin to access the page');
+        navigate('/');
+        return;
       }
+
+      axios
+        .get(`https://localhost:7092/api/Admin/ListUsers`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setUserData(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+          if (error.response && error.response.status === 401) {
+            toast.error('Unauthorized access. Please log in again.');
+            // You might want to redirect to the login page here
+            navigate('/');
+          } else {
+            toast.error('An error occurred while fetching user data');
+          }
+        });
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      toast.error('An error occurred while decoding the token');
+      navigate('/Home');
     }
   }, [navigate]);
 
@@ -42,10 +64,18 @@ const UserList = () => {
 
     if (confirmDelete) {
       axios
-        .delete(`https://localhost:7092/api/User/DeleteUser?userName=${userName}`)
+        .delete(`https://localhost:7092/api/User/DeleteUser?userName=${userName}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then(() => {
           axios
-            .get(`https://localhost:7092/api/Admin/ListUsers`)
+            .get(`https://localhost:7092/api/Admin/ListUsers`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
             .then((response) => {
               setUserData(response.data);
               toast.success('User deleted successfully');
@@ -71,7 +101,11 @@ const UserList = () => {
       .post(`https://localhost:7092/api/User/UpgradeUser?userName=${userName}`)
       .then(() => {
         axios
-          .get(`https://localhost:7092/api/Admin/ListUsers`)
+        .get(`https://localhost:7092/api/Admin/ListUsers`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
           .then((response) => {
             setUserData(response.data); // Set updated user data in state
             toast.success(`${userName} upgraded to Admin successfully`);
@@ -107,8 +141,6 @@ const UserList = () => {
                   <th className="user-heading-bg">Email</th>
                   <th className="user-heading-bg">First Name</th>
                   <th className="user-heading-bg">Last Name</th>
-                  <th className="user-heading-bg">Created On</th>
-                  <th className="user-heading-bg">Created By</th>
                   <th className="user-heading-bg">Action</th>
                 </tr>
               </thead>
@@ -120,8 +152,6 @@ const UserList = () => {
                       <td>{user.email}</td>
                       <td>{user.firstName}</td>
                       <td>{user.lastName}</td>
-                      <td>{user.createdOn}</td>
-                      <td>{user.createdBy}</td>
                       <td className="user-buttons">
                         <button
                           className="btn btn-primary btn-manage"

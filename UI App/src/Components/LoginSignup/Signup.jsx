@@ -73,14 +73,20 @@ const Signup = () => {
 
       if (response.data.success) {
         clearForm();
-        toast.success('User registered successfully, Please Login to continue');
-        navigate('/Signin');
-      } else {
+        toast.success('Please check your email for OTP to confirm your registration.');
+        navigate('/UserConfirmEmail');
+      } 
+      
+      if(response.error.messege === 'ExistingUserName') {
+        toast.error('User already exists');
+      }
+      else {
         toast.error('Registration failed. Please check your inputs.');
       }
     } catch (error) {
-      console.error('Axios error:', error);
-      toast.error('An error occurred during registration');
+      if (error.response && error.response.status === 400 && error.response.data === 'Username is already taken') {
+        toast.error('Username is already in use. Please choose another one.');
+      }
     } finally {
       setLoading(false);
     }

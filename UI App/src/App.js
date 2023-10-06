@@ -11,6 +11,7 @@ import Errors from './Components/LoginSignup/Errors';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { About } from './Components/LoginSignup/About';
+import UserConfirmEmail from './Components/LoginSignup/UserConfirmEmail';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/Errors" element={<Errors />} />
           <Route path="/HomePage" element={<HomePage />} />
           <Route path="/About" element={<About />} />
+          <Route path="/UserConfirmEmail" element={<UserConfirmEmail />} />
         </Routes>
         <ToastContainer />
       </div>

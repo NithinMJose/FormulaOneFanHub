@@ -53,9 +53,9 @@ const Signin = () => {
         toast.success('Login successful');
 
         // Navigate based on the RoleId
-        if (roleId === '2') {
+        if (roleId === "Admin") {
           navigate('/AdminHome');
-        } else if (roleId === '1') {
+        } else if (roleId === "User") {
           navigate('/UserHome');
         } else {
           navigate('/Home');
@@ -67,9 +67,7 @@ const Signin = () => {
       console.error(error);
       if (error.response && error.response.status === 401) {
         toast.error('Invalid username or password');
-      } else if (error.response && error.response.data === 'Username is already taken') {
-        toast.error('Username already in use, please try using another one');
-      } else {
+      }else {
         toast.error('An error occurred during login');
       }
     }

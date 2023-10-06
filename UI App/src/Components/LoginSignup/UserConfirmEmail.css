@@ -1,0 +1,127 @@
+.container2 {
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: auto;
+    width: 400px;
+    background: #fff; /* White background color */
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.text {
+    color: #3c009d;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.underline {
+    width: 45px;
+    height: 4px;
+    background: #3c009d;
+    border-radius: 90px;
+}
+
+.inputs {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 330px;
+    height: 40px;
+    background: #eaeaea;
+    border-radius: 6px;
+}
+
+.input img {
+    margin: 0px 20px;
+}
+
+.input input {
+    height: 40px;
+    width: 340px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 16px;
+}
+
+.forgot-password {
+    padding-left: 50px;
+    margin-top: 10px;
+    color: #797979;
+    font-size: 16px;
+}
+
+.forgot-password span {
+    color: #4c00b4;
+    cursor: pointer;
+}
+
+.submit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the items horizontally */
+    margin: 15px auto;
+}
+
+.submit {
+    display: flex;
+    width: 180px;
+    height: 50px;
+    background: #4c00b4;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px; /* Add some top margin for spacing */
+}
+
+.submit-red {
+    display: flex;
+    width: 180px;
+    height: 50px;
+    background: darkred;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.gray {
+    background: #eaeaea;
+    color: #676767;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Footer {
+    align-self: flex-end;
+}
