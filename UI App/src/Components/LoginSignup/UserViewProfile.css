@@ -2,58 +2,87 @@
 
 /* Style for the heading */
 .headingUserProfile {
-    text-align: center; /* Center-align the heading */
-    font-size: 40px; /* Larger font size */
-    margin-bottom: 20px;
-  }
-  
-  /* Style for the table */
-  table {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+/* Style for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attribute {
+  font-weight: bold;
+  min-width: 150px;
+}
+
+/* Style for table rows */
+tr {
+  border: none;
+}
+
+/* Style for table data cells */
+td {
+  padding: 16px;
+  text-align: left;
+  font-size: 18px;
+}
+
+/* Style for the "Edit" button */
+.edit button,
+.updateButton {
+  padding: 10px 8px;
+  font-size: 18px;
+  min-width: 160px; /* Set a minimum width for the "Edit" button */
+  background-color: blue;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.updateButton {
+  margin-right: 50px;
+}
+
+/* Style for the "Delete" button */
+.deleteButton button {
+  padding: 10px 16px;
+  font-size: 18px;
+  min-width: 120px; /* Set a minimum width for the "Delete" button */
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Style for the "Change Password" button */
+.changePasswordButton {
+  padding: 10px 16px;
+  font-size: 18px;
+  background-color: green; /* Set the background color to green */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Center the table in the container */
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .edit button,
+  .deleteButton button,
+  .changePasswordButton {
     width: 100%;
-    border-collapse: collapse;
+    margin-right: 0;
+    margin-bottom: 10px;
   }
-  
-  /* Style for table rows */
-  tr {
-    border: none; /* Remove borders */
-  }
-  
-  /* Style for table data cells */
-  td {
-    padding: 16px; /* Increased cell padding for larger items */
-    text-align: left; /* Align table data to the left */
-    font-size: 18px; /* Larger font size */
-  }
-  
-  /* Style for the "Edit" column as a blue button */
-  .edit button {
-    background-color: blue; /* Blue button background color */
-    color: white;
-    border: none;
-    padding: 10px 16px; /* Increased padding for a larger button */
-    cursor: pointer;
-    border-radius: 5px; /* Rounded corners */
-    font-size: 18px; /* Larger font size */
-  }
-  
-  /* Style for the "Delete" button */
-  .deleteButton {
-    text-align: right; /* Align the "Delete" button column to the right */
-  }
-  
-  .deleteButton button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 18px; /* Larger font size */
-  }
-  
-  /* Center the table in the container */
-  .container {
-    display: flex;
-    justify-content: center;
-  }
-  
+}

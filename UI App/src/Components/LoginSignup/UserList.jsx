@@ -92,8 +92,80 @@ const UserList = () => {
     }
   };
 
-  const handleManage = (userName) => {
-    setManagedUser(userName); // Set the user to be managed
+
+  const handleAccountToInactive = (userName) => {
+    const confirmDeactivate = window.confirm('Are you sure you want to deactivate this user?');
+  
+    if (confirmDeactivate) {
+      axios
+        .put(
+          `https://localhost:7092/api/User/DeactivateUser?userName=${userName}`,
+          null,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(() => {
+          axios
+            .get(`https://localhost:7092/api/Admin/ListUsers`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then((response) => {
+              setUserData(response.data);
+              toast.success('User deactivated successfully');
+            })
+            .catch((error) => {
+              console.error('Error fetching user data:', error);
+              toast.error('An error occurred while fetching user data');
+            });
+        })
+        .catch((error) => {
+          console.error('Error deactivating user:', error);
+          toast.error('An error occurred while deactivating the user');
+        });
+    }
+  };
+
+
+  const handleAccountToActive = (userName) => {
+    const confirmDeactivate = window.confirm('Are you sure you want to Activate this user?');
+  
+    if (confirmDeactivate) {
+      axios
+        .put(
+          `https://localhost:7092/api/User/ActivateUser?userName=${userName}`,
+          null,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(() => {
+          axios
+            .get(`https://localhost:7092/api/Admin/ListUsers`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            .then((response) => {
+              setUserData(response.data);
+              toast.success('User Activated successfully');
+            })
+            .catch((error) => {
+              console.error('Error fetching user data:', error);
+              toast.error('An error occurred while fetching user data');
+            });
+        })
+        .catch((error) => {
+          console.error('Error Activating user:', error);
+          toast.error('An error occurred while Activating the user');
+        });
+    }
   };
 
   const handleUpgradeToAdmin = (userName) => {
@@ -128,7 +200,7 @@ const UserList = () => {
     if (!userData) {
       return <p>Loading user data...</p>;
     }
-
+  
     return (
       <div className="user-container">
         <div className="user-content">
@@ -141,6 +213,7 @@ const UserList = () => {
                   <th className="user-heading-bg">Email</th>
                   <th className="user-heading-bg">First Name</th>
                   <th className="user-heading-bg">Last Name</th>
+                  <th className="user-heading-bg">Status</th>
                   <th className="user-heading-bg">Action</th>
                 </tr>
               </thead>
@@ -152,24 +225,28 @@ const UserList = () => {
                       <td>{user.email}</td>
                       <td>{user.firstName}</td>
                       <td>{user.lastName}</td>
+                      <td>{user.status}</td>
                       <td className="user-buttons">
-                        <button
-                          className="btn btn-primary btn-manage"
-                          onClick={() => handleManage(user.userName)}
-                        >
-                          Manage
-                        </button>
-                        <button
-                          className="btn btn-danger btn-delete"
-                          onClick={() => handleDeleteAccount(user.userName)}
-                        >
-                          Delete
-                        </button>
+                        {user.status === 'active' ? (
+                          <button
+                            className="btn btn-danger btn-delete"
+                            onClick={() => handleAccountToInactive(user.userName)}
+                          >
+                            DEACTIVATE
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-success btn-activate"
+                            onClick={() => handleAccountToActive(user.userName)}
+                          >
+                            ACTIVATE
+                          </button>
+                        )}
                       </td>
                     </tr>
                     {managedUser === user.userName && (
                       <tr>
-                        <td colSpan="7" className="user-buttons">
+                        <td colSpan="6" className="user-buttons">
                           <button
                             className="btn btn-danger btn-upgrade"
                             onClick={() => handleUpgradeToAdmin(user.userName)}
@@ -188,6 +265,8 @@ const UserList = () => {
       </div>
     );
   };
+  
+  
 
   return (
     <div>

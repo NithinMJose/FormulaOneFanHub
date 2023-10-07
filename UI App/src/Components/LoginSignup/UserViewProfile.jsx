@@ -1,5 +1,4 @@
 // Import necessary dependencies and components
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -176,6 +175,11 @@ const UserViewProfile = () => {
       });
   };
 
+  // Handle change password function
+  const handleChangePassword = () => {
+    // Implement the logic to handle changing password
+  };
+
   // Render user data function
   const renderUserData = () => {
     if (!userData) {
@@ -214,7 +218,7 @@ const UserViewProfile = () => {
             </tr>
             <tr>
               <td className="attribute">Email</td>
-              <td className="data">{renderField('email', userData.email)}</td>
+              <td className="data">{userData.email}</td>
             </tr>
             <tr>
               <td className="attribute">First Name</td>
@@ -227,13 +231,20 @@ const UserViewProfile = () => {
             <tr>
               <td colSpan="2" className="edit">
                 {isEditing ? (
-                  <button className="updateButton" onClick={handleUpdateProfile}>
-                    Update
-                  </button>
+                  <>
+                    <button className="updateButton" onClick={handleUpdateProfile}>
+                      Update Profile
+                    </button>
+                    <button className="changePasswordButton" onClick={handleChangePassword}>
+                      Change Password
+                    </button>
+                  </>
                 ) : (
-                  <button className="editButton" onClick={handleEditProfile}>
-                    Edit
-                  </button>
+                  <>
+                    <button className="editButton" onClick={handleEditProfile}>
+                      Edit Details
+                    </button>
+                  </>
                 )}
               </td>
             </tr>
@@ -257,7 +268,6 @@ const UserViewProfile = () => {
       <br />
       <br />
       <div className="container">{renderUserData()}</div>
-      <br />
       <br />
       <Footer />
     </div>
