@@ -10,8 +10,10 @@ import Footer from './Footer';
 
 const UserConfirmEmail = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [userOtp, setUserOtp] = useState('');
+  const [confirmData, setConfirmData] = useState({
+    userName: '',
+    otpToken: '',
+  });
 
   useEffect(() => {
     // Check if there is a valid token in localStorage
@@ -35,8 +37,14 @@ const UserConfirmEmail = () => {
 
   const handleEmailConfirm = async () => {
     try {
+      if (!confirmData.userName || !confirmData.otpToken) {
+        toast.error('Username and OTP are required.');
+        return;
+      }
+
       const response = await axios.post(
-        `https://localhost:7092/api/User/ConfirmEmail?userName=${username}&OtpToken=${userOtp}`
+        'https://localhost:7092/api/User/ConfirmEmail',
+        confirmData
       );
 
       if (response.data.success) {
@@ -51,13 +59,35 @@ const UserConfirmEmail = () => {
     } catch (error) {
       // Handle error
       console.error(error);
-      toast.error('An error occurred during email confirmation');
+
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Response data:', error.response.data);
+        console.error('Response status:', error.response.status);
+        console.error('Response headers:', error.response.headers);
+        toast.error(`Error: ${error.response.data}`);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Request data:', error.request);
+        toast.error('No response from the server. Please try again.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error message:', error.message);
+        toast.error('An error occurred. Please try again.');
+      }
     }
   };
 
   // Adding some margin to push the footer down
   const containerStyle = {
     marginBottom: '20px', // Adjust this value as needed
+  };
+
+  // Update state when input values change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setConfirmData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   return (
@@ -78,7 +108,8 @@ const UserConfirmEmail = () => {
             <input
               type="text"
               placeholder="Enter Username..."
-              onChange={(e) => setUsername(e.target.value)}
+              name="userName"
+              onChange={handleInputChange}
             />
           </div>
           <div className="input">
@@ -86,7 +117,8 @@ const UserConfirmEmail = () => {
             <input
               type="text"
               placeholder="Enter OTP Here..."
-              onChange={(e) => setUserOtp(e.target.value)}
+              name="otpToken"
+              onChange={handleInputChange}
             />
           </div>
         </div>

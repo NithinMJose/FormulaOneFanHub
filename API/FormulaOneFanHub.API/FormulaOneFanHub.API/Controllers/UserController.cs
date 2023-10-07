@@ -81,7 +81,8 @@ namespace FormulaOneFanHub.API.Controllers
                 return null;
             }
         }
-        
+
+
         [HttpPost("Register")]
         public IActionResult Register(UserDto userDto)
         {
@@ -101,10 +102,15 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest("Username is already taken");
             }
 
-            var token = Guid.NewGuid();
+            // Generate a random 7-digit number
+            Random random = new Random();
+            var randomCode = random.Next(1000000, 9999999);
+            //convert the random number to string
+            var Otp=randomCode.ToString();
 
             // Hash the password using BCrypt
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+            var OtpHash = BCrypt.Net.BCrypt.HashPassword(Otp);
 
             var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
 
@@ -115,7 +121,7 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 Password = passwordHash, // Store the hashed password
-                ConfirmEmailToken = token.ToString(),
+                ConfirmEmailToken = OtpHash, // Use the random 7-digit number
                 EmailConfirmed = false,
                 RoleId = clientRole?.Id,
                 CreatedBy = "System",
@@ -126,36 +132,57 @@ namespace FormulaOneFanHub.API.Controllers
             _fanHubContext.SaveChanges();
 
             //send verification email on successful registration
-            _emailSendUtility.SendEmail(userToCreate);
+            _emailSendUtility.SendEmail(userToCreate,Otp);
 
             // Return a JSON response with success:true
             return Ok(new { success = true });
         }
 
+
+
+
         [HttpPost("ConfirmEmail")]
-        public IActionResult ConfirmEmail(string userName,string OtpToken)
+        public IActionResult ConfirmEmail(ConfirmEmailDto confirmEmailDto)
         {
             try
             {
-                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName.ToLower() == userName.ToLower()
-                                                         && u.ConfirmEmailToken == OtpToken.Trim());
+                var user = _fanHubContext.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefault(x => x.UserName == confirmEmailDto.UserName);
+
                 if (user is null)
                 {
-                    return NotFound("User not found or Token is Invalid");
+                    return Unauthorized();
                 }
-                //update EmailConfirmed to true and remove the token if the token is valid
+
+                // Verify the hashed OTP using BCrypt
+                var isOtpMatch = BCrypt.Net.BCrypt.Verify(confirmEmailDto.OtpToken, user.ConfirmEmailToken);
+                if (!isOtpMatch)
+                {
+                    return Unauthorized();
+                }
+
+                // Update EmailConfirmed to true and remove the token if the OTP is valid
                 user.EmailConfirmed = true;
                 user.ConfirmEmailToken = null;
                 user.Status = "active";
                 _fanHubContext.SaveChanges();
 
+                // Return a success response
                 return Ok(new { success = true });
             }
             catch (Exception ex)
             {
+                // Handle any exceptions
                 return StatusCode(500, "An error occurred while processing the request.");
             }
         }
+
+
+
+
+
+
 
         [HttpPost("UpdaterUser")]
         public IActionResult UpdateUser (UserUpdateDto  userUpdateDto)
