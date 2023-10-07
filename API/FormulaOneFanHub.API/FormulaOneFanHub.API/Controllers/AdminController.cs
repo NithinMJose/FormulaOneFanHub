@@ -34,6 +34,7 @@ namespace FormulaOneFanHub.API.Controllers
                     u.Email,
                     u.FirstName,
                     u.LastName,
+                    u.Status,
                     u.CreatedOn,
                     u.CreatedBy,
                     // Add other properties you want to include

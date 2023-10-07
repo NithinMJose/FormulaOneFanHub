@@ -260,7 +260,33 @@ namespace FormulaOneFanHub.API.Controllers
                 }
 
                 // Assuming 'Status' is a field in your User model
-                userToDeactivate.Status = "Inactive"; // Set the status to inactive
+                userToDeactivate.Status = "inactive"; // Set the status to inactive
+
+                _fanHubContext.SaveChanges();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+
+        [HttpPut("ActivateUser")]
+        public IActionResult ActivateUser(string userName)
+        {
+            try
+            {
+                var userToActivate = _fanHubContext.Users.FirstOrDefault(u => u.UserName == userName);
+
+                if (userToActivate == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Assuming 'Status' is a field in your User model
+                userToActivate.Status = "active"; // Set the status to inactive
 
                 _fanHubContext.SaveChanges();
 
