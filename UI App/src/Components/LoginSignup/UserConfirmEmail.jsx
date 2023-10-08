@@ -8,12 +8,15 @@ import jwt_decode from 'jwt-decode';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 
-const UserConfirmEmail = () => {
+const UserConfirmEmail = (props) => {
   const navigate = useNavigate();
   const [confirmData, setConfirmData] = useState({
     userName: '',
     otpToken: '',
   });
+
+  // Extracting values from props.location.state
+  const { username, email, otp } = props.location?.state || {};
 
   useEffect(() => {
     // Check if there is a valid token in localStorage
@@ -43,8 +46,11 @@ const UserConfirmEmail = () => {
       }
 
       const response = await axios.post(
-        'https://localhost:7092/api/User/ConfirmEmail',
-        confirmData
+        'https://localhost:7092/api/User/TestEndPoint', // Updated endpoint URL
+        {
+          userName: confirmData.userName,
+          otpToken: confirmData.otpToken,
+        }
       );
 
       if (response.data.success) {
@@ -97,7 +103,7 @@ const UserConfirmEmail = () => {
       <br />
       <br />
 
-      <div className="container2" style={containerStyle}>
+      <div className="container2">
         <div className="header">
           <div className="text">Confirm Email</div>
           <div className="underline"></div>
@@ -127,6 +133,12 @@ const UserConfirmEmail = () => {
             Confirm Email
           </div>
         </div>
+
+        {/* Display passed values */}
+        <h2>Passed Values:</h2>
+        <p>Username: {username}</p>
+        <p>Email: {email}</p>
+        <p>OTP: {otp}</p>
       </div>
       <br />
       <br />
