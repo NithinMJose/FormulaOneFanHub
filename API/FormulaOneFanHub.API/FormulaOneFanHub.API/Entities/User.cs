@@ -20,7 +20,6 @@ namespace FormulaOneFanHub.API.Entities
         public string Status { get; set; } = string.Empty;
         public DateTime? CreatedOn { get; set; }
 
-        public string Otp {  get; set; }
         public Role? Role { get; set; } // Navigation property for the related Role entity
     }
 }

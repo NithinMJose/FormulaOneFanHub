@@ -123,12 +123,11 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = regDto.FirstName,
                 LastName = regDto.LastName,
                 Password = passwordHash, // Store the hashed password
-                ConfirmEmailToken = null, // Use the random 7-digit number
+                ConfirmEmailToken = regDto.Otp, // Use the random 7-digit number
                 EmailConfirmed = false,
                 RoleId = clientRole?.Id,
                 CreatedBy = "System",
-                Otp = regDto.Otp,
-                Status = "inactive",
+                Status = "active",
                 CreatedOn = DateTime.Now
             };
             _fanHubContext.Users.Add(userToCreate);
