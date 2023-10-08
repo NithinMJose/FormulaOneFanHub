@@ -2,12 +2,14 @@
 using FormulaOneFanHub.API.DTO;
 using FormulaOneFanHub.API.Entities;
 using FormulaOneFanHub.API.Utilities;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -25,6 +27,10 @@ namespace FormulaOneFanHub.API.Controllers
             _config = configuration;
             _emailSendUtility = new EmailSendUtility(_config);
         }
+
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [HttpPost("Login")]
         public IActionResult Authenticate(LoginDto loginDto)
@@ -83,8 +89,60 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+
         [HttpPost("Register")]
-        public IActionResult Register(UserDto userDto)
+        public IActionResult Register(RegDto regDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (regDto.Password != regDto.ConfirmPassword)
+            {
+                return BadRequest("Passwords do not match");
+            }
+
+            // Check if the username is already taken
+            if (_fanHubContext.Users.Any(u => u.UserName == regDto.UserName))
+            {
+                return BadRequest("Username is already taken");
+            }
+
+            // Hash the password using BCrypt
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(regDto.Password);
+
+            var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
+
+            User userToCreate = new User
+            {
+                UserName = regDto.UserName,
+                Email = regDto.Email,
+                FirstName = regDto.FirstName,
+                LastName = regDto.LastName,
+                Password = passwordHash, // Store the hashed password
+                ConfirmEmailToken = null, // Use the random 7-digit number
+                EmailConfirmed = false,
+                RoleId = clientRole?.Id,
+                CreatedBy = "System",
+                Otp = regDto.Otp,
+                Status = "inactive",
+                CreatedOn = DateTime.Now
+            };
+            _fanHubContext.Users.Add(userToCreate);
+            _fanHubContext.SaveChanges();
+
+            // Return a JSON response with success:true
+            return Ok(new { success = true });
+        }
+        
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        [HttpPost("TestEndPoint")]
+        public IActionResult TestEndPoint(UserDto userDto)
         {
             if (!ModelState.IsValid)
             {
@@ -105,12 +163,8 @@ namespace FormulaOneFanHub.API.Controllers
             // Generate a random 7-digit number
             Random random = new Random();
             var randomCode = random.Next(1000000, 9999999);
-            //convert the random number to string
-            var Otp=randomCode.ToString();
-
-            // Hash the password using BCrypt
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
-            var OtpHash = BCrypt.Net.BCrypt.HashPassword(Otp);
+            // Convert the random number to a string
+            var Otp = randomCode.ToString();
 
             var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
 
@@ -120,67 +174,23 @@ namespace FormulaOneFanHub.API.Controllers
                 Email = userDto.Email,
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
-                Password = passwordHash, // Store the hashed password
-                ConfirmEmailToken = OtpHash, // Use the random 7-digit number
+                Password = userDto.Password, 
+                ConfirmEmailToken = Otp,
                 EmailConfirmed = false,
                 RoleId = clientRole?.Id,
                 CreatedBy = "System",
                 Status = "inactive",
                 CreatedOn = DateTime.Now
             };
-            _fanHubContext.Users.Add(userToCreate);
-            _fanHubContext.SaveChanges();
 
-            //send verification email on successful registration
-            _emailSendUtility.SendEmail(userToCreate,Otp);
+            // Send verification email on successful registration
+            _emailSendUtility.SendEmail(userToCreate, Otp);
 
-            // Return a JSON response with success:true
-            return Ok(new { success = true });
+            // Return a JSON response with success:true and user data
+            return Ok(new { success = true, user = userToCreate });
         }
 
-
-
-
-        [HttpPost("ConfirmEmail")]
-        public IActionResult ConfirmEmail(ConfirmEmailDto confirmEmailDto)
-        {
-            try
-            {
-                var user = _fanHubContext.Users
-                    .Include(u => u.Role)
-                    .FirstOrDefault(x => x.UserName == confirmEmailDto.UserName);
-
-                if (user is null)
-                {
-                    return Unauthorized();
-                }
-
-                // Verify the hashed OTP using BCrypt
-                var isOtpMatch = BCrypt.Net.BCrypt.Verify(confirmEmailDto.OtpToken, user.ConfirmEmailToken);
-                if (!isOtpMatch)
-                {
-                    return Unauthorized();
-                }
-
-                // Update EmailConfirmed to true and remove the token if the OTP is valid
-                user.EmailConfirmed = true;
-                user.ConfirmEmailToken = null;
-                user.Status = "active";
-                _fanHubContext.SaveChanges();
-
-                // Return a success response
-                return Ok(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions
-                return StatusCode(500, "An error occurred while processing the request.");
-            }
-        }
-
-
-
-
+         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -212,6 +222,10 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(new { success = true });
         }
         
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         
         [HttpPost("RegisterAdmin")]
         public IActionResult RegisterAdmin(UserDto userDto)
@@ -242,6 +256,8 @@ namespace FormulaOneFanHub.API.Controllers
             return StatusCode(201);
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
             [HttpGet("GetAllUsers")]
@@ -274,6 +290,9 @@ namespace FormulaOneFanHub.API.Controllers
             }
         }
 
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      
         [HttpPut("DeactivateUser")]
         public IActionResult DeactivateUser(string userName)
         {
@@ -299,6 +318,7 @@ namespace FormulaOneFanHub.API.Controllers
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [HttpPut("ActivateUser")]
         public IActionResult ActivateUser(string userName)
@@ -326,6 +346,7 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [HttpPost("UpgradeUser")]
         public IActionResult UpgradeUser(string userName)
@@ -363,6 +384,9 @@ namespace FormulaOneFanHub.API.Controllers
             }
         }
 
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [HttpGet("viewProfile")]
             public IActionResult ViewProfile(string userName)

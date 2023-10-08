@@ -2,7 +2,7 @@
 
 namespace FormulaOneFanHub.API.DTO
 {
-    public class UserDto
+    public class RegDto
     {
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
@@ -24,5 +24,8 @@ namespace FormulaOneFanHub.API.DTO
 
         [Required(ErrorMessage = "Last name is required")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage ="OTP is mandatory")]
+        public string Otp { get; set; } = string.Empty;
     }
 }
