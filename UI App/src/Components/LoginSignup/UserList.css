@@ -83,3 +83,27 @@
   background-color: #dc3545;
   color: white;
 }
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  height: 25px;
+  padding: 3px 8px; /* Match the padding for consistency */
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  height: 25px;
+  padding: 3px 8px; /* Match the padding for consistency */
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 12px;
+}

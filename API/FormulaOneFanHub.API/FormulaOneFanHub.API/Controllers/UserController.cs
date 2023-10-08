@@ -64,6 +64,7 @@ namespace FormulaOneFanHub.API.Controllers
                 {
                     new Claim("userName", user.UserName),
                     new Claim("RoleId", user.Role?.RoleName!), 
+                    new Claim("Status", user.Status!),
                     new Claim(ClaimTypes.Role, user.Role?.RoleName!),
                     new Claim(ClaimTypes.Name, user.UserName)
                 };
@@ -266,6 +267,12 @@ namespace FormulaOneFanHub.API.Controllers
                 return Ok(users);
             }
 
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
         [HttpDelete("DeleteUser")]
         public IActionResult DeleteUser(string userName)
         {
@@ -387,6 +394,103 @@ namespace FormulaOneFanHub.API.Controllers
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        [HttpPost("SendOtp")]
+        public IActionResult SendOtp([FromBody] UserNameRequest request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Invalid request format. Please provide a JSON object with 'userName' field.");
+                }
+
+                // Find the user by userName
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == request.UserName);
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Generate a random 7-digit number
+                Random random = new Random();
+                var randomCode = random.Next(1000000, 9999999);
+                // Convert the random number to a string
+                var otp = randomCode.ToString();
+
+                // Store the OTP in the ConfirmEmailToken field
+                user.ConfirmEmailToken = otp;
+
+                // Save the changes to the database
+                _fanHubContext.SaveChanges();
+
+                // Send the OTP to the user's email (you can implement this logic using your email sending utility)
+                _emailSendUtility.SendEmail(user, otp);
+
+                // Return a JSON response with success:true
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+        public class UserNameRequest
+        {
+            public string UserName { get; set; }
+        }
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        [HttpPost("VerifyOtp")]
+        public IActionResult VerifyOtp([FromBody] VerifyOtpDto verifyOtpDto)
+        {
+            try
+            {
+                // Find the user by userName
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == verifyOtpDto.UserName);
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Check if the OTP matches the stored ConfirmEmailToken
+                if (user.ConfirmEmailToken != verifyOtpDto.Otp)
+                {
+                    return BadRequest("Invalid OTP.");
+                }
+
+                // Clear the ConfirmEmailToken as it's verified
+                user.ConfirmEmailToken = null;
+
+                // Update the EmailConfirmed field to true or perform any other necessary logic
+                user.EmailConfirmed = true;
+
+                // Save the changes to the database
+                _fanHubContext.SaveChanges();
+
+                // Return a JSON response with success:true
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+
+
+
         [HttpGet("viewProfile")]
             public IActionResult ViewProfile(string userName)
             {
@@ -424,6 +528,49 @@ namespace FormulaOneFanHub.API.Controllers
                     return StatusCode(500, "An error occurred while processing the request.");
                 }
             }
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        [HttpPost("UpdatePassword")]
+        public IActionResult UpdatePassword([FromBody] UpdatePasswordRequest request)
+        {
+            try
+            {
+                // Find the user by username
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == request.UserName);
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Hash the new password using BCrypt
+                var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+
+                // Update the password field in the User table
+                user.Password = passwordHash;
+
+                // Save the changes to the database
+                _fanHubContext.SaveChanges();
+
+                // Return a JSON response with success:true
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+        public class UpdatePasswordRequest
+        {
+            public string UserName { get; set; }
+            public string NewPassword { get; set; }
+        }
+
 
     }
 }

@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AdminNavbar from './AdminNavbar';
-import Footer from './Footer';
-import './AuthenticatedAdminHome.css';
 
 const AuthenticatedAdminHome = () => {
-
     const navigate = useNavigate();
     const [users, setUsers] = useState([]); // State to store the list of users
 
@@ -21,6 +17,12 @@ const AuthenticatedAdminHome = () => {
         }
     }, [navigate]);
 
+    const handleLogout = () => {
+        // Remove the JWT token from local storage
+        localStorage.removeItem('jwtToken');
+        toast.success('Logged out successfully');
+        navigate('/Signin'); // Redirect to the login page
+    };
 
     const handleListUsers = async () => {
         try {
@@ -49,15 +51,41 @@ const AuthenticatedAdminHome = () => {
     };
 
     return (
-        <div className="wrapper">
-            <AdminNavbar/>
-            <div className="content">
-                <h1>Hello Admin</h1>
-                <h1>Welcome to the Admin Home Page</h1>
-            </div>
-            <Footer />
+        <div>
+        <div className="container">
+            <h1>Hello Admin</h1>
+            <h1>Welcome to the Admin Home Page</h1>
+            {/* Add your home page content here */}
+            <button className="submit" onClick={handleLogout}>
+                Logout
+            </button>
+
+            {/* Button to list users */}
+            <button className="submit" style={{ backgroundColor: 'red', color: 'white' }} onClick={handleListUsers}>
+                List Users
+            </button>
         </div>
-    );
+
+    {/* Display the list of names in a table outside the container */}
+    <div className="user-list">
+        <h2>User Names:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {users.map((name, index) => (
+                <tr key={index}>
+                    <td>{name}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+    </div>
+        </div>
+);
 };
 
 export default AuthenticatedAdminHome;

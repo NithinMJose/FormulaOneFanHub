@@ -225,7 +225,13 @@ const UserList = () => {
                       <td>{user.email}</td>
                       <td>{user.firstName}</td>
                       <td>{user.lastName}</td>
-                      <td>{user.status}</td>
+                      <td>
+                        {user.status === 'active' ? (
+                          <button className="btn btn-success">Active</button>
+                        ) : (
+                          <button className="btn btn-danger">Inactive</button>
+                        )}
+                      </td>
                       <td className="user-buttons">
                         {user.status === 'active' ? (
                           <button

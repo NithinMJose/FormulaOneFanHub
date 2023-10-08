@@ -12,6 +12,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { About } from './Components/LoginSignup/About';
 import UserConfirmEmail from './Components/LoginSignup/UserConfirmEmail';
+import ForgotPass from './Components/LoginSignup/ForgotPassword';
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route path="/HomePage" element={<HomePage />} />
           <Route path="/About" element={<About />} />
           <Route path="/UserConfirmEmail" element={<UserConfirmEmail />} />
+          <Route path='/ForgotPassword' element={<ForgotPass />} />
         </Routes>
         <ToastContainer />
       </div>
