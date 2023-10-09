@@ -30,32 +30,47 @@ const Signup = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [otpError, setOtpError] = useState('');
 
+  
+
   const handleSave = async () => {
+    // Check if there are existing error messages
+    if (
+      usernameError ||
+      firstNameError ||
+      lastNameError ||
+      emailError ||
+      passwordError ||
+      confirmPasswordError
+    ) {
+      toast.error('Check your inputs first.');
+      return;
+    }
+  
     if (!username || !firstName || !lastName || !email || !password || !confirmPassword) {
       toast.error('Please enter all details.');
       return;
     }
-
+  
     if (password !== confirmPassword) {
       toast.error('Passwords do not match. Please check your inputs.');
       return;
     }
-
+  
     if (!validateEmail(email)) {
       setEmailError('Not a valid email format');
       return;
     }
-
+  
     const passwordValidationResult = validatePassword(password);
     if (passwordValidationResult) {
       setPasswordError(passwordValidationResult);
       return;
     }
-
+  
     const url = 'https://localhost:7092/api/User/TestEndPoint';
-
+  
     setLoading(true);
-
+  
     try {
       const response = await axios.post(url, {
         userName: username,
@@ -65,7 +80,7 @@ const Signup = () => {
         firstName: firstName,
         lastName: lastName,
       });
-
+  
       if (response.data.success) {
         clearForm();
         toast.success('Please check your email for OTP to confirm your registration.');
@@ -94,6 +109,9 @@ const Signup = () => {
       setLoading(false);
     }
   };
+  
+
+
 
   const handleVerifyEmail = async () => {
     if (!otp || !validateOtp(otp)) {
@@ -120,7 +138,7 @@ const Signup = () => {
       });
   
       if (response.data.success) {
-        toast.success('Registration completed successfully!');
+        toast.success('Registration completed success fully!');
         // You can navigate to a different page or perform other actions upon successful registration.
       } else {
         toast.error('Registration failed. Please check your inputs.');

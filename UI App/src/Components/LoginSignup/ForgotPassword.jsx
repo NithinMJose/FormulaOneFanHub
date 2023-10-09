@@ -6,6 +6,7 @@ import password_icon from '../Assets/ghi.png';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ForgotPass = () => {
   const [username, setUsername] = useState('');
@@ -15,37 +16,56 @@ const ForgotPass = () => {
   const [isUsernameSubmitted, setIsUsernameSubmitted] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
 
-  const navigate = useNavigate(); // Add this line
+  const navigate = useNavigate();
 
   const handleSendVerification = async () => {
     try {
       await axios.post('https://localhost:7092/api/User/SendOtp', { userName: username });
       setIsUsernameSubmitted(true);
+      toast.success('Verification email is being sent. Check your inbox.');
     } catch (error) {
       handleError(error);
+      toast.error('User not found. Please check your username.');
     }
   };
 
   const handleVerifyOtp = async () => {
+    if (!/^\d{7}$/.test(otp)) {
+      toast.error('The OTP must be a 7-digit number and contain no alphabets.');
+      return;
+    }
+
     try {
       await axios.post('https://localhost:7092/api/User/VerifyOtp', { userName: username, otp: otp });
       setIsOtpVerified(true);
-      console.log('OTP verified');
+      toast.success('Email verified. Please proceed with the new Password');
     } catch (error) {
       handleError(error);
+      toast.error('OTP is not verified. Try again');
     }
   };
 
   const handlePasswordReset = async () => {
+    if (!newPassword || !confirmNewPassword) {
+      toast.error('Please enter both new password and confirm password.');
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      toast.error('New password and confirm password do not match.');
+      return;
+    }
+
     try {
       await axios.post('https://localhost:7092/api/User/UpdatePassword', {
         userName: username,
         newPassword: newPassword,
       });
-      console.log('Password reset successfully');
-      navigate('/Signin'); // Fix: Use the navigate function
+      navigate('/Signin');
+      toast.success('Password Reset. Login with your new Password');
     } catch (error) {
       handleError(error);
+      toast.error('An Error occurred. Try again later');
     }
   };
 
@@ -87,7 +107,6 @@ const ForgotPass = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-
           {isUsernameSubmitted && (
             <div className="input">
               <img src={password_icon} alt="" />
@@ -99,7 +118,6 @@ const ForgotPass = () => {
               />
             </div>
           )}
-
           {isOtpVerified && (
             <>
               <div className="input">
@@ -111,7 +129,6 @@ const ForgotPass = () => {
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
-
               <div className="input">
                 <img src={password_icon} alt="" />
                 <input
