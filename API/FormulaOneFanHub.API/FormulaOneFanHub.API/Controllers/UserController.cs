@@ -35,9 +35,9 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpPost("Login")]
         public IActionResult Authenticate(LoginDto loginDto)
         {
-              var user = _fanHubContext.Users
-                 .Include(u => u.Role) // Include the Role in the query
-                 .FirstOrDefault(x => x.UserName == loginDto.UserName);
+            var user = _fanHubContext.Users
+                .Include(u => u.Role) // Include the Role in the query
+                .FirstOrDefault(x => x.UserName == loginDto.UserName);
 
             if (user is null)
             {
@@ -46,15 +46,24 @@ namespace FormulaOneFanHub.API.Controllers
 
             // Verify the hashed password using BCrypt
             var isPasswordHashMatch = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password);
+
             if (!isPasswordHashMatch)
             {
-                return Unauthorized();
+                return Ok(new { message = "Wrong password" });
+            }
+
+            if (user.Status != "active")
+            {
+                // If the user status is inactive, return a response with "inactive"
+                return Ok(new { status = "inactive" });
             }
 
             var token = GenerateToken(user);
             // Return a JSON response with token and success:true
             return Ok(new { token = token, success = true });
         }
+
+
 
         private string GenerateToken(User user)
         {

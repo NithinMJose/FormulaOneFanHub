@@ -41,25 +41,32 @@ const Signin = () => {
         userName: username,
         password: password,
       });
-
+  
       if (response.data.token) {
         // Store the token in local storage
         localStorage.setItem('jwtToken', response.data.token);
-
-        // Parse the token to get the RoleId
+  
+        // Parse the token to get the RoleId and Status
         const tokenPayload = jwt_decode(response.data.token);
         const roleId = tokenPayload['RoleId'];
-
-        toast.success('Login successful');
-
-        // Navigate based on the RoleId
-        if (roleId === "Admin") {
-          navigate('/AdminHome');
-        } else if (roleId === "User") {
-          navigate('/UserHome');
-        } else {
-          navigate('/Home');
+        const status = tokenPayload['Status'];
+  
+        if (status === "active") {
+          toast.success('Login successful');
+  
+          // Navigate based on the RoleId
+          if (roleId === "Admin") {
+            navigate('/AdminHome');
+          } else if (roleId === "User") {
+            navigate('/UserHome');
+          } else {
+            navigate('/Home');
+          }
+        } else if (status === "inactive") {
+          toast.error('Account has been banned. Contact Admin for details');
         }
+      } else if (response.data.status === "inactive") {
+        toast.error('Account has been banned. Contact Admin for details');
       } else {
         toast.error('Password is incorrect');
       }
@@ -67,11 +74,14 @@ const Signin = () => {
       console.error(error);
       if (error.response && error.response.status === 401) {
         toast.error('Invalid username or password');
-      }else {
+      } else {
         toast.error('An error occurred during login');
       }
     }
   };
+  
+  
+  
 
   // Adding some margin to push the footer down
   const containerStyle = {
