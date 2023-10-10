@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './ForgotPassword.css';
+import './Signup.css'; // Make sure to include the same CSS file as in the Signup component
 import user_icon from '../Assets/abc.png';
 import password_icon from '../Assets/ghi.png';
 import HomeNavbar from './HomeNavbar';
@@ -15,6 +15,10 @@ const ForgotPass = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [isUsernameSubmitted, setIsUsernameSubmitted] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
+
+  const [newPasswordError, setNewPasswordError] = useState('');
+  const [confirmNewPasswordError, setConfirmNewPasswordError] = useState('');
+  const [otpError, setOtpError] = useState('');
 
   const navigate = useNavigate();
 
@@ -31,7 +35,7 @@ const ForgotPass = () => {
 
   const handleVerifyOtp = async () => {
     if (!/^\d{7}$/.test(otp)) {
-      toast.error('The OTP must be a 7-digit number and contain no alphabets.');
+      setOtpError('The OTP must be a 7-digit number');
       return;
     }
 
@@ -46,21 +50,27 @@ const ForgotPass = () => {
   };
 
   const handlePasswordReset = async () => {
-    if (!newPassword || !confirmNewPassword) {
-      toast.error('Please enter both new password and confirm password.');
+    // Validate new password
+    const newPasswordValidationResult = validatePassword(newPassword);
+    if (newPasswordValidationResult) {
+      setNewPasswordError(newPasswordValidationResult);
       return;
     }
 
+    // Validate confirm new password
     if (newPassword !== confirmNewPassword) {
-      toast.error('New password and confirm password do not match.');
+      setConfirmNewPasswordError('New password and confirm password do not match.');
       return;
     }
 
     try {
+      // Your API endpoint for password reset
       await axios.post('https://localhost:7092/api/User/UpdatePassword', {
         userName: username,
         newPassword: newPassword,
       });
+
+      // Redirect to signin page upon successful password reset
       navigate('/Signin');
       toast.success('Password Reset. Login with your new Password');
     } catch (error) {
@@ -79,8 +89,96 @@ const ForgotPass = () => {
     }
   };
 
-  const containerStyle = {
-    marginBottom: '20px',
+  const validatePassword = (password) => {
+    const digitRegex = /\d/;
+    const upperCaseRegex = /[A-Z]/;
+    const lowerCaseRegex = /[a-z]/;
+    const specialCharRegex = /[@#$%^&+=!]/;
+    const minLength = password.length >= 8;
+
+    if (!digitRegex.test(password)) {
+      return 'At least 1 digit is required.';
+    } else if (!upperCaseRegex.test(password)) {
+      return 'At least 1 uppercase letter is required.';
+    } else if (!lowerCaseRegex.test(password)) {
+      return 'At least 1 lowercase letter is required.';
+    } else if (!specialCharRegex.test(password)) {
+      return 'At least 1 special character is required.';
+    } else if (!minLength) {
+      return 'Password should be at least 8 characters long.';
+    }
+
+    return '';
+  };
+
+  const clearErrorsOnTyping = (name, value) => {
+    switch (name) {
+      case 'username':
+        setOtpError('');
+        break;
+      case 'otp':
+        if (/^\d{7}$/.test(value)) {
+          setOtpError('');
+        }
+        break;
+      case 'newPassword':
+        setNewPasswordError('');
+        break;
+      case 'confirmNewPassword':
+        setConfirmNewPasswordError('');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleInputBlur = (e) => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'username':
+        // Additional validation can be added here if needed
+        break;
+      case 'otp':
+        if (!/^\d{7}$/.test(value)) {
+          setOtpError('Invalid OTP format');
+        }
+        break;
+      case 'newPassword':
+        setNewPasswordError(validatePassword(value));
+        break;
+      case 'confirmNewPassword':
+        if (value !== newPassword) {
+          setConfirmNewPasswordError('Passwords do not match.');
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'username':
+        setUsername(value);
+        break;
+      case 'otp':
+        setOtp(value);
+        clearErrorsOnTyping('otp', value);
+        break;
+      case 'newPassword':
+        setNewPassword(value);
+        clearErrorsOnTyping('newPassword', value);
+        break;
+      case 'confirmNewPassword':
+        setConfirmNewPassword(value);
+        clearErrorsOnTyping('confirmNewPassword', value);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -88,68 +186,93 @@ const ForgotPass = () => {
       <HomeNavbar />
       <br />
       <br />
-      <br />
-
-      <div className="container2" style={containerStyle}>
-        <div className="header">
-          <div className="text">
-            {isOtpVerified ? 'Reset Password' : 'Forgot Password'}
+      <div className='signup_container'>
+        <div className='right-panel'>
+          <div className='signup-header'>
+            <div className='signup-text'>{isOtpVerified ? 'Reset Password' : 'Forgot Password'}</div>
+            <div className='signup-underline'></div>
           </div>
-          <div className="underline"></div>
-        </div>
-        <div className="inputs">
-          <div className="input">
-            <img src={user_icon} alt="" />
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          {isUsernameSubmitted && (
-            <div className="input">
-              <img src={password_icon} alt="" />
+          <div className='signup-inputs'>
+            <div className='signup-input'>
+              <img src={user_icon} alt='' />
               <input
-                type="text"
-                placeholder="OTP Code"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
+                type='text'
+                placeholder='Username'
+                name='username'
+                value={username}
+                onChange={(e) => handleInputChange(e)}
+                onBlur={handleInputBlur}
+                required
+                disabled={isUsernameSubmitted}
               />
             </div>
-          )}
-          {isOtpVerified && (
-            <>
-              <div className="input">
-                <img src={password_icon} alt="" />
-                <input
-                  type="password"
-                  placeholder="Enter new Password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
-              <div className="input">
-                <img src={password_icon} alt="" />
-                <input
-                  type="password"
-                  placeholder="Confirm new Password"
-                  value={confirmNewPassword}
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
-                />
-              </div>
-            </>
-          )}
-        </div>
-        <div className="forgot-password">
-          <button
-            onClick={
-              isOtpVerified ? handlePasswordReset : isUsernameSubmitted ? handleVerifyOtp : handleSendVerification
-            }
-            className="submit"
-          >
-            {isOtpVerified ? 'Reset Password' : isUsernameSubmitted ? 'Verify Email' : 'Add Verification'}
-          </button>
+            {isUsernameSubmitted && (
+              <>
+                <div className='signup-input'>
+                  <img src={password_icon} alt='' />
+                  <input
+                    type='text'
+                    placeholder='OTP Code'
+                    name='otp'
+                    value={otp}
+                    onChange={(e) => handleInputChange(e)}
+                    onBlur={handleInputBlur}
+                    required
+                    disabled={isOtpVerified}
+                  />
+                </div>
+                <div>
+                  {otpError && <div className='signup-error-box'>{otpError}</div>}
+                </div>
+              </>
+            )}
+            {isOtpVerified && (
+              <>
+                <div className='signup-input'>
+                  <img src={password_icon} alt='' />
+                  <input
+                    type='password'
+                    placeholder='Enter new Password'
+                    name='newPassword'
+                    value={newPassword}
+                    onChange={(e) => handleInputChange(e)}
+                    onBlur={handleInputBlur}
+                    required
+                  />
+                </div>
+                <div>
+                  {newPasswordError && <div className='signup-error-box'>{newPasswordError}</div>}
+                </div>
+                <div className='signup-input'>
+                  <img src={password_icon} alt='' />
+                  <input
+                    type='password'
+                    placeholder='Confirm new Password'
+                    name='confirmNewPassword'
+                    value={confirmNewPassword}
+                    onChange={(e) => handleInputChange(e)}
+                    onBlur={handleInputBlur}
+                    required
+                  />
+                </div>
+                <div>
+                  {confirmNewPasswordError && (
+                    <div className='signup-error-box'>{confirmNewPasswordError}</div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+          <div className='signup-submit-container'>
+            <div
+              className='signup-submit'
+              onClick={
+                isOtpVerified ? handlePasswordReset : isUsernameSubmitted ? handleVerifyOtp : handleSendVerification
+              }
+            >
+              {isOtpVerified ? 'Reset Password' : isUsernameSubmitted ? 'Verify Email' : 'Add Verification'}
+            </div>
+          </div>
         </div>
       </div>
       <br />

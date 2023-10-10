@@ -581,5 +581,61 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        [HttpPost("RegisterOne")]
+        public IActionResult RegisterOne([FromBody] RegisterOneRequest request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Invalid request format. Please provide a JSON object with required fields.");
+                }
+
+                var user = new User
+                {
+                    UserName = request.Username,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    Password=null,
+                };
+
+                _fanHubContext.Users.Add(user);
+                _fanHubContext.SaveChanges();
+
+                SendOtp(user);
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+        private void SendOtp(User user)
+        {
+            Random random = new Random();
+            var randomCode = random.Next(1000000, 9999999);
+            var otp = randomCode.ToString();
+
+            user.ConfirmEmailToken = otp;
+            _fanHubContext.SaveChanges();
+
+            _emailSendUtility.SendEmail(user, otp);
+        }
     }
+
+    public class RegisterOneRequest
+    {
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+    }
+
 }

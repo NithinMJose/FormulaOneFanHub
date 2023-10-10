@@ -13,6 +13,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { About } from './Components/LoginSignup/About';
 import UserConfirmEmail from './Components/LoginSignup/UserConfirmEmail';
 import ForgotPass from './Components/LoginSignup/ForgotPassword';
+import Register from './Components/LoginSignup/Register';
+import Registertwo from './Components/LoginSignup/Registertwo';
+import Registerthree from './Components/LoginSignup/Registerthree';
 
 
 function App() {
@@ -32,6 +35,9 @@ function App() {
           <Route path="/About" element={<About />} />
           <Route path="/UserConfirmEmail" element={<UserConfirmEmail />} />
           <Route path='/ForgotPassword' element={<ForgotPass />} />
+          <Route path='/Register' element={<Register />} />
+          <Route path='/Registertwo' element={<Registertwo />} />
+          <Route path='/Registerthree' element={<Registerthree />} />
         </Routes>
         <ToastContainer />
       </div>

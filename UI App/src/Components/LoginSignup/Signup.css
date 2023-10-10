@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   margin: auto;
-  max-width: 400px;
+  max-width: 500px;
   min-width: 350px;
   margin-top: 50px;
   width: 70%;
@@ -78,7 +78,7 @@
   align-items: center;
   margin: auto;
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   height: 30px;
   background: #eaeaea;
   border-radius: 5px;

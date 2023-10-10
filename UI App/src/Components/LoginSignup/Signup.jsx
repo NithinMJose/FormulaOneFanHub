@@ -8,8 +8,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -30,7 +33,43 @@ const Signup = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [otpError, setOtpError] = useState('');
 
-  
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    clearErrorsOnTyping(name, value);
+
+    switch (name) {
+      case 'username':
+        setUsername(value);
+        break;
+      case 'firstName':
+        setFirstName(value);
+        break;
+      case 'lastName':
+        setLastName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      case 'confirmPassword':
+        setConfirmPassword(value);
+        break;
+      case 'otp':
+        setOtp(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleInputBlur = (e) => {
+    const { name, value } = e.target;
+    clearErrorsOnTyping(name, value);
+  };
+
 
   const handleSave = async () => {
     // Check if there are existing error messages
@@ -45,32 +84,32 @@ const Signup = () => {
       toast.error('Check your inputs first.');
       return;
     }
-  
+
     if (!username || !firstName || !lastName || !email || !password || !confirmPassword) {
       toast.error('Please enter all details.');
       return;
     }
-  
+
     if (password !== confirmPassword) {
       toast.error('Passwords do not match. Please check your inputs.');
       return;
     }
-  
+
     if (!validateEmail(email)) {
       setEmailError('Not a valid email format');
       return;
     }
-  
+
     const passwordValidationResult = validatePassword(password);
     if (passwordValidationResult) {
       setPasswordError(passwordValidationResult);
       return;
     }
-  
+
     const url = 'https://localhost:7092/api/User/TestEndPoint';
-  
+
     setLoading(true);
-  
+
     try {
       const response = await axios.post(url, {
         userName: username,
@@ -80,7 +119,7 @@ const Signup = () => {
         firstName: firstName,
         lastName: lastName,
       });
-  
+
       if (response.data.success) {
         clearForm();
         toast.success('Please check your email for OTP to confirm your registration.');
@@ -109,23 +148,20 @@ const Signup = () => {
       setLoading(false);
     }
   };
-  
-
-
 
   const handleVerifyEmail = async () => {
     if (!otp || !validateOtp(otp)) {
       setOtpError('Invalid OTP format');
       return;
     }
-  
+
     if (otp !== storedFormData.confirmEmailToken) {
       setOtpError('Incorrect OTP. Please enter the correct OTP.');
       return;
     }
-  
+
     const url = 'https://localhost:7092/api/User/Register';
-  
+
     try {
       const response = await axios.post(url, {
         userName: storedFormData.username,
@@ -136,10 +172,11 @@ const Signup = () => {
         lastName: storedFormData.lastName,
         otp: otp,
       });
-  
+
       if (response.data.success) {
-        toast.success('Registration completed success fully!');
+        toast.success('Registration completed successfully!');
         // You can navigate to a different page or perform other actions upon successful registration.
+        navigate('/Signin');
       } else {
         toast.error('Registration failed. Please check your inputs.');
       }
@@ -148,8 +185,7 @@ const Signup = () => {
       console.error('Error during registration:', error);
     }
   };
-  
-  
+
   const validateOtp = (otp) => {
     return /^\d{7}$/.test(otp);
   };
@@ -182,7 +218,7 @@ const Signup = () => {
         }
         break;
       case 'otp':
-        if (/^\d{6}$/.test(value)) {
+        if (validateOtp(value)) {
           setOtpError('');
         }
         break;
@@ -264,80 +300,36 @@ const Signup = () => {
     }
   };
 
-  const handleInputBlur = (e) => {
-    const { name, value } = e.target;
-
+  const handleInputClick = (name) => {
     switch (name) {
       case 'username':
-        validateName(value, setUsernameError);
+        setUsernameError('Only alphabets, minimum 4 characters');
         break;
       case 'firstName':
-        validateName(value, setFirstNameError);
+        setFirstNameError('Only alphabets are allowed');
         break;
       case 'lastName':
-        validateName(value, setLastNameError);
+        setLastNameError('Minimum 4 characters required');
         break;
       case 'email':
-        if (!validateEmail(value)) {
-          setEmailError('Not a valid email format');
-        } else {
-          setEmailError('');
-        }
+        setEmailError('Not a valid email format');
         break;
       case 'password':
-        setPasswordError(validatePassword(value));
+        setPasswordError(
+          'At least 1 digit, 1 uppercase letter, 1 lowercase letter, 1 special character, and minimum 8 characters required.'
+        );
         break;
       case 'confirmPassword':
-        if (value !== password) {
-          setConfirmPasswordError('Passwords do not match.');
-        } else {
-          setConfirmPasswordError('');
-        }
+        setConfirmPasswordError('Passwords do not match.');
         break;
       case 'otp':
-        clearErrorsOnTyping('otp', value);
+        setOtpError('Invalid OTP format');
         break;
       default:
         break;
     }
   };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    switch (name) {
-      case 'username':
-        clearErrorsOnTyping('username', value);
-        setUsername(value);
-        break;
-      case 'firstName':
-        clearErrorsOnTyping('firstName', value);
-        setFirstName(value);
-        break;
-      case 'lastName':
-        clearErrorsOnTyping('lastName', value);
-        setLastName(value);
-        break;
-      case 'email':
-        clearErrorsOnTyping('email', value);
-        setEmail(value);
-        break;
-      case 'password':
-        clearErrorsOnTyping('password', value);
-        setPassword(value);
-        break;
-      case 'confirmPassword':
-        clearErrorsOnTyping('confirmPassword', value);
-        setConfirmPassword(value);
-        break;
-      case 'otp':
-        setOtp(value);
-        clearErrorsOnTyping('otp', value);
-        break;
-      default:
-        break;
-    }
-  };
+  
 
   return (
     <div>
@@ -358,14 +350,15 @@ const Signup = () => {
                 placeholder='Username'
                 name='username'
                 value={showConfirmationFields ? storedFormData?.username : username}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
+                onClick={() => handleInputClick('username')}
+                onChange={(e) => handleInputChange(e)}
                 onBlur={handleInputBlur}
                 required
+                disabled={showConfirmationFields}
               />
             </div>
             {usernameError && <div className='signup-error-box'>{usernameError}</div>}
+
             <div className='signup-input'>
               <img src={userIcon} alt='' />
               <input
@@ -373,11 +366,11 @@ const Signup = () => {
                 placeholder='First Name'
                 name='firstName'
                 value={showConfirmationFields ? storedFormData?.firstName : firstName}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
+                onClick={() => handleInputClick('firstName')}
+                onChange={(e) => handleInputChange(e)}
                 onBlur={handleInputBlur}
                 required
+                disabled={showConfirmationFields}
               />
             </div>
             {firstNameError && <div className='signup-error-box'>{firstNameError}</div>}
@@ -388,11 +381,11 @@ const Signup = () => {
                 placeholder='Last Name'
                 name='lastName'
                 value={showConfirmationFields ? storedFormData?.lastName : lastName}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
+                onClick={() => handleInputClick('lastName')}
+                onChange={(e) => handleInputChange(e)}
                 onBlur={handleInputBlur}
                 required
+                disabled={showConfirmationFields}
               />
             </div>
             {lastNameError && <div className='signup-error-box'>{lastNameError}</div>}
@@ -403,11 +396,11 @@ const Signup = () => {
                 placeholder='Email'
                 name='email'
                 value={showConfirmationFields ? storedFormData?.email : email}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
+                onClick={() => handleInputClick('email')}
+                onChange={(e) => handleInputChange(e)}
                 onBlur={handleInputBlur}
                 required
+                disabled={showConfirmationFields}
               />
             </div>
             {emailError && <div className='signup-error-box'>{emailError}</div>}
@@ -418,12 +411,12 @@ const Signup = () => {
                 placeholder='Password'
                 name='password'
                 value={showConfirmationFields ? '********' : password}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
+                onClick={() => handleInputClick('password')}
+                onChange={(e) => handleInputChange(e)}
                 minLength='8'
                 onBlur={handleInputBlur}
                 required
+                disabled={showConfirmationFields}
               />
             </div>
             {passwordError && <div className='signup-error-box'>{passwordError}</div>}
@@ -434,12 +427,12 @@ const Signup = () => {
                 placeholder='Confirm Password'
                 name='confirmPassword'
                 value={showConfirmationFields ? '********' : confirmPassword}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
+                onClick={() => handleInputClick('confirmPassword')}
+                onChange={(e) => handleInputChange(e)}
                 minLength='8'
                 onBlur={handleInputBlur}
                 required
+                disabled={showConfirmationFields}
               />
             </div>
             {confirmPasswordError && (
@@ -447,24 +440,27 @@ const Signup = () => {
             )}
 
             {showConfirmationFields && (
-              <div>
-                <div className='signup-input'>
-                  <input
-                    type='text'
-                    placeholder='Enter OTP'
-                    name='otp'
-                    value={otp}
-                    onChange={(e) => {
-                      handleInputChange(e);
-                    }}
-                    onBlur={handleInputBlur}
-                    required
-                  />
-                  {getErrorState('otp') && (
-                    <div className='signup-error-box'>{getErrorState('otp')}</div>
-                  )}
+              <>
+                <div>
+                  <div className='signup-input'>
+                    <input
+                      type='text'
+                      placeholder='Enter OTP'
+                      name='otp'
+                      value={otp}
+                      onClick={() => handleInputClick('otp')}
+                      onChange={(e) => handleInputChange(e)}
+                      onBlur={handleInputBlur}
+                      required
+                    />
+                  </div>
+                  <div>
+                    {getErrorState('otp') && (
+                      <div className='signup-error-box'>{getErrorState('otp')}</div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
           <div className='signup-submit-container'>
@@ -473,11 +469,7 @@ const Signup = () => {
               onClick={showConfirmationFields ? handleVerifyEmail : handleSave}
               disabled={loading}
             >
-              {loading
-                ? 'Processing...'
-                : showConfirmationFields
-                ? 'Verify Email'
-                : 'Sign Up'}
+              {loading ? 'Processing...' : showConfirmationFields ? 'Verify Email' : 'Sign Up'}
             </div>
           </div>
         </div>
