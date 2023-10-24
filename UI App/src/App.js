@@ -23,7 +23,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/Signup" element={<Signup />} />
+          <Route path="/Register" element={<Signup />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/Signin" element={<Signin />} />
           <Route path="/AdminHome" element={<AuthenticatedAdminHome />} />
@@ -35,7 +35,7 @@ function App() {
           <Route path="/About" element={<About />} />
           <Route path="/UserConfirmEmail" element={<UserConfirmEmail />} />
           <Route path='/ForgotPassword' element={<ForgotPass />} />
-          <Route path='/Register' element={<Register />} />
+          <Route path='/Signup' element={<Register />} />
           <Route path='/Registertwo' element={<Registertwo />} />
           <Route path='/Registerthree' element={<Registerthree />} />
         </Routes>

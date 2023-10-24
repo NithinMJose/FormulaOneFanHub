@@ -25,12 +25,12 @@ const Signin = () => {
       const roleId = tokenPayload['RoleId'];
 
       // Redirect based on the RoleId
-      if (roleId === '1') {
+      if (roleId === '2') {
         navigate('/AdminHome');
-      } else if (roleId === '2') {
+      } else if (roleId === '1') {
         navigate('/UserHome');
       } else {
-        navigate('/Home');
+        navigate('/');
       }
     }
   }, [navigate]);
@@ -60,7 +60,7 @@ const Signin = () => {
           } else if (roleId === "User") {
             navigate('/UserHome');
           } else {
-            navigate('/Home');
+            navigate('/HomePage');
           }
         } else if (status === "inactive") {
           toast.error('Account has been banned. Contact Admin for details');
