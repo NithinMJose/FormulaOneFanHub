@@ -17,7 +17,7 @@ namespace FormulaOneFanHub.API.Utilities
             {
                 var emailApiKey = _config["EmailServer:SENDGRID_API_KEY"];
                 var client = new SendGridClient(emailApiKey);
-                var from = new EmailAddress("nithinjose2024b@mca.ajce.in", "FormulaOneFanHub");
+                var from = new EmailAddress("nithinjosemandownloadonly@gmail.com", "FormulaOneFanHub");
                 var subject = "Your account is created with FormulaOne FanHub : Verify here";
                 var to = new EmailAddress(userInfo.Email, $"{userInfo.FirstName} {userInfo.LastName}");
                 //send the userinfo emailtoken as email body
