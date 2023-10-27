@@ -12,5 +12,7 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+
     }
 }

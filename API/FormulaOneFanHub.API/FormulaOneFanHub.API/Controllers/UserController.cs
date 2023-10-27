@@ -182,8 +182,7 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = regDto.FirstName,
                 LastName = regDto.LastName,
                 Password = passwordHash, // Store the hashed password
-                ConfirmEmailToken = regDto.Otp, // Use the random 7-digit number
-                EmailConfirmed = false,
+                EmailConfirmed = true,  
                 RoleId = clientRole?.Id,
                 CreatedBy = "System",
                 Status = "active",

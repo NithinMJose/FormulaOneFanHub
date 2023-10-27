@@ -12,7 +12,7 @@ namespace FormulaOneFanHub.API.Entities
         public string? LastName { get; set; }
         public bool EmailConfirmed { get; set; } = false;
         public string? ConfirmEmailToken { get; set; }
-            
+
         [ForeignKey("Role")]
         public int? RoleId { get; set; }
         public string? CreatedBy { get; set; }

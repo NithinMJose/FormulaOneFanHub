@@ -1,3 +1,4 @@
+
 using FormulaOneFanHub.API.Data;
 using FormulaOneFanHub.API.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -84,7 +85,7 @@ app.UseSwaggerUI();
 
 app.UseMiddleware<ExceptionHandlerMiddleware>(); // Global exception handling
 
-// Enable CORS
+// Enable CORS  
 app.UseCors("AllowLocalhost3000"); // Enable CORS policy
 
 app.UseHttpsRedirection();
