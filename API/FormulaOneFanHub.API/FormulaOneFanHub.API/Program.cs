@@ -92,6 +92,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseStaticFiles(); // Serve static files, including images
+
 app.MapControllers();
 
 app.Run();
