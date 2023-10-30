@@ -17,6 +17,7 @@ import Register from './Components/LoginSignup/Register';
 import Registertwo from './Components/LoginSignup/Registertwo';
 import Registerthree from './Components/LoginSignup/Registerthree';
 import AddDriver from './Components/LoginSignup/AddDriver';
+import DriverList from './Components/LoginSignup/DriverList';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path='/Registertwo' element={<Registertwo />} />
           <Route path='/Registerthree' element={<Registerthree />} />
           <Route path='/AddDriver' element={<AddDriver />} />
+          <Route path='/DriverList' element={<DriverList />} />
         </Routes>
         <ToastContainer />
       </div>
