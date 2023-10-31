@@ -158,3 +158,21 @@
   max-width: 330px;
   width: 100%;
 }
+
+.add-f1-history-submit {
+  display: flex;
+  width: 100%;
+  max-width: 200px;
+  min-width: 140px;
+  height: 50px;
+  background: #4c00b4;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none; /* Remove border for a cleaner button appearance */
+  outline: none; /* Remove outline on focus */
+}

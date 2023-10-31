@@ -60,26 +60,26 @@ function AdminNavbar() {
                 Pages
               </a>
               <div className="dropdown-menu m-0">
-                <a href="/" className="dropdown-item">
-                  Pricing Plan
-                </a>
-                <a href="/" className="dropdown-item">
-                  Our Barber
-                </a>
-                <a href="/" className="dropdown-item">
-                  Working Hours
-                </a>
-                <a href="/" className="dropdown-item">
-                  Testimonial
-                </a>
-                <a href="/" className="dropdown-item">
+                <Link to="/AddDriver" className="dropdown-item">
+                  Add New Driver
+                </Link>
+                <Link to="/DriverList" className="dropdown-item">
+                  View Driver List
+                </Link>
+                <Link to="/AddF1History" className="dropdown-item">
+                  Add F1 History
+                </Link>
+                <Link to="/F1HistoryList" className="dropdown-item">
+                  List F1 History
+                </Link>
+                <Link to="/" className="dropdown-item">
                   404 Page
-                </a>
+                </Link>
               </div>
             </div>
-            <a href="/UserList" className="nav-item nav-link">
+            <Link to="/UserList" className="nav-item nav-link">
               Users
-            </a>
+            </Link>
           </div>
           <div className="nav-item dropdown">
             <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
+import AdminNavbar from './AdminNavbar';
 
 const AddDriver = () => {
     const [name, setName] = useState('');
@@ -68,7 +69,7 @@ const AddDriver = () => {
 
     return (
         <div>
-            <HomeNavbar />
+            <AdminNavbar />
             <br />
             <br />
             <div className='add-driver-container'>

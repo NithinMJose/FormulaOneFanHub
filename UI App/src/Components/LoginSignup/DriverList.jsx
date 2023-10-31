@@ -1,11 +1,12 @@
+// DriverList.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import UserNavbar from './UserNavbar';
+import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import './DriverList.css'; // Make sure to include your DriverList.css file
 import Footer from './Footer';
-import AdminNavbar from './AdminNavbar';
 import jwt_decode from 'jwt-decode';
 
 const DriverList = () => {
@@ -57,6 +58,7 @@ const DriverList = () => {
       navigate('/Home');
     }
   }, [navigate]);
+
   const handleManageDriver = (driverId) => {
     // Redirect to the UpdateDriver page with the specific driverId
     navigate(`/UpdateDriver/${driverId}`);

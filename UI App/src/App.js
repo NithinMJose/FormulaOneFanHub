@@ -18,6 +18,10 @@ import Registertwo from './Components/LoginSignup/Registertwo';
 import Registerthree from './Components/LoginSignup/Registerthree';
 import AddDriver from './Components/LoginSignup/AddDriver';
 import DriverList from './Components/LoginSignup/DriverList';
+import UpdateDriver from './Components/LoginSignup/UpdateDriver';
+import AddF1History from './Components/LoginSignup/AddF1History';
+import F1HistoryList from './Components/LoginSignup/F1HistoryList';
+import F1HistoryUpdate from './Components/LoginSignup/F1HistoryUpdate';
 
 
 function App() {
@@ -42,6 +46,10 @@ function App() {
           <Route path='/Registerthree' element={<Registerthree />} />
           <Route path='/AddDriver' element={<AddDriver />} />
           <Route path='/DriverList' element={<DriverList />} />
+          <Route path='/UpdateDriver/:driverId' element={<UpdateDriver />} />
+          <Route path='/AddF1History' element={<AddF1History />} />
+          <Route path='/F1HistoryList' element={<F1HistoryList />} />
+          <Route path='/F1HistoryUpdate/:historyId' element={<F1HistoryUpdate />} />
         </Routes>
         <ToastContainer />
       </div>
