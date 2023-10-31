@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FormulaOneFanHub.API.Entities
@@ -8,10 +9,13 @@ namespace FormulaOneFanHub.API.Entities
     {
         public int DriverId { get; set; }
         public string Name { get; set; } = string.Empty;
+
+        [DataType(DataType.Date)] // Specify that only the date should be included
         public DateTime Dob { get; set; }
+
         public string Description { get; set; } = string.Empty;
 
-        [NotMapped] // Add this line
+        [NotMapped]
         public IFormFile ImageFile { get; set; }
 
         public string? ImagePath { get; set; }

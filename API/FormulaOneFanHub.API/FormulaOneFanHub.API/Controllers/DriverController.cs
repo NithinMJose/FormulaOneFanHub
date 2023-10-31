@@ -71,7 +71,7 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         [HttpPut("UpdateDriver")]
-        public IActionResult UpdateDriver(int id, DriverDto driverDto)
+        public IActionResult UpdateDriver(int id, [FromForm] DriverDto driverDto)
         {
             if (!ModelState.IsValid)
             {
