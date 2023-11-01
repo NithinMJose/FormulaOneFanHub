@@ -1,6 +1,7 @@
 ﻿using FormulaOneFanHub.API.Data;
 using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 
@@ -108,5 +109,30 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
+        [HttpPost("CheckDriver")]
+        public IActionResult CheckDriver([FromBody] CheckDriverInput checkDriverInput)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Check if the driver with the given name and dob already exists
+            var isDriverExists = _fanHubContext.Drivers
+                .Any(d => EF.Functions.Like(d.Name, checkDriverInput.Name) && d.Dob == checkDriverInput.Dob);
+
+            var response = new { IsDriverExists = isDriverExists };
+
+            return Ok(response);
+        }
+
+
+    }
+
+    public class CheckDriverInput
+    {
+        public string Name { get; set; }
+        public DateTime Dob { get; set; }
     }
 }
