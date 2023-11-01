@@ -1,0 +1,27 @@
+/* F1HistoryUserView.css */
+
+.history-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.history-item {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.subheading {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.content {
+  font-size: 1rem;
+  color: #555;
+}

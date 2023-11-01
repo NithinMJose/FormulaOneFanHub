@@ -72,6 +72,9 @@ function AdminNavbar() {
                 <Link to="/F1HistoryList" className="dropdown-item">
                   List F1 History
                 </Link>
+                <Link to="/F1HistoryUserView" className="dropdown-item">
+              F1 History
+            </Link>
                 <Link to="/" className="dropdown-item">
                   404 Page
                 </Link>

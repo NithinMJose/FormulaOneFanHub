@@ -60,9 +60,9 @@ function HomeNavbar() {
                 Pages
               </a>
               <div className="dropdown-menu m-0">
-                <a href="/" className="dropdown-item">
-                  Pricing Plan
-                </a>
+              <Link to="/F1HistoryUserView" className="dropdown-item">
+              F1 History
+            </Link>
                 <a href="/" className="dropdown-item">
                   Our Barber
                 </a>

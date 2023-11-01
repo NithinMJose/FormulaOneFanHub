@@ -22,6 +22,7 @@ import UpdateDriver from './Components/LoginSignup/UpdateDriver';
 import AddF1History from './Components/LoginSignup/AddF1History';
 import F1HistoryList from './Components/LoginSignup/F1HistoryList';
 import F1HistoryUpdate from './Components/LoginSignup/F1HistoryUpdate';
+import F1HistoryUserView from './Components/LoginSignup/F1HistoryUserView';
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
           <Route path='/AddF1History' element={<AddF1History />} />
           <Route path='/F1HistoryList' element={<F1HistoryList />} />
           <Route path='/F1HistoryUpdate/:historyId' element={<F1HistoryUpdate />} />
+          <Route path='F1HistoryUserView' element={<F1HistoryUserView />} />
         </Routes>
         <ToastContainer />
       </div>
