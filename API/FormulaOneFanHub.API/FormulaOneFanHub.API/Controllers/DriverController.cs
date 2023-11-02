@@ -72,14 +72,14 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         [HttpPut("UpdateDriver")]
-        public IActionResult UpdateDriver(int id, [FromForm] DriverDto driverDto)
+        public IActionResult UpdateDriver([FromForm] DriverDto driverDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existingDriver = _fanHubContext.Drivers.Find(id);
+            var existingDriver = _fanHubContext.Drivers.Find(driverDto.Id);
 
             if (existingDriver == null)
             {
@@ -109,6 +109,8 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
+
 
         [HttpPost("CheckDriver")]
         public IActionResult CheckDriver([FromBody] CheckDriverInput checkDriverInput)
