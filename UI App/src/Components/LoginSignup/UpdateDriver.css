@@ -63,3 +63,12 @@ td {
     margin-bottom: 10px;
   }
 }
+
+.fullContainer {
+  padding-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+}

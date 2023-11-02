@@ -72,10 +72,13 @@ const Registertwo = () => {
       <br />
       <div className='signup_container'>
         <div className='right-panel'>
-          <div className='signup-header'>
-            <div className='signup-text'>Verify Email</div>
-            <div className='signup-underline'></div>
-          </div>
+        <div className='signup-header'>
+        <div className='signup-text'>Verify Email</div>
+        <div className='signup-underline'></div>
+        <p style={{ color: 'green', margin: '10px 0'}}>
+          Please enter the 7-digit OTP number we have sent to your email to confirm your email
+        </p>
+      </div>          
           <div className='signup-inputs'>
             {/* Display label contents received from Register */}
             <div className='signup-label'>Username: {state.userName}</div>
@@ -83,8 +86,7 @@ const Registertwo = () => {
             <div className='signup-label'>Last Name: {state.lastName}</div>
             <div className='signup-label'>Email: {state.email}</div>
             <div className='signup-label'>OTP: {state.confirmEmailToken}</div>
-
-            <div className='signup-input'>
+            <div className='signup-input' style={{margin: '10px 0'}}>
               <img src={otpIcon} alt='' />
               <input
                 type='text'

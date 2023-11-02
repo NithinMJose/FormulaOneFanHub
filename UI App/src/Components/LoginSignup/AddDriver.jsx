@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './Footer';
 import AdminNavbar from './AdminNavbar';
+import { useNavigate } from 'react-router-dom';
 
 const AddDriver = () => {
   const [name, setName] = useState('');
@@ -16,6 +17,8 @@ const AddDriver = () => {
   const [dobError, setDobError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
   const [imageFileError, setImageFileError] = useState('');
+
+  const navigate = useNavigate();
 
   const validateName = (value) => {
     if (value.length < 3 || !/^[a-zA-Z\s]+$/.test(value)) {
@@ -80,45 +83,50 @@ const AddDriver = () => {
   const handleSave = async () => {
     if (validateForm()) {
       setLoading(true);
-
+  
       try {
+        const requestBody = {
+          name,
+          dob,
+        };
+  
+        console.log('Request Body:', JSON.stringify(requestBody));
+  
         // Check if the driver is already added
         const checkDriverResponse = await fetch('https://localhost:7092/api/Driver/CheckDriver', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            name,
-            dob,
-          }),
+          body: JSON.stringify(requestBody),
         });
-
-        const isDriverExists = await checkDriverResponse.json();
-
+  
+        const { isDriverExists } = await checkDriverResponse.json();
+  
         if (isDriverExists) {
           toast.error('Driver is already added in the database');
           setLoading(false);
           return;
         }
-
+  
         // If the driver is not already added, proceed with adding the driver
         const formData = new FormData();
         formData.append('name', name);
         formData.append('dob', dob);
         formData.append('description', description);
         formData.append('imageFile', imageFile);
-
-        const response = await fetch('https://localhost:7092/api/Driver/CreateDriver', {
+  
+        const createDriverResponse = await fetch('https://localhost:7092/api/Driver/CreateDriver', {
           method: 'POST',
           body: formData,
         });
-
-        if (response.status === 201) {
+  
+        if (createDriverResponse.status === 201) {
           toast.success('Driver added successfully');
+          navigate('/DriverList');
           // Additional logic or navigation can be added here
         } else {
-          const errorData = await response.json();
+          const errorData = await createDriverResponse.json();
           console.error('Driver creation failed:', errorData);
           toast.error('Driver creation failed');
         }
@@ -132,6 +140,7 @@ const AddDriver = () => {
       toast.error('Please fill in all required fields and correct validation errors.');
     }
   };
+  
 
   return (
     <div>

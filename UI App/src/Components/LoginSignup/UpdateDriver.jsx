@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import AdminNavbar from './AdminNavbar';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateDriver = () => {
   const { driverId } = useParams();
@@ -10,6 +12,7 @@ const UpdateDriver = () => {
     dob: '',
     description: '',
     imagePath: '',
+    imageFile: null, // Added to store the selected image file
   });
 
   const [editableField, setEditableField] = useState('');
@@ -57,45 +60,49 @@ const UpdateDriver = () => {
   // Function to handle image upload
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    // Add logic to handle the file upload
-    console.log('Image uploaded:', file);
+    // Update the imageFile in the state
+    setDriverData((prevData) => ({ ...prevData, imageFile: file }));
   };
 
   // Function to update driver data
   const handleUpdateClick = () => {
+    // Create a FormData object to send data to the server
     const formData = new FormData();
+  
+    // Append the driverId to the form data
     formData.append('id', driverId);
+  
+    // Append the updated driver data to the form data
     formData.append('name', driverData.name);
     formData.append('dob', driverData.dob);
     formData.append('description', driverData.description);
   
-    // Append image file only if it's selected
+    // Append the image file only if it's selected
     if (driverData.imageFile) {
       formData.append('imageFile', driverData.imageFile);
     }
   
     // Send a PUT request to update the data in the backend
     axios
-      .put(`https://localhost:7092/api/Driver/UpdateDriver`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      .put(`https://localhost:7092/api/Driver/UpdateDriver`, formData)
       .then((response) => {
         console.log('Update successful:', response);
         // You may want to handle success, e.g., show a success message
+        toast.success('Update successful');
       })
       .catch((error) => {
         console.error('Error updating driver data:', error);
         // Handle the error as needed
+        toast.error('Error updating driver data');
       });
   };
   
-
   return (
     <div>
       <AdminNavbar />
-      <h1>Driver Details</h1>
+      
+      <h1 style={{ paddingTop: '10px' }}>Driver Details</h1>
+      <div className="fullContainer">
       <table>
         <tbody>
           <tr>
@@ -194,7 +201,8 @@ const UpdateDriver = () => {
           </tr>
         </tbody>
       </table>
-      <button onClick={handleUpdateClick}>Update All</button>
+      </div>
+      <button onClick={handleUpdateClick}>Apply the changes to db</button>
     </div>
   );
 };

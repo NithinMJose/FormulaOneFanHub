@@ -4,19 +4,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 10px;
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
   color: white;
+  width: 100%;
 }
 
 /* Content styles */
 .driver-content {
-  width: 100%;
-  max-width: 1000px;
-  padding: 10px;
+  width: 90%;
   box-sizing: border-box;
+  text-align: center;
+  margin: 0 auto; /* Center the content horizontally */
 }
+
+
 
 /* Table styles */
 .driver-table-responsive {
@@ -28,14 +30,14 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  table-layout: auto;
-  max-width: 100%;
+  table-layout: fixed;
 }
+
 
 .driver-table th,
 .driver-table td {
   border: 1px solid #ddd;
-  padding: 5px;
+  padding: 10px;
   text-align: left;
   font-size: 12px;
   color: white;
@@ -80,13 +82,12 @@
 }
 
 /* Image styles */
+/* Image styles */
 .driver-table td img {
-  max-width: 150px; /* Set your desired max-width for the images */
+  max-width: 100%; /* Set your desired max-width for the images */
+  max-height: 150px; /* Set your desired max-height for the images */
   height: auto;
   display: block;
 }
 
-/* Footer styles */
-.footer {
-  /* Add your footer styles here */
-}
+

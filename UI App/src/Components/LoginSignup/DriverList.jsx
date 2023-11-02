@@ -68,7 +68,7 @@ const DriverList = () => {
     if (!driverData) {
       return <p>Loading driver data...</p>;
     }
-
+  
     return (
       <div className="driver-container">
         <div className="driver-content">
@@ -77,18 +77,20 @@ const DriverList = () => {
             <table className="driver-table">
               <thead>
                 <tr>
-                  <th className="driver-heading-bg">Driver Name</th>
-                  <th className="driver-heading-bg">Date of Birth</th>
-                  <th className="driver-heading-bg">Description</th>
-                  <th className="driver-heading-bg">Image</th>
-                  <th className="driver-heading-bg">Manage</th>
+                <th className="driver-heading-bg" style={{ width: '5%' }}>Sl No.</th>
+                <th className="driver-heading-bg" style={{ width: '15%' }}>Driver Name</th>
+                  <th className="driver-heading-bg" style={{ width: '10%' }}>Date of Birth</th>
+                  <th className="driver-heading-bg" style={{ width: '50%' }}>Description</th>
+                  <th className="driver-heading-bg" style={{ width: '20%' }}>Image</th>
+                  <th className="driver-heading-bg" style={{ width: '10%' }}>Manage</th>
                 </tr>
               </thead>
               <tbody>
-                {driverData.map((driver) => (
+                {driverData.map((driver, index) => (
                   <tr key={driver.driverId}>
+                    <td>{index + 1}</td>
                     <td>{driver.name}</td>
-                    <td>{driver.dob}</td>
+                    <td>{new Date(driver.dob).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
                     <td>{driver.description}</td>
                     <td>
                       {driver.imagePath ? (
@@ -120,6 +122,7 @@ const DriverList = () => {
       </div>
     );
   };
+  
 
   return (
     <div>

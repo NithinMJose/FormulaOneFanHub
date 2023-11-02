@@ -14,6 +14,8 @@ const Registerthree = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorColor, setErrorColor] = useState('');
+  const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState('');
 
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
@@ -27,7 +29,7 @@ const Registerthree = () => {
 
   const handleSave = async () => {
     validateForm();
-    if (!passwordError && !confirmPasswordError) {
+    if ((!passwordError || passwordError === 'Strong password') && (!confirmPasswordError || confirmPasswordSuccess === 'Passwords match')) {
       try {
         const response = await fetch('https://localhost:7092/api/User/RegisterUser', {
           method: 'POST',
@@ -44,7 +46,7 @@ const Registerthree = () => {
             confirmPassword: confirmPassword,
           }),
         });
-
+  
         if (response.ok) {
           // Additional logic (API call, navigation, etc.) can be added here
           navigate('/Signin'); // Replace with the appropriate path after successful registration
@@ -62,7 +64,7 @@ const Registerthree = () => {
       toast.error('Please fix the errors before proceeding.');
     }
   };
-
+  
   const validatePassword = (password, setError) => {
     const digitRegex = /\d/;
     const upperCaseRegex = /[A-Z]/;
@@ -72,24 +74,35 @@ const Registerthree = () => {
 
     if (!digitRegex.test(password)) {
       setError('Password: At least 1 digit is required.');
+      setErrorColor('red');
     } else if (!upperCaseRegex.test(password)) {
       setError('Password: At least 1 uppercase letter is required.');
+      setErrorColor('red');
     } else if (!lowerCaseRegex.test(password)) {
       setError('Password: At least 1 lowercase letter is required.');
+      setErrorColor('red');
     } else if (!specialCharRegex.test(password)) {
       setError('Password: At least 1 special character is required.');
+      setErrorColor('red');
     } else if (!minLength) {
       setError('Password: Should be at least 8 characters long.');
+      setErrorColor('red');
     } else {
-      setError('');
+      setError('Strong password');
+      // Set green color for success
+      setErrorColor('green');
     }
   };
 
   const validateConfirmPassword = (confirmPassword, password, setError) => {
     if (confirmPassword !== password) {
       setError('Confirm Password: Passwords do not match.');
+      setConfirmPasswordSuccess('');
     } else {
       setError('');
+      setConfirmPasswordSuccess('Passwords match');
+      // Set green color for success
+      setErrorColor('green');
     }
   };
 
@@ -114,9 +127,11 @@ const Registerthree = () => {
     switch (name) {
       case 'password':
         setPassword(value);
+        validatePassword(value, setPasswordError);
         break;
       case 'confirmPassword':
         setConfirmPassword(value);
+        validateConfirmPassword(value, password, setConfirmPasswordError);
         break;
       default:
         break;
@@ -133,6 +148,9 @@ const Registerthree = () => {
           <div className='signup-header'>
             <div className='signup-text'>Create Password</div>
             <div className='signup-underline'></div>
+            <p style={{ color: 'green', margin: '10px 0'}}>
+            Please Choose a Strong password to keep your account secure.
+          </p>
           </div>
           <div className='signup-inputs'>
             {/* Display label contents received from Register */}
@@ -156,7 +174,11 @@ const Registerthree = () => {
                 required
               />
             </div>
-            {passwordError && <div className='signup-error-box'>{passwordError}</div>}
+            {passwordError && (
+              <div className='signup-error-box' style={{ borderColor: errorColor, color: errorColor === 'green' ? 'green' : 'red' }}>
+                {passwordError}
+              </div>
+            )}
 
             <div className='signup-input'>
               <img src={passwordIcon} alt='' />
@@ -175,6 +197,11 @@ const Registerthree = () => {
             </div>
             {confirmPasswordError && (
               <div className='signup-error-box'>{confirmPasswordError}</div>
+            )}
+            {confirmPasswordSuccess && (
+              <div className='signup-success-box' style={{ borderColor: 'green', color: 'green' }}>
+                {confirmPasswordSuccess}
+              </div>
             )}
           </div>
           <div className='signup-submit-container'>
