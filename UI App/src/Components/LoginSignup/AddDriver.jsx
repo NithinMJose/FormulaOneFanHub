@@ -145,9 +145,11 @@ const AddDriver = () => {
   return (
     <div>
       <AdminNavbar />
+      <div className='outerSetup'>
       <br />
       <br />
-      <div className='add-driver-container'>
+      
+      <div className='add-driver-containertest'>
         <div className='add-driver-panel'>
           <div className='add-driver-header'>
             <div className='add-driver-text'>Add Driver</div>
@@ -209,8 +211,10 @@ const AddDriver = () => {
           </div>
         </div>
       </div>
+      
       <br />
       <br />
+      </div>
       <Footer />
     </div>
   );

@@ -49,13 +49,16 @@ const AuthenticatedAdminHome = () => {
     };
 
     return (
+        <div>
+        <AdminNavbar/>
+        
         <div className="wrapper">
-            <AdminNavbar/>
             <div className="content">
                 <h1>Hello Admin</h1>
-                <h1>Welcome to the Admin Home Page</h1>
+                <h1>Welcome Back !</h1>
             </div>
             <Footer />
+        </div>
         </div>
     );
 };
