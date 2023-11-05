@@ -4,19 +4,19 @@
   justify-content: space-between;
   align-items: center;
   margin: auto;
-  max-width: 500px;
+  max-width: 400px;
   min-width: 350px;
   margin-top: 50px;
   width: 70%;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.834); /* Set background color to white */
-  box-shadow: 0 0 500px 200px rgb(105, 135, 255); /* Add pink box shadow */
+  background: rgba(255, 255, 255, 0.834);
+  box-shadow: 0 0 500px 200px rgb(105, 135, 255);
 }
 
-.add-driver-container::before {
+.add-driver-containertest::before {
   content: "";
   position: absolute;
   top: 0;
@@ -30,9 +30,6 @@
   border-radius: inherit;
   background-color: #000000;
 }
-
-/* ... Rest of your styles ... */
-
 
 .add-driver-panel {
   flex: 4;
@@ -60,11 +57,13 @@
   border-radius: 80px;
 }
 
-.add-driver-inputs {
+.add-driver-inputsadmin {
   margin-top: 30px;
   display: flex;
-  flex-direction: column;
+  width: 90%;
+  flex-direction :column;
   gap: 10px;
+  padding-left: 30px;
 }
 
 .add-driver-input {
@@ -90,14 +89,13 @@
 
 .add-driver-input textarea {
   height: auto; /* Set height to auto to allow for multiline content */
-  width: 100%;
+  width: 80%;
   background: transparent;
   border: none;
   outline: none;
   color: #797979;
   font-size: 14px;
   resize: vertical; /* Allow vertical resizing */
-  /* Add any additional styles if needed */
 }
 
 
@@ -139,9 +137,9 @@
   font-family: 'Arial', sans-serif;
   margin-left: auto;
   margin-right: auto;
-  min-width: 280px;
-  max-width: 330px;
-  width: 100%;
+  min-width: none;
+  max-width: 400px;
+  width: 100%; /* Set width to match the input fields */
 }
 
 .add-driver-success-box {
@@ -158,8 +156,7 @@
   font-family: 'Arial', sans-serif;
   margin-left: auto;
   margin-right: auto;
-  min-width: 280px;
-  max-width: 330px;
+  min-width: 250px;
   width: 100%;
 }
 

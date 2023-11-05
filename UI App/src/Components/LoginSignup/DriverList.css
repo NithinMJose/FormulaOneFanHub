@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(246, 246, 246, 0.8);
   backdrop-filter: blur(5px);
   color: white;
   width: 100%;
@@ -88,6 +88,10 @@
   max-height: 150px; /* Set your desired max-height for the images */
   height: auto;
   display: block;
+}
+
+.driverlistpage {
+  background-color:rgb(75, 125, 232) ;
 }
 
 

@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import AdminNavbar from './AdminNavbar';
 import Footer from './Footer';
 import './AuthenticatedAdminHome.css';
+import { HomeCarousel } from './HomeCarousel';
+import FooterAdmin from './FooterAdmin';
 
 const AuthenticatedAdminHome = () => {
 
@@ -53,11 +55,15 @@ const AuthenticatedAdminHome = () => {
         <AdminNavbar/>
         
         <div className="wrapper">
-            <div className="content">
+            <div className="adminhomecontent">
                 <h1>Hello Admin</h1>
                 <h1>Welcome Back !</h1>
             </div>
-            <Footer />
+            <p></p>
+            <div className='carouseladmin'>
+            <HomeCarousel />
+            <FooterAdmin />
+            </div>
         </div>
         </div>
     );

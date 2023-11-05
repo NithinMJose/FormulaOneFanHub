@@ -1,8 +1,9 @@
 /* Footer.css */
 
 .new_footer_area {
-  background: #ffffff; /* Dark background color */
-  color: rgb(255, 255, 255); /* Text color */
+  background: #1a5ccf; /* Dark background color */
+  color: rgb(0, 0, 0); /* Text color */
+  box-shadow: 0px 0px 10px 0px #000; 
 }
 
 .new_footer_top {
@@ -19,7 +20,7 @@
   font-size: 14px;
   font-weight: 300;
   line-height: 20px;
-  color: #7f88a6;
+  color: #000000;
   padding: 27px 0px;
 }
 
@@ -27,7 +28,7 @@
   font-size: 16px;
   font-weight: 300;
   line-height: 28px;
-  color: #6a7695;
+  color: #000000;
   margin-bottom: 20px;
 }
 
@@ -94,7 +95,7 @@ button:focus {
   border-radius: 50%;
   font-size: 14px;
   line-height: 45px;
-  color: #858da8;
+  color: #000000;
   display: inline-block;
   background: #ebeef5;
   text-align: center;
@@ -144,7 +145,7 @@ button:focus {
 
 .new_footer_top .f-title {
   margin-bottom: 30px;
-  color: #263b5e;
+  color: #000000;
 }
 
 .f_600 {
@@ -161,11 +162,11 @@ h3,
 h4,
 h5,
 h6 {
-  color: #4b505e;
+  color: #000000;
 }
 
 .new_footer_top .f_widget.about-widget .f_list li a {
-  color: #6a7695;
+  color: #000000;
 }
 
 .new_footer_top .footer_bg {

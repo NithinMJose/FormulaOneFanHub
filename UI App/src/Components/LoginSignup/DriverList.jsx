@@ -1,8 +1,7 @@
-// DriverList.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import AdminNavbar from './AdminNavbar';
 import axios from 'axios';
 import './DriverList.css'; // Make sure to include your DriverList.css file
@@ -68,69 +67,69 @@ const DriverList = () => {
     if (!driverData) {
       return <p>Loading driver data...</p>;
     }
-  
+
     return (
-      <div className="driver-container">
-        <div className="driver-content">
-          <h1 className="driver-heading">Driver List</h1>
-          <div className="table-responsive">
-            <table className="driver-table">
-              <thead>
-                <tr>
-                <th className="driver-heading-bg" style={{ width: '5%' }}>Sl No.</th>
-                <th className="driver-heading-bg" style={{ width: '15%' }}>Driver Name</th>
-                  <th className="driver-heading-bg" style={{ width: '10%' }}>Date of Birth</th>
-                  <th className="driver-heading-bg" style={{ width: '50%' }}>Description</th>
-                  <th className="driver-heading-bg" style={{ width: '20%' }}>Image</th>
-                  <th className="driver-heading-bg" style={{ width: '10%' }}>Manage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {driverData.map((driver, index) => (
-                  <tr key={driver.driverId}>
-                    <td>{index + 1}</td>
-                    <td>{driver.name}</td>
-                    <td>{new Date(driver.dob).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
-                    <td>{driver.description}</td>
-                    <td>
-                      {driver.imagePath ? (
-                        <img
-                          src={`https://localhost:7092/images/${driver.imagePath}`}
-                          alt={`Image for ${driver.name}`}
-                          className="driver-image"
-                          onLoad={() => console.log(`Image loaded for ${driver.name}: ${driver.imagePath}`)}
-                          onError={() => console.error(`Error loading image for ${driver.name}: ${driver.imagePath}`)}
-                        />
-                      ) : (
-                        <span>No Image</span>
-                      )}
-                    </td>
-                    <td className="driver-buttons">
-                      <button
-                        className="btn btn-primary btn-edit"
-                        onClick={() => handleManageDriver(driver.driverId)}
-                      >
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ width: '5%' }}>Sl No.</TableCell>
+              <TableCell style={{ width: '15%' }}>Driver Name</TableCell>
+              <TableCell style={{ width: '10%' }}>Date of Birth</TableCell>
+              <TableCell style={{ width: '50%' }}>Description</TableCell>
+              <TableCell style={{ width: '20%' }}>Image</TableCell>
+              <TableCell style={{ width: '10%' }}>Manage</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {driverData.map((driver, index) => (
+              <TableRow key={driver.driverId}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{driver.name}</TableCell>
+                <TableCell>
+                  {new Date(driver.dob).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
+                </TableCell>
+                <TableCell>{driver.description}</TableCell>
+                <TableCell>
+                  {driver.imagePath ? (
+                    <img
+                      src={`https://localhost:7092/images/${driver.imagePath}`}
+                      alt={`Image for ${driver.name}`}
+                      className="driver-image"
+                      style={{ maxWidth: '100%', maxHeight: '100%', width: '150px', height: '150px' }}
+                      onLoad={() => console.log(`Image loaded for ${driver.name}: ${driver.imagePath}`)}
+                      onError={() => console.error(`Error loading image for ${driver.name}: ${driver.imagePath}`)}
+                    />
+                  ) : (
+                    <span>No Image</span>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleManageDriver(driver.driverId)}
+                  >
+                    Edit
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   };
-  
 
   return (
-    <div>
+    <div className="driverlistpage">
       <AdminNavbar />
       <br />
-      <br />
       {renderDriverData()}
-      <br />
       <br />
       <Footer />
     </div>

@@ -1,97 +1,112 @@
-/* UpdateDriver.css */
-
-.updatedFullContainer {
-  padding-top: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 90%;
-  margin: auto;
-}
-
-/* Style for the heading */
-.updatedFullContainer h1 {
+.headingUpdateDriver {
   text-align: center;
   font-size: 40px;
   margin-bottom: 20px;
 }
 
-/* Style for the table */
-.updatedFullContainer table {
+table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.updatedFullContainer .attribute {
+.attribute {
   font-weight: bold;
   min-width: 150px;
 }
 
-/* Style for table rows */
-.updatedFullContainer tr {
+tr {
   border: none;
 }
 
-/* Style for table data cells */
-.updatedFullContainer td {
+td {
   padding: 16px;
   text-align: left;
   font-size: 18px;
 }
 
-/* Style for the "Edit" button */
-.updatedFullContainer button {
+.inputField,
+.value {
+  padding: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.image-preview {
+  max-width: 200px;
+  max-height: 200px;
+  margin-bottom: 10px;
+}
+
+.editButton,
+.updateButton,
+.applyButton {
   padding: 10px 8px;
   font-size: 18px;
-  min-width: 160px; /* Set a minimum width for the "Edit" button */
-  background-color: blue;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  margin-right: 5px;
 }
 
-.updatedFullContainer .updateButton {
-  margin-right: 50px;
+.editButton {
+  background-color: #2196f3;
 }
 
-/* Center the table in the container */
-.updatedFullContainer .container {
+.applyButton {
+  background-color: #ff9800;
+}
+
+.fullContainer {
+  padding-top: 15px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  background-color: #ffffff;
+  border-radius: 10px; /* Add border-radius for rounded corners */
+  backdrop-filter: blur(5px); /* Add a blur effect */
+  box-shadow: 00px 00px 10px 10px rgb(105, 135, 255);
 }
 
-/* Media query for smaller screens */
-.updatedFullContainer {
-  @media (max-width: 768px) {
-    button {
-      width: 100%;
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
+
+@media (max-width: 768px) {
+  .editButton,
+  .updateButton {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
   }
 }
 
-.applyChangesButton {
-  width: 90%;
-  align-items: center;
-  margin: 0 auto 10px auto; /* Center the button horizontally and add margin at the bottom */
-  padding: 10px 8px;
-  font-size: 18px;
-  background-color: blue;
+.updatedriverwrapper {
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  flex-direction: column; /* Align items in a column */
+  text-align: center; /* Center text */
+}
+
+/* Error box styles */
+.add-driver-error-box {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+#errorBox {
   color: white;
-  border: none;
-  cursor: pointer;
+  background-color: red;
+  padding: 10px;
+  margin-top: 10px;
   border-radius: 5px;
+  display: inline-block;
 }
-
-/* UpdateDriver.css */
-
-.updatedFullContainer input {
-  width: 100%; /* Make the input field full width */
-  height: auto; /* Adjust the height as needed */
-  padding: 8px; /* Add padding for better aesthetics */
-  box-sizing: border-box; /* Include padding and border in the total width/height */
-}
-
 
