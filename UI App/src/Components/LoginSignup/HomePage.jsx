@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { HomeCarousel } from './HomeCarousel';
 import HomeNavbar from './HomeNavbar';
-import { About } from './About';
+import About from './About'; // assuming that About.jsx is in the same directory
 import Footer from './Footer';
 import { Link, useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';

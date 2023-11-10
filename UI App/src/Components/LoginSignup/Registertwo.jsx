@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './RegisterTwo.css';
-import otpIcon from '../Assets/abc.png';
+import { TextField, Button, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
+import otpIcon from '../Assets/abc.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Registertwo = () => {
@@ -23,10 +23,8 @@ const Registertwo = () => {
   const handleSave = () => {
     validateForm();
     if (!otpError && otp === state.confirmEmailToken) {
-      // Additional logic (API call, navigation, etc.) can be added here
       navigate('/Registerthree', { replace: true, state: { ...state, otp } });
     } else {
-      // Handle error, show toast, etc.
       toast.error('Invalid OTP. Please try again.');
     }
   };
@@ -34,21 +32,9 @@ const Registertwo = () => {
   const validateOtp = (otp, setError) => {
     const otpRegex = /^\d{7}$/;
     if (!otpRegex.test(otp)) {
-      setError('OTP: Please enter a 7-digit number');
+      setError('Please enter a 7-digit number');
     } else {
       setError('');
-    }
-  };
-
-  const handleInputBlur = (e) => {
-    const { name, value } = e.target;
-
-    switch (name) {
-      case 'otp':
-        validateOtp(value, setOtpError);
-        break;
-      default:
-        break;
     }
   };
 
@@ -72,40 +58,40 @@ const Registertwo = () => {
       <br />
       <div className='signup_container'>
         <div className='right-panel'>
-        <div className='signup-header'>
-        <div className='signup-text'>Verify Email</div>
-        <div className='signup-underline'></div>
-        <p style={{ color: 'green', margin: '10px 0'}}>
-          Please enter the 7-digit OTP number we have sent to your email to confirm your email
-        </p>
-      </div>          
+          <div className='signup-header'>
+            <Typography variant='h4'>Verify Email</Typography>
+            <div className='signup-underline'></div>
+            <Typography style={{ color: 'green', margin: '10px 0' }}>
+              Please enter the 7-digit OTP number we have sent to your email to confirm your email
+            </Typography>
+          </div>
           <div className='signup-inputs'>
-            {/* Display label contents received from Register */}
             <div className='signup-label'>Username: {state.userName}</div>
             <div className='signup-label'>First Name: {state.firstName}</div>
             <div className='signup-label'>Last Name: {state.lastName}</div>
             <div className='signup-label'>Email: {state.email}</div>
             <div className='signup-label'>OTP: {state.confirmEmailToken}</div>
-            <div className='signup-input' style={{margin: '10px 0'}}>
-              <img src={otpIcon} alt='' />
-              <input
-                type='text'
-                placeholder='Enter OTP'
-                name='otp'
-                value={otp}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
-                onBlur={handleInputBlur}
-                required
-              />
-            </div>
+            <TextField
+              label='Enter OTP'
+              variant='outlined'
+              name='otp'
+              value={otp}
+              onChange={(e) => handleInputChange(e)}
+              onBlur={() => validateOtp(otp, setOtpError)}
+              fullWidth
+              required
+            />
             {otpError && <div className='signup-error-box'>{otpError}</div>}
           </div>
           <div className='signup-submit-container'>
-            <div className='signup-submit' onClick={handleSave}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={handleSave}
+              fullWidth
+            >
               Continue
-            </div>
+            </Button>
           </div>
         </div>
       </div>

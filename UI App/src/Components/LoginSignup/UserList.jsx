@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+} from '@mui/material';
 import UserNavbar from './UserNavbar';
 import axios from 'axios';
-import './UserList.css';
 import Footer from './Footer';
 import AdminNavbar from './AdminNavbar';
 import jwt_decode from 'jwt-decode';
@@ -18,7 +28,7 @@ const UserList = () => {
     const token = localStorage.getItem('jwtToken');
 
     if (!token) {
-      toast.error('You have to login as Admin to access the page');
+      toast.error('You have to log in as an Admin to access the page');
       navigate('/');
       return;
     }
@@ -28,7 +38,7 @@ const UserList = () => {
       const roleId = tokenPayload['RoleId'];
 
       if (roleId !== 'Admin') {
-        toast.error('You have to be logged in as Admin to access the page');
+        toast.error('You have to be logged in as an Admin to access the page');
         navigate('/');
         return;
       }
@@ -92,10 +102,9 @@ const UserList = () => {
     }
   };
 
-
   const handleAccountToInactive = (userName) => {
     const confirmDeactivate = window.confirm('Are you sure you want to deactivate this user?');
-  
+
     if (confirmDeactivate) {
       axios
         .put(
@@ -130,10 +139,9 @@ const UserList = () => {
     }
   };
 
-
   const handleAccountToActive = (userName) => {
     const confirmDeactivate = window.confirm('Are you sure you want to Activate this user?');
-  
+
     if (confirmDeactivate) {
       axios
         .put(
@@ -173,11 +181,11 @@ const UserList = () => {
       .post(`https://localhost:7092/api/User/UpgradeUser?userName=${userName}`)
       .then(() => {
         axios
-        .get(`https://localhost:7092/api/Admin/ListUsers`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+          .get(`https://localhost:7092/api/Admin/ListUsers`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
           .then((response) => {
             setUserData(response.data); // Set updated user data in state
             toast.success(`${userName} upgraded to Admin successfully`);
@@ -200,79 +208,83 @@ const UserList = () => {
     if (!userData) {
       return <p>Loading user data...</p>;
     }
-  
+
     return (
       <div className="user-container">
         <div className="user-content">
           <h1 className="user-heading">Users List</h1>
-          <div className="table-responsive">
-            <table className="user-table">
-              <thead>
-                <tr>
-                  <th className="user-heading-bg">Username</th>
-                  <th className="user-heading-bg">Email</th>
-                  <th className="user-heading-bg">First Name</th>
-                  <th className="user-heading-bg">Last Name</th>
-                  <th className="user-heading-bg">Status</th>
-                  <th className="user-heading-bg">Action</th>
-                </tr>
-              </thead>
-              <tbody>
+          <TableContainer component={Paper}>
+            <Table className="user-table" aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>SlNo.</TableCell>
+                  <TableCell>Username</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>First Name</TableCell>
+                  <TableCell>Last Name</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {userData.map((user, index) => (
                   <React.Fragment key={index}>
-                    <tr>
-                      <td>{user.userName}</td>
-                      <td>{user.email}</td>
-                      <td>{user.firstName}</td>
-                      <td>{user.lastName}</td>
-                      <td>
+                    <TableRow>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{user.userName}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.firstName}</TableCell>
+                      <TableCell>{user.lastName}</TableCell>
+                      <TableCell>
+                        <Typography
+                          variant="body1"
+                          color={user.status === 'active' ? 'success' : 'error'}
+                        >
+                          {user.status}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
                         {user.status === 'active' ? (
-                          <button className="btn btn-success">Active</button>
-                        ) : (
-                          <button className="btn btn-danger">Inactive</button>
-                        )}
-                      </td>
-                      <td className="user-buttons">
-                        {user.status === 'active' ? (
-                          <button
-                            className="btn btn-danger btn-delete"
+                          <Button
+                            variant="contained"
+                            color="error"
                             onClick={() => handleAccountToInactive(user.userName)}
                           >
                             DEACTIVATE
-                          </button>
+                          </Button>
                         ) : (
-                          <button
-                            className="btn btn-success btn-activate"
+                          <Button
+                            variant="contained"
+                            color="success"
                             onClick={() => handleAccountToActive(user.userName)}
                           >
                             ACTIVATE
-                          </button>
+                          </Button>
                         )}
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                     {managedUser === user.userName && (
-                      <tr>
-                        <td colSpan="6" className="user-buttons">
-                          <button
-                            className="btn btn-danger btn-upgrade"
+                      <TableRow>
+                        <TableCell colSpan="7">
+                          <Button
+                            variant="contained"
+                            color="error"
                             onClick={() => handleUpgradeToAdmin(user.userName)}
                           >
                             Upgrade {user.userName} to Admin
-                          </button>
-                        </td>
-                      </tr>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
                     )}
                   </React.Fragment>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
     );
   };
-  
-  
 
   return (
     <div>

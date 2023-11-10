@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import './F1HistoryUserView.css';
 import AdminNavbar from './AdminNavbar';
-import HomeNavbar from './HomeNavbar';
+import UserNavbar from './UserNavbar';
 
 const F1HistoryUserView = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -24,7 +24,7 @@ const F1HistoryUserView = () => {
 
   return (
     <div>
-      <HomeNavbar />
+      <UserNavbar />
       <div className="history-container">
         {historyData.map((item) => (
           <div key={item.historyId} className="history-item">

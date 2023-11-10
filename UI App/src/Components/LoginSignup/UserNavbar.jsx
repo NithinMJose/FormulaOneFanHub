@@ -49,35 +49,12 @@ function HomeNavbar() {
             <a href="/" className="nav-item nav-link active">
               Home
             </a>
-            <a href="/About" className="nav-item nav-link">
-              About
+          
+            <a href="/F1HistoryUserView" className="nav-item nav-link">
+              F1History
             </a>
-            <a href="/" className="nav-item nav-link">
-              Service
-            </a>
-            <div className="nav-item dropdown">
-              <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                Pages
-              </a>
-              <div className="dropdown-menu m-0">
-              <Link to="/F1HistoryUserView" className="dropdown-item">
-              F1 History
-            </Link>
-                <a href="/" className="dropdown-item">
-                  Our Barber
-                </a>
-                <a href="/" className="dropdown-item">
-                  Working Hours
-                </a>
-                <a href="/" className="dropdown-item">
-                  Testimonial
-                </a>
-                <a href="/" className="dropdown-item">
-                  404 Page
-                </a>
-              </div>
-            </div>
-            <a href="/" className="nav-item nav-link">
+            
+            <a href="/DriverListUser" className="nav-item nav-link">
               Drivers
             </a>
           </div>

@@ -49,11 +49,8 @@ function AdminNavbar() {
             <a href="/" className="nav-item nav-link active">
               Home
             </a>
-            <a href="/About" className="nav-item nav-link">
+            <a href="/AboutPage" className="nav-item nav-link">
               About
-            </a>
-            <a href="/" className="nav-item nav-link">
-              Service
             </a>
             <div className="nav-item dropdown">
               <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -71,12 +68,6 @@ function AdminNavbar() {
                 </Link>
                 <Link to="/F1HistoryList" className="dropdown-item">
                   List F1 History
-                </Link>
-                <Link to="/F1HistoryUserView" className="dropdown-item">
-              F1 History
-            </Link>
-                <Link to="/" className="dropdown-item">
-                  404 Page
                 </Link>
               </div>
             </div>

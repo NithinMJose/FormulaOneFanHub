@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Signin.css';
-import user_icon from '../Assets/abc.png';
-import password_icon from '../Assets/ghi.png';
-import axios from 'axios';
+import { TextField, Button, Typography, Container, CssBaseline, Avatar, Grid, Paper, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
@@ -79,14 +78,6 @@ const Signin = () => {
       }
     }
   };
-  
-  
-  
-
-  // Adding some margin to push the footer down
-  const containerStyle = {
-    marginBottom: '20px', // Adjust this value as needed
-  };
 
   return (
     <div>
@@ -95,40 +86,62 @@ const Signin = () => {
       <br />
       <br />
 
-      <div className="container2" style={containerStyle}>
-        <div className="header">
-          <div className="text">Login</div>
-          <div className="underline"></div>
-        </div>
-        <div className="inputs">
-          <div className="input">
-            <img src={user_icon} alt="" />
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="input">
-            <img src={password_icon} alt="" />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="forgot-password">
-          Lost Password? <Link to="/ForgotPassword">Click Here!</Link>
-        </div>
-        <div className="submit-container">
-          <div className="submit" onClick={handleLogin}>
-            Login
-          </div>
-        </div>
-      </div>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Paper elevation={3}>
+          <Box sx={{ padding: 3 }}>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Login
+            </Typography>
+            <Box component="form" noValidate sx={{ mt: 3 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Grid container>
+                <Grid item xs>
+                  <Link to="/ForgotPassword" variant="body2">
+                    Lost Password? Click Here!
+                  </Link>
+                </Grid>
+              </Grid>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={handleLogin}
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Login
+              </Button>
+            </Box>
+          </Box>
+        </Paper>
+      </Container>
+
       <br />
       <br />
       <Footer />

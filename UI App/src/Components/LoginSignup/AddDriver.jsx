@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from './Footer';
 import AdminNavbar from './AdminNavbar';
 import { useNavigate } from 'react-router-dom';
+import { Button, TextField, InputAdornment, Typography, Container, Grid } from '@mui/material';
+
 
 const AddDriver = () => {
   const [name, setName] = useState('');
@@ -156,84 +158,103 @@ const AddDriver = () => {
   return (
     <div>
       <AdminNavbar />
-      <div className='outerSetup'>
+      <Container maxWidth="sm" className="outerSetup">
         <br />
         <br />
 
-        <div className='add-driver-containertest'>
-          <div className='add-driver-panel'>
-            <div className='add-driver-header'>
-              <div className='add-driver-text'>Add Driver</div>
-              <div className='add-driver-underline'></div>
+        <div className="add-driver-container">
+          <div className="add-driver-panel">
+            <Typography variant="h5" className="add-driver-header">
+              Add Driver
+            </Typography>
+            <div className="add-driver-inputsadmin">
+              <TextField
+                label="Name"
+                variant="outlined"
+                fullWidth
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  validateName(e.target.value);
+                }}
+                error={Boolean(nameError)}
+                helperText={nameError}
+              />
+              <TextField
+                label="Date of Birth"
+                type="date"
+                variant="outlined"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={dob}
+                max={(new Date()).toISOString().split("T")[0]}
+                onChange={(e) => {
+                  setDob(e.target.value);
+                  validateDate(e.target.value);
+                }}
+                error={Boolean(dobError)}
+                helperText={dobError}
+              />
+              <TextField
+                label="Description"
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={3}
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                  validateDescription(e.target.value);
+                }}
+                error={Boolean(descriptionError)}
+                helperText={descriptionError}
+              />
+              <input
+                accept="image/jpeg, image/jpg, image/png"
+                style={{ display: 'none' }}
+                id="image-file-input"
+                type="file"
+                onChange={(e) => {
+                  setImageFile(e.target.files[0]);
+                  validateImage(e.target.files[0]);
+                }}
+              />
+              <label htmlFor="image-file-input">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  fullWidth
+                  style={{ height: '55px' }}
+                  startIcon={<InputAdornment position="start">📷</InputAdornment>}
+                >
+                  Upload Image
+                </Button>
+              </label>
+              {imageFileError && (
+                <Typography variant="caption" color="error">
+                  {imageFileError}
+                </Typography>
+              )}
             </div>
-            <div className='add-driver-inputsadmin'>
-              <div className='add-driver-input'>
-                <input
-                  type='text'
-                  placeholder='Name'
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    validateName(e.target.value);
-                  }}
-                />
-              </div>
-              {nameError && <div className='add-driver-error-box'>{nameError}</div>}
-              <div className='add-driver-input'>
-                <input
-                  type='date'
-                  placeholder='Date of Birth'
-                  value={dob}
-                  max={(new Date()).toISOString().split("T")[0]}
-                  onKeyPress={(e) => {
-                    // Prevent typing more than 8 characters
-                    if (e.target.value.length >= 8) {
-                      e.preventDefault();
-                    }
-                  }}
-                  onChange={(e) => {
-                    setDob(e.target.value);
-                    validateDate(e.target.value);
-                  }}
-                />
-              </div>
-              {dobError && <div className='add-driver-error-box'>{dobError}</div>}
-              <div className='add-driver-input'>
-                <input
-                  type='text'
-                  placeholder='Description'
-                  value={description}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                    validateDescription(e.target.value);
-                  }}
-                />
-              </div>
-              {descriptionError && <div className='add-driver-error-box'>{descriptionError}</div>}
-              <div className='add-driver-input'>
-                <input
-                  type='file'
-                  accept='image/jpeg, image/jpg, image/png'
-                  style={{ height: '35px' }} // Set the height here
-                  onChange={(e) => {
-                    setImageFile(e.target.files[0]);
-                    validateImage(e.target.files[0]);
-                  }}
-                />
-              </div>
-              {imageFileError && <div className='add-driver-error-box'>{imageFileError}</div>}
-            </div>
-            <div className='add-driver-submit-container'>
-              <div className='add-driver-submit' onClick={handleSave} disabled={loading}>
+            <div className="add-driver-submit-container">
+              <Button
+                variant="contained"
+                color="primary"
+                className="add-driver-submit"
+                onClick={handleSave}
+                disabled={loading}
+              >
                 {loading ? 'Adding...' : 'Add Driver'}
-              </div>
+              </Button>
             </div>
           </div>
         </div>
 
         <br />
         <br />
-      </div>
+      </Container>
       <Footer />
     </div>
   );

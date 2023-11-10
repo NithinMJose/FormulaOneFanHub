@@ -10,7 +10,8 @@ import UserList from './Components/LoginSignup/UserList'; // Import UserList
 import Errors from './Components/LoginSignup/Errors';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { About } from './Components/LoginSignup/About';
+import About from './Components/LoginSignup/About';
+import AboutPage from './Components/LoginSignup/AboutPage';
 import UserConfirmEmail from './Components/LoginSignup/UserConfirmEmail';
 import ForgotPass from './Components/LoginSignup/ForgotPassword';
 import Register from './Components/LoginSignup/Register';
@@ -21,8 +22,10 @@ import DriverList from './Components/LoginSignup/DriverList';
 import UpdateDriver from './Components/LoginSignup/UpdateDriver';
 import AddF1History from './Components/LoginSignup/AddF1History';
 import F1HistoryList from './Components/LoginSignup/F1HistoryList';
-import F1HistoryUpdate from './Components/LoginSignup/F1HistoryUpdate';
+import F1HistoryUpdate from  './Components/LoginSignup/F1HistoryUpdate';
 import F1HistoryUserView from './Components/LoginSignup/F1HistoryUserView';
+import DriverListUser from './Components/LoginSignup/DriverListUser';
+
 
 
 function App() {
@@ -39,7 +42,7 @@ function App() {
           <Route path="/UserList" element={<UserList />} /> {/* Define the route for UserList */}
           <Route path="/Errors" element={<Errors />} />
           <Route path="/HomePage" element={<HomePage />} />
-          <Route path="/About" element={<About />} />
+          <Route path="/AboutPage" element={<AboutPage />} />
           <Route path="/UserConfirmEmail" element={<UserConfirmEmail />} />
           <Route path='/ForgotPassword' element={<ForgotPass />} />
           <Route path='/Signup' element={<Register />} />
@@ -52,6 +55,7 @@ function App() {
           <Route path='/F1HistoryList' element={<F1HistoryList />} />
           <Route path='/F1HistoryUpdate/:historyId' element={<F1HistoryUpdate />} />
           <Route path='F1HistoryUserView' element={<F1HistoryUserView />} />
+          <Route path='/DriverListUser' element={<DriverListUser />} />
         </Routes>
         <ToastContainer />
       </div>

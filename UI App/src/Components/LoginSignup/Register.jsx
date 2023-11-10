@@ -1,13 +1,13 @@
-// Register.jsx
 import React, { useState } from 'react';
-import './Signup.css';
-import userIcon from '../Assets/abc.png';
-import emailIcon from '../Assets/def.png';
+import { TextField, Button, CircularProgress } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
+import userIcon from '../Assets/abc.png';
+import emailIcon from '../Assets/def.png';
 import { useNavigate } from 'react-router-dom';
+import './Register.css'; 
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -30,7 +30,6 @@ const Register = () => {
     validateName(firstName, setFirstNameError, 'First Name');
     validateName(lastName, setLastNameError, 'Last Name');
     validateEmail(email, setEmailError);
-
   };
 
   const handleSave = async () => {
@@ -155,69 +154,63 @@ const Register = () => {
       <div className='signup_container'>
         <div className='right-panel'>
           <div className='signup-header'>
-            <div className='signup-text'>Sign Up</div>
+            <div className='signup-text'>Create an Account</div>
             <div className='signup-underline'></div>
           </div>
           <div className='signup-inputs'>
-            <div className='signup-input'>
-              <img src={userIcon} alt='' />
-              <input
-                type='text'
-                placeholder='Username'
-                name='username'
-                value={username}
-                onChange={handleInputChange}
-                autoComplete="off"
-                required
-              />
-            </div>
+            <TextField
+              label='Username'
+              variant='outlined'
+              name='username'
+              value={username}
+              onChange={handleInputChange}
+              autoComplete="off"
+              fullWidth
+            />
             {(usernameError || isUsernameTaken) && (
               <div className='signup-error-box'>{isUsernameTaken ? 'Username is already in use' : usernameError}</div>
             )}
             {(isUsernameAvailable) && (
               <div className='signup-success-box'>Username is available</div>
             )}
-            <div className='signup-input'>
-              <img src={userIcon} alt='' />
-              <input
-                type='text'
-                placeholder='First Name'
-                name='firstName'
-                value={firstName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+            <TextField
+              label='First Name'
+              variant='outlined'
+              name='firstName'
+              value={firstName}
+              onChange={handleInputChange}
+              fullWidth
+            />
             {firstNameError && <div className='signup-error-box'>{firstNameError}</div>}
-            <div className='signup-input'>
-              <img src={userIcon} alt='' />
-              <input
-                type='text'
-                placeholder='Last Name'
-                name='lastName'
-                value={lastName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+            <TextField
+              label='Last Name'
+              variant='outlined'
+              name='lastName'
+              value={lastName}
+              onChange={handleInputChange}
+              fullWidth
+            />
             {lastNameError && <div className='signup-error-box'>{lastNameError}</div>}
-            <div className='signup-input'>
-              <img src={emailIcon} alt='' />
-              <input
-                type='email'
-                placeholder='Email'
-                name='email'
-                value={email}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+            <TextField
+              label='Email'
+              variant='outlined'
+              name='email'
+              value={email}
+              onChange={handleInputChange}
+              fullWidth
+            />
             {emailError && <div className='signup-error-box'>{emailError}</div>}
           </div>
           <div className='signup-submit-container'>
-            <div className='signup-submit' onClick={handleSave} disabled={loading}>
-              {loading ? 'Processing...' : 'Sign Up'}
-            </div>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={handleSave}
+              disabled={loading}
+              fullWidth
+            >
+              {loading ? <CircularProgress color='inherit' size={20} /> : 'Sign Up'}
+            </Button>
           </div>
         </div>
       </div>

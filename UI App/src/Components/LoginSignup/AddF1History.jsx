@@ -1,116 +1,102 @@
-import React, { useState } from 'react';
-import './AddF1History.css'; // Make sure to replace with your actual stylesheet
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import HomeNavbar from './HomeNavbar';
-import Footer from './Footer';
+import { TextField, Button, CircularProgress, Typography } from '@mui/material';
 import AdminNavbar from './AdminNavbar';
+import Footer from './Footer';
+import './AddF1History.css';
+
 
 const AddF1History = () => {
-    const [heading, setHeading] = useState('');
-    const [paragraph, setParagraph] = useState('');
-    const [loading, setLoading] = useState(false);
+    const { control, handleSubmit, setValue, formState: { errors }, setError } = useForm();
 
-    const [headingError, setHeadingError] = useState('');
-    const [paragraphError, setParagraphError] = useState('');
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch('https://localhost:7092/api/F1History/CreateF1History', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-    const validateForm = () => {
-        validateField(heading, setHeadingError, 'Heading');
-        validateField(paragraph, setParagraphError, 'Paragraph');
-    };
-
-    const handleSave = async () => {
-        validateForm();
-    
-        if (!headingError && !paragraphError) {
-            setLoading(true);
-            try {
-                const data = {
-                    heading: heading,
-                    paragraph: paragraph,
-                };
-    
-                const response = await fetch('https://localhost:7092/api/F1History/CreateF1History', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-    
-                if (response.status === 201) {
-                    toast.success('F1 History added successfully');
-                    // Additional logic or navigation can be added here
-                } else {
-                    const errorData = await response.json();
-                    console.error('F1 History creation failed:', errorData);
-                    toast.error('F1 History creation failed');
-                }
-            } catch (error) {
-                console.error('F1 History creation failed:', error);
+            if (response.status === 201) {
+                toast.success('F1 History added successfully');
+                // Additional logic or navigation can be added here
+            } else {
+                const errorData = await response.json();
+                console.error('F1 History creation failed:', errorData);
                 toast.error('F1 History creation failed');
-            } finally {
-                setLoading(false);
             }
-        }
-    };
-    
-    
-
-    const validateField = (field, setError, fieldName) => {
-        if (!field) {
-            setError(`${fieldName}: This field is required`);
-        } else {
-            setError('');
+        } catch (error) {
+            console.error('F1 History creation failed:', error);
+            toast.error('F1 History creation failed');
         }
     };
 
     return (
-        <div>
+        <div className='AddF1Historywrapper'>
             <AdminNavbar />
-            <br />
-            <br />
-            <div className='add-driver-container'>
-                <div className='add-driver-panel'>
-                    <div className='add-driver-header'>
-                        <div className='add-driver-text'>Add F1 History</div>
-                        <div className='add-driver-underline'></div>
+
+            <div className='AddF1History'>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+                    <div style={{ maxWidth: '500px', width: '100%', padding: '20px', borderRadius: '10px', overflow: 'hidden', background: '#fff', boxShadow: '0 0 10px 10px rgb(105, 135, 255)' }}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                                <Typography variant="h4" color="primary">
+                                    Add F1 History
+                                </Typography>
+                                <div style={{ width: '51px', height: '5px', background: '#3c009d', borderRadius: '80px', margin: 'auto' }}></div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                <Controller
+                                    name="heading"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: 'Heading is required' }}
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            label="Heading"
+                                            error={!!errors.heading}
+                                            helperText={errors.heading?.message}
+                                            required
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    name="paragraph"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: 'Paragraph is required' }}
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            label="Paragraph"
+                                            multiline
+                                            error={!!errors.paragraph}
+                                            helperText={errors.paragraph?.message}
+                                            required
+                                        />
+                                    )}
+                                />
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Add F1 History
+                                </Button>
+                            </div>
+                        </form>
                     </div>
-                    <div className='add-driver-inputs'>
-                        <div className='add-driver-input'>
-                            <input
-                                type='text'
-                                placeholder='Heading'
-                                value={heading}
-                                onChange={(e) => setHeading(e.target.value)}
-                                required
-                            />
-                        </div>
-                        {headingError && <div className='add-driver-error-box'>{headingError}</div>}
-                        <div className='add-driver-input'>
-                            <textarea
-                                placeholder='Paragraph'
-                                value={paragraph}
-                                onChange={(e) => setParagraph(e.target.value)}
-                                required
-                                rows={Math.max(Math.ceil(paragraph.split('\n').length), 1)}
-                            />
-                        </div>
-                        {paragraphError && <div className='add-driver-error-box'>{paragraphError}</div>}
-                    </div>
-                    <div className='add-driver-submit-container'>
-                        <button
-                            className='add-driver-submit'
-                            onClick={handleSave}
-                            disabled={loading}
-                        >
-                            {loading ? 'Adding...' : 'Add F1 History'}
-                        </button>
-                    </div>
-                </div>zs
+                </div>
             </div>
-            <br />
-            <br />
+            <br></br>
+            <br></br>
             <Footer />
         </div>
     );

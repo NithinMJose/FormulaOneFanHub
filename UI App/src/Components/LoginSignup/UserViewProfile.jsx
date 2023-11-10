@@ -1,173 +1,277 @@
-// Import necessary dependencies and components
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  TextField,
+} from '@mui/material';
 import UserNavbar from './UserNavbar';
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import './UpdateDriver.css'; // Make sure to include the CSS file for styling
 import Footer from './Footer';
 
-const UpdateDriver = () => {
-  // State variables
+const UserViewProfile = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [driverData, setDriverData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState({
-    name: '',
-    dob: '',
-    description: '',
+    userName: '',
+    email: '',
+    firstName: '',
+    lastName: '',
   });
 
-  // UseEffect hook
-  useEffect(() => {
-    // Fetch driver data by ID
-    axios
-      .get(`https://localhost:7092/api/Driver/GetDriverById?id=${id}`)
-      .then((response) => {
-        setDriverData(response.data);
-        setEditedData({ ...response.data });
-      })
-      .catch((error) => {
-        console.error('Error fetching driver data:', error);
-        toast.error('An error occurred while fetching driver data');
-        navigate('/'); // Redirect to the home page on error
-      });
-  }, [id, navigate]);
+  const [emailError, setEmailError] = useState('');
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
 
-  // Handle input change
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      toast.error('You are not authorized to access this page');
+      navigate('/Signin');
+    } else {
+      try {
+        const tokenPayload = jwt_decode(token);
+        const userName = tokenPayload.userName;
+
+        axios
+          .get(`https://localhost:7092/api/User/viewProfile?userName=${userName}`)
+          .then((response) => {
+            setUserData(response.data);
+            setEditedData({ ...response.data });
+          })
+          .catch((error) => {
+            console.error('Error fetching user data:', error);
+            toast.error('An error occurred while fetching user data');
+          });
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        toast.error('An error occurred while decoding the token');
+        navigate('/Signin');
+      }
+    }
+  }, [navigate]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setEditedData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+
+    clearErrorsOnTyping(name, value);
   };
 
-  // Handle update driver function
-  const handleUpdateDriver = () => {
-    // Validate data before sending to the backend (you can add more validation if needed)
-    if (!editedData.name || !editedData.dob || !editedData.description) {
-      toast.error('Please fill in all fields');
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(email);
+  };
+
+  const validateName = (name, setError) => {
+    const nameRegex = /^[A-Za-z]+$/;
+    const minLength = name.length >= 4;
+
+    if (!nameRegex.test(name) && !minLength) {
+      setError('Only alphabets, minimum 4 characters');
+    } else if (!nameRegex.test(name)) {
+      setError('Only alphabets are allowed');
+    } else if (!minLength) {
+      setError('Minimum 4 characters required');
+    } else {
+      setError('');
+    }
+  };
+
+  const clearErrorsOnTyping = (name, value) => {
+    switch (name) {
+      case 'email':
+        setEmailError('');
+        break;
+      case 'firstName':
+        setFirstNameError('');
+        break;
+      case 'lastName':
+        setLastNameError('');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleInputBlur = (e) => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'email':
+        if (!validateEmail(value)) {
+          setEmailError('Not a valid email format');
+        }
+        break;
+      case 'firstName':
+        validateName(value, setFirstNameError);
+        break;
+      case 'lastName':
+        validateName(value, setLastNameError);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleDeleteAccount = () => {
+    // Implement the logic to delete the user's account here
+  };
+
+  const handleEditProfile = () => {
+    setIsEditing(true);
+  };
+
+  const handleUpdateProfile = () => {
+    if (!validateEmail(editedData.email) || firstNameError || lastNameError) {
+      toast.error('Please fix validation errors before updating your profile.');
       return;
     }
 
-    // Create a payload with the updated data
     const updatePayload = {
-      name: editedData.name,
-      dob: editedData.dob,
-      description: editedData.description,
+      userName: editedData.userName,
+      email: editedData.email,
+      firstName: editedData.firstName,
+      lastName: editedData.lastName,
     };
 
-    // Implement the logic to update the driver's profile here
     axios
-      .put(`https://localhost:7092/api/Driver/UpdateDriver?id=${id}`, updatePayload)
+      .post(`https://localhost:7092/api/User/UpdaterUser`, updatePayload)
       .then((response) => {
-        toast.success('Driver updated successfully');
+        toast.success('Profile updated successfully');
         setIsEditing(false);
 
-        // Refresh driver data after updating
         axios
-          .get(`https://localhost:7092/api/Driver/GetDriverById?id=${id}`)
+          .get(`https://localhost:7092/api/User/viewProfile?userName=${updatePayload.userName}`)
           .then((response) => {
-            setDriverData(response.data);
+            setUserData(response.data);
           })
           .catch((error) => {
-            console.error('Error fetching updated driver data:', error);
-            toast.error('An error occurred while fetching updated driver data');
+            console.error('Error fetching updated user data:', error);
+            toast.error('An error occurred while fetching updated user data');
           });
       })
       .catch((error) => {
-        console.error('Error updating driver:', error);
-        toast.error('An error occurred while updating driver');
+        console.error('Error updating user profile:', error);
+        toast.error('An error occurred while updating user profile');
       });
   };
 
-  // Render driver data function
-  const renderDriverData = () => {
-    if (!driverData) {
-      return <p>Loading driver data...</p>;
+  const handleChangePassword = () => {
+    // Implement the logic to handle changing password
+  };
+
+  const renderUserData = () => {
+    if (!userData) {
+      return <p>Loading user data...</p>;
     }
+
+    const renderField = (label, value) => {
+      return isEditing ? (
+        <TextField
+          fullWidth
+          variant="outlined"
+          name={label}
+          value={editedData[label] || ''}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          label={label.charAt(0).toUpperCase() + label.slice(1)}
+          error={(label === 'email' && !!emailError) || !!firstNameError || !!lastNameError}
+          helperText={label === 'email' ? emailError : label === 'firstName' ? firstNameError : lastNameError}
+        />
+      ) : (
+        <Typography variant="body1">{value}</Typography>
+      );
+    };
 
     return (
       <div>
-        <h1 className="headingUpdateDriver">Driver Details</h1>
-        <table>
-          <tbody>
-            <tr>
-              <td className="attribute">Name</td>
-              <td className="data">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={editedData.name}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{driverData.name}</span>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td className="attribute">Date of Birth</td>
-              <td className="data">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="dob"
-                    value={editedData.dob}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{driverData.dob}</span>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td className="attribute">Description</td>
-              <td className="data">
-                {isEditing ? (
-                  <textarea
-                    name="description"
-                    value={editedData.description}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{driverData.description}</span>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="2" className="edit">
-                {isEditing ? (
-                  <button className="updateButton" onClick={handleUpdateDriver}>
-                    Update Driver
-                  </button>
-                ) : (
-                  <button className="editButton" onClick={() => setIsEditing(true)}>
-                    Edit Details
-                  </button>
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <Typography variant="h4" className="headingUserProfile">
+          User Profile
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell className="attribute">User Name</TableCell>
+                <TableCell className="data">{userData.userName}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="attribute">Email</TableCell>
+                <TableCell className="data">{userData.email}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="attribute">First Name</TableCell>
+                <TableCell className="data">{renderField('firstName', userData.firstName)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="attribute">Last Name</TableCell>
+                <TableCell className="data">{renderField('lastName', userData.lastName)}</TableCell>
+              </TableRow>
+              
+              <TableRow>
+  <TableCell colSpan="2" className="edit">
+    {isEditing ? (
+      <>
+        <Button
+          variant="contained"
+          color="primary"
+          className="updateButton"
+          onClick={handleUpdateProfile}
+        >
+          Update Profile
+        </Button>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          className="changePasswordButton"
+          onClick={handleChangePassword}
+        >
+          Change Password
+        </Button>
+      </>
+    ) : (
+      <>
+        <Button variant="contained" color="primary" className="editButton" onClick={handleEditProfile}>
+          Edit Details
+        </Button>
+      </>
+    )}
+  </TableCell>
+</TableRow>
+
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     );
   };
 
-  // Return JSX
   return (
     <div>
       <UserNavbar />
       <br />
       <br />
-      <div className="container">{renderDriverData()}</div>
+      <div className="container">{renderUserData()}</div>
       <br />
       <Footer />
     </div>
   );
 };
 
-export default UpdateDriver;
+export default UserViewProfile;

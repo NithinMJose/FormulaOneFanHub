@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './F1HistoryList.css';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import AdminNavbar from './AdminNavbar';
 
 const F1HistoryList = () => {
@@ -19,39 +19,43 @@ const F1HistoryList = () => {
   }, []);
 
   return (
-    <div >
-    <AdminNavbar />
-    <div className="f1-history-container">
-      <div className="f1-history-content">
-        <h1 className="f1-history-heading">F1 History List</h1>
-        <div className="table-responsive">
-          <table className="f1-history-table">
-            <thead>
-              <tr>
-                <th className="f1-history-heading-bg">History ID</th>
-                <th className="f1-history-heading-bg">Heading</th>
-                <th className="f1-history-heading-bg">Paragraph</th>
-                <th className="f1-history-heading-bg">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {f1Histories.map((history) => (
-                <tr key={history.historyId}>
-                  <td>{history.historyId}</td>
-                  <td>{history.heading}</td>
-                  <td>{history.paragraph}</td>
-                  <td className="f1-history-buttons">
-                    <Link to={`/F1HistoryUpdate/${history.historyId}`} className="btn btn-primary btn-edit">
-                      Edit
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div>
+      <AdminNavbar />
+      <div className="f1-history-container">
+        <div className="f1-history-content">
+          <Typography variant="h4" color="primary" className="f1-history-heading">
+            F1 History List
+          </Typography>
+          <TableContainer component={Paper} className="table-responsive">
+            <Table className="f1-history-table">
+              <TableHead>
+                <TableRow>
+                  <TableCell className="f1-history-heading-bg">Serial No</TableCell>
+                  <TableCell className="f1-history-heading-bg">Heading</TableCell>
+                  <TableCell className="f1-history-heading-bg">Paragraph</TableCell>
+                  <TableCell className="f1-history-heading-bg">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {f1Histories.map((history, index) => (
+                  <TableRow key={history.historyId}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{history.heading}</TableCell>
+                    <TableCell>{history.paragraph}</TableCell>
+                    <TableCell className="f1-history-buttons">
+                      <Link to={`/F1HistoryUpdate/${history.historyId}`}>
+                        <Button variant="contained" color="primary" className="btn-edit">
+                          Edit
+                        </Button>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
-    </div>
     </div>
   );
 };

@@ -15,6 +15,12 @@
     position: relative;
     overflow: hidden;
     background: #fff;
+    box-shadow: 00px 00px 10px 10px rgb(105, 135, 255);
+  }
+
+  .AddF1Historywrapper {
+  background-color: rgb(149, 172, 222);
+
   }
   
   .add-driver-panel {
@@ -115,4 +121,9 @@
     max-width: 330px;
     width: 100%;
   }
+
+.AddF1Historywrapper {
+  background-color: rgb(149, 172, 222);
+
+}
   

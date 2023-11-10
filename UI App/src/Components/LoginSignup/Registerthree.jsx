@@ -1,12 +1,13 @@
-// Registerthree.jsx
 import React, { useState } from 'react';
-import './Signup.css';
-import passwordIcon from '../Assets/ghi.png';
+import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
+import passwordIcon from '../Assets/ghi.png';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 
 const Registerthree = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ const Registerthree = () => {
 
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -138,6 +140,10 @@ const Registerthree = () => {
     }
   };
 
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div>
       <HomeNavbar />
@@ -149,8 +155,8 @@ const Registerthree = () => {
             <div className='signup-text'>Create Password</div>
             <div className='signup-underline'></div>
             <p style={{ color: 'green', margin: '10px 0'}}>
-            Please Choose a Strong password to keep your account secure.
-          </p>
+              Please Choose a Strong password to keep your account secure.
+            </p>
           </div>
           <div className='signup-inputs'>
             {/* Display label contents received from Register */}
@@ -159,42 +165,43 @@ const Registerthree = () => {
             <div className='signup-label'>Last Name: {state.lastName}</div>
             <div className='signup-label'>Email: {state.email}</div>
 
-            <div className='signup-input'>
-              <img src={passwordIcon} alt='' />
-              <input
-                type='password'
-                placeholder='Enter Password'
-                name='password'
-                value={password}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
-                onBlur={handleInputBlur}
-                minLength='8'
-                required
-              />
-            </div>
+            <TextField
+              type={showPassword ? 'text' : 'password'}
+              label='Enter Password'
+              variant='outlined'
+              name='password'
+              value={password}
+              onChange={(e) => handleInputChange(e)}
+              onBlur={handleInputBlur}
+              fullWidth
+              required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleTogglePasswordVisibility}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
             {passwordError && (
               <div className='signup-error-box' style={{ borderColor: errorColor, color: errorColor === 'green' ? 'green' : 'red' }}>
                 {passwordError}
               </div>
             )}
 
-            <div className='signup-input'>
-              <img src={passwordIcon} alt='' />
-              <input
-                type='password'
-                placeholder='Confirm Password'
-                name='confirmPassword'
-                value={confirmPassword}
-                onChange={(e) => {
-                  handleInputChange(e);
-                }}
-                onBlur={handleInputBlur}
-                minLength='8'
-                required
-              />
-            </div>
+            <TextField
+              type='password'
+              label='Confirm Password'
+              variant='outlined'
+              name='confirmPassword'
+              value={confirmPassword}
+              onChange={(e) => handleInputChange(e)}
+              onBlur={handleInputBlur}
+              fullWidth
+              required
+            />
             {confirmPasswordError && (
               <div className='signup-error-box'>{confirmPasswordError}</div>
             )}
@@ -205,9 +212,14 @@ const Registerthree = () => {
             )}
           </div>
           <div className='signup-submit-container'>
-            <div className='signup-submit' onClick={handleSave}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={handleSave}
+              fullWidth
+            >
               Sign Up
-            </div>
+            </Button>
           </div>
         </div>
       </div>

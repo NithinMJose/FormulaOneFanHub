@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Signup.css'; // Make sure to include the same CSS file as in the Signup component
-import user_icon from '../Assets/abc.png';
-import password_icon from '../Assets/ghi.png';
+import { TextField, Button, Container, CssBaseline, Typography, Avatar, Grid, Paper, Box } from '@mui/material';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const ForgotPass = () => {
   const [username, setUsername] = useState('');
@@ -186,95 +185,108 @@ const ForgotPass = () => {
       <HomeNavbar />
       <br />
       <br />
-      <div className='signup_container'>
-        <div className='right-panel'>
-          <div className='signup-header'>
-            <div className='signup-text'>{isOtpVerified ? 'Reset Password' : 'Forgot Password'}</div>
-            <div className='signup-underline'></div>
-          </div>
-          <div className='signup-inputs'>
-            <div className='signup-input'>
-              <img src={user_icon} alt='' />
-              <input
-                type='text'
-                placeholder='Username'
-                name='username'
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Paper elevation={3}>
+          <Box sx={{ padding: 3 }}>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              {isOtpVerified ? 'Reset Password' : 'Forgot Password'}
+            </Typography>
+            <Box component="form" noValidate sx={{ mt: 3 }}>
+              <TextField
+                margin="normal"
+                fullWidth
+                variant="outlined"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
                 value={username}
                 onChange={(e) => handleInputChange(e)}
                 onBlur={handleInputBlur}
                 required
                 disabled={isUsernameSubmitted}
               />
-            </div>
-            {isUsernameSubmitted && (
-              <>
-                <div className='signup-input'>
-                  <img src={password_icon} alt='' />
-                  <input
-                    type='text'
-                    placeholder='OTP Code'
-                    name='otp'
+              {isUsernameSubmitted && (
+                <>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    variant="outlined"
+                    id="otp"
+                    label="OTP Code"
+                    name="otp"
+                    autoComplete="otp"
                     value={otp}
                     onChange={(e) => handleInputChange(e)}
                     onBlur={handleInputBlur}
                     required
                     disabled={isOtpVerified}
                   />
-                </div>
-                <div>
-                  {otpError && <div className='signup-error-box'>{otpError}</div>}
-                </div>
-              </>
-            )}
-            {isOtpVerified && (
-              <>
-                <div className='signup-input'>
-                  <img src={password_icon} alt='' />
-                  <input
-                    type='password'
-                    placeholder='Enter new Password'
-                    name='newPassword'
+                  <div>
+                    {otpError && <div className='signup-error-box'>{otpError}</div>}
+                  </div>
+                </>
+              )}
+              {isOtpVerified && (
+                <>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    variant="outlined"
+                    id="newPassword"
+                    label="Enter new Password"
+                    name="newPassword"
+                    type="password"
+                    autoComplete="new-password"
                     value={newPassword}
                     onChange={(e) => handleInputChange(e)}
                     onBlur={handleInputBlur}
                     required
                   />
-                </div>
-                <div>
-                  {newPasswordError && <div className='signup-error-box'>{newPasswordError}</div>}
-                </div>
-                <div className='signup-input'>
-                  <img src={password_icon} alt='' />
-                  <input
-                    type='password'
-                    placeholder='Confirm new Password'
-                    name='confirmNewPassword'
+                  <div>
+                    {newPasswordError && <div className='signup-error-box'>{newPasswordError}</div>}
+                  </div>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    variant="outlined"
+                    id="confirmNewPassword"
+                    label="Confirm new Password"
+                    name="confirmNewPassword"
+                    type="password"
+                    autoComplete="confirm-new-password"
                     value={confirmNewPassword}
                     onChange={(e) => handleInputChange(e)}
                     onBlur={handleInputBlur}
                     required
                   />
-                </div>
-                <div>
-                  {confirmNewPasswordError && (
-                    <div className='signup-error-box'>{confirmNewPasswordError}</div>
-                  )}
-                </div>
-              </>
-            )}
-          </div>
-          <div className='signup-submit-container'>
-            <div
-              className='signup-submit'
-              onClick={
-                isOtpVerified ? handlePasswordReset : isUsernameSubmitted ? handleVerifyOtp : handleSendVerification
-              }
-            >
-              {isOtpVerified ? 'Reset Password' : isUsernameSubmitted ? 'Verify Email' : 'Add Verification'}
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div>
+                    {confirmNewPasswordError && (
+                      <div className='signup-error-box'>{confirmNewPasswordError}</div>
+                    )}
+                  </div>
+                </>
+              )}
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={
+                  isOtpVerified ? handlePasswordReset : isUsernameSubmitted ? handleVerifyOtp : handleSendVerification
+                }
+                sx={{ mt: 3, mb: 2 }}
+              >
+                {isOtpVerified ? 'Reset Password' : isUsernameSubmitted ? 'Verify Email' : 'Add Verification'}
+              </Button>
+            </Box>
+          </Box>
+        </Paper>
+      </Container>
       <br />
       <br />
       <Footer />

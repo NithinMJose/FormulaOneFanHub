@@ -1,5 +1,12 @@
 /* F1HistoryUserView.css */
 
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
 .history-container {
   display: flex;
   flex-direction: column;
@@ -8,20 +15,27 @@
 }
 
 .history-item {
-  background-color: #f4f4f4;
-  border-radius: 8px;
+  background-color: #ffffff;
+  border-radius: 12px;
   padding: 20px;
-  margin: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  margin: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 95%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.history-item:hover {
+  transform: scale(1.02);
 }
 
 .subheading {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  color: #333;
 }
 
 .content {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #555;
 }
