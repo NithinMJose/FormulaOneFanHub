@@ -24,5 +24,11 @@ namespace FormulaOneFanHub.API.DTO
 
         [Required(ErrorMessage = "Last name is required")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Contact number is required")]
+        public string ContactNumber { get; set; }
+
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; }
     }
 }

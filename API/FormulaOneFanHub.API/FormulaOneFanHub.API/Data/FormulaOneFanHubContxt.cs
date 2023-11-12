@@ -16,6 +16,9 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<F1History> F1Histories { get; set; }
         public DbSet<TeamHistory> TeamHistories { get; set; }
         public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<Season> Seasons { get; set; }
+        public DbSet<Race> Races { get; set; }
+
 
     }
 }

@@ -99,53 +99,6 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-
-        //[HttpPost("Register")]
-        //public IActionResult Register(RegDto regDto)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (regDto.Password != regDto.ConfirmPassword)
-        //    {
-        //        return BadRequest("Passwords do not match");
-        //    }
-
-        //    // Check if the username is already taken
-        //    if (_fanHubContext.Users.Any(u => u.UserName == regDto.UserName))
-        //    {
-        //        return BadRequest("Username is already taken");
-        //    }
-
-        //    // Hash the password using BCrypt
-        //    var passwordHash = BCrypt.Net.BCrypt.HashPassword(regDto.Password);
-
-        //    var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
-
-        //    User userToCreate = new User
-        //    {
-        //        UserName = regDto.UserName,
-        //        Email = regDto.Email,
-        //        FirstName = regDto.FirstName,
-        //        LastName = regDto.LastName,
-        //        Password = passwordHash, // Store the hashed password
-        //        ConfirmEmailToken = regDto.Otp, // Use the random 7-digit number
-        //        EmailConfirmed = false,
-        //        RoleId = clientRole?.Id,
-        //        CreatedBy = "System",
-        //        Status = "active",
-        //        CreatedOn = DateTime.Now
-        //    };
-        //    _fanHubContext.Users.Add(userToCreate);
-        //    _fanHubContext.SaveChanges();
-
-        //    // Return a JSON response with success:true
-        //    return Ok(new { success = true });
-        //}
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -182,7 +135,9 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = regDto.FirstName,
                 LastName = regDto.LastName,
                 Password = passwordHash, // Store the hashed password
-                EmailConfirmed = true,  
+                EmailConfirmed = true,
+                Address = regDto.Address,
+                ContactNumber = regDto.ContactNumber,
                 RoleId = clientRole?.Id,
                 CreatedBy = "System",
                 Status = "active",
@@ -199,56 +154,55 @@ namespace FormulaOneFanHub.API.Controllers
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        [HttpPost("TestEndPoint")]
-        public IActionResult TestEndPoint(UserDto userDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPost("TestEndPoint")]
+        //public IActionResult TestEndPoint(UserDto userDto)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (userDto.Password != userDto.ConfirmPassword)
-            {
-                return BadRequest("Passwords do not match");
-            }
+        //    if (userDto.Password != userDto.ConfirmPassword)
+        //    {
+        //        return BadRequest("Passwords do not match");
+        //    }
 
-            // Check if the username is already taken
-            if (_fanHubContext.Users.Any(u => u.UserName == userDto.UserName))
-            {
-                return BadRequest("Username is already taken");
-            }
+        //    // Check if the username is already taken
+        //    if (_fanHubContext.Users.Any(u => u.UserName == userDto.UserName))
+        //    {
+        //        return BadRequest("Username is already taken");
+        //    }
 
-            // Generate a random 7-digit number
-            Random random = new Random();
-            var randomCode = random.Next(1000000, 9999999);
-            // Convert the random number to a string
-            var Otp = randomCode.ToString();
+        //    // Generate a random 7-digit number
+        //    Random random = new Random();
+        //    var randomCode = random.Next(1000000, 9999999);
+        //    // Convert the random number to a string
+        //    var Otp = randomCode.ToString();
 
-            var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
+        //    var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
 
-            User userToCreate = new User
-            {
-                UserName = userDto.UserName,
-                Email = userDto.Email,
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Password = userDto.Password, 
-                ConfirmEmailToken = Otp,
-                EmailConfirmed = false,
-                RoleId = clientRole?.Id,
-                CreatedBy = "System",
-                Status = "inactive",
-                CreatedOn = DateTime.Now
-            };
+        //    User userToCreate = new User
+        //    {
+        //        UserName = userDto.UserName,
+        //        Email = userDto.Email,
+        //        FirstName = userDto.FirstName,
+        //        LastName = userDto.LastName,
+        //        Password = userDto.Password, 
+        //        EmailConfirmed = false,
+        //        RoleId = clientRole?.Id,
+        //        CreatedBy = "System",
+        //        Status = "inactive",
+        //        CreatedOn = DateTime.Now
+        //    };
 
-            // Send verification email on successful registration
-            _emailSendUtility.SendEmail(userToCreate, Otp);
+        //    // Send verification email on successful registration
+        //    _emailSendUtility.SendEmail(userToCreate, Otp);
 
-            // Return a JSON response with success:true and user data
-            return Ok(new { success = true, user = userToCreate });
-        }
+        //    // Return a JSON response with success:true and user data
+        //    return Ok(new { success = true, user = userToCreate });
+        //}
 
-         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -301,6 +255,8 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 UserName = userDto.UserName,
                 Email = userDto.Email,
+                ContactNumber = userDto.ContactNumber,
+                Address = userDto.Address,
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 Password = passwordHash, // Store the hashed password
@@ -478,8 +434,6 @@ namespace FormulaOneFanHub.API.Controllers
                 var otp = randomCode.ToString();
 
                 // Store the OTP in the ConfirmEmailToken field
-                user.ConfirmEmailToken = otp;
-
                 // Save the changes to the database
                 _fanHubContext.SaveChanges();
 
@@ -520,13 +474,8 @@ namespace FormulaOneFanHub.API.Controllers
                 }
 
                 // Check if the OTP matches the stored ConfirmEmailToken
-                if (user.ConfirmEmailToken != verifyOtpDto.Otp)
-                {
-                    return BadRequest("Invalid OTP.");
-                }
 
                 // Clear the ConfirmEmailToken as it's verified
-                user.ConfirmEmailToken = null;
 
                 // Update the EmailConfirmed field to true or perform any other necessary logic
                 user.EmailConfirmed = true;
@@ -658,7 +607,7 @@ namespace FormulaOneFanHub.API.Controllers
             Random random = new Random();
             var randomCode = random.Next(1000000, 9999999);
             // Convert the random number to a string
-            var otp = randomCode.ToString();
+            var otpServer = randomCode.ToString();
 
             var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
 
@@ -669,8 +618,9 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Password = request.Password,
-                ConfirmEmailToken = otp,
                 EmailConfirmed = true,
+                ContactNumber = request.ContactNumber,
+                Address = request.Address,
                 RoleId = clientRole?.Id,
                 CreatedBy = "System",
                 Status = "inactive",
@@ -678,10 +628,10 @@ namespace FormulaOneFanHub.API.Controllers
             };
 
             // Send verification email on successful registration
-            _emailSendUtility.SendEmail(userToCreate, otp);
+            _emailSendUtility.SendEmail(userToCreate, otpServer);
 
             // Return a JSON response with success:true and user data
-            return Ok(new { success = true, user = new { userToCreate.UserName, userToCreate.FirstName ,userToCreate.LastName, userToCreate.Email, userToCreate.ConfirmEmailToken } });
+            return Ok(new { success = true, user = new { userToCreate.UserName, userToCreate.FirstName ,userToCreate.LastName, userToCreate.Email, otpServer } });
         }
 
         public class RegisterOneRequest
@@ -692,6 +642,9 @@ namespace FormulaOneFanHub.API.Controllers
             public string Email { get; set; }
             public string Password { get; set; }
             public string ConfirmPassword { get; set; }
+            public string ContactNumber { get; set; }
+            public string Address { get; set; }
+
         }
 
         [HttpGet("CheckUsernameAvailability")]
