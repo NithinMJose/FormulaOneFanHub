@@ -18,6 +18,8 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<Gallery> Galleries { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Race> Races { get; set; }
+        public DbSet<Corner> Corners { get; set; }
+        public DbSet<TicketCategory> TicketCategories { get; set; }
 
 
     }
