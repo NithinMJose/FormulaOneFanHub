@@ -43,7 +43,7 @@ const Registerthree = () => {
             firstName: state.firstName,
             lastName: state.lastName,
             email: state.email,
-            otp: state.confirmEmailToken,
+            otp: state.otpServer,
             password: password,
             confirmPassword: confirmPassword,
           }),

@@ -1,0 +1,32 @@
+/* AddCorner.css */
+
+.LeftPanel-alone {
+  width: 20%;
+}
+
+.outerSetup {
+  width: 80%;
+}
+
+.add-corner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.add-corner-panel {
+  width: 100%;
+  max-width: 400px; /* Adjust as needed */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #fff; /* Set your desired background color */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-corner-inputsadmin {
+  margin-bottom: 20px;
+}
+
+.add-corner-submit-container {
+  text-align: center;
+}

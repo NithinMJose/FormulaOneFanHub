@@ -22,7 +22,8 @@ const Registertwo = () => {
 
   const handleSave = () => {
     validateForm();
-    if (!otpError && otp === state.confirmEmailToken) {
+    console.log('Entered OTP:', otp);
+    if (!otpError && otp === state.otpServer) {
       navigate('/Registerthree', { replace: true, state: { ...state, otp } });
     } else {
       toast.error('Invalid OTP. Please try again.');
@@ -70,7 +71,7 @@ const Registertwo = () => {
             <div className='signup-label'>First Name: {state.firstName}</div>
             <div className='signup-label'>Last Name: {state.lastName}</div>
             <div className='signup-label'>Email: {state.email}</div>
-            <div className='signup-label'>OTP: {state.confirmEmailToken}</div>
+            <div className='signup-label'>OTP: {state.otp}</div>
             <TextField
               label='Enter OTP'
               variant='outlined'

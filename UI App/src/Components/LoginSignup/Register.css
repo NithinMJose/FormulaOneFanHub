@@ -1,0 +1,52 @@
+
+
+.signup-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.signup-underline {
+  height: 2px;
+  width: 30%;
+  background-color: #007bff;
+  margin: 0 auto;
+}
+
+.signup-inputs {
+  margin-top: 20px;
+}
+
+.signup-inputs .MuiTextField-root {
+  margin-bottom: 15px;
+}
+
+.signup-error-box,
+.signup-success-box {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.signup-error-box {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #c62828;
+}
+
+.signup-success-box {
+  background-color: #e8f5e9;
+  color: #388e3c;
+  border: 1px solid #388e3c;
+}
+
+.signup-submit-container {
+  margin-top: 20px;
+}
+
+/* Adjustments to MUI Button */
+.MuiButton-root {
+  text-transform: none;
+}
+

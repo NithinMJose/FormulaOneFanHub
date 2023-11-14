@@ -25,6 +25,18 @@ import F1HistoryList from './Components/LoginSignup/F1HistoryList';
 import F1HistoryUpdate from  './Components/LoginSignup/F1HistoryUpdate';
 import F1HistoryUserView from './Components/LoginSignup/F1HistoryUserView';
 import DriverListUser from './Components/LoginSignup/DriverListUser';
+import AddSeason from './Components/SeasonAndRace/AddSeason';
+import AddRace from './Components/SeasonAndRace/AddRace';
+import AddTicketCategory from './Components/SeasonAndRace/AddTicketCategory';
+import AddCorner from './Components/SeasonAndRace/AddCorner';
+import LeftPanel from './Components/SeasonAndRace/LeftPanel';
+import SeasonList from './Components/SeasonAndRace/SeasonList';
+import TicketCategoryList from './Components/SeasonAndRace/TicketCategoryList';
+import TBSeason from './Components/TicketBooking/TBSeason';
+import TBRace from './Components/TicketBooking/TBRace';
+import TBCorner from './Components/TicketBooking/TBCorner';
+import TBCategory from './Components/TicketBooking/TBCategory';
+
 
 
 
@@ -56,6 +68,22 @@ function App() {
           <Route path='/F1HistoryUpdate/:historyId' element={<F1HistoryUpdate />} />
           <Route path='F1HistoryUserView' element={<F1HistoryUserView />} />
           <Route path='/DriverListUser' element={<DriverListUser />} />
+          <Route path='/AddSeason' element={<AddSeason/>} />
+          <Route path='/AddRace' element={<AddRace/>} />
+          <Route path='/AddTicketCategory' element={<AddTicketCategory/>} />
+          <Route path='/AddCorner' element={<AddCorner/>} />
+          <Route path='/LeftPanel' element={<LeftPanel/>} />
+          <Route path='/SeasonList' element={<SeasonList/>} />
+          <Route path='/TicketCategoryList' element={<TicketCategoryList/>} />
+          <Route path='/TBSeason' element={<TBSeason/>} />
+          <Route path='/TBRace' element={<TBRace/>} />
+          <Route path='/TBCorner' element={<TBCorner/>} />
+          <Route path='/TBCategory' element={<TBCategory/>} />
+
+
+
+          
+
         </Routes>
         <ToastContainer />
       </div>
