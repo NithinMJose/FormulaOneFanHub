@@ -103,7 +103,34 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok();
         }
 
-        // Additional actions as needed
+        [HttpGet("SeasonsForBooking")]
+        public IActionResult SeasonsForBooking()
+        {
+            // Get the current year
+            int currentYear = DateTime.Now.Year;
 
+            // Get the next year
+            int nextYear = currentYear + 1;
+
+            // Check if seasons for the current year and next year are already in the database
+            var currentSeason = _fanHubContext.Seasons.FirstOrDefault(s => s.Year == currentYear);
+            var nextSeason = _fanHubContext.Seasons.FirstOrDefault(s => s.Year == nextYear);
+
+            // If not, return "no tickets are available"
+            if (currentSeason == null && nextSeason == null)
+            {
+                return Ok("No tickets are available");
+            }
+
+            // If seasons are available, return the season IDs and seasons
+            var result = new
+            {
+                CurrentSeasonId = currentSeason?.SeasonId,
+                NextSeasonId = nextSeason?.SeasonId,
+                Seasons = new[] { currentSeason, nextSeason }
+            };
+
+            return Ok(result);
+        }
     }
 }

@@ -98,5 +98,17 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("GetCornerByRace")]
+        public IActionResult GetCornerByRace(int raceId)
+        {
+            var corners = _fanHubContext.Corners
+                .Where(corner => corner.RaceId == raceId)
+                .Include(c => c.Race) // Include the related Race entity
+                .ToList();
+
+            return Ok(corners);
+        }
+
     }
 }

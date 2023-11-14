@@ -116,5 +116,16 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("GetRaceBySeason")]
+        public IActionResult GetRaceBySeason(int seasonId)
+        {
+            var races = _fanHubContext.Races
+                .Where(race => race.SeasonId == seasonId)
+                .ToList();
+
+            return Ok(races);
+        }
+
     }
 }
