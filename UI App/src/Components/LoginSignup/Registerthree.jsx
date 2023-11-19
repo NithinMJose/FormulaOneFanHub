@@ -44,6 +44,8 @@ const Registerthree = () => {
             lastName: state.lastName,
             email: state.email,
             otp: state.otpServer,
+            contactNumber: state.contactNumber,
+            address: state.address,
             password: password,
             confirmPassword: confirmPassword,
           }),
@@ -164,6 +166,10 @@ const Registerthree = () => {
             <div className='signup-label'>First Name: {state.firstName}</div>
             <div className='signup-label'>Last Name: {state.lastName}</div>
             <div className='signup-label'>Email: {state.email}</div>
+            <div className='signup-label'>Contact: {state.contactNumber}</div>
+            <div className='signup-label'>Address: {state.address}</div>
+
+            
 
             <TextField
               type={showPassword ? 'text' : 'password'}

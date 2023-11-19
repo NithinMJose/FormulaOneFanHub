@@ -20,5 +20,8 @@ namespace FormulaOneFanHub.API.Entities
         public int RaceId { get; set; }
 
         public Race Race { get; set; } // Navigation property for the related Race entity
+
+        public int? AvailableCapacity { get; set; }
+
     }
 }

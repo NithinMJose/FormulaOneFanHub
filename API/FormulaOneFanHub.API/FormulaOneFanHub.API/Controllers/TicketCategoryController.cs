@@ -2,7 +2,9 @@
 using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -18,18 +20,33 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         [HttpPost("InsertTicketCategory")]
-        public IActionResult InsertTicketCategory([FromBody] TicketCategoryDto ticketCategoryDto)
+        public IActionResult InsertTicketCategory([FromForm] TicketCategoryDto ticketCategoryDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            if (ticketCategoryDto.ImageFile != null && ticketCategoryDto.ImageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + "_" + ticketCategoryDto.ImageFile.FileName;
+                var filePath = Path.Combine("wwwroot/images", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    ticketCategoryDto.ImageFile.CopyTo(stream);
+                }
+
+                // Set the ImagePath here
+                ticketCategoryDto.ImagePath = fileName;
+            }
+
             var ticketCategoryToCreate = new TicketCategory
             {
                 CategoryName = ticketCategoryDto.CategoryName,
                 Description = ticketCategoryDto.Description,
-                TicketPrice = ticketCategoryDto.TicketPrice
+                TicketPrice = ticketCategoryDto.TicketPrice,
+                ImagePath = ticketCategoryDto.ImagePath, // Set the ImagePath property
             };
 
             _fanHubContext.TicketCategories.Add(ticketCategoryToCreate);
@@ -59,7 +76,7 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         [HttpPut("UpdateTicketCategory")]
-        public IActionResult UpdateTicketCategory([FromBody] TicketCategoryDto ticketCategoryDto)
+        public IActionResult UpdateTicketCategory([FromForm] TicketCategoryDto ticketCategoryDto)
         {
             if (!ModelState.IsValid)
             {
@@ -76,6 +93,19 @@ namespace FormulaOneFanHub.API.Controllers
             existingTicketCategory.CategoryName = ticketCategoryDto.CategoryName;
             existingTicketCategory.Description = ticketCategoryDto.Description;
             existingTicketCategory.TicketPrice = ticketCategoryDto.TicketPrice;
+
+            if (ticketCategoryDto.ImageFile != null && ticketCategoryDto.ImageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + "_" + ticketCategoryDto.ImageFile.FileName;
+                var filePath = Path.Combine("wwwroot/images", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    ticketCategoryDto.ImageFile.CopyTo(stream);
+                }
+
+                existingTicketCategory.ImagePath = fileName;
+            }
 
             _fanHubContext.SaveChanges();
 

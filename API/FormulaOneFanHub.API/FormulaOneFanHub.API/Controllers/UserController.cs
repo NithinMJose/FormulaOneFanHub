@@ -72,6 +72,7 @@ namespace FormulaOneFanHub.API.Controllers
                 var claims = new[]
                 {
                     new Claim("userName", user.UserName),
+                    new Claim("userId", user.Id.ToString()),
                     new Claim("RoleId", user.Role?.RoleName!), 
                     new Claim("Status", user.Status!),
                     new Claim(ClaimTypes.Role, user.Role?.RoleName!),
@@ -646,6 +647,76 @@ namespace FormulaOneFanHub.API.Controllers
             public string Address { get; set; }
 
         }
+
+        [HttpGet("getUserDetailFromUsername")]
+        public IActionResult GetUserDetailFromUsername(string userName)
+        {
+            try
+            {
+                // Find the user by userName
+                var user = _fanHubContext.Users
+                    .Where(u => u.UserName == userName)
+                    .Select(u => new
+                    {
+                        u.Id,
+                        u.FirstName,
+                        u.LastName,
+                        u.Email,
+                        u.Address,
+                        u.ContactNumber
+                    })
+                    .FirstOrDefault();
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Return the user's details
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+
+        [HttpGet("GetUserDetailsFromUserId")]
+        public IActionResult GetUserDetailsFromUserId(int userId)
+        {
+            try
+            {
+                // Find the user by userId
+                var user = _fanHubContext.Users
+                    .Where(u => u.Id == userId)
+                    .Select(u => new
+                    {
+                        u.UserName,
+                        u.FirstName,
+                        u.LastName,
+                        u.Email,
+                        u.Address,
+                        u.ContactNumber
+                    })
+                    .FirstOrDefault();
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Return the user's details
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
 
         [HttpGet("CheckUsernameAvailability")]
         public IActionResult CheckUsernameAvailability(string username)

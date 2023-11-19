@@ -15,7 +15,7 @@ namespace FormulaOneFanHub.API.Entities
 
         public Season Season { get; set; } // Navigation property for the related Season entity
 
-        [DataType(DataType.Date)] // Specify that only the date should be included
+        //[DataType(DataType.Date)] // Specify that only the date should be included
         public DateTime RaceDate { get; set; }
 
         public required string RaceLocation { get; set; }
@@ -24,6 +24,6 @@ namespace FormulaOneFanHub.API.Entities
         public IFormFile ImageFile { get; set; }
 
         public string? ImagePath { get; set; }
-    
+
     }
 }

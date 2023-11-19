@@ -9,6 +9,17 @@ namespace FormulaOneFanHub.API.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+             modelBuilder.Entity<TicketBooking>()
+             .HasOne(tb => tb.Race)
+             .WithMany()
+             .HasForeignKey(tb => tb.RaceId)
+             .OnDelete(DeleteBehavior.NoAction);
+
+
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
@@ -20,7 +31,9 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<Race> Races { get; set; }
         public DbSet<Corner> Corners { get; set; }
         public DbSet<TicketCategory> TicketCategories { get; set; }
-
+        public DbSet<TicketBooking> TicketBookings { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
     }
 }

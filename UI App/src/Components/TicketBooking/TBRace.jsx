@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import UserNavbar from '../LoginSignup/UserNavbar';
+import Footer from '../LoginSignup/Footer';
 
 const TBRace = () => {
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const TBRace = () => {
 
   return (
     <div>
+      <UserNavbar />
       <h1>Race Details for Season - {state.seasonId}</h1>
       <div className="driver-list-container">
         {races.map(race => (
@@ -46,6 +49,7 @@ const TBRace = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

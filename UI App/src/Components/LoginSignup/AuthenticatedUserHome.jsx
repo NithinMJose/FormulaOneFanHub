@@ -15,6 +15,8 @@ const AuthenticatedUserHome = () => {
   useEffect(() => {
     // Check if the JWT token is present in local storage
     const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwt_decode(token);
+    console.log('Decoded Token:', decodedToken);
 
     if (!token) {
       // If the token is not present, show a toast and redirect to the login page

@@ -1,3 +1,4 @@
+// TicketCategoryList.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -22,8 +23,6 @@ const TicketCategoryList = () => {
     }
 
     try {
-      // Add token decoding logic if needed
-
       axios
         .get(`https://localhost:7092/api/TicketCategory/GetAllTicketCategories`, {
           headers: {
@@ -50,7 +49,6 @@ const TicketCategoryList = () => {
   }, [navigate]);
 
   const handleManageTicketCategory = (categoryId) => {
-    // Redirect to the UpdateTicketCategory page with the specific categoryId
     navigate(`/UpdateTicketCategory/${categoryId}`);
   };
 
@@ -69,6 +67,7 @@ const TicketCategoryList = () => {
               <TableCell style={{ width: '40%' }}>Description</TableCell>
               <TableCell style={{ width: '20%' }}>Ticket Price</TableCell>
               <TableCell style={{ width: '15%' }}>Manage</TableCell>
+              <TableCell style={{ width: '15%' }}>Image</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,6 +85,20 @@ const TicketCategoryList = () => {
                   >
                     Edit
                   </Button>
+                </TableCell>
+                <TableCell>
+                  {ticketCategory.imagePath ? (
+                    <img
+                      src={`https://localhost:7092/images/${ticketCategory.imagePath}`}
+                      alt={`Image for ${ticketCategory.categoryName}`}
+                      className="category-image"
+                      style={{ maxWidth: '100%', maxHeight: '100%', width: '150px', height: '150px' }}
+                      onLoad={() => console.log(`Image loaded for ${ticketCategory.categoryName}: ${ticketCategory.imagePath}`)}
+                      onError={() => console.error(`Error loading image for ${ticketCategory.categoryName}: ${ticketCategory.imagePath}`)}
+                    />
+                  ) : (
+                    <span>No Image</span>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

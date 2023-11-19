@@ -36,6 +36,11 @@ import TBSeason from './Components/TicketBooking/TBSeason';
 import TBRace from './Components/TicketBooking/TBRace';
 import TBCorner from './Components/TicketBooking/TBCorner';
 import TBCategory from './Components/TicketBooking/TBCategory';
+import TBConfirm from './Components/TicketBooking/TBConfirm';
+import TBTicket from './Components/TicketBooking/TBTicket';
+import AddTopic from './Components/Topic/AddTopic';
+import { AddComment } from '@mui/icons-material';
+import TopicListAdmin from './Components/Topic/TopicListAdmin';
 
 
 
@@ -79,11 +84,15 @@ function App() {
           <Route path='/TBRace' element={<TBRace/>} />
           <Route path='/TBCorner' element={<TBCorner/>} />
           <Route path='/TBCategory' element={<TBCategory/>} />
+          <Route path='/TBConfirm' element={<TBConfirm/>} />
+          <Route path='/TBTicket' element={<TBTicket/>} />
+          <Route path='/AddTopic' element={<AddTopic/>} />
+          <Route path='/AddComment' element={<AddComment/>} />
+          <Route path='/TopicListAdmin' element={<TopicListAdmin/>} />
 
 
 
           
-
         </Routes>
         <ToastContainer />
       </div>

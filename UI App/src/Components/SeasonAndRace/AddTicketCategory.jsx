@@ -1,8 +1,9 @@
+// AddTicketCategory.jsx
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Typography, Container } from '@mui/material';
+import { Button, TextField, Typography, Container, InputAdornment } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 
@@ -10,10 +11,12 @@ const AddTicketCategory = () => {
   const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('');
   const [ticketPrice, setTicketPrice] = useState('');
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [categoryNameError, setCategoryNameError] = useState('');
   const [ticketPriceError, setTicketPriceError] = useState('');
+  const [imageFileError, setImageFileError] = useState('');
 
   const navigate = useNavigate();
 
@@ -37,11 +40,22 @@ const AddTicketCategory = () => {
     }
   };
 
+  const validateImage = (file) => {
+    if (!file || !file.type.match(/image\/(jpeg|jpg|png)/)) {
+      setImageFileError('Only JPEG or PNG files are allowed');
+      return false;
+    } else {
+      setImageFileError('');
+      return true;
+    }
+  };
+
   const validateForm = () => {
     let isValid = true;
 
     isValid = isValid && validateCategoryName(categoryName);
     isValid = isValid && validateTicketPrice(ticketPrice);
+    isValid = isValid && validateImage(imageFile);
 
     return isValid;
   };
@@ -51,18 +65,15 @@ const AddTicketCategory = () => {
       setLoading(true);
 
       try {
-        const requestBody = {
-          categoryName,
-          description,
-          ticketPrice: parseInt(ticketPrice),
-        };
+        const formData = new FormData();
+        formData.append('categoryName', categoryName);
+        formData.append('description', description);
+        formData.append('ticketPrice', ticketPrice);
+        formData.append('imageFile', imageFile);
 
         const createTicketCategoryResponse = await fetch('https://localhost:7092/api/TicketCategory/InsertTicketCategory', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody),
+          body: formData,
         });
 
         if (createTicketCategoryResponse.status === 201) {
@@ -88,7 +99,6 @@ const AddTicketCategory = () => {
   return (
     <div>
       <AdminNavbar />
-      <br />
       <Container maxWidth="sm" className="outerSetup">
         <br />
         <br />
@@ -136,6 +146,32 @@ const AddTicketCategory = () => {
                 helperText={ticketPriceError}
                 style={{ marginBottom: '10px' }}
               />
+              <input
+                accept="image/jpeg, image/jpg, image/png"
+                style={{ display: 'none' }}
+                id="image-file-input-category"
+                type="file"
+                onChange={(e) => {
+                  setImageFile(e.target.files[0]);
+                  validateImage(e.target.files[0]);
+                }}
+              />
+              <label htmlFor="image-file-input-category">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  fullWidth
+                  style={{ height: '55px', marginBottom: '10px' }}
+                  startIcon={<InputAdornment position="start">📷</InputAdornment>}
+                >
+                  Upload Image
+                </Button>
+              </label>
+              {imageFileError && (
+                <Typography variant="caption" color="error">
+                  {imageFileError}
+                </Typography>
+              )}
             </div>
             <div className="add-corner-submit-container">
               <Button
@@ -154,7 +190,6 @@ const AddTicketCategory = () => {
         <br />
         <br />
       </Container>
-      <br />
       <Footer />
     </div>
   );

@@ -49,12 +49,15 @@ function HomeNavbar() {
             <a href="/" className="nav-item nav-link active">
               Home
             </a>
+            <a href="/TBSeason" className="nav-item nav-link active">
+              Ticket Booking
+            </a>
           
-            <a href="/F1HistoryUserView" className="nav-item nav-link">
+            <a href="/F1HistoryUserView" className="nav-item nav-link active">
               F1History
             </a>
             
-            <a href="/DriverListUser" className="nav-item nav-link">
+            <a href="/DriverListUser" className="nav-item nav-link active">
               Drivers
             </a>
           </div>

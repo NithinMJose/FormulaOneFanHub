@@ -1,12 +1,15 @@
 // TBCategory.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import UserNavbar from '../LoginSignup/UserNavbar';
+import Footer from '../LoginSignup/Footer';
 
 const TBCategory = () => {
   const location = useLocation();
   const { state } = location;
   const [ticketCategories, setTicketCategories] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTicketCategories = async () => {
@@ -22,12 +25,15 @@ const TBCategory = () => {
     fetchTicketCategories();
   }, []);
 
-  const handleCategoryClick = (ticketCategoryId) => {
+  const handleCategoryClick = (ticketCategoryId, ticketPrice) => {
     // Log the data received from TBCategory and the selected ticketCategoryId
     console.log('Data received from TBCategory:', state);
     console.log('Selected TicketCategoryId:', ticketCategoryId);
+    console.log('Selected TicketPrice:', ticketPrice);
+    console.log('Selected Tickets:', state.selectedTickets);
 
-    // Perform additional actions as needed
+    // Navigate to the TBConfirm page and pass the necessary values
+    navigate('/TBConfirm', { replace: true, state: { ...state, ticketCategoryId, ticketPrice } });
   };
 
   if (!ticketCategories) {
@@ -36,10 +42,12 @@ const TBCategory = () => {
 
   return (
     <div>
+    <UserNavbar />
       <h1>Ticket Categories</h1>
       <div className="driver-list-container">
         {ticketCategories.map(category => (
-          <div key={category.ticketCategoryId} className="driver-item" onClick={() => handleCategoryClick(category.ticketCategoryId)}>
+          <div key={category.ticketCategoryId} className="driver-item" onClick={() => handleCategoryClick(category.ticketCategoryId, category.ticketPrice)}>
+            <img src={`https://localhost:7092/images/${category.imagePath}`} alt={`Category ${category.categoryName} Image`} className="driver-image" />
             {/* Display ticket category details as needed */}
             <h2>{`Category - ${category.categoryName}`}</h2>
             <p>{`Description: ${category.description || 'N/A'}`}</p>
@@ -48,6 +56,7 @@ const TBCategory = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

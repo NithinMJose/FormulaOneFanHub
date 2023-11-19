@@ -18,6 +18,11 @@ namespace FormulaOneFanHub.API.Entities
         //[Required(ErrorMessage = "TicketPrice is required")]
         public required int TicketPrice { get; set; }
 
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
+
+        public string ImagePath { get; set; }
+
         // If you want to associate a corner with a ticket category, you can add a foreign key
         // public int? CornerId { get; set; }
         // public Corner Corner { get; set; }

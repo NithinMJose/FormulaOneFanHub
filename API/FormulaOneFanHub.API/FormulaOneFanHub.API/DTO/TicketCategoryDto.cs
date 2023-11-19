@@ -15,5 +15,7 @@ namespace FormulaOneFanHub.API.Entities
 
         [Required(ErrorMessage = "TicketPrice is required")]
         public int TicketPrice { get; set; }
+        public IFormFile? ImageFile { get; set; }
+        public string? ImagePath { get; set; }
     }
 }

@@ -67,6 +67,18 @@ function AdminNavbar() {
                 <Link to="/F1HistoryList" className="dropdown-item">
                   List F1 History
                 </Link>
+                <Link to="/AddSeason" className="dropdown-item">
+                  Add a new Season
+                </Link>
+                <Link to="/AddRace" className="dropdown-item">
+                  Add a new Race
+                </Link>
+                <Link to="/AddCorner" className="dropdown-item">
+                  Add a new Corner
+                </Link>
+                <Link to="/AddTicketCategory" className="dropdown-item">
+                AddTicketCategory
+                </Link>
               </div>
             </div>
             <Link to="/UserList" className="nav-item nav-link">

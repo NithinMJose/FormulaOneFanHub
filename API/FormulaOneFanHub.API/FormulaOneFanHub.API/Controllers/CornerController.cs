@@ -30,7 +30,8 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 CornerNumber = cornerDto.CornerNumber,
                 CornerCapacity = cornerDto.CornerCapacity,
-                RaceId = cornerDto.RaceId
+                RaceId = cornerDto.RaceId,
+                AvailableCapacity = cornerDto.CornerCapacity
             };
 
             _fanHubContext.Corners.Add(cornerToCreate);
@@ -74,6 +75,18 @@ namespace FormulaOneFanHub.API.Controllers
                 return NotFound();
             }
 
+            // Check if CornerCapacity is increased
+            if (cornerDto.CornerCapacity > existingCorner.CornerCapacity)
+            {
+                // Increase AvailableCapacity by the difference
+                existingCorner.AvailableCapacity += cornerDto.CornerCapacity - existingCorner.CornerCapacity;
+            }
+            // Check if CornerCapacity is decreased and available seats are less than the proposed decrease
+            else if (cornerDto.CornerCapacity < existingCorner.CornerCapacity && existingCorner.AvailableCapacity < (existingCorner.CornerCapacity - cornerDto.CornerCapacity))
+            {
+                return BadRequest("The number of available seats is insufficient. Cannot decrease capacity by " + (existingCorner.CornerCapacity - cornerDto.CornerCapacity) + " seats.");
+            }
+
             existingCorner.CornerNumber = cornerDto.CornerNumber;
             existingCorner.CornerCapacity = cornerDto.CornerCapacity;
             existingCorner.RaceId = cornerDto.RaceId;
@@ -82,6 +95,7 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
 
         [HttpDelete("DeleteCorner")]
         public IActionResult DeleteCorner(int id)
@@ -105,10 +119,20 @@ namespace FormulaOneFanHub.API.Controllers
             var corners = _fanHubContext.Corners
                 .Where(corner => corner.RaceId == raceId)
                 .Include(c => c.Race) // Include the related Race entity
+                .Select(corner => new
+                {
+                    corner.CornerId,
+                    corner.CornerNumber,
+                    corner.CornerCapacity,
+                    corner.AvailableCapacity, // Include AvailableCapacity in the response
+                    corner.RaceId,
+                    corner.Race // Include the related Race entity
+                })
                 .ToList();
 
             return Ok(corners);
         }
+
 
     }
 }

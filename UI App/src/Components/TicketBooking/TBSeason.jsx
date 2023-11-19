@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import UserNavbar from '../LoginSignup/UserNavbar';
+import Footer from '../LoginSignup/Footer';
 
 const TBSeason = () => {
   const [seasonsData, setSeasonsData] = useState(null);
@@ -42,22 +44,26 @@ const TBSeason = () => {
   // Adjust the rendering based on your UI design
   return (
     <div>
-      <h1>Season Details</h1>
+      <UserNavbar />
       <div className="driver-list-container">
-        {seasonsData.seasons.map(season => (
-          <div key={season.seasonId} className="driver-item">
-            <img
-              src={`https://localhost:7092/images/${season.imagePath}`} 
-              alt={`Season ${season.year} Image`}
-              className="driver-image"
-              onClick={() => handleImageClick(season.seasonId)}
-            />
-            <h2 className="driver-name">{`Season - ${season.year}`}</h2>
-            <p className="driver-details">{`Champion: ${season.champion || 'N/A'}`}</p>
-            {/* Add more season details as needed */}
-          </div>
+        {seasonsData.seasons.map((season, index) => (
+          // Skip rendering if season is null
+          season && (
+            <div key={index} className="driver-item">
+              <img
+                src={`https://localhost:7092/images/${season.imagePath}`} 
+                alt={`Season ${season.year} Image`}
+                className="driver-image"
+                onClick={() => handleImageClick(season.seasonId)}
+              />
+              <h2 className="driver-name">{`Season - ${season.year}`}</h2>
+              <p className="driver-details">{`Champion: ${season.champion || 'N/A'}`}</p>
+              {/* Add more season details as needed */}
+            </div>
+          )
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

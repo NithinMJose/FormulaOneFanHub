@@ -7,13 +7,15 @@ import Footer from './Footer';
 import userIcon from '../Assets/abc.png';
 import emailIcon from '../Assets/def.png';
 import { useNavigate } from 'react-router-dom';
-import './Register.css'; 
+import './Register.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [usernameError, setUsernameError] = useState('');
@@ -37,7 +39,7 @@ const Register = () => {
 
     if (!usernameError && !firstNameError && !lastNameError && !emailError && !isUsernameTaken) {
       // Check if any field is empty before proceeding
-      if (!username || !firstName || !lastName || !email) {
+      if (!username || !firstName || !lastName || !email || !contactNumber || !address) {
         toast.error('All fields are required to be filled');
         return; // Stop execution if any field is empty
       }
@@ -54,6 +56,8 @@ const Register = () => {
             firstName,
             lastName,
             email,
+            contactNumber,
+            address,
             password: '', // or null, depending on server requirements
             confirmPassword: '', // or null, depending on server requirements
           }),
@@ -62,7 +66,7 @@ const Register = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Registration success:', data);
-          navigate('/Registertwo', { replace: true, state: { ...data.user } });
+          navigate('/Registertwo', { replace: true, state: { ...data.user, address, contactNumber } });
         } else {
           const errorData = await response.json();
           console.error('Registration error:', errorData);
@@ -134,6 +138,12 @@ const Register = () => {
         validateEmail(value, setEmailError);
         setIsUsernameAvailable(false); // Reset isUsernameAvailable if the field is changed
         break;
+      case 'contactNumber':
+        setContactNumber(value);
+        break;
+      case 'address':
+        setAddress(value);
+        break;
       default:
         break;
     }
@@ -200,6 +210,22 @@ const Register = () => {
               fullWidth
             />
             {emailError && <div className='signup-error-box'>{emailError}</div>}
+            <TextField
+              label='Contact Number'
+              variant='outlined'
+              name='contactNumber'
+              value={contactNumber}
+              onChange={handleInputChange}
+              fullWidth
+            />
+            <TextField
+              label='Address'
+              variant='outlined'
+              name='address'
+              value={address}
+              onChange={handleInputChange}
+              fullWidth
+            />
           </div>
           <div className='signup-submit-container'>
             <Button
