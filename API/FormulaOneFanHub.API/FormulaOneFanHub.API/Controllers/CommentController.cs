@@ -40,8 +40,8 @@ namespace FormulaOneFanHub.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet("TopicComments/{topicId}")]
-        public IActionResult TopicComments(int topicId)
+        [HttpGet("TopicComments")]
+        public IActionResult TopicComments([FromQuery] int topicId)
         {
             var topicComments = _fanHubContext.Comments
                 .Where(c => c.TopicId == topicId)
@@ -64,6 +64,7 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok(commentDtos);
         }
+
 
 
         [HttpPut("EditComment/{commentId}")]

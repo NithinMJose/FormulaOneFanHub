@@ -52,6 +52,9 @@ function HomeNavbar() {
             <a href="/TBSeason" className="nav-item nav-link active">
               Ticket Booking
             </a>
+            <a href="/UserTBHistory" className="nav-item nav-link active">
+              Booked Tickets
+            </a>
           
             <a href="/F1HistoryUserView" className="nav-item nav-link active">
               F1History

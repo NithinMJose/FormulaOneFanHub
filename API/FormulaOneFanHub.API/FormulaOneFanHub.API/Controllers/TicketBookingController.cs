@@ -69,8 +69,46 @@ namespace FormulaOneFanHub.API.Controllers
 
             _fanHubContext.SaveChanges();
 
-            return StatusCode(201);
+            return StatusCode(201, new { TicketBookingId = ticketBooking.TicketBookingId });
         }
+
+        [HttpGet("GetTicketDetailsById/{ticketBookingId}")]
+        public IActionResult GetTicketDetailsById(int ticketBookingId)
+        {
+            // Find the ticket booking by ID
+            var ticketBooking = _fanHubContext.TicketBookings.Find(ticketBookingId);
+
+            // Check if the ticket booking is found
+            if (ticketBooking == null)
+            {
+                return NotFound($"Ticket booking with ID {ticketBookingId} not found.");
+            }
+
+            // You may want to include additional logic or mapping based on your requirements
+
+            return Ok(ticketBooking);
+        }
+
+        [HttpGet("GetTicketBookingHistoryByUserId/{userId}")]
+        public IActionResult GetTicketBookingHistoryByUserId(int userId)
+        {
+            // Find all ticket bookings for the specified user ID
+            var ticketBookings = _fanHubContext.TicketBookings
+                .Where(tb => tb.UserId == userId)
+                .ToList();
+
+            // Check if any ticket bookings are found
+            if (ticketBookings == null || ticketBookings.Count == 0)
+            {
+                return NotFound($"No ticket bookings found for user with ID {userId}.");
+            }
+
+            // You may want to include additional logic or mapping based on your requirements
+
+            return Ok(ticketBookings);
+        }
+
+
 
         // Other actions such as GetTicketBookings, GetTicketBookingById, CancelBooking, etc., can be added based on your requirements
     }

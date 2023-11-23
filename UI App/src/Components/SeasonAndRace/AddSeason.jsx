@@ -29,14 +29,14 @@ const AddSeason = () => {
   const validateYear = (value) => {
     const currentYear = new Date().getFullYear();
     const futureLimit = currentYear + 10;
-    
+
     if (!value || isNaN(value) || value < 1900 || value > futureLimit) {
-        setYearError('Please enter a valid year between 1900 and ' + futureLimit);
-        setChampion('');
-        return false;
+      setYearError('Please enter a valid year between 1900 and ' + futureLimit);
+      setChampion('');
+      return false;
     } else {
-        setYearError('');
-        return true;
+      setYearError('');
+      return true;
     }
   };
 
@@ -67,16 +67,16 @@ const AddSeason = () => {
 
   const validateForm = () => {
     let isValid = true;
-  
+
     isValid = isValid && validateYear(year);
-  
+
     // Check if the champion field is displayed before validating
     if (year >= 1900 && year <= new Date().getFullYear()) {
       isValid = isValid && validateChampion(champion);
     }
-  
+
     isValid = isValid && validateImage(imageFile);
-  
+
     return isValid;
   };
 
@@ -88,32 +88,37 @@ const AddSeason = () => {
     });
     if (validateForm()) {
       setLoading(true);
-  
+
       try {
         const formData = new FormData();
         formData.append('year', year);
         formData.append('champion', champion || 'Not_Yet_Decided'); // Set default value if not provided
         formData.append('imageFile', imageFile);
-  
-       
 
         const createSeasonResponse = await fetch('https://localhost:7092/api/Season/CreateSeason', {
           method: 'POST',
           body: formData,
         });
-  
+
         if (createSeasonResponse.status === 201) {
           toast.success('Season added successfully');
-          navigate('/SeasonList'); // Adjust the route as needed
-          // Additional logic or navigation can be added here
+          navigate('/SeasonList');
+        } else if (createSeasonResponse.status === 400) {
+          const errorData = await createSeasonResponse.json();
+          if (errorData.message && errorData.message.includes("Year is already added in the database")) {
+            toast.error("Year is already added in the database");
+          } else {
+            console.error('Season creation failed:', errorData);
+            toast.error('Season creation failed, Check if year is already in Database');
+          }
         } else {
           const errorData = await createSeasonResponse.json();
           console.error('Season creation failed:', errorData);
-          toast.error('Season creation failed');
+          toast.error('Season creation failed, Check if year is already in Database');
         }
       } catch (error) {
         console.error('Season creation failed:', error);
-        toast.error('Season creation failed');
+        toast.error('Season creation failed, Check if year is already in Database');
       } finally {
         setLoading(false);
       }
@@ -182,6 +187,9 @@ const AddSeason = () => {
                     Upload Image
                   </Button>
                 </label>
+              </Grid>
+              {/* Display image file error message on the next line */}
+              <Grid item xs={12}>
                 {imageFileError && (
                   <Typography variant="caption" color="error">
                     {imageFileError}

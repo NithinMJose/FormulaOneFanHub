@@ -39,8 +39,12 @@ import TBCategory from './Components/TicketBooking/TBCategory';
 import TBConfirm from './Components/TicketBooking/TBConfirm';
 import TBTicket from './Components/TicketBooking/TBTicket';
 import AddTopic from './Components/Topic/AddTopic';
-import { AddComment } from '@mui/icons-material';
+import AddComment from './Components/Topic/AddComment';
 import TopicListAdmin from './Components/Topic/TopicListAdmin';
+import RaceListAdmin from './Components/Topic/RaceListAdmin';
+import UserTBHistory from './Components/TicketBooking/UserTBHistory';
+import TopicListUser from './Components/Topic/TopicListUser';
+import TopicComment from './Components/Topic/TopicComment';
 
 
 
@@ -89,6 +93,14 @@ function App() {
           <Route path='/AddTopic' element={<AddTopic/>} />
           <Route path='/AddComment' element={<AddComment/>} />
           <Route path='/TopicListAdmin' element={<TopicListAdmin/>} />
+          <Route path='/RaceListAdmin' element={<RaceListAdmin/>} />
+          <Route path='/UserTBHistory' element={<UserTBHistory/>} />
+          <Route path='/TopicListUser' element={<TopicListUser/>} />
+          <Route path='/TopicComment' element={<TopicComment />} />
+
+
+
+
 
 
 

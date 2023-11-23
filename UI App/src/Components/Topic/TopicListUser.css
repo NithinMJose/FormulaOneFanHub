@@ -1,0 +1,43 @@
+/* TopicListUser.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.topic-list-container {
+  margin: 20px;
+}
+
+.topic-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+  margin-bottom: 30px; /* Add more margin for space at the bottom of each container */
+}
+
+.topic-container:hover {
+  transform: scale(1.02);
+}
+
+.topic-title {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.topic-content {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.topic-details {
+  font-size: 1rem;
+  color: #777;
+}
+
+/* You can customize the styling further based on your preferences */

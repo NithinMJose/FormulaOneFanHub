@@ -8,14 +8,14 @@ import Footer from '../LoginSignup/Footer';
 
 const AddRace = () => {
   const [raceName, setRaceName] = useState('');
-  const [seasonId, setSeasonId] = useState('');
+  const [seasonYear, setSeasonYear] = useState(''); // Changed to seasonYear
   const [raceDate, setRaceDate] = useState('');
   const [raceLocation, setRaceLocation] = useState('');
   const [imageFile, setImageFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState('');
 
   const [raceNameError, setRaceNameError] = useState('');
-  const [seasonIdError, setSeasonIdError] = useState('');
+  const [seasonIdError, setSeasonIdError] = useState(''); // Updated error state
   const [raceDateError, setRaceDateError] = useState('');
   const [raceLocationError, setRaceLocationError] = useState('');
   const [imageFileError, setImageFileError] = useState('');
@@ -23,8 +23,9 @@ const AddRace = () => {
   const navigate = useNavigate();
 
   const validateRaceName = (value) => {
-    if (!value || value.length < 3) {
-      setRaceNameError('Please enter a valid race name with at least 3 characters');
+    const trimmedValue = value.trim(); // Trim white spaces
+    if (!trimmedValue || trimmedValue.length < 3 || /\d/.test(trimmedValue)) {
+      setRaceNameError('Please enter a valid race name with at least 3 characters and no digits');
       return false;
     } else {
       setRaceNameError('');
@@ -32,9 +33,9 @@ const AddRace = () => {
     }
   };
 
-  const validateSeasonId = (value) => {
-    if (!value || isNaN(value)) {
-      setSeasonIdError('Please enter a valid season ID');
+  const validateSeasonYear = (value) => {
+    if (!value || isNaN(value) || value.length !== 4) {
+      setSeasonIdError('Please enter a valid 4-digit year');
       return false;
     } else {
       setSeasonIdError('');
@@ -43,8 +44,11 @@ const AddRace = () => {
   };
 
   const validateRaceDate = (value) => {
-    if (!value) {
-      setRaceDateError('Please enter a valid race date');
+    const minYear = 1600;
+    const maxYear = 2050;
+
+    if (!value || new Date(value).getFullYear() < minYear || new Date(value).getFullYear() > maxYear) {
+      setRaceDateError(`Please enter a valid race date between ${minYear} and ${maxYear}`);
       return false;
     } else {
       setRaceDateError('');
@@ -53,7 +57,8 @@ const AddRace = () => {
   };
 
   const validateRaceLocation = (value) => {
-    if (!value || value.length < 3) {
+    const trimmedValue = value.trim(); // Trim white spaces
+    if (!trimmedValue || trimmedValue.length < 3) {
       setRaceLocationError('Please enter a valid race location with at least 3 characters');
       return false;
     } else {
@@ -76,7 +81,7 @@ const AddRace = () => {
     let isValid = true;
 
     isValid = isValid && validateRaceName(raceName);
-    isValid = isValid && validateSeasonId(seasonId);
+    isValid = isValid && validateSeasonYear(seasonYear);
     isValid = isValid && validateRaceDate(raceDate);
     isValid = isValid && validateRaceLocation(raceLocation);
     isValid = isValid && validateImage(imageFile);
@@ -84,31 +89,39 @@ const AddRace = () => {
     return isValid;
   };
 
-  const handleSave = async () => {
+  const handleSave = async () => {    
     if (validateForm()) {
       setLoading(true);
 
       try {
-        const formData = new FormData();
-        formData.append('raceName', raceName);
-        formData.append('seasonId', seasonId);
-        formData.append('raceDate', raceDate);
-        formData.append('raceLocation', raceLocation);
-        formData.append('imageFile', imageFile);
+        const seasonIdResponse = await fetch(`https://localhost:7092/api/Season/SeasonIdFromYear?year=${seasonYear}`);
+        const seasonIdData = await seasonIdResponse.json();
 
-        const createRaceResponse = await fetch('https://localhost:7092/api/Race/CreateRace', {
-          method: 'POST',
-          body: formData,
-        });
+        if (seasonIdResponse.ok) {
+          const formData = new FormData();
+          formData.append('raceName', raceName);
+          formData.append('seasonId', seasonIdData.seasonId);
+          formData.append('raceDate', raceDate);
+          formData.append('raceLocation', raceLocation);
+          formData.append('imageFile', imageFile);
 
-        if (createRaceResponse.status === 201) {
-          toast.success('Race added successfully');
-          navigate('/RaceList'); // Adjust the route as needed
-          // Additional logic or navigation can be added here
+          console.log('formData:', formData);
+          const createRaceResponse = await fetch('https://localhost:7092/api/Race/CreateRace', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (createRaceResponse.status === 201) {
+            toast.success('Race added successfully');
+            navigate('/AddRace');
+          } else {
+            const errorData = await createRaceResponse.json();
+            console.error('Race creation failed:', errorData);
+            toast.error('Race creation failed');
+          }
         } else {
-          const errorData = await createRaceResponse.json();
-          console.error('Race creation failed:', errorData);
-          toast.error('Race creation failed');
+          console.error('Error converting year to SeasonId:', seasonIdData);
+          toast.error('Error converting year to SeasonId');
         }
       } catch (error) {
         console.error('Race creation failed:', error);
@@ -124,6 +137,7 @@ const AddRace = () => {
   return (
     <div>
       <AdminNavbar />
+      <br />
       <Container maxWidth="sm" className="outerSetup">
         <br />
         <br />
@@ -134,90 +148,93 @@ const AddRace = () => {
               Add Race
             </Typography>
             <div className="add-race-inputsadmin">
-  <TextField
-    label="Race Name"
-    variant="outlined"
-    fullWidth
-    value={raceName}
-    onChange={(e) => {
-      setRaceName(e.target.value);
-      validateRaceName(e.target.value);
-    }}
-    error={Boolean(raceNameError)}
-    helperText={raceNameError}
-    style={{ marginBottom: '10px' }} // Add padding here
-  />
-  <TextField
-    label="Season ID"
-    variant="outlined"
-    fullWidth
-    type="number"
-    value={seasonId}
-    onChange={(e) => {
-      setSeasonId(e.target.value);
-      validateSeasonId(e.target.value);
-    }}
-    error={Boolean(seasonIdError)}
-    helperText={seasonIdError}
-    style={{ marginBottom: '10px' }} // Add padding here
-  />
-  <TextField
-    label="Race Date"
-    type="date"
-    variant="outlined"
-    fullWidth
-    InputLabelProps={{
-      shrink: true,
-    }}
-    value={raceDate}
-    onChange={(e) => {
-      setRaceDate(e.target.value);
-      validateRaceDate(e.target.value);
-    }}
-    error={Boolean(raceDateError)}
-    helperText={raceDateError}
-    style={{ marginBottom: '10px' }} // Add padding here
-  />
-  <TextField
-    label="Race Location"
-    variant="outlined"
-    fullWidth
-    value={raceLocation}
-    onChange={(e) => {
-      setRaceLocation(e.target.value);
-      validateRaceLocation(e.target.value);
-    }}
-    error={Boolean(raceLocationError)}
-    helperText={raceLocationError}
-    style={{ marginBottom: '10px' }} // Add padding here
-  />
-  <input
-    accept="image/jpeg, image/jpg, image/png"
-    style={{ display: 'none' }}
-    id="image-file-input-race"
-    type="file"
-    onChange={(e) => {
-      setImageFile(e.target.files[0]);
-      validateImage(e.target.files[0]);
-    }}
-  />
-  <label htmlFor="image-file-input-race">
-    <Button
-      variant="outlined"
-      component="span"
-      fullWidth
-      style={{ height: '55px', marginBottom: '10px' }} // Add padding here
-      startIcon={<InputAdornment position="start">📷</InputAdornment>}
-    >
-      Upload Image
-    </Button>
-  </label>
-  {imageFileError && (
-    <Typography variant="caption" color="error">
-      {imageFileError}
-    </Typography>
-  )}
-</div>
+              <TextField
+                label="Race Name"
+                variant="outlined"
+                fullWidth
+                value={raceName}
+                onChange={(e) => {
+                  setRaceName(e.target.value);
+                  validateRaceName(e.target.value);
+                }}
+                error={Boolean(raceNameError)}
+                helperText={raceNameError}
+                style={{ marginBottom: '10px' }}
+              />
+              <TextField
+                label="Season Year"
+                variant="outlined"
+                fullWidth
+                type="number"
+                value={seasonYear}
+                onChange={(e) => {
+                  setSeasonYear(e.target.value);
+                  validateSeasonYear(e.target.value);
+                }}
+                error={Boolean(seasonIdError)}
+                helperText={seasonIdError}
+                style={{ marginBottom: '10px' }}
+              />
+              <TextField
+                label="Race Date"
+                type="date"
+                variant="outlined"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={raceDate}
+                onChange={(e) => {
+                  setRaceDate(e.target.value);
+                  validateRaceDate(e.target.value);
+                  // Restrict the year field to 4 characters
+                  setRaceDate(e.target.value.slice(0, 10));
+                  validateRaceDate(e.target.value);
+                }}
+                error={Boolean(raceDateError)}
+                helperText={raceDateError}
+                style={{ marginBottom: '10px' }}
+              />
+              <TextField
+                label="Race Location"
+                variant="outlined"
+                fullWidth
+                value={raceLocation}
+                onChange={(e) => {
+                  setRaceLocation(e.target.value);
+                  validateRaceLocation(e.target.value);
+                }}
+                error={Boolean(raceLocationError)}
+                helperText={raceLocationError}
+                style={{ marginBottom: '10px' }}
+              />
+              <input
+                accept="image/jpeg, image/jpg, image/png"
+                style={{ display: 'none' }}
+                id="image-file-input-race"
+                type="file"
+                onChange={(e) => {
+                  setImageFile(e.target.files[0]);
+                  validateImage(e.target.files[0]);
+                }}
+              />
+              <label htmlFor="image-file-input-race">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  fullWidth
+                  style={{ height: '55px', marginBottom: '10px' }}
+                  startIcon={<InputAdornment position="start">📷</InputAdornment>}
+                >
+                  Upload Image
+                </Button>
+              </label>
+              {imageFileError && (
+                <Typography variant="caption" color="error">
+                  {imageFileError}
+                </Typography>
+              )}
+            </div>
             <div className="add-race-submit-container">
               <Button
                 variant="contained"
@@ -235,6 +252,7 @@ const AddRace = () => {
         <br />
         <br />
       </Container>
+      <br />
       <Footer />
     </div>
   );

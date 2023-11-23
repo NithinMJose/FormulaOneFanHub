@@ -127,5 +127,13 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(races);
         }
 
+        [HttpGet("GetAllRaces")]
+        public IActionResult GetAllRaces()
+        {
+            var races = _fanHubContext.Races.ToList();
+            return Ok(races);
+        }
+
+
     }
 }

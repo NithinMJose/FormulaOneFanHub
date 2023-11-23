@@ -26,6 +26,14 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Check if a season with the same year already exists
+            var existingSeason = _fanHubContext.Seasons.FirstOrDefault(s => s.Year == seasonDto.Year);
+
+            if (existingSeason != null)
+            {
+                return BadRequest("Year is already added in the database");
+            }
+
             if (seasonDto.ImageFile != null && seasonDto.ImageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + "_" + seasonDto.ImageFile.FileName;
@@ -51,13 +59,6 @@ namespace FormulaOneFanHub.API.Controllers
             _fanHubContext.SaveChanges();
 
             return StatusCode(201);
-        }
-
-        [HttpGet("GetSeasons")]
-        public IActionResult GetSeasons()
-        {
-            var seasons = _fanHubContext.Seasons;
-            return Ok(seasons);
         }
 
         [HttpGet("GetSeasonById")]
@@ -103,6 +104,14 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok();
         }
 
+        [HttpGet("GetSeasons")]
+        public IActionResult GetSeasons()
+        {
+            var seasons = _fanHubContext.Seasons.ToList();
+            return Ok(seasons);
+        }
+
+
         [HttpGet("SeasonsForBooking")]
         public IActionResult SeasonsForBooking()
         {
@@ -131,6 +140,19 @@ namespace FormulaOneFanHub.API.Controllers
             };
 
             return Ok(result);
+        }
+
+        [HttpGet("SeasonIdFromYear")]
+        public IActionResult SeasonIdFromYear(int year)
+        {
+            var season = _fanHubContext.Seasons.FirstOrDefault(s => s.Year == year);
+
+            if (season != null)
+            {
+                return Ok(new { SeasonId = season.SeasonId });
+            }
+
+            return Ok("No year found in the database");
         }
     }
 }

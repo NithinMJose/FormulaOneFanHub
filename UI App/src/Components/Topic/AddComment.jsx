@@ -15,6 +15,7 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 
 const AddComment = () => {
+  const [topicId, setTopicId] = useState(''); // New state for Topic Id
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -22,17 +23,16 @@ const AddComment = () => {
 
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
-  const [userIdJ, setUserId ]= useState('');
+  const [userId, setUserId] = useState('');
 
   const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
     if (token) {
-        const decodedToken = jwt_decode(token);
-        setUserName(decodedToken.userName);
-        setUserId(decodedToken.userIdJ);
-        console.log('Decoded Token:', decodedToken);
-
+      const decodedToken = jwt_decode(token);
+      setUserName(decodedToken.userName);
+      setUserId(decodedToken.userIdJ);
+      console.log('Decoded Token:', decodedToken);
     }
   }, [token]);
 
@@ -47,7 +47,11 @@ const AddComment = () => {
   };
 
   const validateForm = () => {
-    return validateContent(content);
+    let isValid = true;
+
+    isValid = isValid && validateContent(content);
+
+    return isValid;
   };
 
   const handleSave = async () => {
@@ -65,14 +69,14 @@ const AddComment = () => {
           body: JSON.stringify({
             content,
             userId: numericUserId,
-            topicId: 1, // Replace with the actual topic ID or get it from the page
             userName,
+            topicId, // Use the Topic Id state here
           }),
         });
 
         if (createCommentResponse.status === 201) {
           toast.success('Comment added successfully');
-          // Additional logic or navigation can be added here
+          // You may choose to navigate back to the topic details or perform any other actions
         } else {
           const errorData = await createCommentResponse.json();
           console.error('Comment creation failed:', errorData);
@@ -99,6 +103,16 @@ const AddComment = () => {
           </Typography>
           <form>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                {/* New TextField for Topic Id */}
+                <TextField
+                  label="Topic Id"
+                  variant="outlined"
+                  fullWidth
+                  value={topicId}
+                  onChange={(e) => setTopicId(e.target.value)}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   label="Content"
