@@ -79,6 +79,18 @@ function AdminNavbar() {
                 <Link to="/AddTicketCategory" className="dropdown-item">
                 AddTicketCategory
                 </Link>
+                <Link to="/AddPoll" className="dropdown-item">
+                Add Poll Data
+                </Link>
+                <Link to="/PollList" className="dropdown-item">
+                View Poll Data
+                </Link>
+                <Link to="/AddTopic" className="dropdown-item">
+                Add Topic
+                </Link>
+                <Link to="/TopicListAdmin" className="dropdown-item">
+                View Topic Data
+                </Link>
               </div>
             </div>
             <Link to="/UserList" className="nav-item nav-link">

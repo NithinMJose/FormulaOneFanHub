@@ -22,8 +22,8 @@ const TopicListUser = () => {
     fetchTopics();
   }, []);
 
-  const handleTopicClick = (topicId) => {
-    navigate('/TopicComment', { replace: true, state: {  topicId } });
+  const handleTopicClick = (topicId, title) => {
+    navigate('/TopicComment', { replace: true, state: { topicId, title } });
   };
 
   return (
@@ -32,7 +32,7 @@ const TopicListUser = () => {
       <br />
       <div className="topic-list-container">
         {topicList.map((topic) => (
-          <div key={topic.topicId} className="topic-container" onClick={() => handleTopicClick(topic.topicId)}>
+          <div key={topic.topicId} className="topic-container" onClick={() => handleTopicClick(topic.topicId, topic.title)}>
             <h2 className="topic-title">{topic.title}</h2>
             <p className="topic-content">{topic.content}</p>
             <p className="topic-details">

@@ -93,6 +93,31 @@ namespace FormulaOneFanHub.API.Controllers
             }
         }
 
+        [HttpDelete("DeleteCommentById")]
+        public IActionResult DeleteCommentById([FromBody] int commentId)
+        {
+            try
+            {
+                var commentToDelete = _fanHubContext.Comments.FirstOrDefault(c => c.CommentId == commentId);
+
+                if (commentToDelete == null)
+                {
+                    return NotFound("Comment not found.");
+                }
+
+                _fanHubContext.Comments.Remove(commentToDelete);
+                _fanHubContext.SaveChanges();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+
         [HttpDelete("DeleteCommentByAdmin/{commentId}")]
         public IActionResult DeleteCommentByAdmin(int commentId)
         {

@@ -98,7 +98,7 @@ const AddTopic = () => {
 
         if (createTopicResponse.status === 201) {
           toast.success('Topic added successfully');
-          navigate('/TopicList'); // Adjust the route as needed
+          navigate('/TopicListAdmin'); // Adjust the route as needed
           // Additional logic or navigation can be added here
         } else {
           const errorData = await createTopicResponse.json();

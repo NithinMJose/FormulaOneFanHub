@@ -45,6 +45,14 @@ import RaceListAdmin from './Components/Topic/RaceListAdmin';
 import UserTBHistory from './Components/TicketBooking/UserTBHistory';
 import TopicListUser from './Components/Topic/TopicListUser';
 import TopicComment from './Components/Topic/TopicComment';
+import AddPoll from './Components/Poll/AddPoll';
+import PollList from './Components/Poll/PollList';
+import PollListUser from './Components/Poll/PollListUser';
+import UserVote from './Components/Poll/UserVote';
+import AddGallery from './Components/Gallery/AddGallery';
+import GalleryListAdmin from './Components/Gallery/GalleryListAdmin';
+import GalleryUserView from './Components/Gallery/GalleryUserView';
+
 
 
 
@@ -97,14 +105,16 @@ function App() {
           <Route path='/UserTBHistory' element={<UserTBHistory/>} />
           <Route path='/TopicListUser' element={<TopicListUser/>} />
           <Route path='/TopicComment' element={<TopicComment />} />
+          <Route path='/AddPoll' element={<AddPoll />} />
+          <Route path='/PollList' element={<PollList />} />
+          <Route path='/PollListUser' element={<PollListUser />} />
+          <Route path='/UserVote' element={<UserVote />} />
+          <Route path='/AddGallery' element={<AddGallery />} />
+          <Route path='/GalleryListAdmin' element={<GalleryListAdmin />} />
+          <Route path='/GalleryUserView' element={<GalleryUserView />} />
 
 
 
-
-
-
-
-          
         </Routes>
         <ToastContainer />
       </div>

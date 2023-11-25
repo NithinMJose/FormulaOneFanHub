@@ -49,11 +49,18 @@ function HomeNavbar() {
             <a href="/" className="nav-item nav-link active">
               Home
             </a>
+            <a href="/GalleryUserView" className="nav-item nav-link active">
+              Gallery
+            </a>
             <a href="/TBSeason" className="nav-item nav-link active">
               Ticket Booking
             </a>
             <a href="/UserTBHistory" className="nav-item nav-link active">
               Booked Tickets
+            </a>
+
+            <a href="/TopicListUser" className="nav-item nav-link active">
+              Open Forum
             </a>
           
             <a href="/F1HistoryUserView" className="nav-item nav-link active">
