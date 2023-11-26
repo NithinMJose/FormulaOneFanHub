@@ -5,6 +5,8 @@ namespace FormulaOneFanHub.API.Entities
 {
     public class TicketBookingDto
     {
+        public string UniqueId { get; set; }
+
         public int TicketBookingId { get; set; }
 
         public int UserId { get; set; }

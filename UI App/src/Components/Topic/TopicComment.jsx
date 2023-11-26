@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react'; 
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import { useSpring, animated } from 'react-spring';
 import {
   Button,
   Dialog,
@@ -11,6 +12,8 @@ import {
   ListItem,
   Typography,
   Avatar,
+  Paper,
+  Box,
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +23,7 @@ import UserNavbar from '../LoginSignup/UserNavbar';
 const TopicComment = () => {
   const token = localStorage.getItem('jwtToken');
   const tokenPayload = jwt_decode(token);
-  const userId = parseInt(tokenPayload?.userId, 10); // Convert userId to integer
+  const userId = parseInt(tokenPayload?.userId, 10);
   const userName = tokenPayload?.userName;
 
   const location = useLocation();
@@ -49,7 +52,7 @@ const TopicComment = () => {
 
     const fetchUserDetails = async (comments) => {
       const userIds = comments.map((comment) => comment.userId);
-      const uniqueUserIds = [...new Set(userIds)]; // Remove duplicate userIds
+      const uniqueUserIds = [...new Set(userIds)];
 
       for (const userId of uniqueUserIds) {
         try {
@@ -110,7 +113,6 @@ const TopicComment = () => {
         setShowCommentPopup(false);
         setNewComment('');
 
-        // Redirect to '/TopicComment' after successful comment addition
         navigate('/TopicComment', { replace: true, state: { topicId: state?.topicId } });
       } else {
         const errorData = await response.json();
@@ -156,75 +158,80 @@ const TopicComment = () => {
     }
   }, [comments]);
 
-  return (
-    <div>
-    <UserNavbar />
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ float: 'right', marginBottom: '10px' }}
-        onClick={handleAddCommentClick}
-      >
-        Add Comment
-      </Button>
-      <Typography variant="h4">Comments for Topic - {state?.title}</Typography>
-      <List ref={commentsRef}>
-        {comments.map((comment) => (
-          <ListItem key={comment.commentId}>
-            <Avatar style={{ backgroundColor: getRandomColor(), marginRight: '10px' }}>
-              {getUserName(comment.userId)?.charAt(0).toUpperCase()}
-            </Avatar>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div
-                style={{
-                  border: `2px solid ${getRandomColor()}`,
-                  padding: '10px',
-                  marginBottom: '10px',
-                  borderRadius: '20px',
-                }}
-              >
-                <Typography variant="subtitle1">{`${getUserName(comment.userId)}`}</Typography>
-                <Typography variant="body1">{`${comment.content}`}</Typography>
-                <Typography variant="caption">{`${new Date(comment.createdOn).toLocaleString()}`}</Typography>
-              </div>
-              {comment.userId === userId && (
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  style={{ width: '80px' }} // Set a constant width for the delete button
-                  onClick={() => handleDeleteComment(comment.commentId)}
-                >
-                  Delete
-                </Button>
-              )}
-            </div>
-          </ListItem>
-        ))}
-      </List>
+  const fadeIn = useSpring({ opacity: 1, from: { opacity: 0 } });
 
-      <Dialog open={showCommentPopup} onClose={handleCancelComment}>
-        <DialogContent>
-          <TextField
-            label="Enter your comment"
-            variant="outlined"
-            fullWidth
-            multiline
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            rows={4}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancelComment} color="secondary">
-            Cancel
+  return (
+    <animated.div style={fadeIn}>
+      <div>
+        <UserNavbar />
+        <Typography variant="h2">{state?.title}</Typography>
+        <List ref={commentsRef}>
+          {comments.map((comment) => (
+            <ListItem key={comment.commentId}>
+              <Avatar style={{ backgroundColor: getRandomColor(), marginRight: '10px' }}>
+                {getUserName(comment.userId)?.charAt(0).toUpperCase()}
+              </Avatar>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <Paper
+                  elevation={3}
+                  style={{
+                    padding: '10px',
+                    marginBottom: '10px',
+                    borderRadius: '20px',
+                  }}
+                >
+                  <Typography variant="subtitle1">{`${getUserName(comment.userId)}`}</Typography>
+                  <Typography variant="body1">{`${comment.content}`}</Typography>
+                  <Typography variant="caption">{`${new Date(comment.createdOn).toLocaleString()}`}</Typography>
+                </Paper>
+                {comment.userId === userId && (
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    style={{ width: '80px', alignSelf: 'flex-end', marginTop: '10px' }}
+                    onClick={() => handleDeleteComment(comment.commentId)}
+                  >
+                    Delete
+                  </Button>
+                )}
+              </div>
+            </ListItem>
+          ))}
+        </List>
+        <Box display="flex" justifyContent="center">
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginBottom: '10px' }}
+            onClick={handleAddCommentClick}
+          >
+            Add Comment
           </Button>
-          <Button onClick={handleSaveComment} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Footer />
-    </div>
+        </Box>
+        <Dialog open={showCommentPopup} onClose={handleCancelComment}>
+          <DialogContent style={{ background: '#f0f0f0' , width: '500px'}}>
+            <TextField
+              label="Enter your comment"
+              variant="outlined"
+              fullWidth
+              multiline
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              rows={4}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelComment} color="secondary">
+              Cancel
+            </Button>
+            <Button onClick={handleSaveComment} color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Footer />
+      </div>
+    </animated.div>
   );
 };
 

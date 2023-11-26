@@ -6,10 +6,13 @@ import { TextField, Button, CircularProgress, Typography } from '@mui/material';
 import AdminNavbar from './AdminNavbar';
 import Footer from './Footer';
 import './AddF1History.css';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const AddF1History = () => {
     const { control, handleSubmit, setValue, formState: { errors }, setError } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         try {
@@ -23,6 +26,7 @@ const AddF1History = () => {
 
             if (response.status === 201) {
                 toast.success('F1 History added successfully');
+                navigate('/F1HistoryList');
                 // Additional logic or navigation can be added here
             } else {
                 const errorData = await response.json();

@@ -6,6 +6,7 @@ import { Button, TextField, InputAdornment, Typography, Container } from '@mui/m
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 
+
 const AddRace = () => {
   const [raceName, setRaceName] = useState('');
   const [seasonYear, setSeasonYear] = useState(''); // Changed to seasonYear
@@ -113,7 +114,7 @@ const AddRace = () => {
 
           if (createRaceResponse.status === 201) {
             toast.success('Race added successfully');
-            navigate('/AddRace');
+            navigate('/RaceListAdmin');
           } else {
             const errorData = await createRaceResponse.json();
             console.error('Race creation failed:', errorData);

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserNavbar from '../LoginSignup/UserNavbar';
 import jwt_decode from 'jwt-decode';
+import { v4 as uuidv4 } from 'uuid'; // Import uuid library
 import {
   Container,
   Typography,
@@ -86,7 +87,10 @@ const TBConfirm = () => {
         console.error('User details not available.');
         return;
       }
-  
+
+      // Generate a unique ID for the booking
+      const uniqueId = uuidv4();
+
       // Log the payload before sending the request
       console.log('Booking payload:', {
         UserId: userDetails.id,
@@ -102,8 +106,9 @@ const TBConfirm = () => {
         PhoneContact: userDetails.contactNumber,
         BookingStatus: 'Confirmed',
         PaymentStatus: 'Pending',
+        UniqueId: uniqueId, // Add the unique ID to the payload
       });
-  
+
       // Send a request to book the ticket
       const response = await axios.post('https://localhost:7092/api/TicketBooking/BookTickets', {
         UserId: userDetails.id,
@@ -119,13 +124,14 @@ const TBConfirm = () => {
         PhoneContact: userDetails.contactNumber,
         BookingStatus: 'Confirmed',
         PaymentStatus: 'Pending',
+        UniqueId: uniqueId, // Add the unique ID to the payload
       });
-  
+
       const ticketBookingId = response.data.TicketBookingId;
-  
+
       // Log the response from the endpoint
       console.log('Response from the endpoint:', response.data);
-  
+
       // Navigate to the 'TBTicket' page with the necessary data
       navigate('/TBTicket', {
         state: {
@@ -143,7 +149,7 @@ const TBConfirm = () => {
       // Handle the error
     }
   };
-  
+
   if (!confirmationData) {
     return <p>No data available for confirmation.</p>;
   }

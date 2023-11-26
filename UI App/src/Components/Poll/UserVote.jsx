@@ -55,10 +55,12 @@ const UserVote = () => {
             console.log('User has not voted yet.');
           }
         } else {
-          console.error('Error fetching poll details:', pollResponse.status);
+          console.error('Error fetching poll details 1:', pollResponse.status);
+          console.log('Poll response:', pollResponse.status);
+          console.error('Vote response :', votesResponse.status);
         }
       } catch (error) {
-        console.error('Error fetching poll details:', error);
+        console.error('Error fetching poll details 2:', error);
       }
     };
   

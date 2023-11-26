@@ -27,11 +27,15 @@ const UserViewProfile = () => {
     email: '',
     firstName: '',
     lastName: '',
+    contactNumber: '',
+    address: '',
   });
 
   const [emailError, setEmailError] = useState('');
   const [firstNameError, setFirstNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
+  const [contactNumberError, setContactNumberError] = useState('');
+  const [addressError, setAddressError] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -92,6 +96,30 @@ const UserViewProfile = () => {
     }
   };
 
+  
+
+  const validatePhoneNumber = (phoneNumber, setError) => {
+    const phoneRegex = /^[0-9]+$/;
+
+    if (!phoneRegex.test(phoneNumber) || phoneNumber.length !== 10) {
+      setError('Invalid phone number, exactly 10 digits required');
+    } else {
+      setError('');
+    }
+};
+
+
+  const validateAddress = (address, setError) => {
+    const minCharacters = 10;
+    const trimmedAddress = address.trim(); // Remove leading and trailing whitespaces
+
+    if (!trimmedAddress || trimmedAddress.length < minCharacters) {
+      setError(`Address: Minimum ${minCharacters} non-whitespace characters required`);
+    } else {
+      setError('');
+    }
+  };
+
   const clearErrorsOnTyping = (name, value) => {
     switch (name) {
       case 'email':
@@ -102,6 +130,12 @@ const UserViewProfile = () => {
         break;
       case 'lastName':
         setLastNameError('');
+        break;
+      case 'contactNumber':
+        setContactNumberError('');
+        break;
+      case 'address':
+        setAddressError('');
         break;
       default:
         break;
@@ -123,6 +157,12 @@ const UserViewProfile = () => {
       case 'lastName':
         validateName(value, setLastNameError);
         break;
+      case 'contactNumber':
+        validatePhoneNumber(value, setContactNumberError);
+        break;
+      case 'address':
+        validateAddress(value, setAddressError);
+        break;
       default:
         break;
     }
@@ -137,7 +177,13 @@ const UserViewProfile = () => {
   };
 
   const handleUpdateProfile = () => {
-    if (!validateEmail(editedData.email) || firstNameError || lastNameError) {
+    if (
+      !validateEmail(editedData.email) ||
+      firstNameError ||
+      lastNameError ||
+      contactNumberError ||
+      addressError
+    ) {
       toast.error('Please fix validation errors before updating your profile.');
       return;
     }
@@ -147,6 +193,8 @@ const UserViewProfile = () => {
       email: editedData.email,
       firstName: editedData.firstName,
       lastName: editedData.lastName,
+      contactNumber: editedData.contactNumber,
+      address: editedData.address,
     };
 
     axios
@@ -190,8 +238,24 @@ const UserViewProfile = () => {
           onChange={handleInputChange}
           onBlur={handleInputBlur}
           label={label.charAt(0).toUpperCase() + label.slice(1)}
-          error={(label === 'email' && !!emailError) || !!firstNameError || !!lastNameError}
-          helperText={label === 'email' ? emailError : label === 'firstName' ? firstNameError : lastNameError}
+          error={
+            (label === 'email' && !!emailError) ||
+            !!firstNameError ||
+            !!lastNameError ||
+            !!contactNumberError ||
+            !!addressError
+          }
+          helperText={
+            label === 'email'
+              ? emailError
+              : label === 'firstName'
+              ? firstNameError
+              : label === 'lastName'
+              ? lastNameError
+              : label === 'contactNumber'
+              ? contactNumberError
+              : addressError
+          }
         />
       ) : (
         <Typography variant="body1">{value}</Typography>
@@ -222,39 +286,38 @@ const UserViewProfile = () => {
                 <TableCell className="attribute">Last Name</TableCell>
                 <TableCell className="data">{renderField('lastName', userData.lastName)}</TableCell>
               </TableRow>
-              
               <TableRow>
-  <TableCell colSpan="2" className="edit">
-    {isEditing ? (
-      <>
-        <Button
-          variant="contained"
-          color="primary"
-          className="updateButton"
-          onClick={handleUpdateProfile}
-        >
-          Update Profile
-        </Button>
+                <TableCell className="attribute">Contact Number</TableCell>
+                <TableCell className="data">{renderField('contactNumber', userData.contactNumber)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="attribute">Address</TableCell>
+                <TableCell className="data">{renderField('address', userData.address)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan="2" className="edit">
+                  {isEditing ? (
+                    <>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className="updateButton"
+                        onClick={handleUpdateProfile}
+                      >
+                        Update Profile
+                      </Button>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          className="changePasswordButton"
-          onClick={handleChangePassword}
-        >
-          Change Password
-        </Button>
-      </>
-    ) : (
-      <>
-        <Button variant="contained" color="primary" className="editButton" onClick={handleEditProfile}>
-          Edit Details
-        </Button>
-      </>
-    )}
-  </TableCell>
-</TableRow>
-
+                      
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="contained" color="primary" className="editButton" onClick={handleEditProfile}>
+                        Edit Details
+                      </Button>
+                    </>
+                  )}
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, Card, CardContent, CardMedia, styled, Dialog, DialogContent, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import UserNavbar from '../LoginSignup/UserNavbar';
+import Footer from '../LoginSignup/Footer';
 
 const StyledContainer = styled(Container)`
   margin-top: 20px;
@@ -99,6 +100,8 @@ const GalleryUserView = () => {
           )}
         </DialogContent>
       </Dialog>
+      <Footer />
+      <br />
     </div>
   );
 };

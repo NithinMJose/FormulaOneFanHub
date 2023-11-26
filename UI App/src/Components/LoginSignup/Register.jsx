@@ -22,6 +22,8 @@ const Register = () => {
   const [firstNameError, setFirstNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [contactNumberError, setContactNumberError] = useState('');
+  const [addressError, setAddressError] = useState('');
   const [isUsernameTaken, setIsUsernameTaken] = useState(false);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
 
@@ -32,12 +34,14 @@ const Register = () => {
     validateName(firstName, setFirstNameError, 'First Name');
     validateName(lastName, setLastNameError, 'Last Name');
     validateEmail(email, setEmailError);
+    validatePhoneNumber(contactNumber, setContactNumberError);
+    validateAddress(address, setAddressError);
   };
 
   const handleSave = async () => {
     validateForm();
 
-    if (!usernameError && !firstNameError && !lastNameError && !emailError && !isUsernameTaken) {
+    if (!usernameError && !firstNameError && !lastNameError && !emailError && !contactNumberError && !addressError && !isUsernameTaken) {
       // Check if any field is empty before proceeding
       if (!username || !firstName || !lastName || !email || !contactNumber || !address) {
         toast.error('All fields are required to be filled');
@@ -105,6 +109,27 @@ const Register = () => {
     }
   };
 
+  const validatePhoneNumber = (phoneNumber, setError) => {
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      setError('Phone Number: Invalid format (10 digits required)');
+    } else {
+      setError('');
+    }
+  };
+
+  const validateAddress = (address, setError) => {
+    const minCharacters = 10;
+    const trimmedAddress = address.trim(); // Remove leading and trailing whitespaces
+  
+    if (!trimmedAddress || trimmedAddress.length < minCharacters) {
+      setError(`Address: Minimum ${minCharacters} non-whitespace characters required`);
+    } else {
+      setError('');
+    }
+  };
+  
+
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
 
@@ -140,9 +165,13 @@ const Register = () => {
         break;
       case 'contactNumber':
         setContactNumber(value);
+        validatePhoneNumber(value, setContactNumberError);
+        setIsUsernameAvailable(false); // Reset isUsernameAvailable if the field is changed
         break;
       case 'address':
         setAddress(value);
+        validateAddress(value, setAddressError);
+        setIsUsernameAvailable(false); // Reset isUsernameAvailable if the field is changed
         break;
       default:
         break;
@@ -218,6 +247,7 @@ const Register = () => {
               onChange={handleInputChange}
               fullWidth
             />
+            {contactNumberError && <div className='signup-error-box'>{contactNumberError}</div>}
             <TextField
               label='Address'
               variant='outlined'
@@ -226,6 +256,7 @@ const Register = () => {
               onChange={handleInputChange}
               fullWidth
             />
+            {addressError && <div className='signup-error-box'>{addressError}</div>}
           </div>
           <div className='signup-submit-container'>
             <Button

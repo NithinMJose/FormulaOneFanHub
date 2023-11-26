@@ -5,9 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { TextField, Button, CircularProgress, Typography } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { useNavigate } from 'react-router-dom';
+
 
 const AddTeamHistory = () => {
   const { control, handleSubmit, setValue, formState: { errors }, setError } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
@@ -21,6 +24,7 @@ const AddTeamHistory = () => {
 
       if (response.status === 201) {
         toast.success('Team History added successfully');
+        navigate('/TeamHistoryList');
         // Additional logic or navigation can be added here
       } else {
         const errorData = await response.json();

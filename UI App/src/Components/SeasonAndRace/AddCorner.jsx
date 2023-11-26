@@ -92,7 +92,7 @@ const AddCorner = () => {
 
         if (createCornerResponse.status === 201) {
           toast.success('Corner added successfully');
-          navigate('/CornerList'); // Adjust the route as needed
+          navigate('/CornerListAdmin'); // Adjust the route as needed
           // Additional logic or navigation can be added here
         } else {
           const errorData = await createCornerResponse.json();

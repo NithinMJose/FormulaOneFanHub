@@ -32,7 +32,7 @@ const DriverListUser = () => {
             />
             <h2 className="driver-name">{driver.name}</h2>
             <p className="driver-details">
-
+            {driver.description}
             </p>
           </div>
         ))}

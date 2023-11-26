@@ -86,7 +86,7 @@ namespace FormulaOneFanHub.API.Controllers
                     issuer: _config["Jwt:Issuer"],
                     audience: _config["Jwt:Audience"],
                     claims: claims,
-                    expires: DateTime.UtcNow.AddMinutes(30), // Adjust the expiration time as needed
+                    expires: DateTime.UtcNow.AddMinutes(3000), // Adjust the expiration time as needed
                     signingCredentials: credentials
                 );
 
@@ -227,6 +227,8 @@ namespace FormulaOneFanHub.API.Controllers
             user.Email = userUpdateDto.Email;
             user.FirstName = userUpdateDto.FirstName;
             user.LastName = userUpdateDto.LastName;
+            user.ContactNumber = userUpdateDto.ContactNumber;
+            user.Address = userUpdateDto.Address;
 
             // Save the changes to the database
             _fanHubContext.SaveChanges();
@@ -524,7 +526,10 @@ namespace FormulaOneFanHub.API.Controllers
                         UserName = user.UserName,
                         Email = user.Email,
                         FirstName = user.FirstName,
-                        LastName = user.LastName
+                        LastName = user.LastName,
+                        ContactNumber = user.ContactNumber,
+                        Address = user.Address
+
                     };
 
 

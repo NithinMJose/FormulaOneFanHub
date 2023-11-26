@@ -128,6 +128,7 @@ const AddPoll = () => {
 
         if (createPollResponse.status === 201) {
           toast.success('Poll added successfully');
+          navigate('/PollList');
           // You may choose to navigate back to the poll list or perform any other actions
         } else {
           const errorData = await createPollResponse.json();

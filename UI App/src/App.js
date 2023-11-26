@@ -56,6 +56,8 @@ import UserVoteResult from './Components/Poll/UserVoteResult';
 import AddTeamHistory from './Components/TeamHistory/AddTeamHistory';
 import TeamHistoryList from './Components/TeamHistory/TeamHistoryList';
 import TeamHistoryUserView from './Components/TeamHistory/TeamHistoryUserView';
+import CornerListAdmin from './Components/SeasonAndRace/CornerListAdmin';
+import UserActiveTBHistory from './Components/TicketBooking/UserActiveTBHistory';
 
 
 
@@ -93,6 +95,7 @@ function App() {
           <Route path='/AddRace' element={<AddRace/>} />
           <Route path='/AddTicketCategory' element={<AddTicketCategory/>} />
           <Route path='/AddCorner' element={<AddCorner/>} />
+          <Route path='/CornerListAdmin' element={<CornerListAdmin />} />
           <Route path='/LeftPanel' element={<LeftPanel/>} />
           <Route path='/SeasonList' element={<SeasonList/>} />
           <Route path='/TicketCategoryList' element={<TicketCategoryList/>} />
@@ -107,6 +110,7 @@ function App() {
           <Route path='/TopicListAdmin' element={<TopicListAdmin/>} />
           <Route path='/RaceListAdmin' element={<RaceListAdmin/>} />
           <Route path='/UserTBHistory' element={<UserTBHistory/>} />
+          <Route path='/UserActiveTBHistory' element={<UserActiveTBHistory/>} />
           <Route path='/TopicListUser' element={<TopicListUser/>} />
           <Route path='/TopicComment' element={<TopicComment />} />
           <Route path='/AddPoll' element={<AddPoll />} />

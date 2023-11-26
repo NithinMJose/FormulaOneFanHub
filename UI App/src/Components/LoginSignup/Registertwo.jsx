@@ -73,7 +73,6 @@ const Registertwo = () => {
             <div className='signup-label'>Email: {state.email}</div>
             <div className='signup-label'>Contact Number: {state.contactNumber}</div>
             <div className='signup-label'>Address: {state.address}</div>
-            <div className='signup-label'>OTP: {state.otp}</div>
             <TextField
               label='Enter OTP'
               variant='outlined'

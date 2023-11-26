@@ -52,12 +52,37 @@ function HomeNavbar() {
             <a href="/GalleryUserView" className="nav-item nav-link active">
               Gallery
             </a>
-            <a href="/TBSeason" className="nav-item nav-link active">
+
+            <div className="nav-item dropdown">
+              <a href="#" className="nav-item nav-link active" data-bs-toggle="dropdown">
               Ticket Booking
-            </a>
-            <a href="/UserTBHistory" className="nav-item nav-link active">
-              Booked Tickets
-            </a>
+              </a>
+              <div className="dropdown-menu m-0">
+                <Link to="/TBSeason" className="dropdown-item">
+                  Book New Ticket
+                </Link>
+                <Link to="/UserActiveTBHistory" className="dropdown-item">
+                  Show Active Bookings
+                </Link>
+                <Link to="/UserTBHistory" className="dropdown-item">
+                  Show Booking History
+                </Link>
+              </div>
+            </div>
+
+            <div className="nav-item dropdown">
+              <a href="#" className="nav-item nav-link active" data-bs-toggle="dropdown">
+              History
+              </a>
+              <div className="dropdown-menu m-0">
+                <Link to="/TeamHistoryUserView" className="dropdown-item">
+                  Team History
+                </Link>
+                <Link to="/F1HistoryUserView" className="dropdown-item">
+                  F1 History
+                </Link>
+              </div>
+            </div>
 
             <a href="/TopicListUser" className="nav-item nav-link active">
               Open Forum
@@ -65,10 +90,6 @@ function HomeNavbar() {
 
             <a href="/PollListUser" className="nav-item nav-link active">
               Poll
-            </a>
-          
-            <a href="/F1HistoryUserView" className="nav-item nav-link active">
-              F1History
             </a>
             
             <a href="/DriverListUser" className="nav-item nav-link active">
@@ -81,7 +102,6 @@ function HomeNavbar() {
             </a>
             <div className="dropdown-menu m-0">
               <div className='dropdown-item'><Link to="/UserViewProfile">View Profile</Link></div>
-              <div className='dropdown-item'><Link to="/">Settings</Link></div>
               <div className='dropdown-item' onClick={handleLogout}><Link to="/">Logout</Link></div>
             </div>
           </div>

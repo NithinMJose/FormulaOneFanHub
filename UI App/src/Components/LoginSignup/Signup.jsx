@@ -3,6 +3,8 @@ import './Signup.css';
 import userIcon from '../Assets/abc.png';
 import emailIcon from '../Assets/def.png';
 import passwordIcon from '../Assets/ghi.png';
+import phoneIcon from '../Assets/a.jpg';
+import addressIcon from '../Assets/b.jpg';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,6 +21,8 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [showConfirmationFields, setShowConfirmationFields] = useState(false);
@@ -31,8 +35,9 @@ const Signup = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [addressError, setAddressError] = useState('');
   const [otpError, setOtpError] = useState('');
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,6 +62,12 @@ const Signup = () => {
       case 'confirmPassword':
         setConfirmPassword(value);
         break;
+      case 'phone':
+        setPhone(value);
+        break;
+      case 'address':
+        setAddress(value);
+        break;
       case 'otp':
         setOtp(value);
         break;
@@ -70,7 +81,6 @@ const Signup = () => {
     clearErrorsOnTyping(name, value);
   };
 
-
   const handleSave = async () => {
     // Check if there are existing error messages
     if (
@@ -79,37 +89,42 @@ const Signup = () => {
       lastNameError ||
       emailError ||
       passwordError ||
-      confirmPasswordError
+      confirmPasswordError ||
+      phoneError ||
+      addressError
     ) {
       toast.error('Check your inputs first.');
       return;
     }
-
-    if (!username || !firstName || !lastName || !email || !password || !confirmPassword) {
+  
+    if (!username || !firstName || !lastName || !email || !password || !confirmPassword || !phone || !address) {
       toast.error('Please enter all details.');
       return;
     }
-
+  
     if (password !== confirmPassword) {
       toast.error('Passwords do not match. Please check your inputs.');
       return;
     }
-
+  
     if (!validateEmail(email)) {
       setEmailError('Not a valid email format');
       return;
     }
-
+  
     const passwordValidationResult = validatePassword(password);
     if (passwordValidationResult) {
       setPasswordError(passwordValidationResult);
       return;
     }
-
+  
+    validatePhone(phone, setPhoneError);
+    validateAddress(address, setAddressError);
+  
     const url = 'https://localhost:7092/api/User/TestEndPoint';
-
+  
     setLoading(true);
-
+  
     try {
       const response = await axios.post(url, {
         userName: username,
@@ -118,8 +133,10 @@ const Signup = () => {
         email: email,
         firstName: firstName,
         lastName: lastName,
+        phone: phone,
+        address: address,
       });
-
+  
       if (response.data.success) {
         clearForm();
         toast.success('Please check your email for OTP to confirm your registration.');
@@ -130,6 +147,8 @@ const Signup = () => {
           email,
           password,
           confirmPassword,
+          phone,
+          address,
           confirmEmailToken: response.data.user.confirmEmailToken,
         });
         setShowConfirmationFields(true);
@@ -148,6 +167,7 @@ const Signup = () => {
       setLoading(false);
     }
   };
+  
 
   const handleVerifyEmail = async () => {
     if (!otp || !validateOtp(otp)) {
@@ -283,6 +303,25 @@ const Signup = () => {
     }
 
     return '';
+  };
+
+  const validatePhone = (phone, setError) => {
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone)) {
+      setError('Invalid phone number format. Please enter a 10-digit number.');
+    } else {
+      setError('');
+    }
+  };
+  
+  const validateAddress = (address, setError) => {
+    // You can add your own validation logic for the address field
+    // For now, let's just check if it's not empty
+    if (!address.trim()) {
+      setError('Address cannot be empty.');
+    } else {
+      setError('');
+    }
   };
 
   const validateName = (name, setError) => {

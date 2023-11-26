@@ -23,6 +23,7 @@ const TopicListUser = () => {
   }, []);
 
   const handleTopicClick = (topicId, title) => {
+    console.log('Topic Title:', title);
     navigate('/TopicComment', { replace: true, state: { topicId, title } });
   };
 

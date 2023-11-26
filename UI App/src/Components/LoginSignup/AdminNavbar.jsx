@@ -47,55 +47,112 @@ function AdminNavbar() {
             <a href="/" className="nav-item nav-link active">
               Home
             </a>
-            <a href="/AboutPage" className="nav-item nav-link">
+            <a href="/AboutPage" className="nav-item nav-link active">
               About
             </a>
-            <div className="nav-item dropdown">
-              <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                Pages
-              </a>
-              <div className="dropdown-menu m-0">
-                <Link to="/AddDriver" className="dropdown-item">
-                  Add New Driver
-                </Link>
-                <Link to="/DriverList" className="dropdown-item">
-                  View Driver List
-                </Link>
-                <Link to="/AddF1History" className="dropdown-item">
-                  Add F1 History
-                </Link>
-                <Link to="/F1HistoryList" className="dropdown-item">
-                  List F1 History
-                </Link>
-                <Link to="/AddSeason" className="dropdown-item">
-                  Add a new Season
-                </Link>
-                <Link to="/AddRace" className="dropdown-item">
-                  Add a new Race
-                </Link>
-                <Link to="/AddCorner" className="dropdown-item">
-                  Add a new Corner
-                </Link>
-                <Link to="/AddTicketCategory" className="dropdown-item">
-                AddTicketCategory
-                </Link>
-                <Link to="/AddPoll" className="dropdown-item">
-                Add Poll Data
-                </Link>
-                <Link to="/PollList" className="dropdown-item">
-                View Poll Data
-                </Link>
-                <Link to="/AddTopic" className="dropdown-item">
-                Add Topic
-                </Link>
-                <Link to="/TopicListAdmin" className="dropdown-item">
-                View Topic Data
-                </Link>
-              </div>
+
+
+          <div className="nav-item dropdown">
+            <a href="#" className="nav-item nav-link active" data-bs-toggle="dropdown">
+            Driver
+            </a>
+            <div className="dropdown-menu m-0">
+              <Link to="/AddDriver" className="dropdown-item">
+                Add New Driver
+              </Link>
+              <Link to="/DriverList" className="dropdown-item">
+                View Driver List
+              </Link>              
             </div>
-            <Link to="/UserList" className="nav-item nav-link">
-              Users
-            </Link>
+          </div>
+
+          <div className="nav-item dropdown">
+            <a href="#" className="nav-item nav-link active" data-bs-toggle="dropdown">
+            History
+            </a>
+            <div className="dropdown-menu m-0">
+              <Link to="/AddF1History" className="dropdown-item">
+                Add F1 History
+              </Link>
+              <Link to="/F1HistoryList" className="dropdown-item">
+                List F1 History
+              </Link>   
+              <Link to="/AddTeamHistory" className="dropdown-item">
+                Add Team History
+              </Link>
+              <Link to="/TeamHistoryList" className="dropdown-item">
+                List Team History
+              </Link>            
+            </div>
+          </div>
+
+
+          <div className="nav-item dropdown">
+            <a href="#" className="nav-item nav-link active" data-bs-toggle="dropdown">
+            Ticket Booking
+            </a>
+            <div className="dropdown-menu m-0">
+              <Link to="/AddSeason" className="dropdown-item">
+              Add a new Season
+              </Link>
+              <Link to="/SeasonList" className="dropdown-item">
+              List the Season data
+              </Link>
+              <Link to="/AddRace" className="dropdown-item">
+              Add a new Race
+              </Link>
+              <Link to="/RaceListAdmin" className="dropdown-item">
+              List the Race data
+              </Link>   
+              <Link to="/AddCorner" className="dropdown-item">
+              Add a new Corner
+              </Link>
+              <Link to="/CornerListAdmin" className="dropdown-item">
+              List the Corner data
+              </Link>
+              <Link to="/AddTicketCategory" className="dropdown-item">
+              Add a new Ticket Category
+              </Link>
+              <Link to="/TicketCategoryList" className="dropdown-item">
+              List the Categories
+              </Link>                        
+            </div>
+          </div>
+
+
+          <div className="nav-item dropdown">
+            <a href="#" className="nav-item nav-link active" data-bs-toggle="dropdown">
+            Poll
+            </a>
+            <div className="dropdown-menu m-0">
+              <Link to="/AddPoll" className="dropdown-item">
+                Add new Poll
+              </Link>
+              <Link to="/PollList" className="dropdown-item">
+                List All Polls
+              </Link>               
+            </div>
+          </div>
+
+          <div className="nav-item dropdown">
+            <a href="#" className="nav-item nav-link active" data-bs-toggle="dropdown">
+            Open Forum
+            </a>
+            <div className="dropdown-menu m-0">
+              <Link to="/AddTopic" className="dropdown-item">
+                Add new Topic
+              </Link>
+              <Link to="/TopicListAdmin" className="dropdown-item">
+                List Topic Datas
+              </Link>               
+            </div>
+          </div>
+
+
+          <Link to="/UserList" className="nav-item nav-link active">
+            Users
+          </Link>
+
           </div>
           <div className="nav-item dropdown">
             <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -103,7 +160,6 @@ function AdminNavbar() {
             </a>
             <div className="dropdown-menu m-0">
               <div className='dropdown-item'><Link to="/UserViewProfile">View Profile</Link></div>
-              <div className='dropdown-item'><Link to="/">Settings</Link></div>
               <div className='dropdown-item' onClick={handleLogout}><Link to="/">Logout</Link></div>
             </div>
           </div>

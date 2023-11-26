@@ -99,9 +99,10 @@ const AddTicketCategory = () => {
   return (
     <div>
       <AdminNavbar />
+      <br />
       <Container maxWidth="sm" className="outerSetup">
         <br />
-        <br />
+        
 
         <div className="add-corner-container">
           <div className="add-corner-panel">
@@ -190,6 +191,7 @@ const AddTicketCategory = () => {
         <br />
         <br />
       </Container>
+      <br />
       <Footer />
     </div>
   );

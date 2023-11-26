@@ -14,15 +14,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Grid,
 } from '@mui/material';
-import UserNavbar from '../LoginSignup/UserNavbar';
-import Footer from '../LoginSignup/Footer';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import UserNavbar from '../LoginSignup/UserNavbar';
+import Footer from '../LoginSignup/Footer';
 
-const UserTBHistory = () => {
-  const [ticketBookingHistory, setTicketBookingHistory] = useState([]);
+const UserActiveTBHistory = () => {
+  const [activeTicketBookingHistory, setActiveTicketBookingHistory] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
   const token = localStorage.getItem('jwtToken');
@@ -36,25 +35,28 @@ const UserTBHistory = () => {
   }, [token]);
 
   useEffect(() => {
-    const fetchTicketBookingHistory = async () => {
+    const fetchActiveTicketBookingHistory = async () => {
       try {
         const decodedToken = jwt_decode(token);
         const response = await axios.get(`https://localhost:7092/api/TicketBooking/GetTicketBookingHistoryByUserId/${decodedToken.userId}`);
         const enhancedHistory = await Promise.all(
           response.data.map(async (booking) => {
             try {
-              const seasonResponse = await axios.get(`https://localhost:7092/api/Season/GetSeasonById?id=${booking.seasonId}`);
               const raceResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceById?id=${booking.raceId}`);
-              const cornerResponse = await axios.get(`https://localhost:7092/api/Corner/GetCornerById?id=${booking.cornerId}`);
-              const categoryResponse = await axios.get(`https://localhost:7092/api/TicketCategory/GetTicketCategoryById?id=${booking.ticketCategoryId}`);
+              
+              // Check if the raceDate is a future date
+              const isFutureDate = new Date(raceResponse.data.raceDate) > new Date();
 
-              return {
-                ...booking,
-                year: seasonResponse.data?.year,
-                raceName: raceResponse.data?.raceName,
-                cornerNumber: cornerResponse.data?.cornerNumber,
-                categoryName: categoryResponse.data?.categoryName,
-              };
+              if (isFutureDate) {
+                return {
+                  ...booking,
+                  raceName: raceResponse.data?.raceName,
+                  raceDate: raceResponse.data?.raceDate,
+                  // Add any additional properties you need
+                };
+              } else {
+                return null;
+              }
             } catch (error) {
               console.error('Error fetching additional details:', error);
               return booking;
@@ -62,14 +64,17 @@ const UserTBHistory = () => {
           })
         );
 
-        enhancedHistory.sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate));
-        setTicketBookingHistory(enhancedHistory);
+        // Remove null entries (bookings for past races)
+        const filteredHistory = enhancedHistory.filter(booking => booking !== null);
+
+        filteredHistory.sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate));
+        setActiveTicketBookingHistory(filteredHistory);
       } catch (error) {
-        console.error('Error fetching ticket booking history:', error);
+        console.error('Error fetching active ticket booking history:', error);
       }
     };
 
-    fetchTicketBookingHistory();
+    fetchActiveTicketBookingHistory();
   }, []);
 
   const handleViewDetails = (booking) => {
@@ -91,30 +96,26 @@ const UserTBHistory = () => {
       <Container sx={{ marginTop: 4 }}>
         <Paper elevation={3} sx={{ padding: 3, marginBottom: 4 }}>
           <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
-            Ticket Booking History
+            Active Ticket Booking History
           </Typography>
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Sl No</TableCell>
-                  <TableCell>Year</TableCell>
                   <TableCell>Race Name</TableCell>
-                  <TableCell>Number of Tickets</TableCell>
-                  <TableCell>Booking Date</TableCell>
-                  <TableCell>Payment Status</TableCell>
+                  <TableCell>Race Date</TableCell>
+                  {/* Add more table headers as needed */}
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ticketBookingHistory.map((booking, index) => (
+                {activeTicketBookingHistory.map((booking, index) => (
                   <TableRow key={booking.ticketBookingId} onClick={() => handleViewDetails(booking)}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>{booking.year}</TableCell>
                     <TableCell>{booking.raceName}</TableCell>
-                    <TableCell>{booking.numberOfTicketsBooked}</TableCell>
-                    <TableCell>{new Date(booking.bookingDate).toLocaleString()}</TableCell>
-                    <TableCell>{booking.paymentStatus}</TableCell>
+                    <TableCell>{new Date(booking.raceDate).toLocaleString()}</TableCell>
+                    {/* Add more table cells as needed */}
                     <TableCell>
                       <Button variant="outlined">View Details</Button>
                     </TableCell>
@@ -222,4 +223,4 @@ const UserTBHistory = () => {
   );
 };
 
-export default UserTBHistory;
+export default UserActiveTBHistory;

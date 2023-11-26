@@ -4,6 +4,8 @@ namespace FormulaOneFanHub.API.Entities
 {
     public class TicketBooking
     {
+        [MaxLength(50)] // Adjust the length as needed
+        public string UniqueId { get; set; }
         public int TicketBookingId { get; set; }
 
         public int UserId { get; set; }

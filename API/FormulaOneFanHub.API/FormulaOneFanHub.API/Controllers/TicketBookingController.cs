@@ -28,7 +28,7 @@ namespace FormulaOneFanHub.API.Controllers
             // Check if the requested number of tickets is available
             var corner = _fanHubContext.Corners.Find(ticketBookingDto.CornerId);
             if (corner == null || corner.AvailableCapacity < ticketBookingDto.NumberOfTicketsBooked)
-            {   
+            {
                 return BadRequest("Requested number of tickets not available for the selected corner.");
             }
 
@@ -57,9 +57,10 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = ticketBookingDto.FirstName,
                 LastName = ticketBookingDto.LastName,
                 PhoneContact = ticketBookingDto.PhoneContact,
-                PaymentStatus = "Pending", // You may update this based on your payment flow
-                BookingStatus = "Confirmed", // You may update this based on your booking flow
-                // Set other properties as needed
+                PaymentStatus = "Pending",
+                BookingStatus = "Confirmed",
+                UniqueId = GenerateUniqueId(), // Generate a unique ID using GUID
+                                               // Set other properties as needed
             };
 
             _fanHubContext.TicketBookings.Add(ticketBooking);
@@ -71,6 +72,14 @@ namespace FormulaOneFanHub.API.Controllers
 
             return StatusCode(201, new { TicketBookingId = ticketBooking.TicketBookingId });
         }
+
+        // Add a method to generate a unique ID
+        private string GenerateUniqueId()
+        {
+            // Generate a unique ID using GUID
+            return Guid.NewGuid().ToString();
+        }
+
 
         [HttpGet("GetTicketDetailsById/{ticketBookingId}")]
         public IActionResult GetTicketDetailsById(int ticketBookingId)
