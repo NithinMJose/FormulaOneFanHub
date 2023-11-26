@@ -62,6 +62,10 @@ function HomeNavbar() {
             <a href="/TopicListUser" className="nav-item nav-link active">
               Open Forum
             </a>
+
+            <a href="/PollListUser" className="nav-item nav-link active">
+              Poll
+            </a>
           
             <a href="/F1HistoryUserView" className="nav-item nav-link active">
               F1History

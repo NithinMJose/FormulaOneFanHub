@@ -7,7 +7,7 @@ namespace FormulaOneFanHub.API.Entities
         [Key]
         public int HistoryId { get; set; }
 
-        public int Heading { get; set; }
+        public String Heading { get; set; }
 
         public string Paragraph { get; set; }
     }

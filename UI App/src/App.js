@@ -52,6 +52,10 @@ import UserVote from './Components/Poll/UserVote';
 import AddGallery from './Components/Gallery/AddGallery';
 import GalleryListAdmin from './Components/Gallery/GalleryListAdmin';
 import GalleryUserView from './Components/Gallery/GalleryUserView';
+import UserVoteResult from './Components/Poll/UserVoteResult';
+import AddTeamHistory from './Components/TeamHistory/AddTeamHistory';
+import TeamHistoryList from './Components/TeamHistory/TeamHistoryList';
+import TeamHistoryUserView from './Components/TeamHistory/TeamHistoryUserView';
 
 
 
@@ -109,9 +113,14 @@ function App() {
           <Route path='/PollList' element={<PollList />} />
           <Route path='/PollListUser' element={<PollListUser />} />
           <Route path='/UserVote' element={<UserVote />} />
+          <Route path='/UserVoteResult' element={<UserVoteResult />} />
           <Route path='/AddGallery' element={<AddGallery />} />
           <Route path='/GalleryListAdmin' element={<GalleryListAdmin />} />
           <Route path='/GalleryUserView' element={<GalleryUserView />} />
+          <Route path='/AddTeamHistory' element={<AddTeamHistory />} />
+          <Route path='/TeamHistoryList' element={<TeamHistoryList />} />
+          <Route path='/TeamHistoryUserView' element={<TeamHistoryUserView />} />
+
 
 
 
