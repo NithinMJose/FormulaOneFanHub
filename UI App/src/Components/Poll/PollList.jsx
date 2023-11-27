@@ -60,7 +60,7 @@ const PollList = () => {
 
   const handleManagePoll = (pollId) => {
     // Redirect to the UpdatePoll page with the specific pollId
-    navigate(`/UpdatePoll/${pollId}`);
+    navigate(`/EditPoll`, { replace: true, state: {pollId } });
   };
 
   const renderPollData = () => {

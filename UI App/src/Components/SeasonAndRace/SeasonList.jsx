@@ -50,7 +50,7 @@ const SeasonList = () => {
 
   const handleManageSeason = (seasonId) => {
     // Redirect to the UpdateSeason page with the specific seasonId
-    navigate(`/UpdateSeason/${seasonId}`);
+    navigate(`/EditSeason`, { replace: true, state: {seasonId } });
   };
 
   const renderSeasonsData = () => {

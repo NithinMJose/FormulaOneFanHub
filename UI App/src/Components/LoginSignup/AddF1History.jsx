@@ -8,10 +8,10 @@ import Footer from './Footer';
 import './AddF1History.css';
 import { useNavigate } from 'react-router-dom';
 
-
+// ... (import statements)
 
 const AddF1History = () => {
-    const { control, handleSubmit, setValue, formState: { errors }, setError } = useForm();
+    const { control, handleSubmit, formState: { errors }, setError } = useForm();
     const navigate = useNavigate();
 
     const onSubmit = async (data) => {
@@ -27,7 +27,6 @@ const AddF1History = () => {
             if (response.status === 201) {
                 toast.success('F1 History added successfully');
                 navigate('/F1HistoryList');
-                // Additional logic or navigation can be added here
             } else {
                 const errorData = await response.json();
                 console.error('F1 History creation failed:', errorData);
@@ -37,6 +36,14 @@ const AddF1History = () => {
             console.error('F1 History creation failed:', error);
             toast.error('F1 History creation failed');
         }
+    };
+
+    const validateHeading = (value) => {
+        return value.length >= 7 || 'Heading should be at least 7 characters';
+    };
+
+    const validateParagraph = (value) => {
+        return value.length >= 10 || 'Paragraph should be at least 10 characters';
     };
 
     return (
@@ -58,7 +65,10 @@ const AddF1History = () => {
                                     name="heading"
                                     control={control}
                                     defaultValue=""
-                                    rules={{ required: 'Heading is required' }}
+                                    rules={{
+                                        required: 'Heading is required',
+                                        validate: validateHeading,
+                                    }}
                                     render={({ field }) => (
                                         <TextField
                                             {...field}
@@ -66,6 +76,10 @@ const AddF1History = () => {
                                             error={!!errors.heading}
                                             helperText={errors.heading?.message}
                                             required
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                validateHeading(e.target.value);
+                                            }}
                                         />
                                     )}
                                 />
@@ -73,7 +87,10 @@ const AddF1History = () => {
                                     name="paragraph"
                                     control={control}
                                     defaultValue=""
-                                    rules={{ required: 'Paragraph is required' }}
+                                    rules={{
+                                        required: 'Paragraph is required',
+                                        validate: validateParagraph,
+                                    }}
                                     render={({ field }) => (
                                         <TextField
                                             {...field}
@@ -82,6 +99,10 @@ const AddF1History = () => {
                                             error={!!errors.paragraph}
                                             helperText={errors.paragraph?.message}
                                             required
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                validateParagraph(e.target.value);
+                                            }}
                                         />
                                     )}
                                 />

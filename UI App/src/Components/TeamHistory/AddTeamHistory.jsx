@@ -7,9 +7,10 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 import { useNavigate } from 'react-router-dom';
 
+// ... (import statements)
 
 const AddTeamHistory = () => {
-  const { control, handleSubmit, setValue, formState: { errors }, setError } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -25,7 +26,6 @@ const AddTeamHistory = () => {
       if (response.status === 201) {
         toast.success('Team History added successfully');
         navigate('/TeamHistoryList');
-        // Additional logic or navigation can be added here
       } else {
         const errorData = await response.json();
         console.error('Team History creation failed:', errorData);
@@ -35,6 +35,14 @@ const AddTeamHistory = () => {
       console.error('Team History creation failed:', error);
       toast.error('Team History creation failed');
     }
+  };
+
+  const validateHeading = (value) => {
+    return value.length >= 7 || 'Heading should be at least 7 characters';
+  };
+
+  const validateParagraph = (value) => {
+    return value.length >= 10 || 'Paragraph should be at least 10 characters';
   };
 
   return (
@@ -56,7 +64,10 @@ const AddTeamHistory = () => {
                   name="heading"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'Heading is required' }}
+                  rules={{
+                    required: 'Heading is required',
+                    validate: validateHeading,
+                  }}
                   render={({ field }) => (
                     <TextField
                       {...field}
@@ -64,6 +75,10 @@ const AddTeamHistory = () => {
                       error={!!errors.heading}
                       helperText={errors.heading?.message}
                       required
+                      onChange={(e) => {
+                        field.onChange(e);
+                        validateHeading(e.target.value);
+                      }}
                     />
                   )}
                 />
@@ -71,7 +86,10 @@ const AddTeamHistory = () => {
                   name="paragraph"
                   control={control}
                   defaultValue=""
-                  rules={{ required: 'Paragraph is required' }}
+                  rules={{
+                    required: 'Paragraph is required',
+                    validate: validateParagraph,
+                  }}
                   render={({ field }) => (
                     <TextField
                       {...field}
@@ -80,6 +98,10 @@ const AddTeamHistory = () => {
                       error={!!errors.paragraph}
                       helperText={errors.paragraph?.message}
                       required
+                      onChange={(e) => {
+                        field.onChange(e);
+                        validateParagraph(e.target.value);
+                      }}
                     />
                   )}
                 />

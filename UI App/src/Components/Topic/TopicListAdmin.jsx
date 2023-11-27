@@ -6,10 +6,12 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import axios from 'axios';
 import Footer from '../LoginSignup/Footer';
 
+
 const TopicListAdmin = () => {
   const navigate = useNavigate();
   const [topicData, setTopicData] = useState(null);
   const token = localStorage.getItem('jwtToken');
+
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -92,7 +94,8 @@ const TopicListAdmin = () => {
 
   const handleManageTopic = (topicId) => {
     // Redirect to the UpdateTopic page with the specific topicId
-    navigate(`/UpdateTopic/${topicId}`);
+    navigate('/EditTopic', { replace: true, state: {topicId } });
+
   };
 
   return (

@@ -13,7 +13,6 @@ function HomeNavbar() {
 
   return (
     <>
-      {/* Navbar Start */}
       <nav
         className="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn"
         data-wow-delay="0.1s"
@@ -35,38 +34,20 @@ function HomeNavbar() {
             <a href="/" className="nav-item nav-link active">
               Home
             </a>
-            <a href="/About" className="nav-item nav-link">
-              About
+            <a href="/DriverListGuest" className="nav-item nav-link">
+              Drivers
             </a>
-            <a href="/" className="nav-item nav-link">
-              Service
+            <a href="/F1HistoryGuestView" className="nav-item nav-link">
+              F1 History
             </a>
-            <div className="nav-item dropdown">
-              <a
-                href="#"
-                className="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-              >
-                Pages{' '}
-              </a>
-              <div className="dropdown-menu m-0">
-                <a href="/" className="dropdown-item">
-                  Drivers
-                </a>
-                <a href="/" className="dropdown-item">
-                  Race Fixtures
-                </a>
-                <a href="/" className="dropdown-item">
-                  Team members
-                </a>
-                <a href="/" className="dropdown-item">
-                  Team History
-                </a>
-                <a href="/" className="dropdown-item">
-                  F1 History
-                </a>
-              </div>
-            </div>
+            <a href="/TeamHistoryGuestView" className="nav-item nav-link">
+              Team History
+            </a>
+            <a href="/GalleryGuestView" className="nav-item nav-link">
+              Gallery
+            </a>
+
+            
             <a href="/Signin" className="nav-item nav-link">
               Login
             </a>
@@ -79,7 +60,6 @@ function HomeNavbar() {
           </a>
         </div>
       </nav>
-      {/* Navbar End */}
     </>
   );
 }

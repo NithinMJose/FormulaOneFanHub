@@ -60,17 +60,6 @@ const AddCorner = () => {
     }
   };
 
-
-  const validateForm = () => {
-    let isValid = true;
-
-    isValid = isValid && validateCornerNumber(cornerNumber);
-    isValid = isValid && validateCornerCapacity(cornerCapacity);
-    isValid = isValid && validateRaceId(raceId);
-
-    return isValid;
-  };
-
   const handleSave = async () => {
     if (validateForm()) {
       setLoading(true);
@@ -110,6 +99,16 @@ const AddCorner = () => {
     }
   };
 
+  const validateForm = () => {
+    let isValid = true;
+
+    isValid = isValid && validateCornerNumber(cornerNumber);
+    isValid = isValid && validateCornerCapacity(cornerCapacity);
+    isValid = isValid && validateRaceId(raceId);
+
+    return isValid;
+  };
+
   return (
     <div>
       <AdminNavbar />
@@ -134,6 +133,7 @@ const AddCorner = () => {
                   setCornerNumber(e.target.value);
                   validateCornerNumber(e.target.value);
                 }}
+                onBlur={() => validateCornerNumber(cornerNumber)}
                 error={Boolean(cornerNumberError)}
                 helperText={cornerNumberError}
                 style={{ marginBottom: '10px' }}
@@ -148,6 +148,7 @@ const AddCorner = () => {
                   setCornerCapacity(e.target.value);
                   validateCornerCapacity(e.target.value);
                 }}
+                onBlur={() => validateCornerCapacity(cornerCapacity)}
                 error={Boolean(cornerCapacityError)}
                 helperText={cornerCapacityError}
                 style={{ marginBottom: '10px' }}
@@ -162,6 +163,7 @@ const AddCorner = () => {
                   setRaceId(e.target.value);
                   validateRaceId(e.target.value);
                 }}
+                onBlur={() => validateRaceId(raceId)}
                 error={Boolean(raceIdError)}
                 helperText={raceIdError}
                 style={{ marginBottom: '10px' }}

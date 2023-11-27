@@ -52,12 +52,20 @@ import UserVote from './Components/Poll/UserVote';
 import AddGallery from './Components/Gallery/AddGallery';
 import GalleryListAdmin from './Components/Gallery/GalleryListAdmin';
 import GalleryUserView from './Components/Gallery/GalleryUserView';
+import GalleryGuestView from './Components/Gallery/GalleryGuestView';
 import UserVoteResult from './Components/Poll/UserVoteResult';
 import AddTeamHistory from './Components/TeamHistory/AddTeamHistory';
 import TeamHistoryList from './Components/TeamHistory/TeamHistoryList';
 import TeamHistoryUserView from './Components/TeamHistory/TeamHistoryUserView';
 import CornerListAdmin from './Components/SeasonAndRace/CornerListAdmin';
 import UserActiveTBHistory from './Components/TicketBooking/UserActiveTBHistory';
+import DriverListGuest from './Components/LoginSignup/DriverListGuest';
+import TeamHistoryGuestView from './Components/TeamHistory/TeamHistoryGuestView';
+import F1HistoryGuestView from './Components/LoginSignup/F1HistoryGuestView';
+import EditTopic from './Components/Topic/EditTopic';
+import EditPoll from './Components/Poll/EditPoll';
+import EditSeason from './Components/SeasonAndRace/EditSeason';
+
 
 
 
@@ -90,7 +98,9 @@ function App() {
           <Route path='/F1HistoryList' element={<F1HistoryList />} />
           <Route path='/F1HistoryUpdate/:historyId' element={<F1HistoryUpdate />} />
           <Route path='F1HistoryUserView' element={<F1HistoryUserView />} />
+          <Route path='F1HistoryGuestView' element={<F1HistoryGuestView />} />
           <Route path='/DriverListUser' element={<DriverListUser />} />
+          <Route path='/DriverListGuest' element={<DriverListGuest />} />
           <Route path='/AddSeason' element={<AddSeason/>} />
           <Route path='/AddRace' element={<AddRace/>} />
           <Route path='/AddTicketCategory' element={<AddTicketCategory/>} />
@@ -121,9 +131,15 @@ function App() {
           <Route path='/AddGallery' element={<AddGallery />} />
           <Route path='/GalleryListAdmin' element={<GalleryListAdmin />} />
           <Route path='/GalleryUserView' element={<GalleryUserView />} />
+          <Route path='/GalleryGuestView' element={<GalleryGuestView />} />
           <Route path='/AddTeamHistory' element={<AddTeamHistory />} />
           <Route path='/TeamHistoryList' element={<TeamHistoryList />} />
           <Route path='/TeamHistoryUserView' element={<TeamHistoryUserView />} />
+          <Route path='/TeamHistoryGuestView' element={<TeamHistoryGuestView />} />
+          <Route path='/EditTopic' element={<EditTopic />} />
+          <Route path='/EditPoll' element={<EditPoll />} />
+          <Route path='/EditSeason' element={<EditSeason />} />
+
 
 
 
