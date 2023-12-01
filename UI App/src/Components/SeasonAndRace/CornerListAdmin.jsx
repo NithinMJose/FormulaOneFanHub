@@ -91,7 +91,7 @@ const CornerListAdmin = () => {
   };
 
   const handleManageCorner = (cornerId) => {
-    navigate(`/UpdateCorner/${cornerId}`);
+    navigate(`/EditCorner`, { state: { cornerId } });
   };
 
   return (

@@ -65,6 +65,9 @@ import F1HistoryGuestView from './Components/LoginSignup/F1HistoryGuestView';
 import EditTopic from './Components/Topic/EditTopic';
 import EditPoll from './Components/Poll/EditPoll';
 import EditSeason from './Components/SeasonAndRace/EditSeason';
+import EditTeamHistory from './Components/TeamHistory/EditTeamHistory';
+import EditRace from './Components/Topic/EditRace';
+import EditCorner from './Components/SeasonAndRace/EditCorner';
 
 
 
@@ -139,6 +142,12 @@ function App() {
           <Route path='/EditTopic' element={<EditTopic />} />
           <Route path='/EditPoll' element={<EditPoll />} />
           <Route path='/EditSeason' element={<EditSeason />} />
+          <Route path='/EditTeamHistory' element={<EditTeamHistory />} />
+          <Route path='/EditRace' element={<EditRace/>} />
+          <Route path='/EditCorner' element={<EditCorner/>} />
+
+
+
 
 
 

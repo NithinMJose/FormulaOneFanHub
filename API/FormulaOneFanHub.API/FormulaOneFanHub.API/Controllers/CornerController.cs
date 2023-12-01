@@ -61,14 +61,14 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         [HttpPut("UpdateCorner")]
-        public IActionResult UpdateCorner([FromBody] CornerDto cornerDto)
+        public IActionResult UpdateCorner([FromBody] UpdateCornerDto updateCornerDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existingCorner = _fanHubContext.Corners.Find(cornerDto.CornerId);
+            var existingCorner = _fanHubContext.Corners.Find(updateCornerDto.CornerId);
 
             if (existingCorner == null)
             {
@@ -76,25 +76,25 @@ namespace FormulaOneFanHub.API.Controllers
             }
 
             // Check if CornerCapacity is increased
-            if (cornerDto.CornerCapacity > existingCorner.CornerCapacity)
+            if (updateCornerDto.CornerCapacity > existingCorner.CornerCapacity)
             {
                 // Increase AvailableCapacity by the difference
-                existingCorner.AvailableCapacity += cornerDto.CornerCapacity - existingCorner.CornerCapacity;
+                existingCorner.AvailableCapacity += updateCornerDto.CornerCapacity - existingCorner.CornerCapacity;
             }
             // Check if CornerCapacity is decreased and available seats are less than the proposed decrease
-            else if (cornerDto.CornerCapacity < existingCorner.CornerCapacity && existingCorner.AvailableCapacity < (existingCorner.CornerCapacity - cornerDto.CornerCapacity))
+            else if (updateCornerDto.CornerCapacity < existingCorner.CornerCapacity && existingCorner.AvailableCapacity < (existingCorner.CornerCapacity - updateCornerDto.CornerCapacity))
             {
-                return BadRequest("The number of available seats is insufficient. Cannot decrease capacity by " + (existingCorner.CornerCapacity - cornerDto.CornerCapacity) + " seats.");
+                return BadRequest($"The number of available seats is insufficient. Cannot decrease capacity by {existingCorner.CornerCapacity - updateCornerDto.CornerCapacity} seats.");
             }
 
-            existingCorner.CornerNumber = cornerDto.CornerNumber;
-            existingCorner.CornerCapacity = cornerDto.CornerCapacity;
-            existingCorner.RaceId = cornerDto.RaceId;
+            existingCorner.CornerNumber = updateCornerDto.CornerNumber;
+            existingCorner.CornerCapacity = updateCornerDto.CornerCapacity;
 
             _fanHubContext.SaveChanges();
 
             return Ok();
         }
+
 
 
         [HttpDelete("DeleteCorner")]

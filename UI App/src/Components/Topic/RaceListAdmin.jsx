@@ -99,7 +99,7 @@ const RaceListAdmin = () => {
   };
 
   const handleManageRace = (raceId) => {
-    navigate(`/UpdateRace/${raceId}`);
+    navigate(`/EditRace`, { replace: true, state: { raceId } });
   };
 
   return (

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const TeamHistoryList = () => {
+  const navigate = useNavigate();
   const [teamHistories, setTeamHistories] = useState([]);
 
   useEffect(() => {
@@ -18,6 +19,10 @@ const TeamHistoryList = () => {
         console.error('Error fetching Team histories:', error);
       });
   }, []);
+
+  const handleEditTeamHistory = (historyId) => {
+    navigate(`/EditTeamHistory`, { replace: true, state: {historyId } });
+  };
 
   return (
     <div>
@@ -44,11 +49,14 @@ const TeamHistoryList = () => {
                     <TableCell>{history.heading}</TableCell>
                     <TableCell>{history.paragraph}</TableCell>
                     <TableCell className="team-history-buttons">
-                      <Link to={`/TeamHistoryUpdate/${history.historyId}`}>
-                        <Button variant="contained" color="primary" className="btn-edit">
-                          Edit
-                        </Button>
-                      </Link>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className="btn-edit"
+                        onClick={() => handleEditTeamHistory(history.historyId)}
+                      >
+                        Edit
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
