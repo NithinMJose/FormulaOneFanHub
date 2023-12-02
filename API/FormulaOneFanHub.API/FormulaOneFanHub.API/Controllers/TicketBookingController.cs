@@ -1,5 +1,6 @@
 ﻿using FormulaOneFanHub.API.Data;
 using FormulaOneFanHub.API.Entities;
+using FormulaOneFanHub.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
@@ -11,10 +12,15 @@ namespace FormulaOneFanHub.API.Controllers
     public class TicketBookingController : ControllerBase
     {
         private readonly FormulaOneFanHubContxt _fanHubContext;
+        private readonly RazorPayService _razorPayService;
+        private readonly RazorPayServiceNithin _razorPayServiceNithin;
 
-        public TicketBookingController(FormulaOneFanHubContxt fanHubContext)
+
+        public TicketBookingController(FormulaOneFanHubContxt fanHubContext, RazorPayService razorPayService)
         {
             _fanHubContext = fanHubContext;
+            _razorPayService = razorPayService;
+            _razorPayServiceNithin = razorPayServiceNithin;
         }
 
         [HttpPost("BookTickets")]
@@ -38,8 +44,21 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 return BadRequest("Invalid Ticket Category.");
             }
+            var lastReceipt = _fanHubContext.TicketBookings.OrderByDescending(x => x.ReceiptNumber).FirstOrDefault()?.ReceiptNumber;
 
             decimal totalAmount = ticketCategory.TicketPrice * ticketBookingDto.NumberOfTicketsBooked;
+            var receiptNumber = GenerateReceiptNumber(lastReceipt);
+
+            var notes = ("some test notes");
+
+            //call razorpay api
+            var paymentResponse = _razorPayService.CreateOrder(totalAmount, receiptNumber, notes);
+
+            if(paymentResponse is null ||!paymentResponse.IsSuccess)
+            {
+                //razor pay payment failed
+                return BadRequest("Payment failed");
+            }
 
             // Create a new TicketBooking entity
             var ticketBooking = new TicketBooking
@@ -51,6 +70,7 @@ namespace FormulaOneFanHub.API.Controllers
                 TicketCategoryId = ticketBookingDto.TicketCategoryId,
                 NumberOfTicketsBooked = ticketBookingDto.NumberOfTicketsBooked,
                 Address = ticketBookingDto.Address,
+                ReceiptNumber = receiptNumber,
                 BookingDate = DateTime.Now,
                 TotalAmount = totalAmount,
                 Email = ticketBookingDto.Email,
@@ -79,6 +99,16 @@ namespace FormulaOneFanHub.API.Controllers
             // Generate a unique ID using GUID
             return Guid.NewGuid().ToString();
         }
+
+        public string GenerateReceiptNumber(string lastReceipt)
+        {
+            string receiptNumber = lastReceipt.Substring(4); // Extract the number from the receipt
+            int number = int.Parse(receiptNumber);
+            number++; // Increment the number by 1
+            string newReceiptNumber = number.ToString().PadLeft(6, '0'); // Pad the number with leading zeros
+            return $"FFH {newReceiptNumber}"; // Return the new receipt number
+        }
+
 
 
         [HttpGet("GetTicketDetailsById/{ticketBookingId}")]

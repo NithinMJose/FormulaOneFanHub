@@ -8,6 +8,8 @@ namespace FormulaOneFanHub.API.Entities
         public string UniqueId { get; set; }
         public int TicketBookingId { get; set; }
 
+        public string ReceiptNumber { get; set; }
+
         public int UserId { get; set; }
 
         public int SeasonId { get; set; }

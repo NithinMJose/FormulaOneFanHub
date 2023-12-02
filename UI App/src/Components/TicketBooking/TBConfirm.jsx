@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserNavbar from '../LoginSignup/UserNavbar';
+import useRazorpay from "react-razorpay";
 import jwt_decode from 'jwt-decode';
 import { v4 as uuidv4 } from 'uuid'; // Import uuid library
 import {
@@ -111,6 +112,7 @@ const TBConfirm = () => {
 
       // Send a request to book the ticket
       const response = await axios.post('https://localhost:7092/api/TicketBooking/BookTickets', {
+        UniqueId: uniqueId,
         UserId: userDetails.id,
         SeasonId: state.seasonId,
         RaceId: state.raceId,
@@ -122,11 +124,11 @@ const TBConfirm = () => {
         LastName: userDetails.lastName,
         FirstName: userDetails.firstName,
         PhoneContact: userDetails.contactNumber,
+        TotalAmount: totalAmount,
         BookingStatus: 'Confirmed',
         PaymentStatus: 'Pending',
-        UniqueId: uniqueId, // Add the unique ID to the payload
-      });
-
+    });
+    
       const ticketBookingId = response.data.TicketBookingId;
 
       // Log the response from the endpoint
@@ -252,6 +254,12 @@ const TBConfirm = () => {
           <Button variant="contained" color="primary" onClick={handleBookTicket} sx={{ display: 'block', margin: 'auto' }}>
             Book the Ticket
           </Button>
+          <br/>
+          
+          <Button variant="contained" color="primary" onClick={handleBookTicket} sx={{ display: 'block', margin: 'auto' }}>
+            Pay ₹500
+          </Button>
+
         </Paper>
       </Container>
       <Footer />

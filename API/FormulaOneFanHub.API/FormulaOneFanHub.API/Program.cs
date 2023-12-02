@@ -1,6 +1,7 @@
 
 using FormulaOneFanHub.API.Data;
 using FormulaOneFanHub.API.Middlewares;
+using FormulaOneFanHub.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +28,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddTransient<RazorPayService>();
 
 builder.Services.AddDbContext<FormulaOneFanHubContxt>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FormulaOneFanHubContext")));
