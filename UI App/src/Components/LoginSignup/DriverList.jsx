@@ -60,7 +60,7 @@ const DriverList = () => {
 
   const handleManageDriver = (driverId) => {
     // Redirect to the UpdateDriver page with the specific driverId
-    navigate(`/UpdateDriver/${driverId}`);
+    navigate(`/UpdateDriver`, { replace: true, state: {driverId } });
   };
 
   const renderDriverData = () => {

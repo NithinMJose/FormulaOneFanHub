@@ -49,7 +49,7 @@ const TicketCategoryList = () => {
   }, [navigate]);
 
   const handleManageTicketCategory = (categoryId) => {
-    navigate(`/UpdateTicketCategory/${categoryId}`);
+    navigate(`/EditTicketCategory`, { replace: true, state: { categoryId } });
   };
 
   const renderTicketCategories = () => {

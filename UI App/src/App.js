@@ -68,6 +68,9 @@ import EditSeason from './Components/SeasonAndRace/EditSeason';
 import EditTeamHistory from './Components/TeamHistory/EditTeamHistory';
 import EditRace from './Components/Topic/EditRace';
 import EditCorner from './Components/SeasonAndRace/EditCorner';
+import EditTicketCategory from './Components/SeasonAndRace/EditTicketCategory';
+import TopicListAdminEditView from './Components/Topic/TopicListAdminEditView';
+import TopicCommentAdmin from './Components/Topic/TopicCommentAdmin';
 
 
 
@@ -145,13 +148,9 @@ function App() {
           <Route path='/EditTeamHistory' element={<EditTeamHistory />} />
           <Route path='/EditRace' element={<EditRace/>} />
           <Route path='/EditCorner' element={<EditCorner/>} />
-
-
-
-
-
-
-
+          <Route path='/EditTicketCategory' element={<EditTicketCategory/>} />
+          <Route path='/TopicListAdminEditView' element={<TopicListAdminEditView/>} />
+          <Route path='/TopicCommentAdmin' element={<TopicCommentAdmin />} />
 
         </Routes>
         <ToastContainer />

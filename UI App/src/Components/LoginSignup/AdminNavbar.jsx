@@ -144,7 +144,10 @@ function AdminNavbar() {
               </Link>
               <Link to="/TopicListAdmin" className="dropdown-item">
                 List Topic Datas
-              </Link>               
+              </Link>  
+              <Link to="/TopicListAdminEditView" className="dropdown-item">
+                Check Comments
+              </Link>             
             </div>
           </div>
 
