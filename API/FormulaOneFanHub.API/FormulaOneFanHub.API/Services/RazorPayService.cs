@@ -17,10 +17,13 @@ namespace FormulaOneFanHub.API.Services
         public RazorPayOrderResponseResult CreateOrder(decimal amount, string receipt, string notes)
         {
             var client = new HttpClient();
-            var requestContent = BuildOrderRequest(amount, receipt, notes, client);
+            var requestContent = BuildOrderRequest(amount, receipt, notes);
 
+            var razorKey = _configuration["RazorPay:Key"];
+            var razorKeySecret = _configuration["RazorPay:KeySecret"];
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(_configuration["RazorPay:Key"] + ":" + _configuration["RazorPay:Secret"])));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
+                        Convert.ToBase64String(Encoding.UTF8.GetBytes(razorKey + ":" + razorKeySecret)));
             var response = client.PostAsync("https://api.razorpay.com/v1/orders", requestContent).GetAwaiter().GetResult();
             var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
@@ -49,7 +52,7 @@ namespace FormulaOneFanHub.API.Services
            
         }
 
-        private HttpContent? BuildOrderRequest(decimal amount, string receipt, string notes, HttpClient client)
+        private HttpContent? BuildOrderRequest(decimal amount, string receipt, string notes)
         {
             var requestContent = new StringContent(JsonSerializer.Serialize(new
             {

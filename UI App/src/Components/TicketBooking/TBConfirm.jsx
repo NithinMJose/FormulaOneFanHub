@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserNavbar from '../LoginSignup/UserNavbar';
-import useRazorpay from "react-razorpay";
+import CourseCard from '../CourseCard';
+import displayRazorPay from "../../utils/PaymentGateway";
 import jwt_decode from 'jwt-decode';
 import { v4 as uuidv4 } from 'uuid'; // Import uuid library
 import {
@@ -28,6 +29,7 @@ const TBConfirm = () => {
   const [userName, setUserName] = useState('');
   const [userDetails, setUserDetails] = useState(null);
   const token = localStorage.getItem('jwtToken');
+  const [orderId, setOrderId] = useState('');
 
   useEffect(() => {
     if (token) {
@@ -82,6 +84,31 @@ const TBConfirm = () => {
     setTotalAmount(total);
   }, [confirmationData]);
 
+
+
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+        const script = document.createElement("script");
+
+        script.src = src;
+
+        script.onload = () => {
+            resolve(true);
+        }
+
+        script.onerror = () => {
+            resolve(false);
+        }
+
+        document.body.appendChild(script);
+    })
+
+}
+useEffect(() => {
+    loadScript("https://checkout.razorpay.com/v1/checkout.js");
+})
+
+
   const handleBookTicket = async () => {
     try {
       if (!userDetails) {
@@ -112,7 +139,6 @@ const TBConfirm = () => {
 
       // Send a request to book the ticket
       const response = await axios.post('https://localhost:7092/api/TicketBooking/BookTickets', {
-        UniqueId: uniqueId,
         UserId: userDetails.id,
         SeasonId: state.seasonId,
         RaceId: state.raceId,
@@ -124,11 +150,11 @@ const TBConfirm = () => {
         LastName: userDetails.lastName,
         FirstName: userDetails.firstName,
         PhoneContact: userDetails.contactNumber,
-        TotalAmount: totalAmount,
         BookingStatus: 'Confirmed',
         PaymentStatus: 'Pending',
-    });
-    
+        UniqueId: uniqueId, // Add the unique ID to the payload
+      });
+
       const ticketBookingId = response.data.TicketBookingId;
 
       // Log the response from the endpoint
@@ -155,6 +181,50 @@ const TBConfirm = () => {
   if (!confirmationData) {
     return <p>No data available for confirmation.</p>;
   }
+
+  const handlePayment = async () => {
+    try {
+      // Replace with your backend API endpoint for creating Razorpay order
+      const response = await axios.post('https://localhost:7092/api/Razor/order', {
+        amount: 100,
+        currency: 'INR',
+        receipt: '12121',
+      });
+
+      // Extract the order ID from the response
+      const { orderId } = response.data;
+
+      // Set the order ID in the component state
+      setOrderId(orderId);
+
+      // Now, you can use this orderId to initiate the Razorpay payment on the frontend
+      // Implement Razorpay payment logic here
+    } catch (error) {
+      console.error('Error creating Razorpay order:', error);
+    }
+  };
+
+  const dataToTranfer = {
+    UserName: userName,
+    FirstName: userDetails?.firstName,
+    LastName: userDetails?.lastName,
+    Email: userDetails?.email,
+    Address: userDetails?.address,
+    PhoneContact: userDetails?.contactNumber,
+    NoOfTickets: state.selectedTickets,
+    SeasonYear: confirmationData.season?.year,
+    RaceName: confirmationData.race?.raceName,
+    CornerNumber: confirmationData.corner?.cornerNumber,
+    TicketCategoryName: confirmationData.ticketCategory?.categoryName,
+    TotalAmount: totalAmount,
+    UserId: userDetails?.id,
+    RaceId: state.raceId,
+    CornerId: state.cornerId,
+    TicketCategoryId: state.ticketCategoryId,
+    SeasonId: state.seasonId,
+        
+  };
+  
 
   return (
     <div>
@@ -250,16 +320,11 @@ const TBConfirm = () => {
               ))}
             </Grid>
           )}
-
-          <Button variant="contained" color="primary" onClick={handleBookTicket} sx={{ display: 'block', margin: 'auto' }}>
-            Book the Ticket
+          <br/>
+          <Button variant="contained" color="secondary" onClick={() => displayRazorPay(totalAmount, userDetails?.contactNumber, dataToTranfer, navigate)} sx={{ display: 'block', margin: 'auto' }}>
+            Go to Payment
           </Button>
           <br/>
-          
-          <Button variant="contained" color="primary" onClick={handleBookTicket} sx={{ display: 'block', margin: 'auto' }}>
-            Pay ₹500
-          </Button>
-
         </Paper>
       </Container>
       <Footer />

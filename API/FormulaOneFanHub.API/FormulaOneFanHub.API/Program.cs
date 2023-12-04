@@ -33,6 +33,11 @@ builder.Services.AddTransient<RazorPayService>();
 builder.Services.AddDbContext<FormulaOneFanHubContxt>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FormulaOneFanHubContext")));
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(

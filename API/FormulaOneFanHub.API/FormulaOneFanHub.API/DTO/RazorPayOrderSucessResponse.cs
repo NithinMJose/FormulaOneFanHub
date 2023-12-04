@@ -2,17 +2,23 @@
 {
     public class RazorPayOrderSucessResponse
     {
-        public string Id { get; set; }
-        public string Entity { get; set; }
-        public int Amount { get; set; }
-        public int AmountPaid { get; set; }
-        public int AmountDue { get; set; }
-        public string Currency { get; set; }
-        public string Receipt { get; set; }
-        public object OfferId { get; set; }
-        public string Status { get; set; }
-        public int Attempts { get; set; }
-        public List<object> Notes { get; set; }
-        public int CreatedAt { get; set; }
+        public string id { get; set; }
+        public string entity { get; set; }
+        public int amount { get; set; }
+        public int amount_paid { get; set; }
+        public int amount_due { get; set; }
+        public string currency { get; set; }
+        public string receipt { get; set; }
+        public object offer_id { get; set; }
+        public string status { get; set; }
+        public int attempts { get; set; }
+        public Notes? notes { get; set; }
+        public long created_at { get; set; }
+    }
+
+    public class Notes
+    {
+        public string key1 { get; set; }
+        public string key2 { get; set; }
     }
 }

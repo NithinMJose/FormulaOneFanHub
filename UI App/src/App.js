@@ -71,6 +71,9 @@ import EditCorner from './Components/SeasonAndRace/EditCorner';
 import EditTicketCategory from './Components/SeasonAndRace/EditTicketCategory';
 import TopicListAdminEditView from './Components/Topic/TopicListAdminEditView';
 import TopicCommentAdmin from './Components/Topic/TopicCommentAdmin';
+import TBConfirm2 from './Components/TicketBooking/TBConfirm2';
+import TBConfirm3 from './Components/TicketBooking/TBConfirm3';
+import FinalPage from './Components/TicketBooking/FinalPage';
 
 
 
@@ -151,6 +154,11 @@ function App() {
           <Route path='/EditTicketCategory' element={<EditTicketCategory/>} />
           <Route path='/TopicListAdminEditView' element={<TopicListAdminEditView/>} />
           <Route path='/TopicCommentAdmin' element={<TopicCommentAdmin />} />
+          <Route path='/TBConfirm2' element={<TBConfirm2 />} />
+          <Route path='/TBConfirm3' element={<TBConfirm3 />} />
+          <Route path='/FinalPage' element={<FinalPage />} />
+
+
 
         </Routes>
         <ToastContainer />
