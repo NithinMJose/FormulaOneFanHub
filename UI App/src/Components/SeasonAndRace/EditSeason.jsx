@@ -29,6 +29,9 @@ const EditSeason = () => {
   const [updatedChampion, setUpdatedChampion] = useState('');
   const [updatedImageFile, setUpdatedImageFile] = useState(null);
 
+  const [championError, setChampionError] = useState('');
+  const [imageError, setImageError] = useState('');
+
   useEffect(() => {
     const getSeasonById = async () => {
       try {
@@ -47,7 +50,39 @@ const EditSeason = () => {
     getSeasonById();
   }, [state.seasonId]);
 
+  const validateChampion = (value) => {
+    if (value.trim().length < 3) {
+      setChampionError('Champion should be at least 3 characters long');
+    } else {
+      setChampionError('');
+    }
+  };
+
+  const validateImage = (file) => {
+    if (!file) {
+      setImageError('Please upload an image file');
+      return;
+    }
+
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+      setImageError('Please upload a valid PNG or JPG image.');
+    } else {
+      setImageError('');
+    }
+  };
+
   const handleUpdate = async () => {
+    // Validate champion
+    validateChampion(updatedChampion);
+
+    // Validate image
+    validateImage(updatedImageFile);
+
+    // If any validation fails, return without updating
+    if (championError || imageError) {
+      return;
+    }
+
     const formData = new FormData();
     formData.append('seasonId', season.seasonId);
     formData.append('year', updatedYear);
@@ -85,29 +120,86 @@ const EditSeason = () => {
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                label="Updated Year"
-                type="number"
-                fullWidth
-                value={updatedYear}
-                onChange={(e) => setUpdatedYear(e.target.value)}
-              />
+              <Typography variant="body1" gutterBottom>
+                Year: {season.year} {/* Display year as text */}
+              </Typography>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Updated Champion"
-                fullWidth
-                value={updatedChampion}
-                onChange={(e) => setUpdatedChampion(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setUpdatedImageFile(e.target.files[0])}
-              />
-            </Grid>
+            {new Date().getFullYear() > season.year ? (
+              <>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Updated Champion"
+                    fullWidth
+                    value={updatedChampion}
+                    onChange={(e) => {
+                      setUpdatedChampion(e.target.value);
+                      validateChampion(e.target.value);
+                    }}
+                    error={Boolean(championError)}
+                    helperText={championError}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      setUpdatedImageFile(e.target.files[0]);
+                      validateImage(e.target.files[0]);
+                    }}
+                  />
+                  {imageError && (
+                    <Typography variant="body2" color="error">
+                      {imageError}
+                    </Typography>
+                  )}
+                </Grid>
+              </>
+            ) : new Date().getFullYear() === season.year ? (
+              <>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Updated Champion"
+                    fullWidth
+                    value={updatedChampion}
+                    onChange={(e) => {
+                      setUpdatedChampion(e.target.value);
+                      validateChampion(e.target.value);
+                    }}
+                    error={Boolean(championError)}
+                    helperText={championError}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      setUpdatedImageFile(e.target.files[0]);
+                      validateImage(e.target.files[0]);
+                    }}
+                  />
+                  {imageError && (
+                    <Typography variant="body2" color="error">
+                      {imageError}
+                    </Typography>
+                  )}
+                </Grid>
+              </>
+            ) : (
+              <Grid item xs={12}>
+                <Typography variant="body1" color="textSecondary">
+                  No Data Inserted For this Future Season, Updation property will be available later
+                </Typography>
+              </Grid>
+            )}
+            {new Date().getFullYear() <= season.year && (
+              <Grid item xs={12}>
+                <Typography variant="body1" color="textSecondary">
+                  Champion: {season.champion}
+                </Typography>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Button variant="contained" color="primary" onClick={handleUpdate}>
                 Update Season

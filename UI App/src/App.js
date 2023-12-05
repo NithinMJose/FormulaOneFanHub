@@ -74,6 +74,7 @@ import TopicCommentAdmin from './Components/Topic/TopicCommentAdmin';
 import TBConfirm2 from './Components/TicketBooking/TBConfirm2';
 import TBConfirm3 from './Components/TicketBooking/TBConfirm3';
 import FinalPage from './Components/TicketBooking/FinalPage';
+import AdminViewProfile from './Components/LoginSignup/AdminViewProfile';
 
 
 
@@ -102,7 +103,7 @@ function App() {
           <Route path='/Registerthree' element={<Registerthree />} />
           <Route path='/AddDriver' element={<AddDriver />} />
           <Route path='/DriverList' element={<DriverList />} />
-          <Route path='/UpdateDriver/:driverId' element={<UpdateDriver />} />
+          <Route path='/UpdateDriver' element={<UpdateDriver />} />
           <Route path='/AddF1History' element={<AddF1History />} />
           <Route path='/F1HistoryList' element={<F1HistoryList />} />
           <Route path='/F1HistoryUpdate/:historyId' element={<F1HistoryUpdate />} />
@@ -157,6 +158,7 @@ function App() {
           <Route path='/TBConfirm2' element={<TBConfirm2 />} />
           <Route path='/TBConfirm3' element={<TBConfirm3 />} />
           <Route path='/FinalPage' element={<FinalPage />} />
+          <Route path='/AdminViewProfile' element={<AdminViewProfile />} />
 
 
 

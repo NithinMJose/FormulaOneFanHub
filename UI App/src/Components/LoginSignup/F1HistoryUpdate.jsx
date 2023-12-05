@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Button, Container, Typography, TextField, Box } from '@mui/material';
 import { Edit, Check, Delete } from '@mui/icons-material';
 import AdminNavbar from './AdminNavbar';
-import './F1HistoryUpdate.css';
 import Footer from './Footer';
 
 const F1HistoryUpdate = () => {
@@ -15,6 +14,8 @@ const F1HistoryUpdate = () => {
   });
 
   const [editableField, setEditableField] = useState('');
+  const [headingError, setHeadingError] = useState('');
+  const [paragraphError, setParagraphError] = useState('');
 
   useEffect(() => {
     axios
@@ -33,9 +34,15 @@ const F1HistoryUpdate = () => {
 
   const handleFieldChange = (value) => {
     setHistoryData((prevData) => ({ ...prevData, [editableField]: value }));
+    validateField(editableField, value);
   };
 
   const handleUpdateClick = () => {
+    if (!validateForm()) {
+      // Display an error message or handle validation failure
+      return;
+    }
+
     const updateData = {
       id: historyId,
       heading: historyData.heading,
@@ -52,6 +59,48 @@ const F1HistoryUpdate = () => {
       });
 
     setEditableField('');
+  };
+
+  const validateField = (field, value) => {
+    switch (field) {
+      case 'heading':
+        validateHeading(value);
+        break;
+      case 'paragraph':
+        validateParagraph(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const validateHeading = (value) => {
+    if (value.trim().length < 3) {
+      setHeadingError('Heading should be at least 3 characters long');
+    } else {
+      setHeadingError('');
+    }
+  };
+
+  const validateParagraph = (value) => {
+    if (value.trim().length < 10) {
+      setParagraphError('Paragraph should be at least 10 characters long');
+    } else {
+      setParagraphError('');
+    }
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+
+    validateHeading(historyData.heading);
+    validateParagraph(historyData.paragraph);
+
+    // Check if there are any validation errors
+    isValid = isValid && !Boolean(headingError);
+    isValid = isValid && !Boolean(paragraphError);
+
+    return isValid;
   };
 
   return (
@@ -72,13 +121,16 @@ const F1HistoryUpdate = () => {
                   Heading
                 </Typography>
                 {editableField === 'heading' ? (
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    value={historyData.heading}
-                    onChange={(e) => handleFieldChange(e.target.value)}
-                    style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', borderRadius: '5px' }}
-                  />
+                  <>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      value={historyData.heading}
+                      onChange={(e) => handleFieldChange(e.target.value)}
+                      style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', borderRadius: '5px' }}
+                    />
+                    {headingError && <Typography variant="caption" color="error">{headingError}</Typography>}
+                  </>
                 ) : (
                   <Typography variant="body1" component="div" fontWeight="">
                     {historyData.heading}
@@ -107,15 +159,18 @@ const F1HistoryUpdate = () => {
                   Paragraph
                 </Typography>
                 {editableField === 'paragraph' ? (
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    value={historyData.paragraph}
-                    onChange={(e) => handleFieldChange(e.target.value)}
-                    style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', borderRadius: '5px' }}
-                  />
+                  <>
+                    <TextField
+                      fullWidth
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      value={historyData.paragraph}
+                      onChange={(e) => handleFieldChange(e.target.value)}
+                      style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', borderRadius: '5px' }}
+                    />
+                    {paragraphError && <Typography variant="caption" color="error">{paragraphError}</Typography>}
+                  </>
                 ) : (
                   <Typography variant="body1" component="div" fontWeight="">
                     {historyData.paragraph}
@@ -139,9 +194,7 @@ const F1HistoryUpdate = () => {
                 )}
               </Box>
             </form>
-            <Button variant="contained" color="error" onClick={() => setEditableField('')}>
-              <Delete /> Delete Data
-            </Button>
+
           </Box>
         </Container>
         <br />

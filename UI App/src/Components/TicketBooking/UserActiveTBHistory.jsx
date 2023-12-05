@@ -43,6 +43,9 @@ const UserActiveTBHistory = () => {
           response.data.map(async (booking) => {
             try {
               const raceResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceById?id=${booking.raceId}`);
+              const cornerResponse = await axios.get(`https://localhost:7092/api/Corner/GetCornerById?id=${booking.cornerId}`);
+              const categoryResponse = await axios.get(`https://localhost:7092/api/TicketCategory/GetTicketCategoryById?id=${booking.ticketCategoryId}`);
+              const seasonResponse = await axios.get(`https://localhost:7092/api/Season/GetSeasonById?id=${booking.seasonId}`);
               
               // Check if the raceDate is a future date
               const isFutureDate = new Date(raceResponse.data.raceDate) > new Date();
@@ -50,6 +53,9 @@ const UserActiveTBHistory = () => {
               if (isFutureDate) {
                 return {
                   ...booking,
+                  year: seasonResponse.data?.year,
+                  cornerNumber: cornerResponse.data?.cornerNumber,
+                  categoryName: categoryResponse.data?.categoryName,
                   raceName: raceResponse.data?.raceName,
                   raceDate: raceResponse.data?.raceDate,
                   // Add any additional properties you need

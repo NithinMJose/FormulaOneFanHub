@@ -34,13 +34,14 @@ const FinalPage = () => {
 
   const saveDataToDatabase = async (receivedData, paymentId, orderId) => {
     try {
+      console.log('Trying to save data to the database...');
       const response = await fetch('https://localhost:7092/api/TicketBooking/TBDBSave', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ticketBookingDto: {
+          
             uniqueId: orderId,
             receiptNumber: state.orderId, // You can update this value as needed
             userId: receivedData.UserId,
@@ -56,7 +57,7 @@ const FinalPage = () => {
             address: receivedData.Address,
             email: receivedData.Email,
             phoneContact: receivedData.PhoneContact,
-          },
+          
         }),
       });
   

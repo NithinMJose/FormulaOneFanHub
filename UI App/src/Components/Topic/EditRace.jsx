@@ -19,6 +19,12 @@ const EditRace = () => {
     imageFile: null,
   });
 
+  const [raceNameError, setRaceNameError] = useState('');
+  const [seasonIdError, setSeasonIdError] = useState('');
+  const [raceDateError, setRaceDateError] = useState('');
+  const [raceLocationError, setRaceLocationError] = useState('');
+  const [imageFileError, setImageFileError] = useState('');
+
   useEffect(() => {
     const fetchRaceById = async () => {
       try {
@@ -39,7 +45,86 @@ const EditRace = () => {
     setRace({ ...race, imageFile: e.target.files[0] });
   };
 
+  const validateField = (field, value) => {
+    switch (field) {
+      case 'raceName':
+        validateRaceName(value);
+        break;
+      case 'seasonId':
+        validateSeasonId(value);
+        break;
+      case 'raceDate':
+        validateRaceDate(value);
+        break;
+      case 'raceLocation':
+        validateRaceLocation(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const validateRaceName = (value) => {
+    if (value.trim().length < 3) {
+      setRaceNameError('Race Name should be at least 3 characters long');
+    } else {
+      setRaceNameError('');
+    }
+  };
+
+  const validateSeasonId = (value) => {
+    if (!value || !value.trim) {
+      setSeasonIdError('Season ID is required');
+    } else {
+      setSeasonIdError('');
+    }
+  };
+  
+
+  const validateRaceDate = (value) => {
+    if (!value) {
+      setRaceDateError('Race Date is required');
+    } else {
+      setRaceDateError('');
+    }
+  };
+
+  const validateRaceLocation = (value) => {
+    if (value.trim().length < 3) {
+      setRaceLocationError('Race Location should be at least 3 characters long');
+    } else {
+      setRaceLocationError('');
+    }
+  };
+
+  const validateImageFile = (file) => {
+    if (!file) {
+      setImageFileError('Image file is required');
+    } else {
+      const allowedExtensions = ['png', 'jpg'];
+      const extension = file.name.split('.').pop().toLowerCase();
+
+      if (!allowedExtensions.includes(extension)) {
+        setImageFileError('Invalid file format. Please use PNG or JPG.');
+      } else {
+        setImageFileError('');
+      }
+    }
+  };
+
   const handleUpdate = async () => {
+    // Validate fields
+    validateField('raceName', race.raceName);
+    validateField('seasonId', race.seasonId);
+    validateField('raceDate', race.raceDate);
+    validateField('raceLocation', race.raceLocation);
+    validateImageFile(race.imageFile);
+
+    // If any validation fails, return without updating
+    if (raceNameError || seasonIdError || raceDateError || raceLocationError || imageFileError) {
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append('raceId', race.raceId);
@@ -80,7 +165,12 @@ const EditRace = () => {
                 label="Race Name"
                 fullWidth
                 value={race.raceName}
-                onChange={(e) => setRace({ ...race, raceName: e.target.value })}
+                onChange={(e) => {
+                  setRace({ ...race, raceName: e.target.value });
+                  validateRaceName(e.target.value);
+                }}
+                error={Boolean(raceNameError)}
+                helperText={raceNameError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -88,7 +178,12 @@ const EditRace = () => {
                 label="Season ID"
                 fullWidth
                 value={race.seasonId}
-                onChange={(e) => setRace({ ...race, seasonId: e.target.value })}
+                onChange={(e) => {
+                  setRace({ ...race, seasonId: e.target.value });
+                  validateSeasonId(e.target.value);
+                }}
+                error={Boolean(seasonIdError)}
+                helperText={seasonIdError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -97,7 +192,12 @@ const EditRace = () => {
                 fullWidth
                 type="date"
                 value={race.raceDate}
-                onChange={(e) => setRace({ ...race, raceDate: e.target.value })}
+                onChange={(e) => {
+                  setRace({ ...race, raceDate: e.target.value });
+                  validateRaceDate(e.target.value);
+                }}
+                error={Boolean(raceDateError)}
+                helperText={raceDateError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,11 +205,28 @@ const EditRace = () => {
                 label="Race Location"
                 fullWidth
                 value={race.raceLocation}
-                onChange={(e) => setRace({ ...race, raceLocation: e.target.value })}
+                onChange={(e) => {
+                  setRace({ ...race, raceLocation: e.target.value });
+                  validateRaceLocation(e.target.value);
+                }}
+                error={Boolean(raceLocationError)}
+                helperText={raceLocationError}
               />
             </Grid>
             <Grid item xs={12}>
-              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  handleFileChange(e);
+                  validateImageFile(e.target.files[0]);
+                }}
+              />
+              {imageFileError && (
+                <Typography variant="body2" color="error">
+                  {imageFileError}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <Button variant="contained" color="primary" onClick={handleUpdate}>

@@ -9,7 +9,10 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledCard = styled(Card)`
+  min-width: 300px;
   max-width: 300px;
+  min-height: 300px;
+  max-height: 300px;
   margin: 20px;
   transition: transform 0.2s;
 
@@ -19,7 +22,7 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledCardMedia = styled(CardMedia)`
-  height: 200px; /* Set a fixed height for all images */
+  height: 200px;
   cursor: pointer;
 `;
 
@@ -87,7 +90,7 @@ const GalleryUserView = () => {
             color="inherit"
             onClick={handleCloseDialog}
             aria-label="close"
-            sx={{ position: 'absolute', top: 0, right: 0 }}
+            sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1, margin: 1 }}
           >
             <CloseIcon />
           </IconButton>
@@ -95,7 +98,7 @@ const GalleryUserView = () => {
             <img
               src={`https://localhost:7092/images/${selectedImage.imageUrl}`}
               alt={selectedImage.caption}
-              style={{ width: '100%', height: 'auto' }}
+              style={{ width: 'auto', height: '100%' }}
             />
           )}
         </DialogContent>

@@ -18,39 +18,109 @@ const EditTicketCategory = () => {
     imageFile: null,
   });
 
+  const [categoryNameError, setCategoryNameError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
+  const [ticketPriceError, setTicketPriceError] = useState('');
+  const [imageFileError, setImageFileError] = useState('');
+
   useEffect(() => {
     const fetchTicketCategoryById = async () => {
       try {
-        console.log('Ticket Category ID received through state:', state.categoryId); // Add this line to print categoryId in the console
-  
+        console.log('Ticket Category ID received through state:', state.categoryId);
+
         const response = await axios.get(`https://localhost:7092/api/TicketCategory/GetTicketCategoryById?id=${state.categoryId}`);
         const { ticketCategoryId, categoryName, description, ticketPrice, imageFile, imagePath } = response.data;
-  
+
         setTicketCategory({
           ticketCategoryId,
           categoryName,
           description,
           ticketPrice,
-          imageFile: null, // Assuming you don't want to display the image on the form
+          imageFile: null,
         });
-  
+
         console.log('Data received from the endpoint:', response.data);
       } catch (error) {
         console.error('Error fetching ticket category:', error);
       }
     };
-  
+
     fetchTicketCategoryById();
   }, [state.ticketCategoryId]);
-  
-  
-  
 
   const handleFileChange = (e) => {
     setTicketCategory({ ...ticketCategory, imageFile: e.target.files[0] });
   };
 
+  const validateField = (field, value) => {
+    switch (field) {
+      case 'categoryName':
+        validateCategoryName(value);
+        break;
+      case 'description':
+        validateDescription(value);
+        break;
+      case 'ticketPrice':
+        validateTicketPrice(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const validateCategoryName = (value) => {
+    if (value.trim().length === 0) {
+      setCategoryNameError('Category Name is required');
+    } else if (value.trim().length < 3) {
+      setCategoryNameError('Category Name should be at least 3 characters long');
+    } else {
+      setCategoryNameError('');
+    }
+  };
+
+  const validateDescription = (value) => {
+    if (value.trim().length === 0) {
+      setDescriptionError('Description is required');
+    } else {
+      setDescriptionError('');
+    }
+  };
+
+  const validateTicketPrice = (value) => {
+    if (!value || isNaN(value) || parseFloat(value) <= 0) {
+      setTicketPriceError('Ticket Price should be a positive number');
+    } else {
+      setTicketPriceError('');
+    }
+  };
+
+  const validateImageFile = (file) => {
+    if (!file) {
+      setImageFileError('Image file is required');
+    } else {
+      const allowedExtensions = ['png', 'jpg'];
+      const extension = file.name.split('.').pop().toLowerCase();
+
+      if (!allowedExtensions.includes(extension)) {
+        setImageFileError('Invalid file format. Please use PNG or JPG.');
+      } else {
+        setImageFileError('');
+      }
+    }
+  };
+
   const handleUpdate = async () => {
+    // Validate fields
+    validateField('categoryName', ticketCategory.categoryName);
+    validateField('description', ticketCategory.description);
+    validateField('ticketPrice', ticketCategory.ticketPrice);
+    validateImageFile(ticketCategory.imageFile);
+
+    // If any validation fails, return without updating
+    if (categoryNameError || descriptionError || ticketPriceError || imageFileError) {
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append('ticketCategoryId', ticketCategory.ticketCategoryId);
@@ -90,7 +160,12 @@ const EditTicketCategory = () => {
                 label="Category Name"
                 fullWidth
                 value={ticketCategory.categoryName}
-                onChange={(e) => setTicketCategory({ ...ticketCategory, categoryName: e.target.value })}
+                onChange={(e) => {
+                  setTicketCategory({ ...ticketCategory, categoryName: e.target.value });
+                  validateCategoryName(e.target.value);
+                }}
+                error={Boolean(categoryNameError)}
+                helperText={categoryNameError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -100,20 +175,42 @@ const EditTicketCategory = () => {
                 multiline
                 rows={4}
                 value={ticketCategory.description}
-                onChange={(e) => setTicketCategory({ ...ticketCategory, description: e.target.value })}
+                onChange={(e) => {
+                  setTicketCategory({ ...ticketCategory, description: e.target.value });
+                  validateDescription(e.target.value);
+                }}
+                error={Boolean(descriptionError)}
+                helperText={descriptionError}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 label="Ticket Price"
                 fullWidth
-                type="text" // Change type to text for displaying as a string
-                value={ticketCategory.ticketPrice ? ticketCategory.ticketPrice.toString() : ''} // Convert to string before displaying
-                onChange={(e) => setTicketCategory({ ...ticketCategory, ticketPrice: e.target.value })}
+                type="text"
+                value={ticketCategory.ticketPrice ? ticketCategory.ticketPrice.toString() : ''}
+                onChange={(e) => {
+                  setTicketCategory({ ...ticketCategory, ticketPrice: e.target.value });
+                  validateTicketPrice(e.target.value);
+                }}
+                error={Boolean(ticketPriceError)}
+                helperText={ticketPriceError}
               />
             </Grid>
             <Grid item xs={12}>
-              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  handleFileChange(e);
+                  validateImageFile(e.target.files[0]);
+                }}
+              />
+              {imageFileError && (
+                <Typography variant="body2" color="error">
+                  {imageFileError}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <Button variant="contained" color="primary" onClick={handleUpdate}>

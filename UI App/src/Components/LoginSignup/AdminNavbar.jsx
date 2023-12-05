@@ -162,7 +162,7 @@ function AdminNavbar() {
               {userName}
             </a>
             <div className="dropdown-menu m-0">
-              <div className='dropdown-item'><Link to="/UserViewProfile">View Profile</Link></div>
+              <div className='dropdown-item'><Link to="/AdminViewProfile">View Profile</Link></div>
               <div className='dropdown-item' onClick={handleLogout}><Link to="/">Logout</Link></div>
             </div>
           </div>
