@@ -203,6 +203,34 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+
+        [HttpPatch("CancelTicketById/{ticketBookingId}")]
+        public IActionResult CancelTicketById(int ticketBookingId)
+        {
+            // Find the ticket booking by ID
+            var ticketBooking = _fanHubContext.TicketBookings.Find(ticketBookingId);
+
+            // Check if the ticket booking is found
+            if (ticketBooking == null)
+            {
+                return NotFound($"Ticket booking with ID {ticketBookingId} not found.");
+            }
+
+            // Check if the ticket booking is in a cancellable state (e.g., "Confirmed")
+            if (ticketBooking.BookingStatus != "Confirmed")
+            {
+                return BadRequest($"Ticket booking with ID {ticketBookingId} cannot be cancelled.");
+            }
+
+            // Update the booking status to "Cancelled"
+            ticketBooking.BookingStatus = "Cancelled";
+
+            // Save changes to the database
+            _fanHubContext.SaveChanges();
+
+            return Ok($"Ticket booking with ID {ticketBookingId} has been successfully cancelled.");
+        }
+
         // Other actions such as GetTicketBookings, GetTicketBookingById, CancelBooking, etc., can be added based on your requirements
     }
 }

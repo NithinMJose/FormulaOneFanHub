@@ -71,6 +71,7 @@ const AddF1History = () => {
                                     }}
                                     render={({ field }) => (
                                         <TextField
+                                        id= "testHistoryHead"
                                             {...field}
                                             label="Heading"
                                             error={!!errors.heading}
@@ -93,6 +94,7 @@ const AddF1History = () => {
                                     }}
                                     render={({ field }) => (
                                         <TextField
+                                        id= "testHistoryPara"
                                             {...field}
                                             label="Paragraph"
                                             multiline
@@ -109,6 +111,7 @@ const AddF1History = () => {
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                                 <Button
+                                id="testFHistory"
                                     type="submit"
                                     variant="contained"
                                     color="primary"

@@ -134,5 +134,41 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+        // ... (previous code)
+
+        [HttpPut("UpdateCornerSeatByTicketCancel")]
+        public IActionResult UpdateCornerSeatByTicketCancel([FromBody] UpdateCornerSeatDto updateCornerSeatDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingCorner = _fanHubContext.Corners.Find(updateCornerSeatDto.CornerId);
+
+            if (existingCorner == null)
+            {
+                return NotFound();
+            }
+
+            // Increase AvailableCapacity by the specified number
+            existingCorner.AvailableCapacity += updateCornerSeatDto.SeatsToIncrease;
+
+            _fanHubContext.SaveChanges();
+
+            return Ok();
+        }
+
+        // ... (remaining code)
+
+
+        public class UpdateCornerSeatDto
+        {
+            public int CornerId { get; set; }
+            public int SeatsToIncrease { get; set; }
+        }
+
+
+
     }
 }

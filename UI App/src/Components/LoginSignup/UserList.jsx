@@ -12,7 +12,6 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import UserNavbar from './UserNavbar';
 import axios from 'axios';
 import Footer from './Footer';
 import AdminNavbar from './AdminNavbar';
@@ -104,7 +103,7 @@ const UserList = () => {
 
   const handleAccountToInactive = (userName) => {
     const confirmDeactivate = window.confirm('Are you sure you want to deactivate this user?');
-
+  
     if (confirmDeactivate) {
       axios
         .put(
@@ -117,20 +116,31 @@ const UserList = () => {
           }
         )
         .then(() => {
-          axios
-            .get(`https://localhost:7092/api/Admin/ListUsers`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            })
-            .then((response) => {
-              setUserData(response.data);
-              toast.success('User deactivated successfully');
-            })
-            .catch((error) => {
-              console.error('Error fetching user data:', error);
-              toast.error('An error occurred while fetching user data');
-            });
+          // Call the SendBanEmail endpoint after deactivating the user
+          axios.post('https://localhost:7092/api/User/SendBanEmail', {
+            userName: userName,
+          })
+          .then(() => {
+            // Fetch updated user data after sending ban email
+            axios
+              .get(`https://localhost:7092/api/Admin/ListUsers`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+              .then((response) => {
+                setUserData(response.data);
+                toast.success('User deactivated successfully');
+              })
+              .catch((error) => {
+                console.error('Error fetching user data:', error);
+                toast.error('An error occurred while fetching user data');
+              });
+          })
+          .catch((error) => {
+            console.error('Error sending ban email:', error);
+            toast.error('An error occurred while sending the ban email');
+          });
         })
         .catch((error) => {
           console.error('Error deactivating user:', error);
@@ -138,6 +148,7 @@ const UserList = () => {
         });
     }
   };
+  
 
   const handleAccountToActive = (userName) => {
     const confirmDeactivate = window.confirm('Are you sure you want to Activate this user?');

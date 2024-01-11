@@ -98,27 +98,33 @@ const Signin = () => {
             </Typography>
             <Box component="form" noValidate sx={{ mt: 3 }}>
               <TextField
+              name="username"
+              id="username"
                 margin="normal"
                 required
                 fullWidth
-                id="username"
+                
                 label="Username"
-                name="username"
                 autoComplete="username"
                 autoFocus
                 value={username}
+                
+
                 onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
+              name="password"
+              id="password"
                 margin="normal"
                 required
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
-                id="password"
+                
                 autoComplete="current-password"
                 value={password}
+                
+
                 onChange={(e) => setPassword(e.target.value)}
               />
               <Grid container>
@@ -129,7 +135,9 @@ const Signin = () => {
                 </Grid>
               </Grid>
               <Button
+              id = "testid"
                 fullWidth
+                
                 name = "testid"
                 variant="contained"
                 color="primary"

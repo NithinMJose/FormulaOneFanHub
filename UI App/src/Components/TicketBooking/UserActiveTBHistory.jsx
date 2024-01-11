@@ -19,6 +19,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import UserNavbar from '../LoginSignup/UserNavbar';
 import Footer from '../LoginSignup/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const UserActiveTBHistory = () => {
   const [activeTicketBookingHistory, setActiveTicketBookingHistory] = useState([]);
@@ -26,6 +27,8 @@ const UserActiveTBHistory = () => {
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
   const token = localStorage.getItem('jwtToken');
   const [userIdDecode, setUserId] = useState('');
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (token) {
@@ -96,6 +99,35 @@ const UserActiveTBHistory = () => {
     alert(`Printing the ticket for Booking ID: ${booking.ticketBookingId}`);
   };
 
+  const handleManageBooking = async (booking) => {
+    if (booking.bookingStatus === 'Confirmed') {
+      try {
+        // Make an API call to cancel the booking
+        await axios.patch(`https://localhost:7092/api/TicketBooking/CancelTicketById/${booking.ticketBookingId}`);
+        
+        // Make an API call to update the corner seats
+        console.log('CorenerId :', booking.cornerId)
+        console.log('seatsToIncrease', booking.seatsToIncrease)
+        await axios.put(`https://localhost:7092/api/Corner/UpdateCornerSeatByTicketCancel`, {
+          cornerId: booking.cornerId,
+          seatsToIncrease: booking.numberOfTicketsBooked,
+        });
+
+        // Update the local state or fetch the updated data
+        // (You may want to refetch the active ticket booking history or update the state)
+        // For simplicity, let's just show an alert
+        alert(`Booking for Booking ID: ${booking.ticketBookingId} has been successfully cancelled.`);
+        navigate('/UserActiveTBHistory')
+      } catch (error) {
+        console.error('Error managing booking:', error);
+        alert('Error managing the booking. Please try again.');
+      }
+    } else if (booking.bookingStatus === 'Cancelled') {
+      // Handle cancelled logic (optional)
+      alert(`This booking is already cancelled for Booking ID: ${booking.ticketBookingId}`);
+    }
+  };
+
   return (
     <div>
       <UserNavbar />
@@ -111,7 +143,8 @@ const UserActiveTBHistory = () => {
                   <TableCell>Sl No</TableCell>
                   <TableCell>Race Name</TableCell>
                   <TableCell>Race Date</TableCell>
-                  {/* Add more table headers as needed */}
+                  <TableCell>Ticket Status</TableCell>
+                  <TableCell>Manage</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -121,7 +154,19 @@ const UserActiveTBHistory = () => {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{booking.raceName}</TableCell>
                     <TableCell>{new Date(booking.raceDate).toLocaleString()}</TableCell>
-                    {/* Add more table cells as needed */}
+                    <TableCell>{booking.bookingStatus}</TableCell>
+                    <TableCell>
+                      {booking.bookingStatus === 'Confirmed' && (
+                        <Button variant="outlined" onClick={() => handleManageBooking(booking)}>
+                          Cancel
+                        </Button>
+                      )}
+                      {booking.bookingStatus === 'Cancelled' && (
+                        <Button variant="outlined" disabled>
+                          Cancelled
+                        </Button>
+                      )}
+                    </TableCell>
                     <TableCell>
                       <Button variant="outlined">View Details</Button>
                     </TableCell>
@@ -133,6 +178,9 @@ const UserActiveTBHistory = () => {
         </Paper>
       </Container>
       <Footer />
+
+
+      
 
       <Dialog open={detailsDialogOpen} onClose={handleCloseDetailsDialog} maxWidth="md" fullWidth>
         <DialogTitle sx={{ textAlign: 'center' }}>Booking Details</DialogTitle>
@@ -225,6 +273,9 @@ const UserActiveTBHistory = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+
     </div>
   );
 };

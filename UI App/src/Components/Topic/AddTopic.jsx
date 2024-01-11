@@ -128,6 +128,7 @@ const AddTopic = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                name= "testTopic"
                   label="Title"
                   variant="outlined"
                   fullWidth
@@ -142,6 +143,7 @@ const AddTopic = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                name= "testContent"
                   label="Content"
                   variant="outlined"
                   fullWidth
@@ -158,6 +160,7 @@ const AddTopic = () => {
               </Grid>
             </Grid>
             <Button
+            id="AddTopicButton"
               fullWidth
               variant="contained"
               color="primary"

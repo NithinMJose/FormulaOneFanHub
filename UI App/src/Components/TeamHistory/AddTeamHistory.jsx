@@ -70,6 +70,7 @@ const AddTeamHistory = () => {
                   }}
                   render={({ field }) => (
                     <TextField
+                    id="testTHistoryHead"
                       {...field}
                       label="Heading"
                       error={!!errors.heading}
@@ -92,6 +93,7 @@ const AddTeamHistory = () => {
                   }}
                   render={({ field }) => (
                     <TextField
+                    id="testTHistoryPara"
                       {...field}
                       label="Paragraph"
                       multiline
@@ -108,6 +110,7 @@ const AddTeamHistory = () => {
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                 <Button
+                id="testTHistory"
                   type="submit"
                   variant="contained"
                   color="primary"

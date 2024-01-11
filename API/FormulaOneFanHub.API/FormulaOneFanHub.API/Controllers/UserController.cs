@@ -20,12 +20,14 @@ namespace FormulaOneFanHub.API.Controllers
         private readonly FormulaOneFanHubContxt _fanHubContext;
         private readonly IConfiguration _config;
         private readonly EmailSendUtility _emailSendUtility;
+        private readonly EmailSendUtilityBan _emailSendUtilityBan;
 
         public UserController(FormulaOneFanHubContxt fanHubContxt, IConfiguration configuration)
         {
             _fanHubContext = fanHubContxt;
             _config = configuration;
             _emailSendUtility = new EmailSendUtility(_config);
+            _emailSendUtilityBan =new EmailSendUtilityBan(_config);
         }
 
 
@@ -730,6 +732,54 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(new { isUsernameTaken });
         }
 
+
+
+
+        [HttpPost("SendBanEmail")]
+        public IActionResult SendBanEmail([FromBody] UserNameRequests request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Invalid request format. Please provide a JSON object with 'userName' field.");
+                }
+
+                // Find the user by userName
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == request.UserName);
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Generate a random 7-digit number
+                Random random = new Random();
+                var randomCode = random.Next(1000000, 9999999);
+                // Convert the random number to a string
+                var otp = randomCode.ToString();
+
+                // Store the OTP in the ConfirmEmailToken field
+                // Save the changes to the database
+                _fanHubContext.SaveChanges();
+
+                // Send the OTP to the user's email (you can implement this logic using your email sending utility)
+                _emailSendUtilityBan.SendEmailBan(user, otp);
+
+                // Return a JSON response with success:true
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+        public class UserNameRequests
+        {
+            public string UserName { get; set; }
+        }
 
     }
 }
