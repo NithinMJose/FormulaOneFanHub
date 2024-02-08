@@ -6,7 +6,7 @@ import Footer from './Footer';
 import jwt_decode from 'jwt-decode';
 import { HomeCarousel } from './HomeCarousel';
 import About from './About'; // assuming that About.jsx is in the same directory
-import { Container, Typography, CssBaseline, Button, Box } from '@mui/material';
+import { Container, Typography, CssBaseline, Box } from '@mui/material';
 
 const AuthenticatedUserHome = () => {
   const navigate = useNavigate();
@@ -33,13 +33,6 @@ const AuthenticatedUserHome = () => {
       }
     }
   }, [navigate]);
-
-  const handleLogout = () => {
-    // Remove the JWT token from local storage
-    localStorage.removeItem('jwtToken');
-    toast.success('Logged out successfully');
-    navigate('/Signin'); // Redirect to the login page
-  };
 
   return (
     <Box>

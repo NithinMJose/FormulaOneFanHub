@@ -10,7 +10,6 @@ import UserList from './Components/LoginSignup/UserList'; // Import UserList
 import Errors from './Components/LoginSignup/Errors';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import About from './Components/LoginSignup/About';
 import AboutPage from './Components/LoginSignup/AboutPage';
 import UserConfirmEmail from './Components/LoginSignup/UserConfirmEmail';
 import ForgotPass from './Components/LoginSignup/ForgotPassword';
@@ -75,6 +74,7 @@ import TBConfirm2 from './Components/TicketBooking/TBConfirm2';
 import TBConfirm3 from './Components/TicketBooking/TBConfirm3';
 import FinalPage from './Components/TicketBooking/FinalPage';
 import AdminViewProfile from './Components/LoginSignup/AdminViewProfile';
+
 
 
 
@@ -159,9 +159,6 @@ function App() {
           <Route path='/TBConfirm3' element={<TBConfirm3 />} />
           <Route path='/FinalPage' element={<FinalPage />} />
           <Route path='/AdminViewProfile' element={<AdminViewProfile />} />
-
-
-
         </Routes>
         <ToastContainer />
       </div>
