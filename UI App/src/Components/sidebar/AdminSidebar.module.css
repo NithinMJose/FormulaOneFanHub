@@ -1,0 +1,25 @@
+/* AdminSidebar.module.css */
+
+.sidebar {
+  background-color: #f8f9fa; /* Light gray background for the entire sidebar */
+}
+
+.listItem {
+  background-color: #ffffff; /* Blue for list items */
+  transition: background-color  0.3s ease; /* Smooth transition for hover effect */
+  border:  3px solid transparent; /* Transparent border to reserve space for the border on hover */
+  box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+}
+
+.listItem:hover {
+  background-color: #ffffff8e; /* Color on hover */
+  border-color: #5fe2a08e; /* Border color on hover */
+}
+
+.collapsedSection {
+  background-color: #dee2e6; /* Even darker gray for collapsed sections */
+}
+
+.activeSection {
+  background-color: #ffffffb4; /* Light blue for active sections */
+}

@@ -20,14 +20,14 @@ namespace FormulaOneFanHub.API.Controllers
         private readonly FormulaOneFanHubContxt _fanHubContext;
         private readonly IConfiguration _config;
         private readonly EmailSendUtility _emailSendUtility;
-        private readonly EmailSendUtilityBan _emailSendUtilityBan;
+        //private readonly EmailSendUtilityBan _emailSendUtilityBan;
 
         public UserController(FormulaOneFanHubContxt fanHubContxt, IConfiguration configuration)
         {
             _fanHubContext = fanHubContxt;
             _config = configuration;
             _emailSendUtility = new EmailSendUtility(_config);
-            _emailSendUtilityBan =new EmailSendUtilityBan(_config);
+         //   _emailSendUtilityBan =new EmailSendUtilityBan(_config);
         }
 
 
@@ -157,55 +157,6 @@ namespace FormulaOneFanHub.API.Controllers
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //[HttpPost("TestEndPoint")]
-        //public IActionResult TestEndPoint(UserDto userDto)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (userDto.Password != userDto.ConfirmPassword)
-        //    {
-        //        return BadRequest("Passwords do not match");
-        //    }
-
-        //    // Check if the username is already taken
-        //    if (_fanHubContext.Users.Any(u => u.UserName == userDto.UserName))
-        //    {
-        //        return BadRequest("Username is already taken");
-        //    }
-
-        //    // Generate a random 7-digit number
-        //    Random random = new Random();
-        //    var randomCode = random.Next(1000000, 9999999);
-        //    // Convert the random number to a string
-        //    var Otp = randomCode.ToString();
-
-        //    var clientRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "User");
-
-        //    User userToCreate = new User
-        //    {
-        //        UserName = userDto.UserName,
-        //        Email = userDto.Email,
-        //        FirstName = userDto.FirstName,
-        //        LastName = userDto.LastName,
-        //        Password = userDto.Password, 
-        //        EmailConfirmed = false,
-        //        RoleId = clientRole?.Id,
-        //        CreatedBy = "System",
-        //        Status = "inactive",
-        //        CreatedOn = DateTime.Now
-        //    };
-
-        //    // Send verification email on successful registration
-        //    _emailSendUtility.SendEmail(userToCreate, Otp);
-
-        //    // Return a JSON response with success:true and user data
-        //    return Ok(new { success = true, user = userToCreate });
-        //}
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -764,7 +715,7 @@ namespace FormulaOneFanHub.API.Controllers
                 _fanHubContext.SaveChanges();
 
                 // Send the OTP to the user's email (you can implement this logic using your email sending utility)
-                _emailSendUtilityBan.SendEmailBan(user, otp);
+                //_emailSendUtilityBan.SendEmailBan(user, otp);
 
                 // Return a JSON response with success:true
                 return Ok(new { success = true });

@@ -36,6 +36,9 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Poll> Polls { get; set; }
         public DbSet<Vote> Votes { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+
 
     }
 }

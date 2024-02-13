@@ -18,7 +18,11 @@ export const HomePage = () => {
 
         if (roleId === 'Admin') {
           navigate('/AdminHome');
-        } else {
+        }
+        else if(roleId === 'Team'){
+          navigate('/TeamHome');
+        }
+        else if(roleId === 'User'){
           navigate('/UserHome');
         }
       } catch (error) {

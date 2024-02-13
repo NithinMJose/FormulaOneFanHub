@@ -22,6 +22,7 @@ function HomeNavbar() {
           <li><a href="/TeamHistoryGuestView" className="nav-link">Team History</a></li>
           <li><a href="/GalleryGuestView" className="nav-link">Gallery</a></li>
           <li><a href="/Signin" className="nav-link">Login</a></li>
+          <li><a href="/Signup" className="nav-link2">Register Account</a></li>
         </ul>
         <button onClick={handleToggleMobileMenu} className="navbar-toggle">
           {isMobileMenuOpen ? 'Close Menu' : 'Menu'}

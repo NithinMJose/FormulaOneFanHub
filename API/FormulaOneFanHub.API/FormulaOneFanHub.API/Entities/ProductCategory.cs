@@ -5,14 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FormulaOneFanHub.API.Entities
 {
-    public class Driver
+    public class ProductCategory
     {
-        public int DriverId { get; set; }
-        public int TeamIdRef { get; set; }
-        public string Name { get; set; } = string.Empty;
-        [DataType(DataType.Date)] // Specify that only the date should be included
-        public DateTime Dob { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public int ProductCategoryId { get; set; }
+        public string PCategoryName { get; set; } = string.Empty;
         [NotMapped]
         public IFormFile ImageFile { get; set; }
         public string? ImagePath { get; set; }

@@ -16,14 +16,14 @@ import ForgotPass from './Components/LoginSignup/ForgotPassword';
 import Register from './Components/LoginSignup/Register';
 import Registertwo from './Components/LoginSignup/Registertwo';
 import Registerthree from './Components/LoginSignup/Registerthree';
-import AddDriver from './Components/LoginSignup/AddDriver';
-import DriverList from './Components/LoginSignup/DriverList';
-import UpdateDriver from './Components/LoginSignup/UpdateDriver';
+import AddDriver from './Components/Driver/AddDriver';
+import DriverList from './Components/Driver/DriverList';
+import UpdateDriver from './Components/Driver/UpdateDriver';
 import AddF1History from './Components/LoginSignup/AddF1History';
-import F1HistoryList from './Components/LoginSignup/F1HistoryList';
-import F1HistoryUpdate from  './Components/LoginSignup/F1HistoryUpdate';
-import F1HistoryUserView from './Components/LoginSignup/F1HistoryUserView';
-import DriverListUser from './Components/LoginSignup/DriverListUser';
+import F1HistoryList from './Components/F1History/F1HistoryList';
+import F1HistoryUpdate from  './Components/F1History/F1HistoryUpdate';
+import F1HistoryUserView from './Components/F1History/F1HistoryUserView';
+import DriverListUser from './Components/Driver/DriverListUser';
 import AddSeason from './Components/SeasonAndRace/AddSeason';
 import AddRace from './Components/SeasonAndRace/AddRace';
 import AddTicketCategory from './Components/SeasonAndRace/AddTicketCategory';
@@ -58,9 +58,9 @@ import TeamHistoryList from './Components/TeamHistory/TeamHistoryList';
 import TeamHistoryUserView from './Components/TeamHistory/TeamHistoryUserView';
 import CornerListAdmin from './Components/SeasonAndRace/CornerListAdmin';
 import UserActiveTBHistory from './Components/TicketBooking/UserActiveTBHistory';
-import DriverListGuest from './Components/LoginSignup/DriverListGuest';
+import DriverListGuest from './Components/Driver/DriverListGuest';
 import TeamHistoryGuestView from './Components/TeamHistory/TeamHistoryGuestView';
-import F1HistoryGuestView from './Components/LoginSignup/F1HistoryGuestView';
+import F1HistoryGuestView from './Components/F1History/F1HistoryGuestView';
 import EditTopic from './Components/Topic/EditTopic';
 import EditPoll from './Components/Poll/EditPoll';
 import EditSeason from './Components/SeasonAndRace/EditSeason';
@@ -74,10 +74,14 @@ import TBConfirm2 from './Components/TicketBooking/TBConfirm2';
 import TBConfirm3 from './Components/TicketBooking/TBConfirm3';
 import FinalPage from './Components/TicketBooking/FinalPage';
 import AdminViewProfile from './Components/LoginSignup/AdminViewProfile';
-
-
-
-
+import AddTeam from './Components/Team/AddTeam';
+import AdminSidebar from './Components/sidebar/adminSidebar';
+import TeamList from './Components/Team/TeamList';
+import UpdateTeam from './Components/Team/UpdateTeam';
+import AddProductCategory from './Components/Store/AddProductCategory';
+import ProductCategoryList from './Components/Store/ProductCategoryList';
+import UpdateProductCategory from './Components/Store/UpdateProductCategory';
+import TeamHome from './Components/LoginSignup/Team/TeamHome';
 
 
 
@@ -90,6 +94,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/Signin" element={<Signin />} />
           <Route path="/AdminHome" element={<AuthenticatedAdminHome />} />
+          <Route path="/TeamHome" element={<TeamHome />} />
           <Route path="/UserHome" element={<AuthenticatedUserHome />} />
           <Route path="/UserViewProfile" element={<UserViewProfile />} /> {/* Define the route for UserViewProfile */}
           <Route path="/UserList" element={<UserList />} /> {/* Define the route for UserList */}
@@ -159,6 +164,13 @@ function App() {
           <Route path='/TBConfirm3' element={<TBConfirm3 />} />
           <Route path='/FinalPage' element={<FinalPage />} />
           <Route path='/AdminViewProfile' element={<AdminViewProfile />} />
+          <Route path='/AddTeam' element={<AddTeam />} />
+          <Route path='/sidebar' element={<AdminSidebar/>} />
+          <Route path='/TeamList' element={ <TeamList/>} />
+          <Route path='/UpdateTeam' element={ <UpdateTeam />} />
+          <Route path='/AddProductCategory' element={ <AddProductCategory />} />
+          <Route path='/ProductCategoryList' element={ <ProductCategoryList />} />
+          <Route path='/UpdateProductCategory' element={ <UpdateProductCategory />} />
         </Routes>
         <ToastContainer />
       </div>

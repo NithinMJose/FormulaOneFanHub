@@ -2,17 +2,16 @@
   background-color: #ffffff; /* White background */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: 'Bahnschrift', sans-serif;
-  height: 90px;
+  height: auto; /* Changed height to auto */
 }
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center; /* Adjusted alignment */
   max-width: 100%; /* Adjusted max-width */
   margin: 0 auto;
-  padding: 1rem 2rem;
-  padding-top: 20px;
+  padding: 20px 2rem; /* Adjusted padding */
 }
 
 .navbar-brand {
@@ -50,6 +49,20 @@
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
 }
+
+.nav-link2 {
+  background-color: red;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 2.3rem 1rem 1.7rem; /* Adjusted padding */
+  margin-top: -1.9rem; /* Further adjusted margin-top */
+  text-align: center;
+  display: inline-block; /* Ensuring padding works correctly */
+}
+
+
 
 .nav-link:hover {
   color: red;
