@@ -151,9 +151,9 @@ const UserList = () => {
   
 
   const handleAccountToActive = (userName) => {
-    const confirmDeactivate = window.confirm('Are you sure you want to Activate this user?');
-
-    if (confirmDeactivate) {
+    const confirmActivate = window.confirm('Are you sure you want to Activate this user?');
+  
+    if (confirmActivate) {
       axios
         .put(
           `https://localhost:7092/api/User/ActivateUser?userName=${userName}`,
@@ -165,20 +165,31 @@ const UserList = () => {
           }
         )
         .then(() => {
-          axios
-            .get(`https://localhost:7092/api/Admin/ListUsers`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            })
-            .then((response) => {
-              setUserData(response.data);
-              toast.success('User Activated successfully');
-            })
-            .catch((error) => {
-              console.error('Error fetching user data:', error);
-              toast.error('An error occurred while fetching user data');
-            });
+          // Call the SendAcivateEmail endpoint after Activating the user
+          axios.post('https://localhost:7092/api/User/SendActivateEmail', {
+            userName: userName,
+          })
+          .then(() => {
+            // Fetch updated user data after sending Activation email
+            axios
+              .get(`https://localhost:7092/api/Admin/ListUsers`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+              .then((response) => {
+                setUserData(response.data);
+                toast.success('User Activated successfully');
+              })
+              .catch((error) => {
+                console.error('Error fetching user data:', error);
+                toast.error('An error occurred while fetching user data');
+              });
+          })
+          .catch((error) => {
+            console.error('Error sending Activation email:', error);
+            toast.error('An error occurred while sending the Activation email');
+          });
         })
         .catch((error) => {
           console.error('Error Activating user:', error);

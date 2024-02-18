@@ -44,6 +44,7 @@ const Signin = () => {
       if (response.data.token) {
         // Store the token in local storage
         localStorage.setItem('jwtToken', response.data.token);
+        console.log(response.data.token);
   
         // Parse the token to get the RoleId and Status
         const tokenPayload = jwt_decode(response.data.token);
@@ -64,6 +65,52 @@ const Signin = () => {
         } else if (status === "inactive") {
           toast.error('Account has been banned. Contact Admin for details');
         }
+      } else if (response.data.status === "inactive") {
+        toast.error('Account has been banned. Contact Admin for details');
+      } else {
+        toast.error('Password is incorrect');
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 401) {
+        handleTeamLogin();
+      } else {
+        toast.error('An error occurred during login');
+      }
+    }
+  };
+
+
+  const handleTeamLogin = async () => {
+    try {
+      const response = await axios.post('https://localhost:7092/api/Team/Login', {
+        userName: username,
+        password: password,
+      });
+  
+      if (response.data.token) {
+        // Store the token in local storage
+        localStorage.setItem('jwtToken', response.data.token);
+        console.log(response.data.token);
+  
+        // Parse the token to get the RoleId and Status
+        const tokenPayload = jwt_decode(response.data.token);
+        const roleId = tokenPayload['RoleId'];
+        const status = tokenPayload['Status'];
+        const teamId = tokenPayload['teamId'];
+        console.log(roleId);
+        console.log(status);
+        console.log(teamId);
+
+        if (roleId === "Team") {
+          if (status === "active") {
+          toast.success('Login successful');
+          navigate('/TeamHome');
+        } else if (status === "inactive") {
+          toast.error('Account has not been activated yet. Complete the profile to activate the account');        
+          navigate('/TeamHome');
+        }
+      }
       } else if (response.data.status === "inactive") {
         toast.error('Account has been banned. Contact Admin for details');
       } else {

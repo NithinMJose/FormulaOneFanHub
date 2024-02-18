@@ -7,8 +7,9 @@ import axios from 'axios';
 import './DriverList.css'; // Make sure to include your DriverList.css file
 import Footer from '../LoginSignup/Footer';
 import jwt_decode from 'jwt-decode';
+import TeamSidebar from '../sidebar/TeamSidebar';
 
-const DriverList = () => {
+const DriverListTeam = () => {
   const navigate = useNavigate();
   const [driverData, setDriverData] = useState(null);
   const token = localStorage.getItem('jwtToken');
@@ -128,12 +129,20 @@ const DriverList = () => {
   return (
     <div className="driverlistpage">
       <AdminNavbar />
-      <br />
-      {renderDriverData()}
-      <br />
+      <div className="container-fluid">
+        <div className="row">
+          <TeamSidebar /> {/* Display the TeamSidebar component as a sidebar */}
+          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <br />
+            {renderDriverData()}
+          </main>
+        </div>
+      </div>
       <Footer />
     </div>
   );
+  
+  
 };
 
-export default DriverList;
+export default DriverListTeam;

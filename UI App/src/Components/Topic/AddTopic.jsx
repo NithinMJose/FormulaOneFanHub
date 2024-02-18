@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import TeamSidebar from '../sidebar/TeamSidebar';
 
 const AddTopic = () => {
   const [title, setTitle] = useState('');
@@ -119,63 +120,71 @@ const AddTopic = () => {
   return (
     <div>
       <AdminNavbar />
-      <Container component="main" maxWidth="xs">
-        <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
-          <Typography variant="h5" align="center" gutterBottom>
-            Add Topic
-          </Typography>
-          <form>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                name= "testTopic"
-                  label="Title"
-                  variant="outlined"
-                  fullWidth
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                    validateTitle(e.target.value);
-                  }}
-                  error={Boolean(titleError)}
-                  helperText={titleError}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                name= "testContent"
-                  label="Content"
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  rows={4}
-                  value={content}
-                  onChange={(e) => {
-                    setContent(e.target.value);
-                    validateContent(e.target.value);
-                  }}
-                  error={Boolean(contentError)}
-                  helperText={contentError}
-                />
-              </Grid>
-            </Grid>
-            <Button
-            id="AddTopicButton"
-              fullWidth
-              variant="contained"
-              color="primary"
-              style={{ marginTop: 20 }}
-              onClick={handleSave}
-              disabled={loading}
-            >
-              {loading ? 'Adding...' : 'Add Topic'}
-            </Button>
-          </form>
-        </Paper>
-      </Container>
+      <div className="container-fluid">
+        <div className="row">
+          <TeamSidebar /> {/* Display the TeamSidebar component as a sidebar */}
+          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <Container component="main" maxWidth="xs">
+              <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
+                <Typography variant="h5" align="center" gutterBottom>
+                  Add Topic
+                </Typography>
+                <form>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        name="testTopic"
+                        label="Title"
+                        variant="outlined"
+                        fullWidth
+                        value={title}
+                        onChange={(e) => {
+                          setTitle(e.target.value);
+                          validateTitle(e.target.value);
+                        }}
+                        error={Boolean(titleError)}
+                        helperText={titleError}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        name="testContent"
+                        label="Content"
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        value={content}
+                        onChange={(e) => {
+                          setContent(e.target.value);
+                          validateContent(e.target.value);
+                        }}
+                        error={Boolean(contentError)}
+                        helperText={contentError}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Button
+                    id="AddTopicButton"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    style={{ marginTop: 20 }}
+                    onClick={handleSave}
+                    disabled={loading}
+                  >
+                    {loading ? 'Adding...' : 'Add Topic'}
+                  </Button>
+                </form>
+              </Paper>
+            </Container>
+          </div>
+        </div>
+      </div>
       <Footer />
     </div>
   );
+  
 };
 
 export default AddTopic;

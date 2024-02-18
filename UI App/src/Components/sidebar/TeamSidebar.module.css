@@ -1,0 +1,29 @@
+/* TeamSidebar.module.css */
+
+.sidebar {
+  background-color: #92c5e8; /* Light blue background for the entire sidebar */
+  color: #333333; /* Dark text for better contrast */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+}
+
+.listItem {
+  background: linear-gradient(to right, #9edcff 0%, #c4f4fa 99%, #ffffff 100%); /* Gradient background for list items */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+  border: none; /* No border needed for this design */
+  box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+  border-radius: 4px; /* Rounded corners for list items */
+  margin-bottom: 8px; /* Space between items */
+}
+
+.listItem:hover {
+  transform: scale(1.05); /* Scale up slightly on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Add shadow on hover */
+}
+
+.collapsedSection {
+  background: linear-gradient(to right, #9edcff 0%, #c4f4fa 99%, #ffffff 100%); /* Same gradient for collapsed sections */
+}
+
+.activeSection {
+  background: linear-gradient(to right, #80cafc 0%, #ffffff 99%, #ffffff 100%); /* Different gradient for active sections */
+}

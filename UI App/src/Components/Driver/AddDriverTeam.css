@@ -1,0 +1,184 @@
+.add-driver-containertest {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  max-width: 400px;
+  min-width: 350px;
+  margin-top: 50px;
+  width: 70%;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.834);
+  box-shadow: 0 0 500px 200px rgb(105, 135, 255);
+}
+
+.add-driver-containertest::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  filter: blur(0px);
+  opacity: 0.7;
+  z-index: -1;
+  border-radius: inherit;
+  background-color: #000000;
+}
+
+.add-driver-panel {
+  flex: 4;
+}
+
+.add-driver-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  margin-top: 0px;
+}
+
+.add-driver-text {
+  color: #3c009d;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.add-driver-underline {
+  width: 51px;
+  height: 5px;
+  background: #3c009d;
+  border-radius: 80px;
+}
+
+.add-driver-inputsadmin {
+  margin-top: 30px;
+  display: flex;
+  width: 90%;
+  flex-direction :column;
+  gap: 10px;
+  padding-left: 30px;
+}
+
+.add-driver-input {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 100%;
+  max-width: 400px;
+  height: 30px;
+  background: #eaeaea;
+  border-radius: 5px;
+}
+
+.add-driver-input input {
+  height: 28px;
+  width: 80%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #797979;
+  font-size: 14px;
+}
+
+.add-driver-input textarea {
+  height: auto; /* Set height to auto to allow for multiline content */
+  width: 80%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #797979;
+  font-size: 14px;
+  resize: vertical; /* Allow vertical resizing */
+}
+
+
+
+.add-driver-submit-container {
+  display: flex;
+  gap: 15px;
+  margin: 12px auto;
+  justify-content: center;
+}
+
+.add-driver-submit {
+  display: flex;
+  width: 100%;
+  max-width: 200px;
+  min-width: 140px;
+  height: 50px;
+  background: #4c00b4;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add-driver-error-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: red;
+  border: 1px solid red;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: none;
+  max-width: 400px;
+  width: 100%; /* Set width to match the input fields */
+}
+
+.add-driver-success-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: green;
+  border: 1px solid green;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 250px;
+  width: 100%;
+}
+
+.add-f1-history-submit {
+  display: flex;
+  width: 100%;
+  max-width: 200px;
+  min-width: 140px;
+  height: 50px;
+  background: #4c00b4;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none; /* Remove border for a cleaner button appearance */
+  outline: none; /* Remove outline on focus */
+}
+
+.outerSetup {
+  background: #ffffff;
+
+}

@@ -20,14 +20,16 @@ namespace FormulaOneFanHub.API.Controllers
         private readonly FormulaOneFanHubContxt _fanHubContext;
         private readonly IConfiguration _config;
         private readonly EmailSendUtility _emailSendUtility;
-        //private readonly EmailSendUtilityBan _emailSendUtilityBan;
+        private readonly EmailSendUtilityBan _emailSendUtilityBan;
+        private readonly EmailSendUtilityActivate _emailSendUtilityActivate;
 
         public UserController(FormulaOneFanHubContxt fanHubContxt, IConfiguration configuration)
         {
             _fanHubContext = fanHubContxt;
             _config = configuration;
             _emailSendUtility = new EmailSendUtility(_config);
-         //   _emailSendUtilityBan =new EmailSendUtilityBan(_config);
+            _emailSendUtilityBan =new EmailSendUtilityBan(_config);
+            _emailSendUtilityActivate = new EmailSendUtilityActivate(_config);
         }
 
 
@@ -231,7 +233,45 @@ namespace FormulaOneFanHub.API.Controllers
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            [HttpGet("GetAllUsers")]
+        [HttpPost("RegisterTeam")]
+        public IActionResult RegisterTeam(UserDto userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var teamRole = _fanHubContext.Roles.SingleOrDefault(x => x.RoleName == "Team");
+
+            // Hash the password using BCrypt
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+
+            User userToCreate = new User
+            {
+                UserName = userDto.UserName,
+                Email = userDto.Email,
+                ContactNumber = userDto.ContactNumber,
+                Address = userDto.Address,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Password = passwordHash, // Store the hashed password
+                RoleId = teamRole.Id,
+                Status = "active",
+                CreatedBy = "System",
+                CreatedOn = DateTime.Now,
+                EmailConfirmed = true
+            };
+            _fanHubContext.Users.Add(userToCreate);
+            _fanHubContext.SaveChanges();
+            return StatusCode(201);
+        }
+
+
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        [HttpGet("GetAllUsers")]
             public IActionResult GetAllUsers()
             {
                 List<User> users = _fanHubContext.Users.ToList();
@@ -715,7 +755,48 @@ namespace FormulaOneFanHub.API.Controllers
                 _fanHubContext.SaveChanges();
 
                 // Send the OTP to the user's email (you can implement this logic using your email sending utility)
-                //_emailSendUtilityBan.SendEmailBan(user, otp);
+                _emailSendUtilityBan.SendEmailBan(user, "Your account has violated our terms of service. Please contact the administrators for further details.");
+
+                // Return a JSON response with success:true
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it) and return an error response
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
+        [HttpPost("SendActivateEmail")]
+        public IActionResult SendActivateEmail([FromBody] UserNameRequests request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Invalid request format. Please provide a JSON object with 'userName' field.");
+                }
+
+                // Find the user by userName
+                var user = _fanHubContext.Users.FirstOrDefault(u => u.UserName == request.UserName);
+
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                // Generate a random 7-digit number
+                Random random = new Random();
+                var randomCode = random.Next(1000000, 9999999);
+                // Convert the random number to a string
+                var otp = randomCode.ToString();
+
+                // Store the OTP in the ConfirmEmailToken field
+                // Save the changes to the database
+                _fanHubContext.SaveChanges();
+
+                // Send the OTP to the user's email (you can implement this logic using your email sending utility)
+                _emailSendUtilityActivate.SendEmailActivate(user, "Your account has been Re-Activated.");
 
                 // Return a JSON response with success:true
                 return Ok(new { success = true });

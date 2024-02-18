@@ -82,6 +82,11 @@ import AddProductCategory from './Components/Store/AddProductCategory';
 import ProductCategoryList from './Components/Store/ProductCategoryList';
 import UpdateProductCategory from './Components/Store/UpdateProductCategory';
 import TeamHome from './Components/LoginSignup/Team/TeamHome';
+import AddDriverTeam from './Components/Driver/AddDriverTeam';
+import DriverListTeam from './Components/Driver/DriverListTeam';
+import TeamHistoryListTeam from './Components/TeamHistory/TeamHistoryListTeam';
+import TopicListTeam from './Components/Topic/TopicListTeam';
+import EditTopicTeam from './Components/Topic/EditTopicTeam';
 
 
 
@@ -171,6 +176,12 @@ function App() {
           <Route path='/AddProductCategory' element={ <AddProductCategory />} />
           <Route path='/ProductCategoryList' element={ <ProductCategoryList />} />
           <Route path='/UpdateProductCategory' element={ <UpdateProductCategory />} />
+          <Route path='/AddDriverTeam' element={ <AddDriverTeam />} />
+          <Route path='/DriverListTeam' element={ <DriverListTeam />} />
+          <Route path='/TeamHistoryListTeam' element={ <TeamHistoryListTeam />} />
+          <Route path='/TopicListTeam' element={ <TopicListTeam />} />
+          <Route path='/EditTopicTeam' element={<EditTopicTeam />} />
+          
         </Routes>
         <ToastContainer />
       </div>
