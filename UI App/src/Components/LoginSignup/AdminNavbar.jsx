@@ -39,10 +39,10 @@ function AdminNavbar() {
           <ul className="navbar-links">
 
             <li className="nav-item dropdown">
-              <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Driver</span>
+              <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Store</span>
               <div className="dropdown-menu m-0">
-                <Link to="/AddDriver" className="dropdown-item">Add New Driver</Link>
-                <Link to="/DriverList" className="dropdown-item">View Driver List</Link>
+                <Link to="/AddProductCategory" className="dropdown-item">Add New Category</Link>
+                <Link to="/ProductCategoryList" className="dropdown-item">View Category List</Link>
               </div>
             </li>
 

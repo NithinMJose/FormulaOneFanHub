@@ -88,6 +88,11 @@ const UpdateDriver = () => {
       formData.append('imageFile', driverData.imageFile);
     }
 
+    // Log the formData object just before sending
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+
     axios
       .put(`https://localhost:7092/api/Driver/UpdateDriver`, formData)
       .then((response) => {

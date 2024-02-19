@@ -20,6 +20,8 @@ namespace FormulaOneFanHub.API.Entities
         public string TechnicalChief { get; set; } = string.Empty;
         public string EngineSupplier { get; set; } = string.Empty;
         public string Chassis { get; set; } = string.Empty;
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
         public string? ImagePath { get; set; } = null;
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime UpdatedOn { get; set; } = DateTime.Now;

@@ -77,7 +77,7 @@ import AdminViewProfile from './Components/LoginSignup/AdminViewProfile';
 import AddTeam from './Components/Team/AddTeam';
 import AdminSidebar from './Components/sidebar/adminSidebar';
 import TeamList from './Components/Team/TeamList';
-import UpdateTeam from './Components/Team/UpdateTeam';
+import TeamViewProfile from './Components/Team/TeamViewProfile';
 import AddProductCategory from './Components/Store/AddProductCategory';
 import ProductCategoryList from './Components/Store/ProductCategoryList';
 import UpdateProductCategory from './Components/Store/UpdateProductCategory';
@@ -87,6 +87,7 @@ import DriverListTeam from './Components/Driver/DriverListTeam';
 import TeamHistoryListTeam from './Components/TeamHistory/TeamHistoryListTeam';
 import TopicListTeam from './Components/Topic/TopicListTeam';
 import EditTopicTeam from './Components/Topic/EditTopicTeam';
+import UpdateTeam from './Components/Team/UpdateTeam';
 
 
 
@@ -172,7 +173,7 @@ function App() {
           <Route path='/AddTeam' element={<AddTeam />} />
           <Route path='/sidebar' element={<AdminSidebar/>} />
           <Route path='/TeamList' element={ <TeamList/>} />
-          <Route path='/UpdateTeam' element={ <UpdateTeam />} />
+          <Route path='/TeamViewProfile' element={ <TeamViewProfile />} />
           <Route path='/AddProductCategory' element={ <AddProductCategory />} />
           <Route path='/ProductCategoryList' element={ <ProductCategoryList />} />
           <Route path='/UpdateProductCategory' element={ <UpdateProductCategory />} />
@@ -181,6 +182,7 @@ function App() {
           <Route path='/TeamHistoryListTeam' element={ <TeamHistoryListTeam />} />
           <Route path='/TopicListTeam' element={ <TopicListTeam />} />
           <Route path='/EditTopicTeam' element={<EditTopicTeam />} />
+          <Route path='/UpdateTeam' element={<UpdateTeam />} />
           
         </Routes>
         <ToastContainer />

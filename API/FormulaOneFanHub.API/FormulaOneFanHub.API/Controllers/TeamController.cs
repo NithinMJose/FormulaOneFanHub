@@ -171,6 +171,80 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(teamNames);
         }
 
+        [HttpGet("GetIdByUserName")]
+        public IActionResult GetIdByUserName(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                return BadRequest("Username cannot be empty.");
+            }
+
+            var team = _fanHubContext.Teams.FirstOrDefault(x => x.userName == userName);
+
+            if (team == null)
+            {
+                return NotFound("Team not found for the given username.");
+            }
+
+            return Ok(new { TeamId = team.Id });
+        }
+
+        [HttpGet("GetTeamByUserName")]
+        public IActionResult GetTeamByUserName(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                return BadRequest("Username cannot be empty.");
+            }
+
+            var team = _fanHubContext.Teams.FirstOrDefault(x => x.userName == userName);
+
+            if (team == null)
+            {
+                return NotFound("Team not found for the given username.");
+            }
+
+            return Ok(team);
+        }
+
+
+        [HttpPut("UpdateTeam")]
+        public IActionResult UpdateTeam(int teamId, [FromForm] TeamUpdateDto teamUpdateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var team = _fanHubContext.Teams.FirstOrDefault(t => t.Id == teamId);
+
+            if (team == null)
+            {
+                return NotFound("Team not found.");
+            }
+
+            // Update the team's properties
+            team.Name = teamUpdateDto.Name;
+            team.PhoneNumber = teamUpdateDto.PhoneNumber;
+            team.Address1 = teamUpdateDto.Address1;
+            team.Address2 = teamUpdateDto.Address2;
+            team.Address3 = teamUpdateDto.Address3;
+            team.Country = teamUpdateDto.Country;
+            team.TeamPrincipal = teamUpdateDto.TeamPrincipal;
+            team.TechnicalChief = teamUpdateDto.TechnicalChief;
+            team.EngineSupplier = teamUpdateDto.EngineSupplier;
+            team.Chassis = teamUpdateDto.Chassis;
+
+           
+
+            team.UpdatedOn = DateTime.Now;
+
+            // Save the changes to the database
+            _fanHubContext.SaveChanges();
+
+            // Return a JSON response with success:true
+            return Ok(new { success = true });
+        }
 
 
     }
