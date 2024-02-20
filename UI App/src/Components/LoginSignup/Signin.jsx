@@ -105,10 +105,11 @@ const Signin = () => {
         if (roleId === "Team") {
           if (status === "active") {
           toast.success('Login successful');
-          navigate('/TeamHome');
+          console.log('SUCCESSFUL LOGIN');
+          navigate('/');
         } else if (status === "inactive") {
           toast.error('Account has not been activated yet. Complete the profile to activate the account');        
-          navigate('/TeamHome');
+          navigate('/');
         }
       }
       } else if (response.data.status === "inactive") {

@@ -30,7 +30,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 Title = topicDto.Title,
                 Content = topicDto.Content,
-                UserId = topicDto.UserId,
+                TeamId = topicDto.TeamId,
                 CreatedOn = DateTime.Now
             };
 
@@ -44,7 +44,7 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpGet("GetAllTopics")]
         public IActionResult GetAllTopics()
         {
-            var topics = _fanHubContext.Topics.Include(t => t.User);
+            var topics = _fanHubContext.Topics.Include(t => t.Team);
             return Ok(topics);
         }
 
@@ -100,20 +100,20 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok();
         }
 
-        [HttpGet("GetTopicsByUser")]
+        [HttpGet("GetTopicsByTeam")]
         public IActionResult GetTopicsByUser(int userId)
         {
             var topics = _fanHubContext.Topics
-                .Where(topic => topic.UserId == userId)
-                .Include(t => t.User) // Include the related User entity
+                .Where(topic => topic.TeamId == userId)
+                .Include(t => t.Team) // Include the related Team entity
                 .Select(topic => new TopicDto
                 {
                     TopicId = topic.TopicId,
                     Title = topic.Title,
                     Content = topic.Content,
                     CreatedOn = topic.CreatedOn,
-                    UserId = topic.UserId,
-                    UserName = topic.User.UserName
+                    TeamId = topic.TeamId,
+                    UserName = topic.Team.Name
                 })
                 .ToList();
 

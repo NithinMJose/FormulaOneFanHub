@@ -71,12 +71,12 @@ const AddTopicTeam = () => {
 
   const handleSave = async () => {
     const decodedToken = jwt_decode(token);
-    const numericUserId = parseInt(decodedToken.userId);
-  console.log('User ID:', numericUserId);
-  console.log('Request Body:', {
+    const numericUserId = parseInt(decodedToken.teamId);
+    console.log('User ID:', numericUserId);
+    console.log('Request Body:', {
     title,
     content,
-    userId: numericUserId,
+    teamId: numericUserId,
     UserName : userName,
   });
     if (validateForm()) {
@@ -84,7 +84,7 @@ const AddTopicTeam = () => {
 
       try {
         const decodedToken = jwt_decode(token);
-        const numericUserId = parseInt(decodedToken.userId);
+        const numericUserId = parseInt(decodedToken.teamId);
         const createTopicResponse = await fetch('https://localhost:7092/api/Topic/InsertTopic', {
           method: 'POST',
           headers: {
@@ -93,14 +93,14 @@ const AddTopicTeam = () => {
           body: JSON.stringify({
             title,
             content,
-            userId: numericUserId,
+            teamId: numericUserId,
             userName : userName // Replace with the actual user ID or get it from the token
           }),
         });
 
         if (createTopicResponse.status === 201) {
           toast.success('Topic added successfully');
-          navigate('/TopicListAdmin'); // Adjust the route as needed
+          navigate('/TopicListTeam'); // Adjust the route as needed
           // Additional logic or navigation can be added here
         } else {
           const errorData = await createTopicResponse.json();

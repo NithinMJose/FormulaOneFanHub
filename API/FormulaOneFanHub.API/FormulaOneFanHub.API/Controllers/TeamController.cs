@@ -58,7 +58,7 @@ namespace FormulaOneFanHub.API.Controllers
                 var claims = new[]
                 {
                     new Claim("userName", team.userName),
-                    new Claim("teamId", team.Id.ToString()),
+                    new Claim("teamId", team.TeamId.ToString()),
                     new Claim("Status", team.Status!),
                     new Claim(ClaimTypes.Name, team.userName),
                     new Claim("RoleId", "Team")
@@ -94,6 +94,7 @@ namespace FormulaOneFanHub.API.Controllers
 
             // Generate a random 10-character password
             string generatedPassword = GenerateRandomPassword(10);
+            generatedPassword = "Manjadi@123";
 
             // Hash the generated password using BCrypt
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(generatedPassword);
@@ -186,7 +187,7 @@ namespace FormulaOneFanHub.API.Controllers
                 return NotFound("Team not found for the given username.");
             }
 
-            return Ok(new { TeamId = team.Id });
+            return Ok(new { TeamId = team.TeamId });
         }
 
         [HttpGet("GetTeamByUserName")]
@@ -215,7 +216,7 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var team = _fanHubContext.Teams.FirstOrDefault(t => t.Id == teamId);
+            var team = _fanHubContext.Teams.FirstOrDefault(t => t.TeamId == teamId);
 
             if (team == null)
             {

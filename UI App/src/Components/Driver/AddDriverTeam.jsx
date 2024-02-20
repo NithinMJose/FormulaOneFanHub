@@ -3,6 +3,7 @@ import './AddDriverTeam.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../LoginSignup/Footer';
+import jwt_decode from 'jwt-decode';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, InputAdornment, Typography, Container, Grid } from '@mui/material';
@@ -22,6 +23,8 @@ const AddDriverTeam = () => {
   const [imageFileError, setImageFileError] = useState('');
 
   const navigate = useNavigate();
+  const token = localStorage.getItem('jwtToken');
+
 
   const validateName = (value) => {
     if (value.length < 3 || !/^[a-zA-Z\s]+$/.test(value)) {
@@ -96,6 +99,10 @@ const AddDriverTeam = () => {
   };
 
   const handleSave = async () => {
+    const decodedToken = jwt_decode(token);
+    console.log('decoded token :', decodedToken);
+    const numericUserId = parseInt(decodedToken.teamId);
+    console.log('teamId :', numericUserId);
     if (validateForm()) {
       setLoading(true);
 
@@ -129,6 +136,7 @@ const AddDriverTeam = () => {
         formData.append('name', name);
         formData.append('dob', dob);
         formData.append('description', description);
+        formData.append('teamIdRef', numericUserId);
         formData.append('imageFile', imageFile);
 
         const createDriverResponse = await fetch('https://localhost:7092/api/Driver/CreateDriver', {

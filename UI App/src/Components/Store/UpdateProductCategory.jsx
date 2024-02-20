@@ -20,7 +20,7 @@ const UpdateProductCategory = () => {
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
-  const productCategoryId = state.productCategoryId;
+  const productCategoryId = parseInt(state.productCategoryId);
 
   const [productCategoryData, setProductCategoryData] = useState({
     pCategoryName: '',
@@ -66,28 +66,31 @@ const UpdateProductCategory = () => {
       toast.error('Check all input fields and apply again');
       return;
     }
-
+    
     const formData = new FormData();
-    formData.append('id', productCategoryId);
-    formData.append('pCategoryName', productCategoryData.pCategoryName);
-
+    formData.append('ProductCategoryId', productCategoryId); // Change to match backend parameter name
+    formData.append('PCategoryName', productCategoryData.pCategoryName);
+    
     if (productCategoryData.imageFile) {
-      formData.append('imageFile', productCategoryData.imageFile);
+      formData.append('ImageFile', productCategoryData.imageFile);
     }
 
+  
+    
     axios
-      .put(`https://localhost:7092/api/ProductCategory/UpdateProductCategory`, formData)
+      .put(`https://localhost:7092/api/ProductCategory/UpdateProductCategory?id=${productCategoryId}`, formData) // Pass id as query parameter
       .then((response) => {
-        console.log('Update successful:', response);
+        console.log(response)
         toast.success('Update successful');
         navigate('/ProductCategoryList');
       })
       .catch((error) => {
         console.error('Error updating product category data:', error);
-        console.log('Form Data:', formData);
         toast.error('Error updating product category data');
       });
   };
+  
+  
 
   const validateField = (field, value) => {
     switch (field) {

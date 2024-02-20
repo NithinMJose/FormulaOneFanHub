@@ -5,7 +5,7 @@ namespace FormulaOneFanHub.API.Entities
 {
     public class Team
     {
-        public int Id { get; set; }
+        public int TeamId { get; set; }
         public string userName { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public  string Password { get; set; } = string.Empty;

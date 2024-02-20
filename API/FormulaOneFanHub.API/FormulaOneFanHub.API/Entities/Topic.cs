@@ -15,8 +15,8 @@ namespace FormulaOneFanHub.API.Entities
         [DataType(DataType.Date)] // Specify that only the date should be included
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
-        // Foreign key to link the topic with the user who created it (assuming your User entity has an Id property)
-        public int UserId { get; set; }
-        public User User { get; set; } // Navigation property for the related User entity
+        // Foreign key to link the topic with the Team who created it (assuming your User entity has an Id property)
+        public int TeamId { get; set; }
+        public Team Team { get; set; } // Navigation property for the related Team entity
     }
 }

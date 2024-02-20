@@ -12,7 +12,7 @@ namespace FormulaOneFanHub.API.Entities
         [Required(ErrorMessage = "Content is required")]
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
-        public int UserId { get; set; }
+        public int TeamId { get; set; }
         public string UserName { get; set; }
     }
 

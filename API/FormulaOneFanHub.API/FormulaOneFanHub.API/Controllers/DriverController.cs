@@ -45,6 +45,7 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 Name = driverDto.Name,
                 Dob = driverDto.Dob,
+                TeamIdRef = driverDto.TeamIdRef,
                 Description = driverDto.Description,
                 ImagePath = driverDto.ImagePath, // Set the ImagePath property
                 CreatedOn = DateTime.Now,
