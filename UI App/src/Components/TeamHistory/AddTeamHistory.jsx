@@ -7,6 +7,7 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 import { useNavigate } from 'react-router-dom';
 import TeamSidebar from '../sidebar/TeamSidebar';
+import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
 
 
 const AddTeamHistory = () => {
@@ -25,7 +26,7 @@ const AddTeamHistory = () => {
 
       if (response.status === 201) {
         toast.success('Team History added successfully');
-        navigate('/TeamHistoryList');
+        navigate('/TeamHistoryListTeam');
       } else {
         const errorData = await response.json();
         console.error('Team History creation failed:', errorData);
@@ -47,7 +48,7 @@ const AddTeamHistory = () => {
 
   return (
     <div className='AddTeamHistoryWrapper'>
-      <AdminNavbar />
+      <TeamNavbar />
       <div className='container-fluid'>
         <div className='row'>
           <TeamSidebar /> {/* Display the TeamSidebar component as a sidebar */}

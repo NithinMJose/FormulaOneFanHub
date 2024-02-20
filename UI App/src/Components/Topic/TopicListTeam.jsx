@@ -104,20 +104,17 @@ const TopicListTeam = () => {
       <AdminNavbar />
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-3 col-lg-2"> {/* Sidebar */}
-            <TeamSidebar />
-          </div>
-          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> {/* Main Content */}
-            <main>
+        <TeamSidebar />
+          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
               <br />
               {renderTopicData()}
-            </main>
           </div>
         </div>
       </div>
       <Footer />
     </div>
   );
+  
   
   
   

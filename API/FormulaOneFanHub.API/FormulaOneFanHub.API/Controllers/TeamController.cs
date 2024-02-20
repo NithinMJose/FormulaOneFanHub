@@ -207,7 +207,6 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(team);
         }
 
-
         [HttpPut("UpdateTeam")]
         public IActionResult UpdateTeam(int teamId, [FromForm] TeamUpdateDto teamUpdateDto)
         {
@@ -234,10 +233,24 @@ namespace FormulaOneFanHub.API.Controllers
             team.TechnicalChief = teamUpdateDto.TechnicalChief;
             team.EngineSupplier = teamUpdateDto.EngineSupplier;
             team.Chassis = teamUpdateDto.Chassis;
-
-           
-
             team.UpdatedOn = DateTime.Now;
+
+
+            if (teamUpdateDto.ImageFile != null && teamUpdateDto.ImageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + "_" + teamUpdateDto.ImageFile.FileName;
+                var filePath = Path.Combine("wwwroot/images", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    teamUpdateDto.ImageFile.CopyTo(stream);
+                }
+
+                team.ImagePath = fileName;
+            }
+
+
+
 
             // Save the changes to the database
             _fanHubContext.SaveChanges();
@@ -245,6 +258,7 @@ namespace FormulaOneFanHub.API.Controllers
             // Return a JSON response with success:true
             return Ok(new { success = true });
         }
+
 
 
     }

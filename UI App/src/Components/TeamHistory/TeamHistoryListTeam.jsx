@@ -5,6 +5,7 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 import { useNavigate } from 'react-router-dom';
 import TeamSidebar from '../sidebar/TeamSidebar';
+import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
 
 const TeamHistoryListTeam = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const TeamHistoryListTeam = () => {
 
   return (
     <div>
-      <AdminNavbar />
+      <TeamNavbar />
       <div className="container-fluid">
         <div className="row">
           <TeamSidebar /> {/* Display the TeamSidebar component as a sidebar */}

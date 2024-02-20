@@ -4,6 +4,8 @@ import { Typography, TextField, Button, Container, Grid, Paper } from '@mui/mate
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 import { useNavigate, useLocation } from 'react-router-dom';
+import TeamSidebar from '../sidebar/TeamSidebar';
+import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
 
 const EditTeamHistory = () => {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const EditTeamHistory = () => {
   
       if (response.status === 200) {
         console.log('Team history updated successfully!');
-        navigate('/TeamHistoryList');
+        navigate('/TeamHistoryListTeam');
       } else {
         console.error('Error updating team history:', response.status);
       }
@@ -54,42 +56,52 @@ const EditTeamHistory = () => {
 
   return (
     <div>
-      <AdminNavbar />
-      <Container maxWidth="md" style={{ marginTop: '20px' }}>
-        <Paper elevation={3} style={{ padding: '20px' }}>
-          <Typography variant="h4" color="primary" gutterBottom>
-            Edit Team History
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                label="Heading"
-                fullWidth
-                value={teamHistory.heading}
-                onChange={(e) => setTeamHistory({ ...teamHistory, heading: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Paragraph"
-                multiline
-                fullWidth
-                value={teamHistory.paragraph}
-                onChange={(e) => setTeamHistory({ ...teamHistory, paragraph: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button variant="contained" color="primary" onClick={handleUpdate}>
-                Update Team History
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Container>
-      <br />
-      <Footer />
+      <TeamNavbar />
+      <div className="container-fluid">
+        <div className="row">
+          <TeamSidebar />
+          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <Container maxWidth="md" style={{ marginTop: '20px' }}>
+              <Paper elevation={3} style={{ padding: '20px' }}>
+                <Typography variant="h4" color="primary" gutterBottom>
+                  Edit Team History
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Heading"
+                      fullWidth
+                      value={teamHistory.heading}
+                      onChange={(e) => setTeamHistory({ ...teamHistory, heading: e.target.value })}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Paragraph"
+                      multiline
+                      fullWidth
+                      value={teamHistory.paragraph}
+                      onChange={(e) => setTeamHistory({ ...teamHistory, paragraph: e.target.value })}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button variant="contained" color="primary" onClick={handleUpdate}>
+                      Update Team History
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Container>
+            <br />
+            
+          </main>
+          <Footer />
+        </div>
+      </div>
     </div>
   );
+  
+  
 };
 
 export default EditTeamHistory;

@@ -138,7 +138,7 @@ const AddDriverTeam = () => {
 
         if (createDriverResponse.status === 201) {
           toast.success('Driver added successfully');
-          navigate('/DriverList');
+          navigate('/DriverListTeam');
           // Additional logic or navigation can be added here
         } else {
           const errorData = await createDriverResponse.json();

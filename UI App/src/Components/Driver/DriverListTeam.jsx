@@ -8,6 +8,7 @@ import './DriverList.css'; // Make sure to include your DriverList.css file
 import Footer from '../LoginSignup/Footer';
 import jwt_decode from 'jwt-decode';
 import TeamSidebar from '../sidebar/TeamSidebar';
+import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
 
 const DriverListTeam = () => {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ const DriverListTeam = () => {
 
   const handleManageDriver = (driverId) => {
     // Redirect to the UpdateDriver page with the specific driverId
-    navigate(`/UpdateDriver`, { replace: true, state: {driverId } });
+    navigate(`/UpdateDriverTeam`, { replace: true, state: {driverId } });
   };
 
   const renderDriverData = () => {
@@ -128,7 +129,7 @@ const DriverListTeam = () => {
 
   return (
     <div className="driverlistpage">
-      <AdminNavbar />
+      <TeamNavbar />
       <div className="container-fluid">
         <div className="row">
           <TeamSidebar /> {/* Display the TeamSidebar component as a sidebar */}

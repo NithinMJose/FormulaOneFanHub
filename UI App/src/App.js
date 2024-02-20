@@ -88,6 +88,8 @@ import TeamHistoryListTeam from './Components/TeamHistory/TeamHistoryListTeam';
 import TopicListTeam from './Components/Topic/TopicListTeam';
 import EditTopicTeam from './Components/Topic/EditTopicTeam';
 import UpdateTeam from './Components/Team/UpdateTeam';
+import UpdateDriverTeam from './Components/Driver/UpdateDriverTeam';
+import AddTopicTeam from './Components/Topic/AddTopicTeam';
 
 
 
@@ -137,6 +139,7 @@ function App() {
           <Route path='/TBConfirm' element={<TBConfirm/>} />
           <Route path='/TBTicket' element={<TBTicket/>} />
           <Route path='/AddTopic' element={<AddTopic/>} />
+          <Route path='/AddTopicTeam' element={<AddTopicTeam/>} />
           <Route path='/AddComment' element={<AddComment/>} />
           <Route path='/TopicListAdmin' element={<TopicListAdmin/>} />
           <Route path='/RaceListAdmin' element={<RaceListAdmin/>} />
@@ -183,6 +186,8 @@ function App() {
           <Route path='/TopicListTeam' element={ <TopicListTeam />} />
           <Route path='/EditTopicTeam' element={<EditTopicTeam />} />
           <Route path='/UpdateTeam' element={<UpdateTeam />} />
+          <Route path='/UpdateDriverTeam' element={<UpdateDriverTeam />} />
+
           
         </Routes>
         <ToastContainer />

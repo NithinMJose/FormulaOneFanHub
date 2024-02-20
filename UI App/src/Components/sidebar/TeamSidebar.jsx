@@ -19,7 +19,7 @@ const TeamSidebar = () => {
         <ListItem button className={styles.listItem} onClick={() => navigate('/')}>
           <ListItemText primary="HOME" />
         </ListItem>
-        <ListItem button className={styles.listItem}>
+        <ListItem button className={styles.listItem}onClick={() => navigate('/TeamViewProfile')}>
           <ListItemText primary="VIEW PROFILE" />
         </ListItem>
       </List>
@@ -66,14 +66,11 @@ const TeamSidebar = () => {
         </ListItem>
         <Collapse in={openSection === 'openForum'} timeout="auto" unmountOnExit>
           <List component="div" disablePadding className={styles.collapsedSection}>
-            <ListItem button className={styles.listItem} onClick={() => navigate('/AddTopic')}>
+            <ListItem button className={styles.listItem} onClick={() => navigate('/AddTopicTeam')}>
               <ListItemText primary="Add New Topic" />
             </ListItem>
             <ListItem button className={styles.listItem} onClick={() => navigate('/TopicListTeam')}>
               <ListItemText primary="View Topic List" />
-            </ListItem>
-            <ListItem button className={styles.listItem} onClick={() => navigate('/EditTopicTeam')}>
-              <ListItemText primary="Check Comments" />
             </ListItem>
           </List>
         </Collapse>
