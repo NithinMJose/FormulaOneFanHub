@@ -34,12 +34,17 @@ const UpdateProductCategory = () => {
     axios
       .get(`https://localhost:7092/api/ProductCategory/GetProductCategoryById?id=${productCategoryId}`)
       .then((response) => {
-        setProductCategoryData(response.data);
+        const imageData = response.data;
+        setProductCategoryData({
+          ...imageData,
+          imagePath: `https://localhost:7092/images/${imageData.imagePath}` // Assuming the image path returned from the backend is relative
+        });
       })
       .catch((error) => {
         console.error('Error fetching product category data:', error);
       });
   }, [productCategoryId]);
+  
 
   const handleFieldChange = (field, value) => {
     setProductCategoryData((prevData) => ({ ...prevData, [field]: value }));
@@ -139,13 +144,27 @@ const UpdateProductCategory = () => {
                 helperText={pCategoryNameError}
               />
             </Grid>
-            <Grid item xs={12}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
-            </Grid>
+            
+
+<Grid item xs={12}>
+  <input type="file" accept="image/*" onChange={handleImageUpload} />
+</Grid>
+{/* Display existing image */}
+<Grid item xs={12}>
+  {productCategoryData.imagePath && (
+    <img
+      src={productCategoryData.imagePath}
+      alt="Existing Image"
+      style={{
+        width: '200px', // Adjust width as needed
+        height: '200px', // Adjust height as needed
+        marginTop: '10px'
+      }}
+    />
+  )}
+</Grid>
+
+
           </Grid>
           <Button
             variant="contained"

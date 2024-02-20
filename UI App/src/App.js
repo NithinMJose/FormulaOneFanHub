@@ -90,6 +90,7 @@ import EditTopicTeam from './Components/Topic/EditTopicTeam';
 import UpdateTeam from './Components/Team/UpdateTeam';
 import UpdateDriverTeam from './Components/Driver/UpdateDriverTeam';
 import AddTopicTeam from './Components/Topic/AddTopicTeam';
+import AddProductTeam from './Components/Store/AddProductTeam';
 
 
 
@@ -187,7 +188,7 @@ function App() {
           <Route path='/EditTopicTeam' element={<EditTopicTeam />} />
           <Route path='/UpdateTeam' element={<UpdateTeam />} />
           <Route path='/UpdateDriverTeam' element={<UpdateDriverTeam />} />
-
+          <Route path='/AddProductTeam' element={<AddProductTeam />} />
           
         </Routes>
         <ToastContainer />

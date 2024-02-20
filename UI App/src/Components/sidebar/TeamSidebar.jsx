@@ -75,6 +75,27 @@ const TeamSidebar = () => {
           </List>
         </Collapse>
       </List>
+
+
+      <List>
+        <ListItem button onClick={() => handleSectionClick('store')} className={styles.listItem}>
+          <ListItemText primary="Store" />
+          {openSection === 'store' ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openSection === 'store'} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding className={styles.collapsedSection}>
+            <ListItem button className={styles.listItem} onClick={() => navigate('/AddDriverTeam')}>
+              <ListItemText primary="Add New Product" />
+            </ListItem>
+            <ListItem button className={styles.listItem} onClick={() => navigate('/DriverListTeam')}>
+              <ListItemText primary="List the Products" />
+            </ListItem>
+          </List>
+        </Collapse>
+      </List>
+
+
+
     </Box>
   );
 };

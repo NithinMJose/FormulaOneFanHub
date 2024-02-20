@@ -108,5 +108,16 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("GetAllProductCategories")]
+        public IActionResult GetAllProductCategories()
+        {
+            var categories = _fanHubContext.ProductCategories
+                                            .Select(pc => new { Id = pc.ProductCategoryId, Name = pc.PCategoryName })
+                                            .ToList();
+            return Ok(categories);
+        }
+
+
     }
 }
