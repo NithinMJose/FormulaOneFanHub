@@ -13,6 +13,7 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 import { useNavigate } from 'react-router-dom';
 import TeamSidebar from '../sidebar/TeamSidebar';
+import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
 
 
 const EditTopicTeam = () => {
@@ -119,7 +120,7 @@ const EditTopicTeam = () => {
 
   return (
     <>
-      <AdminNavbar />
+      <TeamNavbar />
       <div style={{ display: 'flex' }}>
         <TeamSidebar /> {/* Display the TeamSidebar component */}
         <div style={{ marginLeft: '20px' }}> {/* Main Content */}

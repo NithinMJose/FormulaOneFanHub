@@ -5,11 +5,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import axios from 'axios';
 import Footer from '../LoginSignup/Footer';
-import TeamSidebar from '../sidebar/TeamSidebar';
-import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
 
 
-const TopicListTeam = () => {
+const TopicListAdmin = () => {
   const navigate = useNavigate();
   const [topicData, setTopicData] = useState(null);
   const token = localStorage.getItem('jwtToken');
@@ -96,29 +94,19 @@ const TopicListTeam = () => {
 
   const handleManageTopic = (topicId) => {
     // Redirect to the UpdateTopic page with the specific topicId
-    navigate('/EditTopicTeam', { replace: true, state: {topicId } });
+    navigate('/EditTopic', { replace: true, state: {topicId } });
 
   };
 
   return (
     <div className="topiclistpage">
-      <TeamNavbar />
-      <div className="container-fluid">
-        <div className="row">
-        <TeamSidebar />
-          <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-              <br />
-              {renderTopicData()}
-          </div>
-        </div>
-      </div>
+      <AdminNavbar />
+      <br />
+      {renderTopicData()}
+      <br />
       <Footer />
     </div>
   );
-  
-  
-  
-  
 };
 
-export default TopicListTeam;
+export default TopicListAdmin;

@@ -73,7 +73,6 @@ const TeamHistoryListTeam = () => {
           </div>
         </div>
       </div>
-      <br />
       <Footer />
     </div>
   );

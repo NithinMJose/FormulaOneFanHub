@@ -8,6 +8,7 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, InputAdornment, Typography, Container, Grid } from '@mui/material';
 import TeamSidebar from '../sidebar/TeamSidebar'; // Import the AdminSidebar component
+import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
 
 
 const AddDriverTeam = () => {
@@ -166,7 +167,7 @@ const AddDriverTeam = () => {
 
   return (
     <div>
-      <AdminNavbar />
+      <TeamNavbar />
       <div className="container-fluid">
         <div className="row">
           <TeamSidebar /> {/* Display the TeamSidebar component as a sidebar */}

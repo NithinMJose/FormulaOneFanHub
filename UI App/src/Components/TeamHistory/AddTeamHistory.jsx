@@ -129,8 +129,6 @@ const AddTeamHistory = () => {
           </div>
         </div>
       </div>
-      <br />
-      <br />
       <Footer />
     </div>
   );

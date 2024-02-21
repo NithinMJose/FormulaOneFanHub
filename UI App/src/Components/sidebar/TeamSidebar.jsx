@@ -84,10 +84,10 @@ const TeamSidebar = () => {
         </ListItem>
         <Collapse in={openSection === 'store'} timeout="auto" unmountOnExit>
           <List component="div" disablePadding className={styles.collapsedSection}>
-            <ListItem button className={styles.listItem} onClick={() => navigate('/AddDriverTeam')}>
+            <ListItem button className={styles.listItem} onClick={() => navigate('/AddProductTeam')}>
               <ListItemText primary="Add New Product" />
             </ListItem>
-            <ListItem button className={styles.listItem} onClick={() => navigate('/DriverListTeam')}>
+            <ListItem button className={styles.listItem} onClick={() => navigate('/ProductListTeam')}>
               <ListItemText primary="List the Products" />
             </ListItem>
           </List>

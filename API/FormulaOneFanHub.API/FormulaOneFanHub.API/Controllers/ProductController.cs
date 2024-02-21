@@ -177,6 +177,14 @@ namespace FormulaOneFanHub.API.Controllers
             }
         }
 
+        [HttpGet("GetAllProductsByCategoryId/{categoryId}")]
+        public IActionResult GetAllProductsByCategoryId(int categoryId)
+        {
+            var products = _fanHubContext.Products.Where(p => p.ProductCategoryId == categoryId).ToList();
+            return Ok(products);
+        }
+
+
 
 
     }

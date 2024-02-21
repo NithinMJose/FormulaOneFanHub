@@ -91,6 +91,10 @@ import UpdateTeam from './Components/Team/UpdateTeam';
 import UpdateDriverTeam from './Components/Driver/UpdateDriverTeam';
 import AddTopicTeam from './Components/Topic/AddTopicTeam';
 import AddProductTeam from './Components/Store/AddProductTeam';
+import ProductListTeam from './Components/Store/ProductListTeam';
+import UpdateProductTeam from './Components/Store/UpdateProductTeam';
+import UserSelectCategory from './Components/Store/UserPages/UserSelectCategory';
+import UserProducts from './Components/Store/UserPages/UserProducts';
 
 
 
@@ -189,6 +193,10 @@ function App() {
           <Route path='/UpdateTeam' element={<UpdateTeam />} />
           <Route path='/UpdateDriverTeam' element={<UpdateDriverTeam />} />
           <Route path='/AddProductTeam' element={<AddProductTeam />} />
+          <Route path='/ProductListTeam' element={<ProductListTeam />} />
+          <Route path='/UpdateProductTeam' element={<UpdateProductTeam />} />
+          <Route path='/UserSelectCategory' element={<UserSelectCategory />} />
+          <Route path='/UserProducts' element={<UserProducts />} />
           
         </Routes>
         <ToastContainer />

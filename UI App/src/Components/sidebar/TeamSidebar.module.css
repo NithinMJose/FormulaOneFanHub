@@ -1,13 +1,12 @@
-/* TeamSidebar.module.css */
-
 .sidebar {
-  background-color: #92c5e8; /* Light blue background for the entire sidebar */
+  background-color: #43a3e3; /* Light blue background for the entire sidebar */
   color: #333333; /* Dark text for better contrast */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+  backdrop-filter: blur(50px); /* Blurry effect */
 }
 
 .listItem {
-  background: linear-gradient(to right, #9edcff 0%, #c4f4fa 99%, #ffffff 100%); /* Gradient background for list items */
+  background: rgba(158, 220, 255, 0.3); /* Transparent gradient background for list items */
   transition: all 0.3s ease; /* Smooth transition for hover effect */
   border: none; /* No border needed for this design */
   box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
@@ -20,10 +19,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Add shadow on hover */
 }
 
-.collapsedSection {
-  background: linear-gradient(to right, #9edcff 0%, #c4f4fa 99%, #ffffff 100%); /* Same gradient for collapsed sections */
-}
-
+.collapsedSection,
 .activeSection {
-  background: linear-gradient(to right, #80cafc 0%, #ffffff 99%, #ffffff 100%); /* Different gradient for active sections */
+  background: rgba(158, 220, 255, 0.3); /* Transparent gradient for collapsed and active sections */
 }
