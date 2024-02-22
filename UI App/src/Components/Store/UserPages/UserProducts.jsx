@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import UserNavbar from '../../LoginSignup/UserNavbar';
+import { useParams, Link } from 'react-router-dom';
+import UserNavbars from '../../LoginSignup/UserNavbars';
 import './UserProducts.css';
 
 const UserProducts = () => {
-  const location = useLocation();
-  const categoryId = location.state.categoryId;
+  const { categoryId } = useParams();
   const [products, setProducts] = useState([]);
   const [teams, setTeams] = useState({});
 
@@ -38,18 +37,22 @@ const UserProducts = () => {
     fetchTeams();
   }, [categoryId]);
 
+  const handleProductClick = (productId) => {
+    console.log('Clicked product ID:', productId);
+  };
+
   return (
     <div>
-      <UserNavbar />
-      <h1>Products for Category ID: {categoryId}</h1>
+      <UserNavbars />
+      <h1 className="page-title">Products for Category ID: {categoryId}</h1>
       <div className="product-container">
         {products.map(product => (
-          <div key={product.productId} className="product-item">
+          <Link key={product.productId} to={`/ProductDetails/${product.productId}`} className="product-item">
             <img src={`https://localhost:7092/images/${product.imagePath1}`} alt={product.productName} className="product-image" />
             <p className="product-name">{product.productName}</p>
             <p className="team-name">Team: {teams[product.teamId]}</p>
             <p className="product-price">Price: ${product.price}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

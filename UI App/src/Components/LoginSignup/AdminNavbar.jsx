@@ -51,8 +51,6 @@ function AdminNavbar() {
               <div className="dropdown-menu m-0">
                 <Link to="/AddF1History" className="dropdown-item">Add F1 History</Link>
                 <Link to="/F1HistoryList" className="dropdown-item">List F1 History</Link>
-                <Link to="/AddTeamHistory" className="dropdown-item">Add Team History</Link>
-                <Link to="/TeamHistoryList" className="dropdown-item">List Team History</Link>
               </div>
             </li>
 
@@ -60,7 +58,7 @@ function AdminNavbar() {
               <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Team</span>
               <div className="dropdown-menu m-0">
                 <Link to="/AddTeam" className="dropdown-item">Add New Team</Link>
-                <Link to="/" className="dropdown-item">List the Teams</Link>
+                <Link to="/TeamList" className="dropdown-item">List the Teams</Link>
               </div>
             </li>
 

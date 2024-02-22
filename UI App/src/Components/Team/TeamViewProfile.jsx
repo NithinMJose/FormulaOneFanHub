@@ -139,6 +139,7 @@ const TeamViewProfile = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success('Profile updated successfully');
+          navigate('/TeamHome');
           setIsEditing(false);
         } else {
           // Handle unexpected response status

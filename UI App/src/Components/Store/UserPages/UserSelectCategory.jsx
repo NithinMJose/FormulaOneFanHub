@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './UserSelectCategory.css';
 import UserNavbar from '../../LoginSignup/UserNavbar';
-import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 const UserSelectCategory = () => {
   const [categories, setCategories] = useState([]);
-    const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,29 +20,19 @@ const UserSelectCategory = () => {
     fetchData();
   }, []);
 
-  const handleClick = (categoryId) => {
-    console.log('Clicked category id:', categoryId);
-    // Navigating to the next page with the category id as a state
-    navigate('/UserProducts', { state: { categoryId } });    
-  };
-
   return (
     <div>
       <UserNavbar />
       <div className="category-list-container">
         {categories.map((category) => (
-          <div
-            key={category.productCategoryId}
-            className="category-item"
-            onClick={() => handleClick(category.productCategoryId)} // Adding onClick handler
-          >
+          <Link key={category.productCategoryId} to={`/UserProducts/${category.productCategoryId}`} className="category-item">
             <img
               src={`https://localhost:7092/images/${category.imagePath}`} 
               alt={`${category.pCategoryName}'s Image`}
               className="category-image"
             />
-            <h2 className="category-name">{category.pCategoryName}</h2>
-          </div>
+            <div className="category-name">{category.pCategoryName}</div> {/* Changed class name */}
+          </Link>
         ))}
       </div>
     </div>

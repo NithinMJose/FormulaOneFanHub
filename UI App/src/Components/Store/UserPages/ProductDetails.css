@@ -1,0 +1,119 @@
+.product-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.product-details {
+  display: flex;
+}
+
+.product-images {
+  flex: 1;
+}
+
+.main-image {
+  width: 100%;
+  height: 400px; /* Set a fixed height */
+  object-fit: cover;
+  border-radius: 10px; /* Set border radius */
+  overflow: hidden; /* Hide overflowing content */
+}
+
+.thumbnail-images {
+  display: flex;
+  justify-content: space-between;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.product-info {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.product-name {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.product-description {
+  margin-bottom: 20px;
+}
+
+.product-price {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stock-quantity {
+  margin-bottom: 20px;
+}
+
+.add-to-cart-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-to-cart-button:hover {
+  background-color: #0056b3;
+}
+
+.team-image {
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+  border-radius: 50%; /* Make it circular */
+}
+
+.team-name {
+  font-size: 18px; /* Increase font size */
+  margin-top: 10px;
+}
+
+.team-description {
+  margin-top: 10px;
+  color: #555; /* Optional: Add a different color for team description */
+}
+
+.team-details {
+  margin-top: 20px;
+}
+
+.team-genuine {
+  font-size: 18px;
+}
+
+.team-info {
+  display: flex;
+  align-items: center;
+}
+
+.team-image {
+  width: 40px; /* Adjust size as needed */
+  height: 40px; /* Adjust size as needed */
+  border-radius: 20%; /* Make it circular */
+  margin-right: 10px;
+}
+
+.team-name {
+  font-size: 18px; /* Increase font size */
+}
+
+

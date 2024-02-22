@@ -8,7 +8,7 @@ import jwt_decode from 'jwt-decode';
 
 import './UserNavbar.css';
 
-function UserNavbar() {
+function UserNavbars() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +38,6 @@ function UserNavbar() {
       <nav className="modern-navbar">
         <div className="navbar-container">
           <div className="navbar-brand">
-            <img src="./img/logo.png" alt="Formula 1 Fan Hub Logo" className="logo" />
             <h1 className="brand-name">Formula 1 Fan Hub</h1>
           </div>
           <ul className="navbar-links">
@@ -79,4 +78,4 @@ function UserNavbar() {
   );
 }
 
-export default UserNavbar;
+export default UserNavbars;

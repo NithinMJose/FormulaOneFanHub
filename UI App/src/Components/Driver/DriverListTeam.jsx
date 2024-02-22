@@ -17,48 +17,55 @@ const DriverListTeam = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
-
+  
     if (!token) {
       toast.error('You have to log in as Admin to access the page');
       navigate('/');
       return;
     }
-
+  
     try {
       const tokenPayload = jwt_decode(token);
       const roleId = tokenPayload['RoleId'];
-
+      const teamId = tokenPayload['teamId'];
+      const parsedTeamId = parseInt(teamId);
+      console.log('TeamId:', parsedTeamId);
+  
       if (roleId !== 'Admin' && roleId !== 'Team') {
         toast.error('You have to be logged in as Admin to access the page');
         navigate('/');
         return;
       }
-
+  
       axios
-        .get(`https://localhost:7092/api/Driver/GetDrivers`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setDriverData(response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching driver data:', error);
-          if (error.response && error.response.status === 401) {
-            toast.error('Unauthorized access. Please log in again.');
-            // You might want to redirect to the login page here
-            navigate('/');
-          } else {
-            toast.error('An error occurred while fetching driver data');
-          }
-        });
+  .get(`https://localhost:7092/api/Driver/GetDrivers`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then((response) => {
+    // Filter out the drivers where teamIdRef matches the teamId from JWT token
+    const filteredDrivers = response.data.filter(driver => driver.teamIdRef === parsedTeamId);
+    setDriverData(filteredDrivers);
+    console.log('Driver data:', filteredDrivers.map(driver => driver.teamIdRef)); // Print teamIdRef values
+  })
+  .catch((error) => {
+    console.error('Error fetching driver data:', error);
+    if (error.response && error.response.status === 401) {
+      toast.error('Unauthorized access. Please log in again.');
+      navigate('/');
+    } else {
+      toast.error('An error occurred while fetching driver data');
+    }
+  });
+
     } catch (error) {
       console.error('Error decoding token:', error);
       toast.error('An error occurred while decoding the token');
       navigate('/Home');
     }
   }, [navigate]);
+  
 
   const handleManageDriver = (driverId) => {
     // Redirect to the UpdateDriver page with the specific driverId

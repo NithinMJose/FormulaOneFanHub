@@ -95,6 +95,8 @@ import ProductListTeam from './Components/Store/ProductListTeam';
 import UpdateProductTeam from './Components/Store/UpdateProductTeam';
 import UserSelectCategory from './Components/Store/UserPages/UserSelectCategory';
 import UserProducts from './Components/Store/UserPages/UserProducts';
+import ProductDetails from './Components/Store/UserPages/ProductDetails';
+import UserCart from './Components/Store/UserPages/UserCart';
 
 
 
@@ -196,7 +198,9 @@ function App() {
           <Route path='/ProductListTeam' element={<ProductListTeam />} />
           <Route path='/UpdateProductTeam' element={<UpdateProductTeam />} />
           <Route path='/UserSelectCategory' element={<UserSelectCategory />} />
-          <Route path='/UserProducts' element={<UserProducts />} />
+          <Route path='/UserProducts/:categoryId' element={<UserProducts />} />
+          <Route path='/ProductDetails/:productId' element={<ProductDetails />} />
+          <Route path='/UserCart' element={<UserCart />} />
           
         </Routes>
         <ToastContainer />

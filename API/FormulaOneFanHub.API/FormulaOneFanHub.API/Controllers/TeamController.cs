@@ -235,6 +235,7 @@ namespace FormulaOneFanHub.API.Controllers
             team.EngineSupplier = teamUpdateDto.EngineSupplier;
             team.Chassis = teamUpdateDto.Chassis;
             team.UpdatedOn = DateTime.Now;
+            team.Status = "active"; // Set the status to active
 
 
             if (teamUpdateDto.ImageFile != null && teamUpdateDto.ImageFile.Length > 0)

@@ -39,6 +39,7 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
 
     }

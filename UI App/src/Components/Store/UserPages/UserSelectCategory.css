@@ -32,10 +32,11 @@ body {
     transform: scale(1.02);
 }
   
-.category-name {
+.CategoryName {
     font-size: 1.5rem;
     margin-bottom: 12px;
     color: #333;
+    text-decoration: none;
 }
 
 .category-image {

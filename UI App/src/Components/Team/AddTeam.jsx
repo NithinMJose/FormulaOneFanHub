@@ -64,7 +64,8 @@ const AddTeam = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Response data:', data);
-          toast.success('Team added successfully');
+          toast.success('Team Creation details are sent to the user via email.');
+          navigate('/TeamList');
           // Additional logic or navigation can be added here
         } else {
           console.error('Team creation failed:', response.statusText);
@@ -86,7 +87,6 @@ const AddTeam = () => {
       <AdminNavbar />
       <Container className="outerSetup" maxWidth="550px" width="100%">
         <div style={{ display: 'flex' }}>
-          <AdminSidebar />
           {/* Main Content */}
           <div className="main-content">
             <br />

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import axios from 'axios';
 import './TeamList.css'; // Make sure to include your TeamList.css file
+import AdminNavbar from '../LoginSignup/AdminNavbar';
 
 const TeamList = () => {
   const navigate = useNavigate();
@@ -36,6 +37,9 @@ const TeamList = () => {
     }
 
     return (
+      <>
+        <AdminNavbar />
+
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -89,6 +93,7 @@ const TeamList = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </>
     );
   };
 

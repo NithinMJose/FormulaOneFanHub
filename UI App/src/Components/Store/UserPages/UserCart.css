@@ -1,0 +1,93 @@
+.cart-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-cart-container {
+    width: 60%;
+    padding: 20px;
+}
+
+.details-summary {
+    margin-top: 55px;
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.product-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.cart-item-content {
+    display: flex;
+    flex-grow: 1;
+}
+
+.details-container {
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.product-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.quantity-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.quantity-price > * {
+    margin-bottom: 5px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.remove-button-cart {
+    margin-left: 20px;
+    margin-top: 27px;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.summary-container {
+    padding: 20px;
+    font-weight: bold; /* Make "Price Details" bold */
+}
+
+.price-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    font-weight: bold; /* Make total amount bold */
+}
