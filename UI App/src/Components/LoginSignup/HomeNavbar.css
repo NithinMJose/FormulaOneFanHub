@@ -1,17 +1,17 @@
 .modern-navbar {
-  background-color: #ffffff; /* White background */
+  background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: 'Bahnschrift', sans-serif;
-  height: auto; /* Changed height to auto */
+  height: 80px;
 }
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Adjusted alignment */
-  max-width: 100%; /* Adjusted max-width */
+  align-items: center;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 20px 2rem; /* Adjusted padding */
+  padding: 10px 2rem;
 }
 
 .navbar-brand {
@@ -22,14 +22,14 @@
 }
 
 .logo {
-  height: 60px;
-  width: 60px;
-  padding-bottom: 15px;
+  height: 50px;
+  width: 50px; 
+  padding-bottom: 10px; 
 }
 
 .brand-name {
   color: #333333;
-  font-size: 2.1rem;
+  font-size: 1.8rem;
   font-weight: bold;
 }
 
@@ -41,12 +41,12 @@
   gap: 1rem;
 }
 
-.nav-link {
+.nav-linkss {
   color: #333333;
   text-decoration: none;
   font-weight: bold;
   font-size: 1.5rem;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem; 
   transition: all 0.3s ease;
 }
 
@@ -56,17 +56,15 @@
   text-decoration: none;
   font-weight: bold;
   font-size: 1.5rem;
-  padding: 2.3rem 1rem 1.7rem; /* Adjusted padding */
-  margin-top: -1.9rem; /* Further adjusted margin-top */
+  padding: 1.75rem 1rem;
+  margin-top: -1.3rem;
   text-align: center;
-  display: inline-block; /* Ensuring padding works correctly */
+  display: inline-block;
 }
 
-
-
-.nav-link:hover {
+.nav-linkss:hover {
   color: red;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .navbar-toggle {
@@ -78,17 +76,52 @@
 }
 
 @media (max-width: 768px) {
-  .navbar-links {
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
+  .modern-navbar {
+    height: 60px;
   }
 
-  .navbar-links.open {
-    display: flex;
+  .navbar-container {
+    padding: 5px 1rem; 
+  }
+
+  .logo {
+    height: 40px;
+    width: 40px; 
+    padding-bottom: 5px; 
+  }
+
+  .brand-name {
+    font-size: 1.5rem; 
+  }
+
+  .nav-linkss,
+  .nav-link2 {
+    font-size: 1.2rem;
   }
 
   .navbar-toggle {
     display: block;
   }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+}
+
+.modern-navbar {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Bahnschrift', sans-serif;
+  height: 80px;
+  position: fixed; /* Fixed position */
+  top: 0; /* Positioned at the top of the screen */
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure it's displayed on top of other content */
 }

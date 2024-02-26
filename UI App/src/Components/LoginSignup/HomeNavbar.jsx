@@ -16,12 +16,12 @@ function HomeNavbar() {
           <h1 className="brand-name">Formula  1 Fan Hub</h1>
         </div>
         <ul className={`navbar-links ${isMobileMenuOpen ? 'open' : ''}`}>
-          <li><a href="/" className="nav-link">Home</a></li>
-          <li><a href="/DriverListGuest" className="nav-link">Drivers</a></li>
-          <li><a href="/F1HistoryGuestView" className="nav-link">F1 History</a></li>
-          <li><a href="/TeamHistoryGuestView" className="nav-link">Team History</a></li>
-          <li><a href="/GalleryGuestView" className="nav-link">Gallery</a></li>
-          <li><a href="/Signin" className="nav-link">Login</a></li>
+          <li><a href="/" className="nav-linkss">Home</a></li>
+          <li><a href="/DriverListGuest" className="nav-linkss">Drivers</a></li>
+          <li><a href="/F1HistoryGuestView" className="nav-linkss">F1 History</a></li>
+          <li><a href="/TeamHistoryGuestView" className="nav-linkss">Team History</a></li>
+          <li><a href="/GalleryGuestView" className="nav-linkss">Gallery</a></li>
+          <li><a href="/Signin" className="nav-linkss">Login</a></li>
           <li><a href="/Signup" className="nav-link2">Register Account</a></li>
         </ul>
         <button onClick={handleToggleMobileMenu} className="navbar-toggle">

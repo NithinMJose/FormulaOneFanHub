@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import './F1HistoryUserView.css';
 import HomeNavbar from '../LoginSignup/HomeNavbar';
+import Footer from '../LoginSignup/Footer';
 
 const F1HistoryGuestView = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -32,6 +33,7 @@ const F1HistoryGuestView = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };
