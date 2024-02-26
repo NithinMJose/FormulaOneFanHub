@@ -1,25 +1,19 @@
 // Footer.jsx
 
 import React from 'react';
-import './Footer.css'; // Import the CSS file for styling
+import './Footer.css';
 
-function Footer() {
-  const currentYear = new Date().getFullYear(); // Get the current year dynamically
+function MyFooter() {
+  const currentYear = new Date().getFullYear();
 
   return (
     <>
-      {/* Footer Start */}
-      <footer className="new_footer_area bg_color">
-        <div className="new_footer_top">
+      <footer className="custom_footer_area bg_color">
+        <div className="custom_footer_top">
           <div className="container">
             <div className="row">
-              <div
-                className="col-lg-3 col-md-6"
-              >
-                <div
-                  className="f_widget company_widget wow fadeInLeft"
-                  data-wow-delay="0.2s"
-                >
+              <div className="col-lg-3 col-md-6">
+                <div className="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s">
                   <h3 className="f-title f_600 t_color f_size_18">Get in Touch</h3>
                   <p>
                     Don’t miss any exciting Updates and News on Teams and Drivers.!
@@ -45,13 +39,8 @@ function Footer() {
                   </form>
                 </div>
               </div>
-              <div
-                className="col-lg-3 col-md-6"
-              >
-                <div
-                  className="f_widget about-widget pl_70 wow fadeInLeft"
-                  data-wow-delay="0.4s"
-                >
+              <div className="col-lg-3 col-md-6">
+                <div className="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.4s">
                   <h3 className="f-title f_600 t_color f_size_18">Services</h3>
                   <ul className="list-unstyled f_list">
                     <li>
@@ -75,13 +64,8 @@ function Footer() {
                   </ul>
                 </div>
               </div>
-              <div
-                className="col-lg-3 col-md-6"
-              >
-                <div
-                  className="f_widget about-widget pl_70 wow fadeInLeft"
-                  data-wow-delay="0.6s"
-                >
+              <div className="col-lg-3 col-md-6">
+                <div className="f_widget about-widget pl_70 wow fadeInLeft" data-wow-delay="0.6s">
                   <h3 className="f-title f_600 t_color f_size_18">Help</h3>
                   <ul className="list-unstyled f_list">
                     <li>
@@ -105,16 +89,9 @@ function Footer() {
                   </ul>
                 </div>
               </div>
-              <div
-                className="col-lg-3 col-md-6"
-              >
-                <div
-                  className="f_widget social-widget pl_70 wow fadeInLeft"
-                  data-wow-delay="0.8s"
-                >
-                  <h3 className="f-title f_600 t_color f_size_18">
-                    Team Solutions
-                  </h3>
+              <div className="col-lg-3 col-md-6">
+                <div className="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s">
+                  <h3 className="f-title f_600 t_color f_size_18">Team Solutions</h3>
                   <div className="f_social_icon">
                     <a href="https://www.facebook.com/Formula1/" className="fab fa-facebook" />
                     <a href="https://github.com/NithinMJose/FormulaOneFanHub" className="fab fa-github" />
@@ -125,12 +102,12 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="footer_bg">
-            <div className="footer_bg_one" />
-            <div className="footer_bg_two" />
+          <div className="custom_footer_bg">
+            <div className="custom_footer_bg_one" />
+            <div className="custom_footer_bg_two" />
           </div>
         </div>
-        <div className="footer_bottom">
+        <div className="custom_footer_bottom">
           <div className="container">
             <div className="row align-items-center">
               <div className="col-lg-6 col-sm-7">
@@ -142,9 +119,8 @@ function Footer() {
           </div>
         </div>
       </footer>
-      {/* Footer End */}
     </>
   );
 }
 
-export default Footer;
+export default MyFooter;

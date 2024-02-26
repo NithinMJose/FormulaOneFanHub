@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import AdminNavbar from './AdminNavbar';
 import Footer from './Footer';
 import About from './About'; // Import the default export
+import HomeNavbar from './HomeNavbar';
 
 export const AboutPage = () => {
   useEffect(() => {
@@ -10,7 +11,7 @@ export const AboutPage = () => {
 
   return (
     <div className='aboutpagewrapper'>
-      <AdminNavbar />
+      <HomeNavbar />
       <About />
       <Footer />
     </div>
