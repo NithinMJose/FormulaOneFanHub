@@ -34,6 +34,10 @@ const TeamHistoryGuestView = () => {
   return (
     <div>
       <HomeNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="team-history-user-view-container">
         <animated.div style={fadeIn} className="team-history-user-view-content">
           {selectedTeamHistory ? (

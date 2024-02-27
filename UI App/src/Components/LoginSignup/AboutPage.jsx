@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import AdminNavbar from './AdminNavbar';
 import Footer from './Footer';
 import About from './About'; // Import the default export
 import HomeNavbar from './HomeNavbar';

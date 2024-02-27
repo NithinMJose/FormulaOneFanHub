@@ -63,18 +63,23 @@ export const HomePage = () => {
   return (
     <div>
       <HomeNavbar />
+      <br />
+      <br />
+      <br />
       <HomeCarousel />
       <motion.div
-        id="about"
-        initial="hidden"
-        animate={controls}
-        variants={{
-          hidden: { y: 100, opacity: 0 },
-          visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
-        }}
-      >
-        <About />
-      </motion.div>
+  id="about"
+  initial="hidden"
+  animate={controls}
+  variants={{
+    hidden: { y: 100, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
+  }}
+  style={{ marginTop: '-1.5cm' }} // Apply negative margin-top to position it higher
+>
+  <About />
+</motion.div>
+
       <Footer />
     </div>
   );

@@ -55,6 +55,10 @@ const GalleryGuestView = () => {
   return (
     <div>
       <HomeNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <StyledContainer>
         <Typography variant="h4" align="center" gutterBottom>
           Gallery

@@ -38,6 +38,10 @@ const AuthenticatedUserHome = () => {
     <Box>
       <CssBaseline />
       <UserNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <Container maxWidth="xl">
         <Box mt={2}>
           <Typography variant="h4" align="center" gutterBottom>

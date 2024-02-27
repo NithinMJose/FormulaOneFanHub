@@ -25,6 +25,10 @@ const F1HistoryGuestView = () => {
   return (
     <div>
       <HomeNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="history-container">
         {historyData.map((item) => (
           <div key={item.historyId} className="history-item">
