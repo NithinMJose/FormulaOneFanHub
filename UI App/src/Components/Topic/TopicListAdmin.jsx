@@ -102,6 +102,9 @@ const TopicListAdmin = () => {
     <div className="topiclistpage">
       <AdminNavbar />
       <br />
+      <br />
+      <br />
+      <br />
       {renderTopicData()}
       <br />
       <Footer />

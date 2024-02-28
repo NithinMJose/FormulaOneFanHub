@@ -44,7 +44,10 @@ const UserProducts = () => {
   return (
     <div>
       <UserNavbars />
-      <h1 className="page-title">Products for Category ID: {categoryId}</h1>
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="product-container">
         {products.map(product => (
           <Link key={product.productId} to={`/ProductDetails/${product.productId}`} className="product-item">

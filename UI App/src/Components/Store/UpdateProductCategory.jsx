@@ -128,6 +128,10 @@ const UpdateProductCategory = () => {
   return (
     <div>
       <AdminNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <Container maxWidth="md" style={{ marginTop: '20px' }}>
         <Paper elevation={3} style={{ padding: '20px' }}>
           <Typography variant="h4" gutterBottom>

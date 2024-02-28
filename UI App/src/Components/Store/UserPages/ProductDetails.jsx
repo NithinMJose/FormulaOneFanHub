@@ -106,6 +106,10 @@ const ProductDetails = () => {
   return (
     <>
       <UserNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="product-details-container">
         <h1 className="page-title">Product Details</h1>
         {product && team ? (

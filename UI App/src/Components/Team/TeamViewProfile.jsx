@@ -303,6 +303,10 @@ const TeamViewProfile = () => {
   return (
     <div>
       <TeamNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="container-fluid">
         <div className="row">
           <TeamSidebar />

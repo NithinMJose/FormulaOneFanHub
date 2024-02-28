@@ -23,6 +23,10 @@ const UserSelectCategory = () => {
   return (
     <div>
       <UserNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="category-list-container">
         {categories.map((category) => (
           <Link key={category.productCategoryId} to={`/UserProducts/${category.productCategoryId}`} className="category-item">

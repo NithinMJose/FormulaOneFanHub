@@ -119,6 +119,9 @@ const ProductCategoryList = () => {
     <div className="product-category-list-page">
       <AdminNavbar />
       <br />
+      <br />
+      <br />
+      <br />
       {renderProductCategories()}
       <br />
       <Footer />

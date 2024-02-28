@@ -121,6 +121,10 @@ const EditTopicTeam = () => {
   return (
     <>
       <TeamNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div style={{ display: 'flex' }}>
         <TeamSidebar /> {/* Display the TeamSidebar component */}
         <div style={{ marginLeft: '20px' }}> {/* Main Content */}

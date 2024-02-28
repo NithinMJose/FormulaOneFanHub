@@ -164,6 +164,10 @@ const UpdateProductTeam = () => {
   return (
     <div className="productlistpage">
       <TeamNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="container-fluid">
         <div className="row">
           <TeamSidebar />

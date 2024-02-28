@@ -19,7 +19,9 @@ const UserCart = () => {
       try {
         const response = await fetch(`https://localhost:7092/api/CartItem/GetCartItemsByUserId/${userId}`);
         const data = await response.json();
-        setCartItems(data);
+        // Filter out items with "inactive" status
+        const activeItems = data.filter(item => item.status === "active");
+        setCartItems(activeItems);
       } catch (error) {
         console.error('Error fetching cart items:', error);
       }
@@ -49,56 +51,84 @@ const UserCart = () => {
     fetchAllProductDetails();
   }, [cartItems]);
 
-  // Group cart items by product ID
-  const groupedCartItems = cartItems.reduce((acc, item) => {
-    if (!acc[item.productId]) {
-      acc[item.productId] = { ...item, quantity: 0, totalPrice: 0 };
+  const handleRemoveFromCart = async (cartItemId) => {
+    try {
+      await fetch(`https://localhost:7092/api/CartItem/UpdateCartItemStatus`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cartItemId: cartItemId,
+          status: 'inactive'
+        })
+      });
+      // After removing, fetch updated cart items
+      const response = await fetch(`https://localhost:7092/api/CartItem/GetCartItemsByUserId/${userId}`);
+      const data = await response.json();
+      const activeItems = data.filter(item => item.status === "active");
+      setCartItems(activeItems);
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
     }
-    acc[item.productId].quantity += item.quantity;
-    acc[item.productId].totalPrice += item.price;
-    return acc;
-  }, {});
+  };
 
   return (
     <>
       <UserNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="cart-container">
         <div className="user-cart-container">
-        <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold' }}>Your Cart</Typography>
-          <Grid container spacing={2}>
-            {Object.values(groupedCartItems).map((item, index) => (
-              <Grid item xs={12} key={item.productId}>
-                <Paper elevation={3} className="cart-item">
-                  <div className="cart-item-content">
-                    <div className="image-container">
-                      <img src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`} alt={productDetails[item.productId]?.productName} className="product-image" />
-                    </div>
-                    <div className="details-container">
-                    <Typography variant="subtitle1" className="product-name" style={{ fontSize: '24px', fontWeight: 'bold' }}>{productDetails[item.productId]?.productName}</Typography>
-                      <div className="quantity-price">
-                        <Typography variant="body1">Quantity: {item.quantity}</Typography>
-                        <Typography variant="body1" className="price" style={{ fontSize: '18px', fontWeight: 'bold' }}>Price: ₹{item.totalPrice.toFixed(2)}</Typography>
+          <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold' }}>Your Cart</Typography>
+          {cartItems.length === 0 ? (
+            <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold' }}>Your Cart is Empty</Typography>
+          ) : (
+            <Grid container spacing={2}>
+              {cartItems.map((item, index) => (
+                <Grid item xs={12} key={item.cartItemId}>
+                  <Paper elevation={3} className="cart-item">
+                    <div className="cart-item-content">
+                      <div className="image-container">
+                        <img src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`} alt={productDetails[item.productId]?.productName} className="product-image" />
                       </div>
-                      <Button className='remove-button-cart' variant="contained" color="primary">Remove</Button>
+                      <div className="details-container">
+                        <Typography variant="subtitle1" className="product-name" style={{ fontSize: '24px', fontWeight: 'bold' }}>{productDetails[item.productId]?.productName}</Typography>
+                        <div className="quantity-price">
+                          <Typography variant="body1">Available Stock: {productDetails[item.productId]?.stockQuantity}</Typography>
+                          <Typography variant="body1">Quantity: {item.quantity}</Typography>
+                          <Typography variant="body1" className="price" style={{ fontSize: '18px', fontWeight: 'bold' }}>Price: ₹{productDetails[item.productId]?.price}</Typography>
+                        </div>
+                        <Button 
+                          className='remove-button-cart' 
+                          variant="contained" 
+                          color="primary"
+                          onClick={() => handleRemoveFromCart(item.cartItemId)}
+                        >
+                          Remove
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </div>
         <div className="details-summary">
           <Paper elevation={3} className="summary-container">
-          <Typography variant="h5" gutterBottom style={{ fontWeight: 'bold' }}>Price Details</Typography>
-            {Object.values(groupedCartItems).map((item, index) => (
-              <div key={item.productId} className="price-detail">
+            <Typography variant="h5" gutterBottom style={{ fontWeight: 'bold' }}>Price Details</Typography>
+            {cartItems.map((item, index) => (
+              <div key={item.cartItemId} className="price-detail">
                 <Typography variant="subtitle1">{productDetails[item.productId]?.productName} x {item.quantity}</Typography>
-                <Typography variant="body1" className="price">₹{item.totalPrice.toFixed(2)}</Typography>
+                <Typography variant="body1" className="price">₹{item.price.toFixed(2)}</Typography>
               </div>
             ))}
             <div className="total-amount">
               <Typography variant="subtitle1">Total Amount:</Typography>
-              <Typography variant="h6">₹{Object.values(groupedCartItems).reduce((acc, item) => acc + item.totalPrice, 0).toFixed(2)}</Typography>
+              <Typography variant="h6">₹{cartItems.reduce((acc, item) => acc + item.price, 0).toFixed(2)}</Typography>
             </div>
           </Paper>
         </div>

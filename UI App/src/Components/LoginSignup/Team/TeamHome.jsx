@@ -34,6 +34,10 @@ const TeamHome = () => {
   return (
     <div>
       <TeamNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="container-fluid">
         <div className="row">
           <TeamSidebar /> {/* Display the AdminSidebar component as a sidebar */}

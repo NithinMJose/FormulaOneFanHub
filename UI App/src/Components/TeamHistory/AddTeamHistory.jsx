@@ -49,6 +49,10 @@ const AddTeamHistory = () => {
   return (
     <div className='AddTeamHistoryWrapper'>
       <TeamNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className='container-fluid'>
         <div className='row'>
           <TeamSidebar /> {/* Display the TeamSidebar component as a sidebar */}

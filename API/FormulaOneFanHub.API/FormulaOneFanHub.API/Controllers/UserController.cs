@@ -75,13 +75,13 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 var claims = new[]
                 {
-                    new Claim("userName", user.UserName),
-                    new Claim("userId", user.Id.ToString()),
-                    new Claim("RoleId", user.Role?.RoleName!), 
-                    new Claim("Status", user.Status!),
-                    new Claim(ClaimTypes.Role, user.Role?.RoleName!),
-                    new Claim(ClaimTypes.Name, user.UserName)
-                };
+            new Claim("userName", user.UserName),
+            new Claim("userId", user.Id.ToString()),
+            new Claim("RoleId", user.Role?.RoleName!),
+            new Claim("Status", user.Status!),
+            new Claim(ClaimTypes.Role, user.Role?.RoleName!),
+            new Claim(ClaimTypes.Name, user.UserName)
+        };
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -98,10 +98,12 @@ namespace FormulaOneFanHub.API.Controllers
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it) and return null or an error message
-                return null;
+                // Log the exception details for debugging
+                Console.WriteLine($"Exception occurred while generating token: {ex.Message}");
+                return ex.Message; // Return the exception message
             }
         }
+
 
 
 

@@ -173,6 +173,10 @@ const AddProductTeam = () => {
   return (
     <div>
       <TeamNavbar/>
+      <br />
+      <br />
+      <br />
+      <br />
       <div style={{ display: 'flex' }}>
         <TeamSidebar/>
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
