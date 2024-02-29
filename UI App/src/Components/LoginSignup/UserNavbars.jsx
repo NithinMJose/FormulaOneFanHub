@@ -68,6 +68,7 @@ function UserNavbars() {
                 <div className='dropdown-item'><Link to="/UserViewProfile">View Profile</Link></div>
                 <div className='dropdown-item' onClick={handleLogout}><Link to="/">Logout</Link></div>
                 <div className='dropdown-item'><Link to="/UserCart">Cart</Link></div>
+                <div className='dropdown-item'><Link to="/UserWishList">Wish List</Link></div>
               </div>
             </li>
           </ul>

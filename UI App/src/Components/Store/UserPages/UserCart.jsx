@@ -5,21 +5,28 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import jwt_decode from 'jwt-decode';
-import './UserCart.css'; // Import CSS file for styling
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import { useNavigate } from 'react-router-dom';
+import './UserCart.css';
 
 const UserCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [productDetails, setProductDetails] = useState({});
+  const [openDialog, setOpenDialog] = useState(false);
+  const [cartItemIdToRemove, setCartItemIdToRemove] = useState(null);
   const token = localStorage.getItem("jwtToken");
   const decoded = jwt_decode(token);
   const userId = decoded.userId;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
         const response = await fetch(`https://localhost:7092/api/CartItem/GetCartItemsByUserId/${userId}`);
         const data = await response.json();
-        // Filter out items with "inactive" status
         const activeItems = data.filter(item => item.status === "active");
         setCartItems(activeItems);
       } catch (error) {
@@ -63,14 +70,58 @@ const UserCart = () => {
           status: 'inactive'
         })
       });
-      // After removing, fetch updated cart items
       const response = await fetch(`https://localhost:7092/api/CartItem/GetCartItemsByUserId/${userId}`);
       const data = await response.json();
       const activeItems = data.filter(item => item.status === "active");
       setCartItems(activeItems);
+      setOpenDialog(false);
     } catch (error) {
       console.error('Error removing item from cart:', error);
     }
+  };
+
+  const handleQuantityChange = (event, cartItemId) => {
+    const inputValue = parseInt(event.target.value);
+    const availableStock = productDetails[cartItems.find(item => item.cartItemId === cartItemId)?.productId]?.stockQuantity;
+    
+    if (!isNaN(inputValue) && inputValue > 0 && inputValue <= availableStock) {
+      const updatedCartItems = cartItems.map(item => {
+        if (item.cartItemId === cartItemId) {
+          return {
+            ...item,
+            quantity: inputValue
+          };
+        }
+        return item;
+      });
+      setCartItems(updatedCartItems);
+    }
+  };
+
+  const handleOpenDialog = (cartItemId) => {
+    setCartItemIdToRemove(cartItemId);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const getSubtotal = (item) => {
+    return item.quantity * productDetails[item.productId]?.price;
+  };
+
+  const getTotalAmount = () => {
+    return cartItems.reduce((acc, item) => acc + getSubtotal(item), 0);
+  };
+
+  const handleProductDetailClick = (productId) => {
+    navigate(`/ProductDetails/${productId}`);
+  };
+
+  const handleBuyNow = () => {
+    console.log("Buy Now clicked");
+    // Perform further actions such as redirecting to a checkout page
   };
 
   return (
@@ -92,20 +143,33 @@ const UserCart = () => {
                   <Paper elevation={3} className="cart-item">
                     <div className="cart-item-content">
                       <div className="image-container">
-                        <img src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`} alt={productDetails[item.productId]?.productName} className="product-image" />
+                        <img
+                          src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`}
+                          alt={productDetails[item.productId]?.productName}
+                          className="product-image"
+                          onClick={() => handleProductDetailClick(item.productId)}
+                        />
                       </div>
                       <div className="details-container">
                         <Typography variant="subtitle1" className="product-name" style={{ fontSize: '24px', fontWeight: 'bold' }}>{productDetails[item.productId]?.productName}</Typography>
                         <div className="quantity-price">
                           <Typography variant="body1">Available Stock: {productDetails[item.productId]?.stockQuantity}</Typography>
-                          <Typography variant="body1">Quantity: {item.quantity}</Typography>
+                          <div className="quantity-container">
+                            <Typography variant="body1" style={{ marginRight: '10px' }}>Quantity:</Typography>
+                            <input 
+                              type="number"
+                              className="quantity-input custom-input"
+                              value={item.quantity}
+                              onChange={(event) => handleQuantityChange(event, item.cartItemId)}
+                            />
+                          </div>
                           <Typography variant="body1" className="price" style={{ fontSize: '18px', fontWeight: 'bold' }}>Price: ₹{productDetails[item.productId]?.price}</Typography>
                         </div>
                         <Button 
                           className='remove-button-cart' 
                           variant="contained" 
                           color="primary"
-                          onClick={() => handleRemoveFromCart(item.cartItemId)}
+                          onClick={() => handleOpenDialog(item.cartItemId)}
                         >
                           Remove
                         </Button>
@@ -123,16 +187,42 @@ const UserCart = () => {
             {cartItems.map((item, index) => (
               <div key={item.cartItemId} className="price-detail">
                 <Typography variant="subtitle1">{productDetails[item.productId]?.productName} x {item.quantity}</Typography>
-                <Typography variant="body1" className="price">₹{item.price.toFixed(2)}</Typography>
+                <Typography variant="body1" className="price">₹{getSubtotal(item).toFixed(2)}</Typography>
               </div>
             ))}
             <div className="total-amount">
               <Typography variant="subtitle1">Total Amount:</Typography>
-              <Typography variant="h6">₹{cartItems.reduce((acc, item) => acc + item.price, 0).toFixed(2)}</Typography>
+              <Typography variant="h6">₹{getTotalAmount().toFixed(2)}</Typography>
+            </div>
+            <br />
+            <div 
+              className='buyNowButton'
+              onClick={handleBuyNow}
+            >
+              Buy Now
             </div>
           </Paper>
         </div>
       </div>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Confirmation"}</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">Are you sure you want to remove this item from the cart?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => handleRemoveFromCart(cartItemIdToRemove)} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

@@ -17,25 +17,19 @@ const ProductListTeam = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
-
+  
     if (!token) {
-      toast.error('You have to log in as Admin to access the page');
+      toast.error('You have to log in to access the page');
       navigate('/');
       return;
     }
-
+  
     try {
       const tokenPayload = jwt_decode(token);
-      const roleId = tokenPayload['RoleId'];
-
-      if (roleId !== 'Admin' && roleId !== 'Team') {
-        toast.error('You have to be logged in as Admin to access the page');
-        navigate('/');
-        return;
-      }
-
+      const teamId = tokenPayload.teamId;
+  
       axios
-        .get(`https://localhost:7092/api/Product/GetProducts`, {
+        .get(`https://localhost:7092/api/Product/GetProductsByTeamId/${teamId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,7 +48,7 @@ const ProductListTeam = () => {
             toast.error('An error occurred while fetching product data');
           }
         });
-
+  
       axios
         .get(`https://localhost:7092/api/ProductCategory/GetAllProductCategories`)
         .then((response) => {
@@ -71,6 +65,7 @@ const ProductListTeam = () => {
       navigate('/Home');
     }
   }, [navigate]);
+  
 
   const getCategoryName = (categoryId) => {
     const category = categoryData.find((cat) => cat.id === categoryId);

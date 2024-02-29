@@ -40,6 +40,7 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
 
 
     }

@@ -184,6 +184,12 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(products);
         }
 
+        [HttpGet("GetProductsByTeamId/{teamId}")]
+        public IActionResult GetProductsByTeamId(int teamId)
+        {
+            var products = _fanHubContext.Products.Where(p => p.TeamId == teamId).ToList();
+            return Ok(products);
+        }
 
 
 

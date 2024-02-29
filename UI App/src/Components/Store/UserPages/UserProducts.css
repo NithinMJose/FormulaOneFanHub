@@ -1,44 +1,113 @@
 .product-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: left;
+  justify-content: space-between;
 }
 
 .product-item {
+  position: relative;
   width: 250px;
   margin: 20px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out; /* Add transition for smooth scaling */
 }
 
-.product-item:hover img {
-  transform: scale(1.02);
+.product-item:hover {
+  transform: scale(1.02); /* Scale up the product container on hover */
 }
 
-.product-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+.product-link {
+  display: block;
+  text-decoration: none;
+}
+
+.product-images {
+  width: 225px;
+  height: 225px;
   border-radius: 5px;
-  transition: transform 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.product-heart {
+  top: 10px;
+  right: 10px;
+  font-size: 35px;
+  color: rgb(255, 0, 0);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: auto;
+
+}
+
+.product-heart1 {
+  color: rgb(255, 0, 0);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.product-heart2 {
+  color: rgb(255, 0, 0);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 50px;
+}
+
+
+.product-heart:focus {
+  outline: none; /* Remove default focus outline */
 }
 
 .product-name {
   margin-top: 10px;
   font-weight: bold;
-  font-size: 16px; /* Increase font size */
+  font-size: 16px;
 }
 
 .team-name {
-  font-size: 14px; /* Decrease font size */
-  color: #555; /* Optional: Add a different color for team name */
+  font-size: 14px;
+  color: #555;
 }
 
 .product-price {
   font-weight: bold;
-  font-size: 18px; /* Increase font size */
+  font-size: 18px;
 }
 
-/* Add more styling as needed */
+/* CSS for the buttons */
+.product-heart button {
+  font-size: 14px; /* Adjust font size */
+  width: 100%;
+  padding: 8px 15px; /* Adjust padding */
+  margin-top: 5px; /* Add some margin */
+  background-color: transparent; /* Set background color to transparent */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 5px; /* Add border radius */
+  color: #333; /* Set text color */
+  transition: all 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+.product-heart button:hover {
+  background-color: #f0f0f0; /* Change background color on hover */
+  border-color: #999; /* Change border color on hover */
+  color: #000; /* Change text color on hover */
+}
+
+.product-heart {
+  right: 5px; /* Adjust the right position */
+  font-size: 35px;
+  color: rgb(255, 0, 0);
+  cursor: pointer;
+  height: auto;
+  top :300px; 
+}
+
+
