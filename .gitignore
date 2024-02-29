@@ -1,0 +1,10 @@
+.vscode
+bin
+Migrations
+obj
+wwwroot
+appsettings.json
+DesignTimeBuild
+FileContentIndex
+v17
+ProjectEvaluation
