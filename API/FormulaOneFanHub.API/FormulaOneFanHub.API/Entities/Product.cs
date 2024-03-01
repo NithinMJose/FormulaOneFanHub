@@ -1,4 +1,5 @@
 ﻿// Product.cs
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -36,5 +37,7 @@ namespace FormulaOneFanHub.API.Entities
         public string? ImagePath4 { get; set; } // Path to the fourth uploaded image on the server (nullable)
 
         public bool IsActive { get; set; } // Indicates whether the product is active for sale
+        public string? UniqueName { get; set; }
+
     }
 }

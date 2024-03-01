@@ -200,6 +200,7 @@ const AddProductTeam = () => {
                     }}
                     error={Boolean(productNameError)}
                     helperText={productNameError}
+                    style={{ marginBottom: '20px' }}
                   />
                   <TextField
                     label="Description"
@@ -207,6 +208,7 @@ const AddProductTeam = () => {
                     fullWidth
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    style={{ marginBottom: '20px' }}
                   />
                   <TextField
                     label="Price"
@@ -219,6 +221,7 @@ const AddProductTeam = () => {
                     }}
                     error={Boolean(priceError)}
                     helperText={priceError}
+                    style={{ marginBottom: '20px' }}
                   />
                   
                   <FormControl variant="outlined" fullWidth>
@@ -227,6 +230,7 @@ const AddProductTeam = () => {
                       value={productCategoryId}
                       onChange={(e) => setProductCategoryId(e.target.value)}
                       label="Category"
+                      style={{ marginBottom: '20px' }}
                     >
                       {categories.map((category) => (
                         <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
@@ -244,6 +248,7 @@ const AddProductTeam = () => {
                     }}
                     error={Boolean(stockQuantityError)}
                     helperText={stockQuantityError}
+                    style={{ marginBottom: '20px' }}
                   />
                   <div>
                     <input

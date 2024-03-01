@@ -28,21 +28,12 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (productDto.ImageFile1 == null)
-            {
-                return BadRequest("Image 1 is required.");
-            }
-
-            var imageCount = new[] { productDto.ImageFile1, productDto.ImageFile2, productDto.ImageFile3, productDto.ImageFile4 }
-                .Count(file => file != null);
-
-            if (imageCount < 2)
+            if (productDto.ImageFile1 == null || productDto.ImageFile2 == null)
             {
                 return BadRequest("At least 2 images are required.");
             }
 
-            var imagePaths = new string[4];
-            var index = 0;
+            var imagePaths = new List<string>();
 
             foreach (var imageFile in new[] { productDto.ImageFile1, productDto.ImageFile2, productDto.ImageFile3, productDto.ImageFile4 })
             {
@@ -56,9 +47,26 @@ namespace FormulaOneFanHub.API.Controllers
                         imageFile.CopyTo(stream);
                     }
 
-                    imagePaths[index++] = fileName;
+                    imagePaths.Add(fileName);
                 }
             }
+
+            // Check if enough images were provided
+            if (imagePaths.Count < 2)
+            {
+                // Clean up created images
+                foreach (var path in imagePaths)
+                {
+                    var fullPath = Path.Combine("wwwroot/images", path);
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }
+
+                return BadRequest("At least 2 images are required.");
+            }
+
 
             Product productToCreate = new Product
             {
@@ -70,9 +78,10 @@ namespace FormulaOneFanHub.API.Controllers
                 StockQuantity = productDto.StockQuantity,
                 ImagePath1 = imagePaths[0],
                 ImagePath2 = imagePaths[1],
-                ImagePath3 = imagePaths[2],
-                ImagePath4 = imagePaths[3],
-                IsActive = productDto.IsActive
+                ImagePath3 = imagePaths.Count > 2 ? imagePaths[2] : null,
+                ImagePath4 = imagePaths.Count > 3 ? imagePaths[3] : null,
+                IsActive = productDto.IsActive,
+                UniqueName = $"{Guid.NewGuid()}_{productDto.ProductName}"
             };
 
             _fanHubContext.Products.Add(productToCreate);
@@ -80,6 +89,8 @@ namespace FormulaOneFanHub.API.Controllers
 
             return StatusCode(201);
         }
+
+
 
         [HttpGet("GetProducts")]
         public IActionResult GetProducts()
@@ -119,6 +130,7 @@ namespace FormulaOneFanHub.API.Controllers
             existingProduct.ProductCategoryId = productDto.ProductCategoryId;
             existingProduct.StockQuantity = productDto.StockQuantity;
             existingProduct.IsActive = productDto.IsActive;
+            existingProduct.UniqueName = $"{Guid.NewGuid()}_{productDto.ProductName}";
 
             // Update images if provided
             if (productDto.ImageFile1 != null)
@@ -184,11 +196,27 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(products);
         }
 
+        
+
+
         [HttpGet("GetProductsByTeamId/{teamId}")]
         public IActionResult GetProductsByTeamId(int teamId)
         {
             var products = _fanHubContext.Products.Where(p => p.TeamId == teamId).ToList();
             return Ok(products);
+        }
+
+        [HttpGet("GetProductByUniqueName")]
+        public IActionResult GetProductByUniqueName(string uniqueName)
+        {
+            var product = _fanHubContext.Products.FirstOrDefault(p => p.UniqueName == uniqueName);
+
+            if (product == null)
+            {
+                return NotFound("Product not found.");
+            }
+
+            return Ok(product);
         }
 
 

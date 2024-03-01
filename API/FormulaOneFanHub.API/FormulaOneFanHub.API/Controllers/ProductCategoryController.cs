@@ -48,7 +48,8 @@ namespace FormulaOneFanHub.API.Controllers
                 PCategoryName = productCategoryDto.PCategoryName,
                 ImagePath = imagePath, // Set the ImagePath property
                 CreatedOn = DateTime.Now,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now,
+                UniqueName = $"{Guid.NewGuid()}_{productCategoryDto.PCategoryName}"
             };
 
             _fanHubContext.ProductCategories.Add(productCategoryToCreate);
@@ -103,6 +104,7 @@ namespace FormulaOneFanHub.API.Controllers
             }
 
             existingProductCategory.UpdatedOn = DateTime.Now;
+            existingProductCategory.UniqueName = $"{Guid.NewGuid()}_{productCategoryDto.PCategoryName}";
 
             _fanHubContext.SaveChanges();
 
@@ -117,6 +119,20 @@ namespace FormulaOneFanHub.API.Controllers
                                             .ToList();
             return Ok(categories);
         }
+
+        [HttpGet("GetProductCategoryIdByUniqueName")]
+        public IActionResult GetProductCategoryIdByUniqueName(string uniqueName)
+        {
+            var productCategory = _fanHubContext.ProductCategories.FirstOrDefault(pc => pc.UniqueName == uniqueName);
+
+            if (productCategory == null)
+            {
+                return NotFound("Product category not found with the provided unique name.");
+            }
+
+            return Ok(productCategory.ProductCategoryId);
+        }
+
 
 
     }

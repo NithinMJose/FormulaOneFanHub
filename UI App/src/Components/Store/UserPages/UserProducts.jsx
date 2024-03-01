@@ -94,7 +94,12 @@ const removeFromWishlist = async (productId) => {
     // Function to fetch products
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`https://localhost:7092/api/Product/GetAllProductsByCategoryId/${categoryId}`);
+
+        const resp = await fetch(`https://localhost:7092/api/ProductCategory/GetProductCategoryIdByUniqueName?uniqueName=${categoryId}`);
+        const categoryIdResponse = await resp.json(); // Convert response to JSON
+        console.log("Product Category ID:", categoryIdResponse); // Log the response
+
+        const response = await fetch(`https://localhost:7092/api/Product/GetAllProductsByCategoryId/${categoryIdResponse}`);
         const data = await response.json();
         setProducts(data);
       } catch (error) {
@@ -141,7 +146,7 @@ const removeFromWishlist = async (productId) => {
       <div className="product-container">
         {products.map(product => (
           <div key={product.productId} className="product-item">
-            <a href={`/ProductDetails/${product.productId}`} className="product-link">
+            <a href={`/ProductDetails/${product.uniqueName}`} className="product-link">
               <img src={`https://localhost:7092/images/${product.imagePath1}`} alt={product.productName} className="product-images" />
               <p className="product-name">{product.productName}</p>
             </a>

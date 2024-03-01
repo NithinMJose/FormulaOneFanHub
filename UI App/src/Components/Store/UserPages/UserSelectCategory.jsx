@@ -29,7 +29,7 @@ const UserSelectCategory = () => {
       <br />
       <div className="category-list-container">
         {categories.map((category) => (
-          <Link key={category.productCategoryId} to={`/UserProducts/${category.productCategoryId}`} className="category-item">
+          <Link key={category.productCategoryId} to={`/UserProducts/${category.uniqueName}`} className="category-item">
             <img
               src={`https://localhost:7092/images/${category.imagePath}`} 
               alt={`${category.pCategoryName}'s Image`}
