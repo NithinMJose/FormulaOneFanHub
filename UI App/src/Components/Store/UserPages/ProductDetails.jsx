@@ -23,6 +23,9 @@ const ProductDetails = () => {
       try {
         const response = await fetch(`https://localhost:7092/api/Product/GetProductByUniqueName?uniqueName=${productId}`);
         const data = await response.json();
+        console.log("Data received : ", data);
+        const productId2 = data.productId;
+        console.log("Product Id : ", productId2);
         setProduct(data);
 
         // Count the number of image paths that are not null
@@ -71,9 +74,11 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = async () => {
+    console.log("Button clicked");
+    const productId2 = product.productId;
     // Prepare the cart item data
     const cartItemData = {
-      productId: parseInt(productId),
+      productId: parseInt(productId2),
       userId: userId,
       quantity: selectedQuantity,
       price: product.price * selectedQuantity,
@@ -81,7 +86,7 @@ const ProductDetails = () => {
       status: 'inCart',
       size: 'medium'
     };
-
+    console.log(cartItemData);
     try {
       // Make a POST request to add the item to the cart
       const response = await fetch('https://localhost:7092/api/CartItem/AddToCart', {
