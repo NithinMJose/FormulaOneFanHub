@@ -5,6 +5,7 @@ const TicketBookingDto = { amount: 50000 };
 
 export default async function displayRazorPay(totalAmount, contactNumber, dataToTransfer, navigate) {
   try {
+    console.log("totalAmount", totalAmount, "contactNumber", contactNumber, "dataToTransfer", dataToTransfer, "navigate", navigate);
     const receivedData = dataToTransfer;
     console.log("receivedData", receivedData);
 
@@ -17,7 +18,7 @@ export default async function displayRazorPay(totalAmount, contactNumber, dataTo
       TotalAmount: totalAmount,
     });
 
-    console.log(data);
+    console.log("Data received from RazorPay : ", data);
 
     const options = {
       key: "rzp_test_wH5PplUikspRy6",
@@ -33,6 +34,7 @@ export default async function displayRazorPay(totalAmount, contactNumber, dataTo
         const orderId = response.razorpay_order_id;
 
         // Navigate to "/Home" page after successful payment
+        console.log('Data to be sent to the FinalPage:', '1 : ',receivedData,'2 : ', paymentId, '3', orderId);
         navigate('/FinalPage', { replace: true, state: { receivedData, paymentId, orderId } });
       },
       prefill: {

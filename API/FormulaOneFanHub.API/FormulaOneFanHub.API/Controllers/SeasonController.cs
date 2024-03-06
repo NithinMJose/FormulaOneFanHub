@@ -1,4 +1,5 @@
 ﻿using FormulaOneFanHub.API.Data;
+using FormulaOneFanHub.API.Dtos;
 using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +53,8 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 Year = seasonDto.Year,
                 Champion = seasonDto.Champion,
-                ImagePath = seasonDto.ImagePath, // Set the ImagePath property
+                ImagePath = seasonDto.ImagePath, 
+                UniqueSeasonName = $"{Guid.NewGuid()}_{seasonDto.Year}"
             };
 
             _fanHubContext.Seasons.Add(seasonToCreate);
@@ -67,6 +69,35 @@ namespace FormulaOneFanHub.API.Controllers
             var season = _fanHubContext.Seasons.Find(id);
             return Ok(season);
         }
+
+        [HttpDelete("GetSeasonByUniqueSeasonName")]
+        public IActionResult GetSeasonByUniqueSeasonName(string uniqueSeasonName)
+        {
+            var season = _fanHubContext.Seasons.FirstOrDefault(s => s.UniqueSeasonName == uniqueSeasonName);
+
+            if (season == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(season);
+        }
+
+
+        [HttpGet("GetSeasonIdFromSeasonUniqueName")]
+        public IActionResult GetSeasonIdFromSeasonUniqueName(string uniqueSeasonName)
+        {
+            var season = _fanHubContext.Seasons.FirstOrDefault(s => s.UniqueSeasonName == uniqueSeasonName);
+
+            if (season == null)
+            {
+                return NotFound(); // Return 404 Not Found if season with provided unique name is not found
+            }
+
+            return Ok(season.SeasonId);
+        }
+
+
 
         [HttpPut("UpdateSeason")]
         public IActionResult UpdateSeason([FromForm] SeasonDto seasonDto)
@@ -112,21 +143,22 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+
+
         [HttpGet("SeasonsForBooking")]
         public IActionResult SeasonsForBooking()
         {
             // Get the current year
             int currentYear = DateTime.Now.Year;
 
-            // Get the next year
-            int nextYear = currentYear + 1;
+            // Get the next four years
+            var futureYears = Enumerable.Range(currentYear, 5);
 
-            // Check if seasons for the current year and next year are already in the database
-            var currentSeason = _fanHubContext.Seasons.FirstOrDefault(s => s.Year == currentYear);
-            var nextSeason = _fanHubContext.Seasons.FirstOrDefault(s => s.Year == nextYear);
+            // Retrieve seasons for the current year and the next four years from the database
+            var seasons = _fanHubContext.Seasons.Where(s => futureYears.Contains(s.Year)).ToList();
 
-            // If not, return "no tickets are available"
-            if (currentSeason == null && nextSeason == null)
+            // If there are no seasons for the current year and the next four years, return "No tickets are available"
+            if (seasons.Count == 0)
             {
                 return Ok("No tickets are available");
             }
@@ -134,13 +166,15 @@ namespace FormulaOneFanHub.API.Controllers
             // If seasons are available, return the season IDs and seasons
             var result = new
             {
-                CurrentSeasonId = currentSeason?.SeasonId,
-                NextSeasonId = nextSeason?.SeasonId,
-                Seasons = new[] { currentSeason, nextSeason }
+                Seasons = seasons
             };
 
             return Ok(result);
         }
+
+
+
+
 
         [HttpGet("SeasonIdFromYear")]
         public IActionResult SeasonIdFromYear(int year)

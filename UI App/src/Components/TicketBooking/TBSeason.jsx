@@ -32,10 +32,11 @@ const TBSeason = () => {
     fetchSeasonDetails();
   }, []);
 
-  const handleImageClick = (seasonId) => {
-    // Navigate to the TBRace page and pass the season id in the state
-    navigate('/TBRace', { replace: true, state: { seasonId } });
+  const handleImageClick = (uniqueSeasonName) => {
+    // Navigate to the TBRace page and pass the uniqueSeasonName in the URL
+    navigate(`/TBRace/${uniqueSeasonName}`, { replace: true });
   };
+  
 
   if (!seasonsData) {
     return <p>No season details available.</p>;
@@ -45,19 +46,23 @@ const TBSeason = () => {
   return (
     <div>
       <UserNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <div className="driver-list-container">
         {seasonsData.seasons.map((season, index) => (
           // Skip rendering if season is null
           season && (
             <div key={index} className="driver-item">
-              <img
-                src={`https://localhost:7092/images/${season.imagePath}`} 
-                alt={`Season ${season.year} Image`}
-                className="driver-image"
-                onClick={() => handleImageClick(season.seasonId)}
-              />
+            <img
+            src={`https://localhost:7092/images/${season.imagePath}`} 
+            alt={`Season ${season.year} Image`}
+            className="driver-image"
+            onClick={() => handleImageClick(season.uniqueSeasonName)}
+          />
+          
               <h2 className="driver-name">{`Season - ${season.year}`}</h2>
-              <p className="driver-details">{`Champion: ${season.champion || 'N/A'}`}</p>
               {/* Add more season details as needed */}
             </div>
           )

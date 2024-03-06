@@ -14,8 +14,15 @@ const TBCategory = () => {
   useEffect(() => {
     const fetchTicketCategories = async () => {
       try {
+        const cornerId = state.cornerId;
+        const selectedTickets = state.selectedTickets;
+        console.log('Corner Id:', cornerId);
+        console.log('Selected Tickets:', selectedTickets);
+
+        // use the endpoint 
         const response = await axios.get(`https://localhost:7092/api/TicketCategory/GetAllTicketCategories`);
         const data = response.data;
+        console.log('Fetched Ticket Categories:', data);
         setTicketCategories(data);
       } catch (error) {
         console.error('Error fetching ticket categories:', error);
@@ -28,12 +35,15 @@ const TBCategory = () => {
   const handleCategoryClick = (ticketCategoryId, ticketPrice) => {
     // Log the data received from TBCategory and the selected ticketCategoryId
     console.log('Data received from TBCategory:', state);
+    const cornerId = state.cornerId;
+    console.log(' Corner Id :', cornerId);
     console.log('Selected TicketCategoryId:', ticketCategoryId);
     console.log('Selected TicketPrice:', ticketPrice);
     console.log('Selected Tickets:', state.selectedTickets);
+    const selectedTickets = state.selectedTickets;
 
     // Navigate to the TBConfirm page and pass the necessary values
-    navigate('/TBConfirm', { replace: true, state: { ...state, ticketCategoryId, ticketPrice } });
+    navigate('/TBConfirm', { replace: true, state: { cornerId, selectedTickets, ticketCategoryId, ticketPrice } });
   };
 
   if (!ticketCategories) {
@@ -43,6 +53,10 @@ const TBCategory = () => {
   return (
     <div>
     <UserNavbar />
+    <br />
+    <br />
+    <br />
+    <br />
       <h1>Ticket Categories</h1>
       <div className="driver-list-container">
         {ticketCategories.map(category => (

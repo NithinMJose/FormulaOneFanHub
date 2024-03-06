@@ -98,6 +98,10 @@ const CornerListAdmin = () => {
     <div className="cornerlistadmin">
       <AdminNavbar />
       <br />
+      <br />
+      <br />
+      <br />
+      <h1>Corner List</h1>
       {renderCornerData()}
       <br />
       <Footer />

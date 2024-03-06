@@ -44,6 +44,7 @@ namespace FormulaOneFanHub.API.Controllers
             Race raceToCreate = new Race
             {
                 RaceName = raceDto.RaceName,
+                UniqueRaceName = $"{Guid.NewGuid()}_{raceDto.RaceName}",
                 SeasonId = raceDto.SeasonId,
                 RaceDate = raceDto.RaceDate,
                 RaceLocation = raceDto.RaceLocation,
@@ -62,6 +63,22 @@ namespace FormulaOneFanHub.API.Controllers
             var race = _fanHubContext.Races.Find(id);
             return Ok(race);
         }
+
+        [HttpGet("GetRaceIdByUniqueRaceName")]
+        public IActionResult GetRaceIdByUniqueRaceName(string uniqueRaceName)
+        {
+            var race = _fanHubContext.Races.FirstOrDefault(r => r.UniqueRaceName == uniqueRaceName);
+
+            if (race == null)
+            {
+                return NotFound(); // Return 404 Not Found if race with provided unique name is not found
+            }
+
+            return Ok(race.RaceId);
+        }
+
+
+
 
         [HttpPut("UpdateRace")]
         public IActionResult UpdateRace([FromForm] RaceDto raceDto)

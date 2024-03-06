@@ -28,36 +28,43 @@ const FinalPage = () => {
 
   useEffect(() => {
     console.log('FinalPage state:', state);
-    // Save data to the database
     saveDataToDatabase(state.receivedData, state.paymentId, state.orderId);
   }, [state]);
 
   const saveDataToDatabase = async (receivedData, paymentId, orderId) => {
     try {
       console.log('Trying to save data to the database...');
+      console.log('Received Data:', receivedData);
+  
+      const response1 = await fetch('https://localhost:7092/api/Corner/GetSeasonIdAndRaceIdByCornerId?cornerId=' + receivedData.CornerId);
+      if (!response1.ok) {
+        throw new Error('Failed to fetch season and race data');
+      }
+      
+      const data = await response1.json();
+      console.log('Fetched SeasonId and RaceId:', data);
+  
       const response = await fetch('https://localhost:7092/api/TicketBooking/TBDBSave', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          
-            uniqueId: orderId,
-            receiptNumber: state.orderId, // You can update this value as needed
-            userId: receivedData.UserId,
-            seasonId: receivedData.SeasonId,
-            raceId: receivedData.RaceId,
-            cornerId: receivedData.CornerId,
-            ticketCategoryId: receivedData.TicketCategoryId,
-            numberOfTicketsBooked: receivedData.NoOfTickets,
-            totalAmount: receivedData.TotalAmount,
-            confirmationNumber: state.paymentId, // You can update this value as needed
-            firstName: receivedData.FirstName,
-            lastName: receivedData.LastName,
-            address: receivedData.Address,
-            email: receivedData.Email,
-            phoneContact: receivedData.PhoneContact,
-          
+          uniqueId: orderId,
+          receiptNumber: state.orderId,
+          userId: receivedData.UserId,
+          seasonId: data.seasonId,
+          raceId: data.raceId,
+          cornerId: receivedData.CornerId,
+          ticketCategoryId: receivedData.TicketCategoryId,
+          numberOfTicketsBooked: receivedData.NoOfTickets,
+          totalAmount: receivedData.TotalAmount,
+          confirmationNumber: state.paymentId,
+          firstName: receivedData.FirstName,
+          lastName: receivedData.LastName,
+          address: receivedData.Address,
+          email: receivedData.Email,
+          phoneContact: receivedData.PhoneContact,
         }),
       });
   
@@ -67,8 +74,8 @@ const FinalPage = () => {
         console.log('Unique ID :', orderId );
         console.log('receiptNumber :', state.orderId );
         console.log('userId', receivedData.UserId );
-        console.log('seasonId', receivedData.SeasonId );
-        console.log('raceId', receivedData.RaceId );
+        console.log('seasonId', data.seasonId );
+        console.log('raceId', data.raceId );
         console.log('cornerId', receivedData.CornerId );
         console.log('ticketCategoryId', receivedData.TicketCategoryId );
         console.log('numberOfTicketsBooked', receivedData.NoOfTickets );
@@ -79,21 +86,23 @@ const FinalPage = () => {
         console.log('address', receivedData.Address );
         console.log('email', receivedData.Email );
         console.log('phoneContact', receivedData.PhoneContact );
-
-
         console.error('Failed to save data to the database.');
       }
     } catch (error) {
-      console.log('Data Tried to save to the database is :', orderId, paymentId, state.orderId, state.paymentId, receivedData );
       console.error('Error saving data to the database:', error);
     }
   };
+  
   
 
   return (
     <ThemeProvider theme={theme}>
       <div>
         <UserNavbar />
+        <br />
+        <br />
+        <br />
+        <br />
         <Container sx={{ marginTop: 4 }}>
           <Paper elevation={3} sx={{ padding: 3, marginBottom: 4 }}>
             <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', color: '#1976D2' }}>
@@ -101,7 +110,6 @@ const FinalPage = () => {
             </Typography>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
-                {/* Additional user details */}
                 <Card
                   variant="outlined"
                   sx={{
@@ -138,7 +146,6 @@ const FinalPage = () => {
                 </Card>
               </Grid>
               <Grid item xs={12} md={6}>
-                {/* Additional booking details */}
                 <Card
                   variant="outlined"
                   sx={{

@@ -134,7 +134,7 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
-        // ... (previous code)
+
 
         [HttpPut("UpdateCornerSeatByTicketCancel")]
         public IActionResult UpdateCornerSeatByTicketCancel([FromBody] UpdateCornerSeatDto updateCornerSeatDto)
@@ -169,6 +169,68 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+
+        [HttpGet("GetDetailsFromCornerId")]
+        public IActionResult GetDetailsFromCornerId(int cornerId, int ticketCategoryId)
+        {
+            var corner = _fanHubContext.Corners
+                .Include(c => c.Race)
+                    .ThenInclude(r => r.Season)
+                .FirstOrDefault(c => c.CornerId == cornerId);
+
+            if (corner == null)
+            {
+                return NotFound("Corner not found.");
+            }
+
+            var ticketCategory = _fanHubContext.TicketCategories
+                .FirstOrDefault(tc => tc.TicketCategoryId == ticketCategoryId);
+
+            if (ticketCategory == null)
+            {
+                return NotFound("Ticket category not found.");
+            }
+
+            var details = new
+            {
+                SeasonId = corner.Race.SeasonId,
+                SeasonYear = corner.Race.Season.Year,
+                RaceName = corner.Race.RaceName,
+                RaceId = corner.RaceId,
+                CornerId = corner.CornerId,
+                CornerNumber = corner.CornerNumber,
+                TicketCategoryName = ticketCategory.CategoryName
+            };
+
+            return Ok(details);
+        }
+
+
+
+        [HttpGet("GetSeasonIdAndRaceIdByCornerId")]
+        public IActionResult GetSeasonIdAndRaceIdByCornerId(int cornerId)
+        {
+            var corner = _fanHubContext.Corners
+                .Include(c => c.Race)
+                .ThenInclude(r => r.Season)
+                .FirstOrDefault(c => c.CornerId == cornerId);
+
+            if (corner == null)
+            {
+                return NotFound("Corner not found.");
+            }
+
+            var seasonId = corner.Race.SeasonId;
+            var raceId = corner.RaceId;
+
+            var result = new
+            {
+                SeasonId = seasonId,
+                RaceId = raceId
+            };
+
+            return Ok(result);
+        }
 
     }
 }

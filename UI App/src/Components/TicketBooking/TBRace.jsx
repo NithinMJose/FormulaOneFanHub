@@ -1,50 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
-import UserNavbar from '../LoginSignup/UserNavbar';
+import { useNavigate, useParams } from 'react-router-dom';
 import Footer from '../LoginSignup/Footer';
-import { InputAdornment, TextField, Grid, Card, CardContent, Typography } from '@mui/material';
+import { TextField, InputAdornment, Grid, Card, CardContent, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import UserNavbars from '../LoginSignup/UserNavbars';
 
 const TBRace = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { state } = location;
-  const [races, setRaces] = useState(null);
+  const { uniqueSeasonName } = useParams();
+  const [races, setRaces] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  console.log('Unique Season Name:', uniqueSeasonName);
 
   useEffect(() => {
     const fetchRacesBySeason = async () => {
       try {
-        const response = await axios.get(`https://localhost:7092/api/Race/GetRaceBySeason?seasonId=${state.seasonId}`);
-        const fetchedRaces = response.data;
+        const seasonResponse = await axios.get(`https://localhost:7092/api/Season/GetSeasonIdFromSeasonUniqueName?uniqueSeasonName=${uniqueSeasonName}`);
+        const seasonId = seasonResponse.data;
+        console.log('Fetched Season ID:', seasonId);
+        
+        const racesResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceBySeason?seasonId=${seasonId}`);
+        const fetchedRaces = racesResponse.data;
+        console.log('Fetched Race Data:', fetchedRaces);
         setRaces(fetchedRaces);
       } catch (error) {
         console.error('Error fetching races:', error);
       }
     };
 
-    if (state && state.seasonId) {
-      fetchRacesBySeason();
-    }
-  }, [state]);
+    fetchRacesBySeason();
+  }, [uniqueSeasonName]);
 
-  const handleRaceClick = (raceId) => {
-    // Navigate to the TBCorner page and pass the raceId in the state
-    navigate('/TBCorner', { replace: true, state: { seasonId: state.seasonId, raceId } });
+  const handleRaceClick = (uniqueRaceName) => {
+    navigate(`/TBCorner/${uniqueRaceName}`, { replace: true }); // Append uniqueRaceName to URL
   };
 
-  const filteredRaces = races
-  ? races.filter(
-      (race) =>
-        race.raceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        race.raceLocation.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  : [];
+  const filteredRaces = races.filter(
+    (race) =>
+      race.raceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      race.raceLocation.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
-      <UserNavbar />
+      <UserNavbars />
+      <br />
+      <br />
+      <br />
       <br />
       <h1>Select Your Race For the Season</h1>
 
@@ -53,7 +56,7 @@ const TBRace = () => {
         label="Search Race"
         variant="outlined"
         size="small"
-        sx={{ mb: 2, width: '20%' }} // Adjusted width and moved to the right
+        sx={{ mb: 2, width: '20%' }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -69,8 +72,7 @@ const TBRace = () => {
       <Grid container spacing={2} justifyContent="center">
         {filteredRaces.map(race => (
           <Grid item key={race.raceId} xs={12} sm={6} md={3} lg={3} sx={{ margin: '8px' }}>
-            {/* Reduced the width */}
-            <Card onClick={() => handleRaceClick(race.raceId)} sx={{ cursor: 'pointer', height: '100%', width: '90%' }}>
+            <Card onClick={() => handleRaceClick(race.uniqueRaceName)} sx={{ cursor: 'pointer', height: '100%', width: '90%' }}>
               <img
                 src={`https://localhost:7092/images/${race.imagePath}`}
                 alt={`Race ${race.raceName} Image`}

@@ -130,6 +130,10 @@ const AddSeason = () => {
   return (
     <div>
       <AdminNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <Container component="main" maxWidth="xs">
         <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
           <Typography variant="h5" align="center" gutterBottom>
@@ -210,6 +214,7 @@ const AddSeason = () => {
           </form>
         </Paper>
       </Container>
+      <br />
       <Footer />
     </div>
   );

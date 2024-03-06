@@ -8,6 +8,7 @@ namespace FormulaOneFanHub.API.Entities
     public class Race
     {
         public int RaceId { get; set; }
+        public string? UniqueRaceName { get; set; }
         public string RaceName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "SeasonId is required")]

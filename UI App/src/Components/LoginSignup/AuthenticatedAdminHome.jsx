@@ -53,6 +53,11 @@ const AuthenticatedAdminHome = () => {
     return (
         <div>
         <AdminNavbar/>
+        <br />
+        <br />
+        <br />
+        <br />
+      
         
         <div className="wrapper">
             <div className="adminhomecontent">

@@ -19,6 +19,7 @@ import {
   CardMedia,
 } from '@mui/material';
 import Footer from '../LoginSignup/Footer';
+import { set } from 'react-hook-form';
 
 const TBConfirm = () => {
   const location = useLocation();
@@ -27,6 +28,13 @@ const TBConfirm = () => {
   const [confirmationData, setConfirmationData] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
   const [userName, setUserName] = useState('');
+  const [seasonYear, setSeasonYear] = useState('');
+  const [raceName, setRaceName] = useState('');
+  const [raceId, setRaceId] = useState('');
+  const [cornerNumber, setCornerNumber] = useState('');
+  const [ticketCategoryName, setTicketCategoryName] = useState('');
+  const [seasonId, setSeasonId] = useState('');
+  const [cornerId, setCornerId] = useState('');
   const [userDetails, setUserDetails] = useState(null);
   const token = localStorage.getItem('jwtToken');
   const [orderId, setOrderId] = useState('');
@@ -35,19 +43,58 @@ const TBConfirm = () => {
     if (token) {
       const decodedToken = jwt_decode(token);
       setUserName(decodedToken.userName);
+      console.log('User Name:', decodedToken.userName);
+      const cornerId = state.cornerId;
+      const selectedTickets = state.selectedTickets;
+      const ticketCategoryId = state.ticketCategoryId;
+      const ticketPrice = state.ticketPrice;
+      const totalAmount = selectedTickets * ticketPrice;
+      console.log('Corner Id', cornerId, 'Selected Tickets', selectedTickets, 'Ticket Category Id', ticketCategoryId, 'Ticket Price', ticketPrice, 'Total Amount', totalAmount);
+  
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`https://localhost:7092/api/Corner/GetDetailsFromCornerId?cornerId=${cornerId}&ticketCategoryId=${ticketCategoryId}`);
+          setConfirmationData(response.data); // Set the response data to state
+          const cornerNumber = response.data.cornerNumber;
+          setCornerNumber(cornerNumber);
+          const raceName = response.data.raceName;
+          setRaceName(raceName);
+          const seasonYear = response.data.seasonYear; 
+          setSeasonYear(seasonYear);
+          const ticketCategoryName = response.data.ticketCategoryName;
+          setTicketCategoryName(ticketCategoryName);
+          const raceId = response.data.raceId;
+          setRaceId(raceId);
+          const seasonId = response.data.seasonId;
+          setSeasonId(seasonId);
+          console.log('Corner Number',cornerNumber, 'raceName', raceName, 'seasonYear', seasonYear, 'ticketCategoryName', ticketCategoryName, 'raceId', raceId, 'seasonId', seasonId);
+        } catch (error) {
+          console.error('Error fetching confirmation data:', error);
+        }
+  
+        try {
+          const response = await axios.get(`https://localhost:7092/api/User/getUserDetailFromUsername?userName=${decodedToken.userName}`);
+          setUserDetails(response.data);
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      };
+      fetchData(); // Call the async function to execute the requests
     }
   }, [token]);
+  
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
         const response = await axios.get(`https://localhost:7092/api/User/getUserDetailFromUsername?userName=${userName}`);
         setUserDetails(response.data);
+        console.log(response.data);
+        console.log('fetchUserDetails has been called');
       } catch (error) {
         console.error('Error fetching user details:', error);
       }
     };
-
     if (userName) {
       fetchUserDetails();
     }
@@ -212,16 +259,16 @@ useEffect(() => {
     Address: userDetails?.address,
     PhoneContact: userDetails?.contactNumber,
     NoOfTickets: state.selectedTickets,
-    SeasonYear: confirmationData.season?.year,
-    RaceName: confirmationData.race?.raceName,
-    CornerNumber: confirmationData.corner?.cornerNumber,
-    TicketCategoryName: confirmationData.ticketCategory?.categoryName,
+    SeasonYear: seasonYear,
+    RaceName: raceName,
+    CornerNumber: cornerNumber,
+    TicketCategoryName: ticketCategoryName,
     TotalAmount: totalAmount,
     UserId: userDetails?.id,
-    RaceId: state.raceId,
+    RaceId: raceId,
     CornerId: state.cornerId,
     TicketCategoryId: state.ticketCategoryId,
-    SeasonId: state.seasonId,
+    SeasonId: seasonId,
         
   };
   
@@ -229,6 +276,10 @@ useEffect(() => {
   return (
     <div>
       <UserNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <Container sx={{ marginTop: 4 }}>
         <Paper elevation={3} sx={{ padding: 3, marginBottom: 4 }}>
           <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
@@ -271,16 +322,16 @@ useEffect(() => {
                     No. of Tickets Booked: {state.selectedTickets}
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    Season Year: {confirmationData.season?.year}
+                    Season Year: {seasonYear}
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    Race Name: {confirmationData.race?.raceName}
+                    Race Name: {raceName}
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    Corner Number: {confirmationData.corner?.cornerNumber}
+                    Corner Number: {cornerNumber}
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    Ticket Category Name: {confirmationData.ticketCategory?.categoryName}
+                    Ticket Category Name: {ticketCategoryName}
                   </Typography>
                   <Typography variant="body1" paragraph>
                     Total Amount: {totalAmount}

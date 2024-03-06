@@ -1,36 +1,41 @@
 // TBCorner.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../LoginSignup/Footer';
 import UserNavbar from '../LoginSignup/UserNavbar';
 
 const TBCorner = () => {
   const location = useLocation();
+  const { uniqueRaceName } = useParams();
   const { state } = location;
   const [corners, setCorners] = useState(null);
-  const [selectedTickets, setSelectedTickets] = useState(1); // Default to 1 ticket
+  const [selectedTickets, setSelectedTickets] = useState(1);
   const navigate = useNavigate();
+  console.log('Unique Race Name:', uniqueRaceName);
 
   useEffect(() => {
     const fetchCornersByRace = async () => {
       try {
-        const response = await axios.get(`https://localhost:7092/api/Corner/GetCornerByRace?raceId=${state.raceId}`);
+        const raceResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceIdByUniqueRaceName?uniqueRaceName=${uniqueRaceName}`);
+        const raceId = raceResponse.data;
+        console.log('Fetched Race ID:', raceId);
+
+        const response = await axios.get(`https://localhost:7092/api/Corner/GetCornerByRace?raceId=${raceId}`);
         const fetchedCorners = response.data;
         setCorners(fetchedCorners);
+        console.log('Fetched Corner Data:', fetchedCorners);
       } catch (error) {
         console.error('Error fetching corners:', error);
       }
     };
-
-    if (state && state.raceId) {
-      fetchCornersByRace();
-    }
-  }, [state]);
+    
+    fetchCornersByRace();
+  }, [uniqueRaceName]);
 
   const handleCornerClick = (cornerId) => {
     // Navigate to the TBCategory page and pass the necessary ids and selected tickets in the state
-    navigate('/TBCategory', { replace: true, state: { seasonId: state.seasonId, raceId: state.raceId, cornerId, selectedTickets } });
+    navigate(`/TBCategory/${uniqueRaceName}`, { replace: true, state: { cornerId, selectedTickets } });
   };
 
   const handleTicketsChange = (event) => {
@@ -44,8 +49,12 @@ const TBCorner = () => {
 
   return (
     <div>
-    <UserNavbar />
-      <h1>Corner Details for Race - {state.raceId}</h1>
+      <UserNavbar />
+      <br />
+      <br />
+      <br />
+      <br />
+      <h1>Corner Details for Race - {uniqueRaceName}</h1>
       <div>
         <label htmlFor="tickets" style={styles.label}>
           Select the number of tickets:

@@ -141,9 +141,9 @@ function App() {
           <Route path='/SeasonList' element={<SeasonList/>} />
           <Route path='/TicketCategoryList' element={<TicketCategoryList/>} />
           <Route path='/TBSeason' element={<TBSeason/>} />
-          <Route path='/TBRace' element={<TBRace/>} />
-          <Route path='/TBCorner' element={<TBCorner/>} />
-          <Route path='/TBCategory' element={<TBCategory/>} />
+          <Route path='/TBRace/:uniqueSeasonName' element={<TBRace/>} />
+          <Route path='/TBCorner/:uniqueRaceName' element={<TBCorner/>} />
+          <Route path='/TBCategory/:uniqueCornerName' element={<TBCategory/>} />
           <Route path='/TBConfirm' element={<TBConfirm/>} />
           <Route path='/TBTicket' element={<TBTicket/>} />
           <Route path='/AddTopic' element={<AddTopic/>} />

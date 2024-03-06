@@ -114,6 +114,9 @@ const SeasonList = () => {
     <div className="seasonlistpage">
       <AdminNavbar />
       <br />
+      <br />
+      <br />
+      <br />
       {renderSeasonsData()}
       <br />
       <Footer />
