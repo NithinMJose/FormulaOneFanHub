@@ -11,6 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { useNavigate } from 'react-router-dom';
 import './UserCart.css';
+import displayRazorPay from '../../../utils/PaymentGatewayProduct';
 
 const UserCart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -120,9 +121,22 @@ const UserCart = () => {
   };
 
   const handleBuyNow = () => {
-    console.log("Buy Now clicked");
-    // Perform further actions such as redirecting to a checkout page
+    const productsToBuy = cartItems.map(item => ({
+      productId: item.productId,
+      price: productDetails[item.productId]?.price,
+      quantity: item.quantity
+    }));
+  
+    const dataToTransfer = {
+      userId: userId,
+      products: productsToBuy
+    };
+    console.log("Just before displayRazorPay")
+    console.log("Total Amount:", getTotalAmount());
+    console.log("Data To Tranfer :", dataToTransfer);
+    displayRazorPay(getTotalAmount(), dataToTransfer, navigate);
   };
+  
 
   return (
     <>

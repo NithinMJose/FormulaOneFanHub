@@ -29,23 +29,6 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Check if the requested number of tickets is available
-            //var corner = _fanHubContext.Corners.Find(ticketBookingDto.CornerId);
-            //if (corner == null || corner.AvailableCapacity < ticketBookingDto.NumberOfTicketsBooked)
-            //{
-            //    return BadRequest("Requested number of tickets not available for the selected corner.");
-            //}
-
-            // Calculate total amount based on ticket price and number of tickets booked
-            //var ticketCategory = _fanHubContext.TicketCategories.Find(ticketBookingDto.TicketCategoryId);
-            //if (ticketCategory == null)
-            //{
-            //    return BadRequest("Invalid Ticket Category.");
-            //}
-
-            //decimal totalAmount = ticketCategory.TicketPrice * ticketBookingDto.NumberOfTicketsBooked;
-
-            // Create a RazorPay order
             var razorPayOrderResponse = _razorPayService.CreateOrder(ticketBookingDto.TotalAmount,"receipt1", "test note 1");
             if(!razorPayOrderResponse.IsSuccess)
             {
@@ -57,38 +40,35 @@ namespace FormulaOneFanHub.API.Controllers
             var amount = razorPayOrderResponse.SuccessResponse.amount;  
 
 
-            // Create a new TicketBooking entity
-            //var ticketBooking = new TicketBooking
-            //{
-            //    UserId = ticketBookingDto.UserId,
-            //    SeasonId = ticketBookingDto.SeasonId,
-            //    RaceId = ticketBookingDto.RaceId,
-            //    CornerId = ticketBookingDto.CornerId,
-            //    //TicketCategoryId = ticketBookingDto.TicketCategoryId,
-            //    NumberOfTicketsBooked = ticketBookingDto.NumberOfTicketsBooked,
-            //    Address = ticketBookingDto.Address,
-            //    BookingDate = DateTime.Now,
-            //    TotalAmount = totalAmount,
-            //    Email = ticketBookingDto.Email,
-            //    FirstName = ticketBookingDto.FirstName,
-            //    LastName = ticketBookingDto.LastName,
-            //    PhoneContact = ticketBookingDto.PhoneContact,
-            //    PaymentStatus = "Pending",
-            //    BookingStatus = "Confirmed",
-            //    ReceiptNumber = GenerateReceiptNumber(),
-            //    UniqueId = GenerateUniqueId(), // Generate a unique ID using GUID
-            //                                   // Set other properties as needed
-            //};
-
-            //_fanHubContext.TicketBookings.Add(ticketBooking);
-
-            //// Update available capacity of the corner
-            //corner.AvailableCapacity -= ticketBookingDto.NumberOfTicketsBooked;
-
-            //_fanHubContext.SaveChanges();
-
             return StatusCode(201, new BookTicketsResponseDto { id = orderId,currency=currency,amount = amount });
         }
+
+
+
+
+        [HttpPost("BuyProduct")]
+        public IActionResult BuyProduct([FromBody] ProductBuyDto productBuyDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var razorPayOrderResponse = _razorPayService.CreateOrder(productBuyDto.TotalAmount, "Product Buy", "Its Just For the Testing ! CHILLL !");
+            if (!razorPayOrderResponse.IsSuccess)
+            {
+                return BadRequest(razorPayOrderResponse.ErrorResponse);
+            }
+
+            var orderId = razorPayOrderResponse.SuccessResponse.id;
+            var currency = razorPayOrderResponse.SuccessResponse.currency;
+            var amount = razorPayOrderResponse.SuccessResponse.amount;
+
+            return StatusCode(201, new BookTicketsResponseDto { id = orderId, currency = currency, amount = amount });
+        }
+
+
+
 
         // Add a method to generate a unique ID
         private string GenerateUniqueId()
