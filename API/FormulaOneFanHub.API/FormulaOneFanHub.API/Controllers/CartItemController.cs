@@ -95,6 +95,26 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok("Cart item status updated successfully.");
         }
 
+        [HttpPut("DeleteFromCartById")]
+        public IActionResult DeleteFromCartById([FromBody] UpdateCartItemStatusDto updateDto)
+        {  
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var cartItem = _fanHubContext.CartItems.Find(updateDto.CartItemId);
+            if (cartItem == null)
+            {
+                return NotFound("Cart item not found.");
+            }
+
+            _fanHubContext.CartItems.Remove(cartItem);
+            _fanHubContext.SaveChanges();
+
+            return Ok("Cart item removed successfully.");
+        }
+
         public class UpdateCartItemStatusDto
         {
             [Required(ErrorMessage = "CartItemId is required")]

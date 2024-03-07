@@ -18,6 +18,15 @@ namespace FormulaOneFanHub.API.Data
              .OnDelete(DeleteBehavior.NoAction);
 
 
+            modelBuilder.Entity<OrderedItem>(entity =>
+            {
+                entity.HasOne(poi => poi.Order)
+                .WithMany(po => po.OrderedItem)
+                .HasForeignKey(poi => poi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
         }
 
         public DbSet<User> Users { get; set; }
@@ -41,7 +50,8 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<WishList> WishLists { get; set; }
-
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderedItem> OrderedItems { get; set; }
 
     }
 }

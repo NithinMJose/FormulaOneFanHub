@@ -61,7 +61,7 @@ const UserCart = () => {
 
   const handleRemoveFromCart = async (cartItemId) => {
     try {
-      await fetch(`https://localhost:7092/api/CartItem/UpdateCartItemStatus`, {
+      await fetch(`https://localhost:7092/api/CartItem/DeleteFromCartById`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -116,9 +116,25 @@ const UserCart = () => {
     return cartItems.reduce((acc, item) => acc + getSubtotal(item), 0);
   };
 
-  const handleProductDetailClick = (productId) => {
-    navigate(`/ProductDetails/${productId}`);
+  const handleProductDetailClick = async (productId) => {
+    try {
+      // Convert productId into UniqueName from database
+      console.log("productId :", productId);
+      const resp = await fetch(`https://localhost:7092/api/Product/GetProductById?id=${productId}`);
+      if (!resp.ok) {
+        throw new Error('Failed to fetch product details');
+      }
+      const productData = await resp.json(); // Extract JSON data from response
+      console.log("response :", productData);
+      const uniqueName = productData.uniqueName;
+  
+      navigate(`/ProductDetails/${uniqueName}`);
+    } catch (error) {
+      console.error('Error fetching product details:', error);
+      // Handle error, perhaps show a message to the user
+    }
   };
+  
 
   const handleBuyNow = () => {
     const productsToBuy = cartItems.map(item => ({
