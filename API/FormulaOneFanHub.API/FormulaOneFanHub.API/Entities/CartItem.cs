@@ -28,10 +28,8 @@ namespace FormulaOneFanHub.API.Entities
         [Required]
         public string Status { get; set; }
 
-        // Additional fields
-        public string Size { get; set; } // Size of the product (if applicable)
+        public string Size { get; set; } 
 
-        // Navigation property to the Product
         public Product Product { get; set; }
     }
 }

@@ -30,6 +30,7 @@ const UpdateProductTeam = () => {
     price: 0,
     stockQuantity: 0,
     productCategoryId: 0,
+   // discountAmount: 0,
     imagePath1: '',
     imageFile1: null,
     imagePath2: '',
@@ -67,6 +68,7 @@ const UpdateProductTeam = () => {
       .get(`https://localhost:7092/api/Product/GetProductById?id=${productId}`)
       .then((response) => {
         setProductData(response.data);
+  //      console.log("HHHHHHHHHHHHHHHHHHHHH : ", response.data);
       })
       .catch((error) => {
         console.error('Error fetching product data:', error);
@@ -133,6 +135,7 @@ const UpdateProductTeam = () => {
     formData.append('price', productData.price);
     formData.append('teamId', productData.teamId);
     formData.append('stockQuantity', productData.stockQuantity);
+    //formData.append('discountAmount', productData.discountAmount);
     formData.append('productCategoryId', productData.productCategoryId);
     formData.append('isActive', productData.isActive);
   
@@ -212,6 +215,21 @@ const UpdateProductTeam = () => {
                       onChange={(e) => handleFieldChange('stockQuantity', e.target.value)}
                     />
                   </Grid>
+
+                {/*
+                  <Grid item xs={12}>
+                    <TextField
+                      label="Discount Amount"
+                      type="number"
+                      fullWidth
+                      value={productData.discountAmount}
+                      onChange={(e) => handleFieldChange('discountAmount', e.target.value)}
+                    />
+                  </Grid>
+                */}
+
+
+
                   <Grid item xs={12}>
                     <FormControl fullWidth>
                       <InputLabel>Product Category</InputLabel>

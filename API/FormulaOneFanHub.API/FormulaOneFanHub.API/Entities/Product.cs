@@ -38,6 +38,7 @@ namespace FormulaOneFanHub.API.Entities
 
         public bool IsActive { get; set; } // Indicates whether the product is active for sale
         public string? UniqueName { get; set; }
+        public decimal DiscountAmount { get; set; } // Discount amount in currency
 
     }
 }

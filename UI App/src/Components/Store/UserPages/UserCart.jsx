@@ -137,15 +137,20 @@ const UserCart = () => {
   
 
   const handleBuyNow = () => {
+    const discountAmount = 0;
+    //Add current datetime as shipping date
+    const orderDate = new Date();
     const productsToBuy = cartItems.map(item => ({
       productId: item.productId,
       price: productDetails[item.productId]?.price,
-      quantity: item.quantity
+      quantity: item.quantity,
+      discountAmount: discountAmount,
+      orderDate: orderDate,
     }));
   
     const dataToTransfer = {
       userId: userId,
-      products: productsToBuy
+      products: productsToBuy,
     };
     console.log("Just before displayRazorPay")
     console.log("Total Amount:", getTotalAmount());

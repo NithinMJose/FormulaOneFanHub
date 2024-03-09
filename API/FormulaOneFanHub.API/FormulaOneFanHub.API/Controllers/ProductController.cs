@@ -81,6 +81,7 @@ namespace FormulaOneFanHub.API.Controllers
                 ImagePath3 = imagePaths.Count > 2 ? imagePaths[2] : null,
                 ImagePath4 = imagePaths.Count > 3 ? imagePaths[3] : null,
                 IsActive = productDto.IsActive,
+                DiscountAmount = productDto.DiscountAmount,
                 UniqueName = $"{Guid.NewGuid()}_{productDto.ProductName}"
             };
 
@@ -130,6 +131,7 @@ namespace FormulaOneFanHub.API.Controllers
             existingProduct.ProductCategoryId = productDto.ProductCategoryId;
             existingProduct.StockQuantity = productDto.StockQuantity;
             existingProduct.IsActive = productDto.IsActive;
+            existingProduct.DiscountAmount = productDto.DiscountAmount;
             existingProduct.UniqueName = $"{Guid.NewGuid()}_{productDto.ProductName}";
 
             // Update images if provided

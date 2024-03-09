@@ -12,6 +12,7 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
+import axios from 'axios';
 
 const theme = createTheme({
   palette: {
@@ -25,78 +26,101 @@ const BuyingFinalPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
+  
 
   useEffect(() => {
     console.log('DISPLAYING DATA FROM THE FINAL PAGE');
     console.log('Received Data:', state.receivedData);
     console.log('Payment ID:', state.paymentId);
     console.log('Order ID:', state.orderId);
-    saveDataToDatabase(state.receivedData, state.paymentId, state.orderId);
+    console.log('Payment Date:', state.paymentDate);
+    console.log('Total Amount:', state.totalAmount);
+    saveDataToOrderTable(state.receivedData, state.paymentId, state.orderId, state.paymentDate);
   }, [state]);
 
-  const saveDataToDatabase = async (receivedData, paymentId, orderId) => {
-    try {
-      console.log('Trying to save data to the database...');
-      console.log('Received Data:', receivedData);
+  const saveDataToOrderTable = (receivedData, paymentId, orderId, paymentDate) => {
+    // GetUser Details From receivedData.userId using https://localhost:7092/api/User/GetUserDetailsFromUserId?userId=2
+    axios.get(`https://localhost:7092/api/User/GetUserDetailsFromUserId?userId=${receivedData.userId}`)
+      .then((response) => {
+        console.log('User Details:', response.data);
+        const userId = parseInt(receivedData.userId);
+        const userDetails = response.data;
+        const firstName = userDetails.firstName;
+        const lastName = userDetails.lastName;
+        const fullName = firstName + ' ' + lastName;
+        const email = userDetails.email;
+        const phoneNumber = userDetails.contactNumber;
+        const address = userDetails.address;
+        const totalAmount = state.totalAmount;
   
-      const response1 = await fetch('https://localhost:7092/api/Corner/GetSeasonIdAndRaceIdByCornerId?cornerId=' + receivedData.CornerId);
-      if (!response1.ok) {
-        throw new Error('Failed to fetch season and race data');
-      }
-      
-      const data = await response1.json();
-      console.log('Fetched SeasonId and RaceId:', data);
+        // Calculate shipping date as 13:00 of the next day from the payment date
+        const paymentDateTime = new Date(paymentDate);
+        const nextDay = new Date(paymentDateTime);
+        nextDay.setDate(nextDay.getDate() + 1); // Add one day
+        nextDay.setHours(13, 0, 0, 0); // Set time to 13:00
+        const shippingDate = nextDay.toISOString(); // Convert to string using the default format
+        const paymentDateISO = new Date(paymentDate).toISOString();
+
   
-      const response = await fetch('https://localhost:7092/api/TicketBooking/TBDBSave', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          uniqueId: orderId,
-          receiptNumber: state.orderId,
-          userId: receivedData.UserId,
-          seasonId: data.seasonId,
-          raceId: data.raceId,
-          cornerId: receivedData.CornerId,
-          ticketCategoryId: receivedData.TicketCategoryId,
-          numberOfTicketsBooked: receivedData.NoOfTickets,
-          totalAmount: receivedData.TotalAmount,
-          confirmationNumber: state.paymentId,
-          firstName: receivedData.FirstName,
-          lastName: receivedData.LastName,
-          address: receivedData.Address,
-          email: receivedData.Email,
-          phoneContact: receivedData.PhoneContact,
-        }),
+        console.log('userId:', receivedData.userId);
+        console.log('Full Name', fullName);
+        console.log('Email:', email);
+        console.log('Phone Number:', phoneNumber);
+        console.log('Address:', address);
+        console.log('Shipping Date:', shippingDate);
+        console.log('Payment ID:', paymentId);
+        console.log('Payment Date:', paymentDateISO);
+        console.log('Order ID:', orderId);
+        console.log('Total Amount:', totalAmount);
+        console.log('ProductDetails', receivedData.products);
+        //Map each item from receivedData.products and print the details of each product in console
+        receivedData.products.forEach((product) => {
+          console.log('Product ID:', product.productId);
+          console.log('Product Price:', product.price);
+          console.log('Product Quantity:', product.quantity);
+          console.log('Total Price:', product.price * product.quantity);
+          console.log('Discount Amount:', product.discountAmount);
+          console.log('Final Price:', (product.price * product.quantity) - product.discountAmount);
+        });
+  
+        // Define the request body
+        const requestBody = {
+          userId: receivedData.userId,
+          name: fullName,
+          email: email,
+          phoneNumber: phoneNumber,
+          address: address,
+          shippingDate: shippingDate,
+          paymentNumberRazor: paymentId,
+          paymentDate: paymentDateISO,
+          orderIdRazor: orderId,
+          orderTotalAmount: (totalAmount/100),
+          orderedItemsDto: receivedData.products.map(product => ({
+            productId: product.productId,
+            quantity: product.quantity,
+            price: product.price,
+            total: product.price * product.quantity,
+            discountPrice: product.discountAmount,
+            finalPrice: (product.price * product.quantity) - product.discountAmount
+          }))
+        };
+  
+        console.log('Request Body:', requestBody);
+        
+        // Make a POST request to the server
+        axios.post('https://localhost:7092/api/Order/AddNewOrder', requestBody)
+          .then(response => {
+            console.log('Order successfully created:', response.data);
+            // You may perform additional actions after successfully saving the order
+          })
+          .catch(error => {
+            console.error('Error creating order:', error);
+          });
+      })
+      .catch((error) => {
+        console.log('Error:', error);
       });
-  
-      if (response.ok) {
-        console.log('Data saved to the database successfully.');
-      } else {
-        console.log('Unique ID :', orderId );
-        console.log('receiptNumber :', state.orderId );
-        console.log('userId', receivedData.UserId );
-        console.log('seasonId', data.seasonId );
-        console.log('raceId', data.raceId );
-        console.log('cornerId', receivedData.CornerId );
-        console.log('ticketCategoryId', receivedData.TicketCategoryId );
-        console.log('numberOfTicketsBooked', receivedData.NoOfTickets );
-        console.log('totalAmount', receivedData.TotalAmount );
-        console.log('confirmationNumber', state.paymentId );
-        console.log('firstName', receivedData.FirstName );
-        console.log('lastName', receivedData.LastName );
-        console.log('address', receivedData.Address );
-        console.log('email', receivedData.Email );
-        console.log('phoneContact', receivedData.PhoneContact );
-        console.error('Failed to save data to the database.');
-      }
-    } catch (error) {
-      console.error('Error saving data to the database:', error);
-    }
   };
-  
-  
 
   return (
     <ThemeProvider theme={theme}>
@@ -109,81 +133,16 @@ const BuyingFinalPage = () => {
         <Container sx={{ marginTop: 4 }}>
           <Paper elevation={3} sx={{ padding: 3, marginBottom: 4 }}>
             <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', color: '#1976D2' }}>
-              Thank You For Booking Tickets
+              Thank You For Shopping With Us!
             </Typography>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Card
-                  variant="outlined"
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                      transition: 'transform 0.3s ease-in-out',
-                    },
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      User Name: {state.receivedData.UserName}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                      First Name: {state.receivedData.FirstName}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                      Last Name: {state.receivedData.LastName}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                      Email: {state.receivedData.Email}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                      Address: {state.receivedData.Address}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                      Contact Number: {state.receivedData.PhoneContact}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Card
-                  variant="outlined"
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                      transition: 'transform 0.3s ease-in-out',
-                    },
-                  }}
-                >
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom color="primary">
-                      Payment ID: {state.paymentId}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom color="primary">
-                      Order ID: {state.orderId}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom color="primary">
-                      No of Tickets: {state.receivedData.NoOfTickets}
-                    </Typography>
-                    <Typography variant="h4" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>
-                      Total Amount: {state.receivedData.TotalAmount}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom color="primary">
-                      Payment Status: Paid
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
           </Paper>
         </Container>
+      {/* Display a Go Back To Home Page Button*/}
+        <button onClick={() => navigate('/')} style={{ marginLeft: '50%', transform: 'translateX(-50%)' }}>
+          Go Back To Home Page
+        </button>
+
+        
         <Footer />
       </div>
     </ThemeProvider>

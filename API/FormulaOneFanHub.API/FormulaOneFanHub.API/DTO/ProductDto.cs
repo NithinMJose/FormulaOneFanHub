@@ -33,5 +33,7 @@ namespace FormulaOneFanHub.API.Dtos
         public IFormFile? ImageFile4 { get; set; }
 
         public bool IsActive { get; set; }
+
+        public decimal DiscountAmount { get; set; }
     }
 }

@@ -44,27 +44,44 @@ namespace FormulaOneFanHub.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                               .Select(e => e.ErrorMessage)
+                                               .ToList();
+
+                return BadRequest(errors);
             }
 
             var order = new Order
             {
-                UniqueId = orderDto.UniqueId,
-                OrderDate = orderDto.OrderDate,
+                UniqueId = Guid.NewGuid().ToString(),
+                OrderDate = DateTime.Now,
                 UserId = orderDto.UserId,
                 Name = orderDto.Name,
                 Email = orderDto.Email,
                 PhoneNumber = orderDto.PhoneNumber,
                 Address = orderDto.Address,
-                OrderStatus = orderDto.OrderStatus,
-                ShippedDate = orderDto.ShippedDate,
+                OrderStatus = "Ordered",
+                ShippingDate = orderDto.ShippingDate,
                 PaymentNumberRazor = orderDto.PaymentNumberRazor,
-                PaymentStatus = orderDto.PaymentStatus,
+                PaymentStatus = "Payed",
                 PaymentDate = orderDto.PaymentDate,
                 OrderIdRazor = orderDto.OrderIdRazor,
-                DiscountTotal = orderDto.DiscountTotal,
-                OrderTotalAmount = orderDto.OrderTotalAmount
+                OrderTotalAmount = orderDto.OrderTotalAmount,
+                OrderedItem = new List<OrderedItem>()
             };
+
+            foreach (var orderedItemDto in orderDto.orderedItemsDto)
+            {
+                var orderedItem = new OrderedItem
+                {
+                    ProductId = orderedItemDto.ProductId,
+                    Quantity = orderedItemDto.Quantity,
+                    Price = orderedItemDto.Price,
+                    DiscountPrice = orderedItemDto.DiscountPrice,
+                    FinalPrice = orderedItemDto.FinalPrice
+                };
+                order.OrderedItem.Add(orderedItem);
+            }
 
             _fanHubContext.Orders.Add(order);
             _fanHubContext.SaveChanges();
@@ -72,40 +89,7 @@ namespace FormulaOneFanHub.API.Controllers
             return CreatedAtAction(nameof(GetOrder), new { id = order.OrderId }, order);
         }
 
-        [HttpPut("EditOrder/{id}")]
-        public IActionResult UpdateProductOrder(int id, OrderDto orderDto)
-        {
-            var existingOrder = _fanHubContext.Orders.FirstOrDefault(p => p.OrderId == id);
-            if (existingOrder == null)
-            {
-                return NotFound();
-            }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            existingOrder.UniqueId = orderDto.UniqueId;
-            existingOrder.OrderDate = orderDto.OrderDate;
-            existingOrder.UserId = orderDto.UserId;
-            existingOrder.Name = orderDto.Name;
-            existingOrder.Email = orderDto.Email;
-            existingOrder.PhoneNumber = orderDto.PhoneNumber;
-            existingOrder.Address = orderDto.Address;
-            existingOrder.OrderStatus = orderDto.OrderStatus;
-            existingOrder.ShippedDate = orderDto.ShippedDate;
-            existingOrder.PaymentNumberRazor = orderDto.PaymentNumberRazor;
-            existingOrder.PaymentStatus = orderDto.PaymentStatus;
-            existingOrder.PaymentDate = orderDto.PaymentDate;
-            existingOrder.OrderIdRazor = orderDto.OrderIdRazor;
-            existingOrder.DiscountTotal = orderDto.DiscountTotal;
-            existingOrder.OrderTotalAmount = orderDto.OrderTotalAmount;
-
-            _fanHubContext.SaveChanges();
-
-            return NoContent();
-        }
 
         [HttpDelete("DeleteOrder/{id}")]
         public IActionResult DeleteOrder(int id)

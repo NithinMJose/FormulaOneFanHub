@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FormulaOneFanHub.API.Entities
 {
     public class Order
     {
+        [Key]
         public int OrderId { get; set; }
 
         [MaxLength(50)]
@@ -33,7 +33,7 @@ namespace FormulaOneFanHub.API.Entities
         [Required]
         public string OrderStatus { get; set; }
 
-        public DateTime? ShippedDate { get; set; }
+        public DateTime? ShippingDate { get; set; }
 
         [Required]
         public string PaymentNumberRazor { get; set; }
@@ -45,11 +45,9 @@ namespace FormulaOneFanHub.API.Entities
         public DateTime PaymentDate { get; set; }
 
         public string? OrderIdRazor { get; set; }
-
-        public decimal DiscountTotal { get; set; }
         public decimal OrderTotalAmount { get; set; }
 
-        public ICollection<OrderedItem> OrderedItem { get; set; }
+        public List<OrderedItem> OrderedItem { get; set; }
 
     }
 }

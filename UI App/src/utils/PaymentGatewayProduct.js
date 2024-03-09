@@ -31,12 +31,16 @@ export default async function displayRazorPay(totalAmount, dataToTransfer, navig
         alert("Order ID : " + response.razorpay_order_id);
         const paymentId = response.razorpay_payment_id;
         const orderId = response.razorpay_order_id;
+        const paymentDate = new Date();
 
         // Navigate to "/Home" page after successful payment
         console.log('Data to be sent to the FinalPage: ',receivedData);
         console.log('Payment ID : ', paymentId);
         console.log('Order ID : ', orderId);
-        navigate('/BuyingFinalPage', { replace: true, state: { receivedData, paymentId, orderId } });
+        console.log('Payment Date : ', paymentDate);
+        console.log('Total Amount : ', totalAmount);
+
+        navigate('/BuyingFinalPage', { replace: true, state: { receivedData, paymentId, orderId, paymentDate, totalAmount } });
       },
       prefill: {
         name: "Formula One Fan Hub",

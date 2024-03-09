@@ -4,9 +4,7 @@ namespace FormulaOneFanHub.API.Dtos
 {
     public class OrderedItemDto
     {
-        public int OrderedItemId { get; set; }
-
-        public int OrderId { get; set; }
+        //public int OrderId { get; set; }
 
         public int ProductId { get; set; }
 
@@ -16,7 +14,7 @@ namespace FormulaOneFanHub.API.Dtos
 
         public decimal Total { get; set; }
 
-        public decimal DiscountPercentage { get; set; }
+        public decimal DiscountPrice { get; set; }
 
         public decimal FinalPrice { get; set; }
     }

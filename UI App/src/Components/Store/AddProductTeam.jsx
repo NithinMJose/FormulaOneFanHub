@@ -16,6 +16,7 @@ const AddProductTeam = () => {
   const [teamId, setTeamId] = useState('');
   const [productCategoryId, setProductCategoryId] = useState('');
   const [stockQuantity, setStockQuantity] = useState('');
+  //const [discountAmount, setDiscountAmount] = useState('');
   const [imageFiles, setImageFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [teams, setTeams] = useState([]);
@@ -24,6 +25,7 @@ const AddProductTeam = () => {
   const [productNameError, setProductNameError] = useState('');
   const [priceError, setPriceError] = useState('');
   const [stockQuantityError, setStockQuantityError] = useState('');
+  //const [discountAmountError, setDiscountAmountError] = useState('');
   const [imageFileErrors, setImageFileErrors] = useState([]);
 
   const [imageFile1, setImageFile1] = useState(null);
@@ -89,6 +91,18 @@ const AddProductTeam = () => {
     }
   };
 
+  // const validateDiscountAmount = (value) => {
+  //   const parsedDiscount = parseInt(value);
+  //   if (isNaN(parsedDiscount) || parsedDiscount < 0) {
+  //     setStockQuantityError('Discount amount must be a non-negative integer');
+  //     return false;
+  //   } else {
+  //     setStockQuantityError('');
+  //     return true;
+  //   }
+  // };
+
+
   const validateForm = () => {
     let isValid = true;
 
@@ -137,6 +151,7 @@ const AddProductTeam = () => {
         formData.append('TeamId', parsedTeamId);
         formData.append('ProductCategoryId', productCategoryId);
         formData.append('StockQuantity', stockQuantity);
+        //formData.append('DiscountAmount', discountAmount);
         formData.append('imageFile1', imageFile1);
         formData.append('imageFile2', imageFile2);
         formData.append('imageFile3', imageFile3);
@@ -250,6 +265,22 @@ const AddProductTeam = () => {
                     helperText={stockQuantityError}
                     style={{ marginBottom: '20px' }}
                   />
+{/* 
+                  <TextField
+                    label="Discount Amount"
+                    variant="outlined"
+                    fullWidth
+                    value={discountAmount}
+                    onChange={(e) => {
+                      setDiscountAmount(e.target.value);
+                      validateDiscountAmount(e.target.value);
+                    }}
+                    error={Boolean(discountAmountError)}
+                    helperText={discountAmountError}
+                    style={{ marginBottom: '20px' }}
+                  />
+*/}
+
                   <div>
                     <input
                       accept="image/jpeg, image/jpg, image/png"

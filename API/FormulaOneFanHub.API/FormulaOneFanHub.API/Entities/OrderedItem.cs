@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace FormulaOneFanHub.API.Entities
 {
     public class OrderedItem
     {
+        [Key]
         public int OrderedItemId { get; set; }
 
         [Required]
@@ -15,11 +18,12 @@ namespace FormulaOneFanHub.API.Entities
         [Required]
         public decimal Price { get; set; }
 
-        public decimal DiscountPercentage { get; set; }
+        public decimal DiscountPrice { get; set; }
 
         public decimal FinalPrice { get; set; }
 
-        public Order Order { get; set; }
         public int OrderId { get; set; }
+        [JsonIgnore]
+        public Order Order { get; set; } // Navigation property to Order
     }
 }
