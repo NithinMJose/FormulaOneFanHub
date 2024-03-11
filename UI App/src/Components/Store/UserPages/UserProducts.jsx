@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import UserNavbars from '../../LoginSignup/UserNavbars';
+import UserNavbars from '../../LoginSignup/UserNavbar';
 import './UserProducts.css';
 import jwt_decode from 'jwt-decode';
 

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Footer from '../LoginSignup/Footer';
 import { TextField, InputAdornment, Grid, Card, CardContent, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import UserNavbars from '../LoginSignup/UserNavbars';
+import UserNavbar from '../LoginSignup/UserNavbar';
 
 const TBRace = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const TBRace = () => {
 
   return (
     <div>
-      <UserNavbars />
+      <UserNavbar />
       <br />
       <br />
       <br />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import UserNavbar from '../../LoginSignup/UserNavbars';
+import UserNavbar from '../../LoginSignup/UserNavbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';

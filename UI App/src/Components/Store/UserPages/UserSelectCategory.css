@@ -12,6 +12,8 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 60px; /* Increase the gap for more space between containers */
     margin: 20px;
+    margin-top: 125px;
+        /* Add margin to the top for space */
 }
   
 .category-item {

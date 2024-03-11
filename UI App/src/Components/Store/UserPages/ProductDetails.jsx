@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
-import UserNavbar from '../../LoginSignup/UserNavbars';
+import UserNavbar from '../../LoginSignup/UserNavbar';
 import './ProductDetails.css'; // Import CSS file for styling
 // get the user id from the jwt token
 import jwt_decode from 'jwt-decode';

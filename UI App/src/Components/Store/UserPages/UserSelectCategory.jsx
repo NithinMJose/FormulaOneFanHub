@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './UserSelectCategory.css';
 import UserNavbar from '../../LoginSignup/UserNavbar';
 import { Link } from 'react-router-dom';
+import Footer from '../../LoginSignup/Footer';
 
 const UserSelectCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -23,10 +24,6 @@ const UserSelectCategory = () => {
   return (
     <div>
       <UserNavbar />
-      <br />
-      <br />
-      <br />
-      <br />
       <div className="category-list-container">
         {categories.map((category) => (
           <Link key={category.productCategoryId} to={`/UserProducts/${category.uniqueName}`} className="category-item">
@@ -35,10 +32,11 @@ const UserSelectCategory = () => {
               alt={`${category.pCategoryName}'s Image`}
               className="category-image"
             />
-            <div className="category-name">{category.pCategoryName}</div> {/* Changed class name */}
+            <div className="category-name">{category.pCategoryName}</div>
           </Link>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };
