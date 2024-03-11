@@ -21,19 +21,28 @@ const UserSelectCategory = () => {
     fetchData();
   }, []);
 
+  const handleCategoryClick = (uniqueName) => {
+    // Redirect to the desired page when category name is clicked
+    window.location.href = `/UserProducts/${uniqueName}`;
+  };
+
   return (
     <div>
       <UserNavbar />
       <div className="category-list-container">
         {categories.map((category) => (
-          <Link key={category.productCategoryId} to={`/UserProducts/${category.uniqueName}`} className="category-item">
-            <img
-              src={`https://localhost:7092/images/${category.imagePath}`} 
-              alt={`${category.pCategoryName}'s Image`}
-              className="category-image"
-            />
-            <div className="category-name">{category.pCategoryName}</div>
-          </Link>
+          <div key={category.productCategoryId} className="category-item">
+            <Link to={`/UserProducts/${category.uniqueName}`}>
+              <div className="category-image">
+                <img
+                  src={`https://localhost:7092/images/${category.imagePath}`} 
+                  alt={`${category.pCategoryName}'s Image`}
+                  className="category-image"
+                />
+              </div>
+            </Link>
+            <div className="CategoryName" onClick={() => handleCategoryClick(category.uniqueName)}>{category.pCategoryName}</div>
+          </div>
         ))}
       </div>
       <Footer />

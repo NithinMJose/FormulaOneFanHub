@@ -13,52 +13,81 @@
   display: flex;
 }
 
-.product-images {
+.product-images-container {
   flex: 1;
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .product-info-container {
+    flex: 1;
+    padding: 20px;
+    margin-left: 20px;
+    position: relative;
 }
 
 .main-image {
   width: 100%;
-  height: 400px; /* Set a fixed height */
+  height: 400px;
   object-fit: cover;
-  border-radius: 10px; /* Set border radius */
-  overflow: hidden; /* Hide overflowing content */
+  border-radius: 10px;
+    overflow: hidden;
 }
 
-.thumbnail-images {
-  display: flex;
-  justify-content: space-between;
-}
-
-.thumbnail {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  margin-right: 10px;
+.prev-button {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  font-size: 15px;
   cursor: pointer;
+  transition: color 0.3s;
+  margin-top: 30px;
 }
 
-.product-info {
-  flex: 1;
-  padding-left: 20px;
+.next-button {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 0.3s;
+    margin-left: 320px;
 }
 
-.product-name {
-  font-size: 28px;
+.prev-button:hover,
+.next-button:hover {
+  color: #0056b3;
+}
+
+.productNames {
+  font-size: 35px;
   margin-bottom: 10px;
+  color: #333;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: left;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .product-description {
   margin-bottom: 20px;
 }
 
-.product-price {
-  font-size: 20px;
+.productPrice {
+  margin-top: 20px;
+  font-size: 24px;
   font-weight: bold;
+  color: #000000;
 }
 
 .stock-quantity {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    text-align: left;
 }
 
 .add-to-cart-button {
@@ -76,44 +105,100 @@
   background-color: #0056b3;
 }
 
-.team-image {
-  width: 100px; /* Adjust size as needed */
-  height: 100px; /* Adjust size as needed */
-  border-radius: 50%; /* Make it circular */
-}
-
-.team-name {
-  font-size: 18px; /* Increase font size */
-  margin-top: 10px;
-}
-
-.team-description {
-  margin-top: 10px;
-  color: #555; /* Optional: Add a different color for team description */
-}
-
-.team-details {
-  margin-top: 20px;
+.team-info {
+  display: flex;
+  align-items: flex-end;
+  /* Align items at the bottom */
 }
 
 .team-genuine {
-  font-size: 18px;
+  font-size: 15px;
+  color: #333;
+  margin-right: 10px;
+  margin-bottom: 5px;
 }
 
-.team-info {
-  display: flex;
-  align-items: center;
-}
-
-.team-image {
-  width: 40px; /* Adjust size as needed */
-  height: 40px; /* Adjust size as needed */
-  border-radius: 20%; /* Make it circular */
+.teamImage {
+  width: 70px;
+  height: 35px;
+  border-radius: 5%;
   margin-right: 10px;
 }
 
 .team-name {
-  font-size: 18px; /* Increase font size */
+  font-size: 18px;
+    margin: 0;
+    /* Remove default margin */
+    align-self: flex-end;
+    /* Align text at the bottom */
 }
 
+.product-images .main-image {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.thumbnail-images {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 1.8s;
+}
+
+.thumbnail:hover {
+  border-color: #007bff;
+}
+
+.thumbnail.active {
+  border-color: #007bff;
+}
+
+.description-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  }
+  
+  .plus-symbol {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .quantityHeading {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    padding-right: 15px;
+    margin-bottom: 20px;
+}
+
+.quantityBox {
+  width: 80px;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.quantityBox:focus {
+  border-color: #007bff;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 16px;
+  margin-top: 0px;
+}
 

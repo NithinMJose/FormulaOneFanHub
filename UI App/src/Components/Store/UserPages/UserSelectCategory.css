@@ -39,6 +39,18 @@ body {
     margin-bottom: 12px;
     color: #333;
     text-decoration: none;
+    background-color: aqua;
+        width: 100%;
+        display: inline-block;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        /* Display in full capital letters */
+        transition: color 0.3s ease;
+        cursor: pointer;
+        /* Change cursor to hand symbol */
+        margin-bottom: -8px;
 }
 
 .category-image {

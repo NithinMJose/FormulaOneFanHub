@@ -147,8 +147,8 @@ const removeFromWishlist = async (productId) => {
         {products.map(product => (
           <div key={product.productId} className="product-item">
             <a href={`/ProductDetails/${product.uniqueName}`} className="product-link">
-              <img src={`https://localhost:7092/images/${product.imagePath1}`} alt={product.productName} className="product-images" />
-              <p className="product-name">{product.productName}</p>
+              <img src={`https://localhost:7092/images/${product.imagePath1}`} alt={product.productName} className="product-imagess" />
+              <p className="product-names">{product.productName}</p>
             </a>
             <p className="team-name">Team: {teams[product.teamId]}</p>
             <p className="product-price">Price: ${product.price}</p>
