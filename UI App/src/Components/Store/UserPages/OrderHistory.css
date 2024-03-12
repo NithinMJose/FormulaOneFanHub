@@ -22,27 +22,24 @@
 .order-item-content {
     display: flex;
     justify-content: space-between;
-    /* Ensure containers spread evenly */
+    align-items: center;
+        /* Added alignment */
 }
 
 .left-container,
 .center-container,
 .right-container {
     width: 30%;
-    /* Adjust width as needed */
     display: flex;
     flex-direction: column;
-    /* Change to column layout */
 }
 
 .left-container {
     justify-content: flex-start;
-    /* Align content to the left */
 }
 
 .center-container {
     justify-content: flex-start;
-    /* Align content to the left */
 }
 
 .right-container {
@@ -52,7 +49,55 @@
 
 .plus-sign {
     font-size: 24px;
-    /* Adjust the font size as needed */
     font-weight: bold;
-    /* Make the font bold */
+}
+
+.productDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+
+.product-content {
+    display: flex;
+}
+
+.product-image-container {
+    width: 20%;
+    height: auto;
+}
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.product-info-container {
+    width: 40%;
+}
+
+.final-price-container {
+    width: 30%;
+    display: flex;
+    align-items: center;
+}
+
+.separator {
+    width: 90%;
+    /* Adjust as needed */
+    margin: 10px auto;
+    /* Adjust margin as needed */
+    border: none;
+    border-top: 1px solid #ccc;
+    /* Change color as needed */
 }

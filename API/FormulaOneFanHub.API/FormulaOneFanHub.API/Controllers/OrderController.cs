@@ -112,5 +112,60 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
 
+        [HttpGet("HelloWorld/{id}")]
+        public IActionResult HelloWorld(int id)
+        {
+            // Retrieve the order with its items
+            var orderWithItems = _fanHubContext.Orders
+                .Include(o => o.OrderedItem)
+                .FirstOrDefault(o => o.OrderId == id);
+
+            if (orderWithItems == null)
+            {
+                return NotFound();
+            }
+
+            // You can add more data here from the Order table if needed
+            var orderData = new
+            {
+                orderWithItems.OrderId,
+                orderWithItems.UniqueId,
+                orderWithItems.OrderDate,
+                orderWithItems.UserId,
+                orderWithItems.Name,
+                orderWithItems.Email,
+                orderWithItems.PhoneNumber,
+                orderWithItems.Address,
+                orderWithItems.OrderStatus,
+                orderWithItems.ShippingDate,
+                orderWithItems.PaymentNumberRazor,
+                orderWithItems.PaymentStatus,
+                orderWithItems.PaymentDate,
+                orderWithItems.OrderIdRazor,
+                orderWithItems.OrderTotalAmount,
+                orderItems = orderWithItems.OrderedItem.Select(oi => new
+                {
+                    oi.OrderedItemId,
+                    oi.ProductId,
+                    oi.Quantity,
+                    oi.Price,
+                    oi.DiscountPrice,
+                    oi.FinalPrice,
+                    ProductName = _fanHubContext.Products
+                        .Where(p => p.ProductId == oi.ProductId)
+                        .Select(p => p.ProductName)
+                        .FirstOrDefault(),
+                    ProductImagePath = _fanHubContext.Products
+                        .Where(p => p.ProductId == oi.ProductId)
+                        .Select(p => p.ImagePath1)
+                        .FirstOrDefault()
+                })
+            };
+
+            return Ok(orderData);
+        }
+
+
+
     }
 }
