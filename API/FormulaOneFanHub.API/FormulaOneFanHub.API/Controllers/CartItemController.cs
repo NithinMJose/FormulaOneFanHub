@@ -139,5 +139,21 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok("Cart item removed successfully.");
         }
+
+
+        [HttpDelete("RemoveUserCartById/{userId}")]
+        public IActionResult RemoveUserCartById(int userId)
+        {
+            var cartItems = _fanHubContext.CartItems.Where(c => c.UserId == userId).ToList();
+            if (cartItems.Count == 0)
+            {
+                return NotFound("No cart items found for the specified user.");
+            }
+
+            _fanHubContext.CartItems.RemoveRange(cartItems);
+            _fanHubContext.SaveChanges();
+
+            return Ok("All cart items for the user have been removed successfully.");
+        }
     }
 }

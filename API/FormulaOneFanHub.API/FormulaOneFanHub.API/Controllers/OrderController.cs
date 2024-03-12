@@ -30,14 +30,18 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpGet("GetOrdersById/{id}")]
         public IActionResult GetOrder(int id)
         {
-            var order = _fanHubContext.Orders.FirstOrDefault(p => p.OrderId == id);
-            if (order == null)
+            var orderWithItems = _fanHubContext.Orders
+                .Include(o => o.OrderedItem) // Include related ordered items
+                .FirstOrDefault(p => p.OrderId == id);
+
+            if (orderWithItems == null)
             {
                 return NotFound();
             }
 
-            return Ok(order);
+            return Ok(orderWithItems);
         }
+
 
         [HttpPost("AddNewOrder")]
         public IActionResult CreateProductOrder(OrderDto orderDto)
@@ -91,19 +95,22 @@ namespace FormulaOneFanHub.API.Controllers
 
 
 
-        [HttpDelete("DeleteOrder/{id}")]
-        public IActionResult DeleteOrder(int id)
+        [HttpGet("GetOrdersByUserId/{userId}")]
+        public IActionResult GetOrdersByUserId(string userId)
         {
-            var existingOrder = _fanHubContext.Orders.FirstOrDefault(p => p.OrderId == id);
-            if (existingOrder == null)
+            var ordersWithItems = _fanHubContext.Orders
+                .Include(o => o.OrderedItem) // Include related ordered items
+                .Where(o => o.UserId == userId)
+                .ToList();
+
+            if (ordersWithItems.Count == 0)
             {
-                return NotFound();
+                return NotFound("No orders found for the specified user.");
             }
 
-            _fanHubContext.Orders.Remove(existingOrder);
-            _fanHubContext.SaveChanges();
-
-            return NoContent();
+            return Ok(ordersWithItems);
         }
+
+
     }
 }

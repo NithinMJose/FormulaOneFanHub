@@ -91,15 +91,20 @@ const BuyingFinalPage = () => {
       var flag = 0;
 
       if (flag === 0) {
-        // Make a POST request to the server
         axios
           .post('https://localhost:7092/api/Order/AddNewOrder', requestBody)
           .then((response) => {
             console.log('Order successfully created:', flag);
-            console.log('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
-            console.log('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
-            console.log('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
             flag = 1;
+            // Delete the cart items from the database using the endpoint https://localhost:7092/api/CartItem/RemoveUserCartById/3
+            axios
+              .delete(`https://localhost:7092/api/CartItem/RemoveUserCartById/${receivedData.userId}`)
+              .then((response) => {
+                console.log('Cart Items Deleted:', response);
+              })
+              .catch((error) => {
+                console.error('Error deleting cart items:', error);
+              });
           })
           .catch((error) => {
             console.error('Error creating order:', error);

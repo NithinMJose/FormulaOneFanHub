@@ -12,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { useNavigate } from 'react-router-dom';
 import './UserCart.css';
 import displayRazorPay from '../../../utils/PaymentGatewayProduct';
+import Footer from '../../LoginSignup/Footer';
 
 const UserCart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -258,6 +259,7 @@ const UserCart = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      <Footer />
     </>
   );
 };

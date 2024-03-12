@@ -44,7 +44,13 @@ function UserNavbar() {
           <ul className="navbar-links">
             <li><Link to="/" className="nav-links">Home</Link></li>
             
-            <li><Link to="/UserSelectCategory" className="nav-links">Store</Link></li>
+            <li className="nav-item dropdown">
+              <span className="nav-links dropdown-toggle" data-bs-toggle="dropdown">Store</span>
+              <div className="dropdown-menu m-0">
+                <Link to="/UserSelectCategory" className="dropdown-item">Explore Store</Link>
+                <Link to="/OrderHistory" className="dropdown-item">Purchase History</Link>
+              </div>
+            </li>
             
             <li><Link to="/GalleryUserView" className="nav-links">Gallery</Link></li>
             
