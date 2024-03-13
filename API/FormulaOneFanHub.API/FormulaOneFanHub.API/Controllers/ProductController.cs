@@ -223,5 +223,40 @@ namespace FormulaOneFanHub.API.Controllers
 
 
 
+
+
+
+        public class ProductQuantityAndActiveDto
+        {
+            public int StockQuantity { get; set; }
+            public bool IsActive { get; set; }
+        }
+
+        [HttpPut("UpdateQuantityAndActive/{id}")]
+        public IActionResult UpdateQuantityAndActive(int id, [FromBody] ProductQuantityAndActiveDto productDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingProduct = _fanHubContext.Products.Find(id);
+
+            if (existingProduct == null)
+            {
+                return NotFound("Product not found.");
+            }
+
+            // Update the product properties
+            existingProduct.StockQuantity = productDto.StockQuantity;
+            existingProduct.IsActive = productDto.IsActive;
+
+            _fanHubContext.SaveChanges();
+
+            return Ok("Stock quantity and isActive status updated successfully.");
+        }
+
+
+
     }
 }

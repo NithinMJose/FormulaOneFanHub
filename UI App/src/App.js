@@ -101,6 +101,7 @@ import UserWishList from './Components/Store/UserPages/UserWishList';
 import BuyingFinalPage from './Components/Store/BuyingFinalPage'; 
 import OrderHistory from './Components/Store/UserPages/OrderHistory';
 import TeamSellingHistory from './Components/Team/TeamSellingHistory';
+import UpdateProductStock from './Components/Store/UpdateProductStock';
 
 
 
@@ -209,7 +210,7 @@ function App() {
           <Route path='/BuyingFinalPage' element={<BuyingFinalPage />} />
           <Route path='/OrderHistory' element={<OrderHistory />} />
           <Route path='/TeamSellingHistory' element={<TeamSellingHistory />} />
-          
+          <Route path='/UpdateProductStock' element={<UpdateProductStock />} />          
         </Routes>
         <ToastContainer />
       </div>

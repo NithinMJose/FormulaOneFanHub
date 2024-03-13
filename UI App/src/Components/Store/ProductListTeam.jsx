@@ -77,6 +77,12 @@ const ProductListTeam = () => {
     navigate(`/UpdateProductTeam`, { replace: true, state: { productId } });
   };
 
+  const handleManageStock = (productId) => {
+    // Redirect to the UpdateProductStock page with the specific productId
+    navigate(`/UpdateProductStock`, { replace: true, state: { productId } });
+    console.log("Manage Clicked");
+  }
+
   const renderProductData = () => {
     if (!productData || !categoryData.length) {
       return <p>Loading product data...</p>;
@@ -106,13 +112,26 @@ const ProductListTeam = () => {
                 <TableCell>{getCategoryName(product.productCategoryId)}</TableCell>
                 <TableCell>{product.isActive ? 'Active' : 'Inactive'}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleEditProduct(product.productId)}
-                  >
-                    Edit
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleManageStock(product.productId)}
+                      >
+                        Manage Stock
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleEditProduct(product.productId)}
+                      >
+                        Edit
+                      </Button>
+                    </div>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -121,7 +140,7 @@ const ProductListTeam = () => {
       </TableContainer>
     );
   };
-
+  
   return (
     <div className="productlistpage">
       <TeamNavbar />
