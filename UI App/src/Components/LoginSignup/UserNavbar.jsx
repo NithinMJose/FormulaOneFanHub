@@ -86,7 +86,7 @@ function UserNavbar() {
                 <Link to="/" className="dropdown-item" onClick={handleLogout}>Logout</Link>
               </div>
             
-              </li>
+            </li>
           </ul>
         </div>
       </nav>

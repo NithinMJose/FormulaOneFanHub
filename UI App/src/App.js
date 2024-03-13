@@ -100,6 +100,7 @@ import UserCart from './Components/Store/UserPages/UserCart';
 import UserWishList from './Components/Store/UserPages/UserWishList';
 import BuyingFinalPage from './Components/Store/BuyingFinalPage'; 
 import OrderHistory from './Components/Store/UserPages/OrderHistory';
+import TeamSellingHistory from './Components/Team/TeamSellingHistory';
 
 
 
@@ -207,6 +208,7 @@ function App() {
           <Route path='/UserWishList' element={<UserWishList />} />
           <Route path='/BuyingFinalPage' element={<BuyingFinalPage />} />
           <Route path='/OrderHistory' element={<OrderHistory />} />
+          <Route path='/TeamSellingHistory' element={<TeamSellingHistory />} />
           
         </Routes>
         <ToastContainer />

@@ -27,6 +27,26 @@ namespace FormulaOneFanHub.API.Data
             });
 
 
+
+            modelBuilder.Entity<SoldItem>(entity =>
+            {
+                entity.HasOne(si => si.Order)
+                    .WithMany()
+                    .HasForeignKey(si => si.OrderId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(si => si.Product)
+                    .WithMany()
+                    .HasForeignKey(si => si.ProductId)
+                    .OnDelete(DeleteBehavior.Restrict); // You can adjust the delete behavior as per your requirement
+
+                entity.HasOne(si => si.Team)
+                    .WithMany()
+                    .HasForeignKey(si => si.TeamId)
+                    .OnDelete(DeleteBehavior.Restrict); // You can adjust the delete behavior as per your requirement
+            });
+
+
         }
 
         public DbSet<User> Users { get; set; }
@@ -52,6 +72,7 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<WishList> WishLists { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderedItem> OrderedItems { get; set; }
+        public DbSet<SoldItem> SoldItems { get; set; }
 
     }
 }

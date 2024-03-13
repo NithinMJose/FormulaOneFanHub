@@ -20,14 +20,17 @@ const OrderHistory = () => {
       try {
         const response = await fetch(`https://localhost:7092/api/Order/GetOrdersByUserId/${userId}`);
         const data = await response.json();
+        // Sort orders by order date in descending order
+        data.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
         setOrders(data);
       } catch (error) {
         console.error('Error fetching orders:', error);
       }
     };
-
+  
     fetchOrders();
   }, []);
+  
 
   // Function to handle click on the "+" symbol
   const handleExpand = async (orderId) => {

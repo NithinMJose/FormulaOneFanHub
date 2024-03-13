@@ -41,8 +41,6 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok(orderWithItems);
         }
-
-
         [HttpPost("AddNewOrder")]
         public IActionResult CreateProductOrder(OrderDto orderDto)
         {
@@ -74,8 +72,37 @@ namespace FormulaOneFanHub.API.Controllers
                 OrderedItem = new List<OrderedItem>()
             };
 
+            // Add order to context but don't save changes yet
+            _fanHubContext.Orders.Add(order);
+
+            // Save changes to get the OrderId
+            _fanHubContext.SaveChanges();
+
             foreach (var orderedItemDto in orderDto.orderedItemsDto)
             {
+                // Retrieve the product details to get the TeamId
+                var product = _fanHubContext.Products
+                    .Include(p => p.Team)
+                    .FirstOrDefault(p => p.ProductId == orderedItemDto.ProductId);
+
+                if (product == null)
+                {
+                    // Handle the case where the product is not found
+                    return BadRequest($"Product with ID {orderedItemDto.ProductId} not found.");
+                }
+
+                // Check if the stock quantity is sufficient
+                if (product.StockQuantity < orderedItemDto.Quantity)
+                {
+                    return BadRequest($"Product with ID {orderedItemDto.ProductId} is out of stock.");
+                }
+
+                // Use the TeamId from the product
+                var teamId = product.TeamId;
+
+                // Reduce the quantity of the product in the Product table
+                product.StockQuantity -= orderedItemDto.Quantity;
+
                 var orderedItem = new OrderedItem
                 {
                     ProductId = orderedItemDto.ProductId,
@@ -85,13 +112,31 @@ namespace FormulaOneFanHub.API.Controllers
                     FinalPrice = orderedItemDto.FinalPrice
                 };
                 order.OrderedItem.Add(orderedItem);
+
+                // Create SoldItem entry for each ordered item
+                var soldItem = new SoldItem
+                {
+                    OrderId = order.OrderId, // Use the obtained OrderId
+                    ProductId = orderedItemDto.ProductId,
+                    TeamId = teamId,
+                    Quantity = orderedItemDto.Quantity,
+                    PricePerItem = orderedItemDto.Price,
+                    TotalPrice = orderedItemDto.Quantity * orderedItemDto.Price,
+                    SoldDate = DateTime.Now,
+                    Status = "sold"
+                };
+
+                _fanHubContext.SoldItems.Add(soldItem);
             }
 
-            _fanHubContext.Orders.Add(order);
+            // Save changes to update product quantity, add SoldItems, and complete the order creation
             _fanHubContext.SaveChanges();
 
             return CreatedAtAction(nameof(GetOrder), new { id = order.OrderId }, order);
         }
+
+
+
 
 
 
@@ -158,6 +203,10 @@ namespace FormulaOneFanHub.API.Controllers
                     ProductImagePath = _fanHubContext.Products
                         .Where(p => p.ProductId == oi.ProductId)
                         .Select(p => p.ImagePath1)
+                        .FirstOrDefault(),
+                    UniqueName = _fanHubContext.Products
+                        .Where(p => p.ProductId == oi.ProductId)
+                        .Select(p => p.UniqueName)
                         .FirstOrDefault()
                 })
             };
