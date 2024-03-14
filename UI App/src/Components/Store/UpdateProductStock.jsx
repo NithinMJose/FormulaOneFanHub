@@ -38,6 +38,7 @@ const UpdateProductStock = () => {
   });
 
   const [categories, setCategories] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     axios
@@ -62,7 +63,12 @@ const UpdateProductStock = () => {
   }, [productId]);
 
   const handleFieldChange = (field, value) => {
-    setProductData((prevData) => ({ ...prevData, [field]: value }));
+    if (field === 'stockQuantity' && value < 0) {
+      setErrorMessage('Stocks below zero are not Possible');
+    } else {
+      setErrorMessage('');
+      setProductData((prevData) => ({ ...prevData, [field]: value }));
+    }
   };
 
   const handleUpdateClick = () => {
@@ -97,9 +103,10 @@ const UpdateProductStock = () => {
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div>
               <Paper elevation={3} style={{ padding: '20px' }}>
-                <Typography variant="h4" gutterBottom>
-                  Product Details
+                <Typography  style={{ fontWeight: 'bold', color: 'black', fontFamily: 'sans-serif', fontSize:'30px' }} gutterBottom>
+                  Product Stock Updation
                 </Typography>
+                <hr></hr>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <Typography>
@@ -117,50 +124,48 @@ const UpdateProductStock = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField
-                      label="Stock Quantity"
+                    <Typography>
+                      <strong>Product Category:</strong>{' '}
+                      {categories.find((category) => category.id === productData.productCategoryId)?.name}
+                    </Typography>
+                  </Grid>
+
+
+                  <Grid container item xs={12} spacing={2}>
+                  <Grid item xs={6}>
+                  <InputLabel style={{ fontWeight: 'bold', color: 'black' }}>Stock Quantity</InputLabel>
+                  <TextField
+                      className='formControlStock'
                       type="number"
                       fullWidth
+                      style={{ maxWidth: '200px', minWidth: '200px'}} // Adjust the maximum width as needed
                       value={productData.stockQuantity}
                       onChange={(e) => handleFieldChange('stockQuantity', e.target.value)}
                     />
+                    {errorMessage && (
+                      <Typography style={{ color: 'red' }}>{errorMessage}</Typography>
+                    )}
                   </Grid>
-                  <Grid item xs={12}>
-  <Typography>
-    <strong>Product Category:</strong> {categories.find(category => category.id === productData.productCategoryId)?.name}
-  </Typography>
-</Grid>
-
-                  {[1, 2, 3, 4].map((number) => (
-                    productData[`imagePath${number}`] && (
-                      <Grid item xs={12} key={number}>
-                        <img
-                          src={`https://localhost:7092/images/${productData[`imagePath${number}`]}`}
-                          alt={`Product Image ${number}`}
-                          className="product-image"
-                          style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                        />
-                      </Grid>
-                    )
-                  ))}
-                  <Grid item xs={12}>
-                    <FormControl fullWidth>
-                      <InputLabel>Active</InputLabel>
-                      <Select
-                        value={productData.isActive}
-                        onChange={(e) => handleFieldChange('isActive', e.target.value)}
-                      >
-                        <MenuItem value={true}>Yes</MenuItem>
-                        <MenuItem value={false}>No</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleUpdateClick}
+                </Grid>
+                <Grid container item xs={12} spacing={2}>
+                  <Grid item xs={6}>
+                  <InputLabel style={{ fontWeight: 'bold', color: 'black' }}>Is Active ?</InputLabel>
+                  <Select
+                  style={{ maxWidth: '200px', minWidth: '200px' }} // Adjust the maximum width as needed
+                      value={productData.isActive}
+                      onChange={(e) => handleFieldChange('isActive', e.target.value)}
                     >
+                      <MenuItem value={true}>Yes</MenuItem>
+                      <MenuItem value={false}>No</MenuItem>
+                    </Select>
+                  </Grid>
+                </Grid>
+                
+                
+                
+
+                  <Grid item xs={12}>
+                    <Button variant="contained" color="primary" onClick={handleUpdateClick}>
                       Apply the changes to DB
                     </Button>
                   </Grid>

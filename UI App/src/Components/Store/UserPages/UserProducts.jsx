@@ -9,72 +9,62 @@ const UserProducts = () => {
   const [products, setProducts] = useState([]);
   const [teams, setTeams] = useState({});
   const [wishlistedProducts, setWishlistedProducts] = useState([]);
-  
-  // Fetch the user ID from the JWT token
+
   const token = localStorage.getItem("jwtToken");
   const decoded = jwt_decode(token);
   const userId = decoded.userId;
 
-  // Function to add a product to the wishlist
-const addToWishlist = async (productId) => {
-  try {
-    const response = await fetch('https://localhost:7092/api/Wishlist/AddToWishlist', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        productId: productId,
-        userId: userId // Assuming userId is accessible in this scope
-      })
-    });
-    if (response.status === 201) {
-      console.log("Added to wishlist successfully");
-      window.location.reload(); // Reload the page on success
-    } else if (response.status === 409) {
-      console.log("Product already exists in the wishlist");
-      // Handle conflict scenario if needed
-    } else {
-      console.error("Failed to add to wishlist:", response.statusText);
-      // Handle other error scenarios if needed
+  const addToWishlist = async (productId) => {
+    try {
+      const response = await fetch('https://localhost:7092/api/Wishlist/AddToWishlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          productId: productId,
+          userId: userId
+        })
+      });
+      if (response.status === 201) {
+        console.log("Added to wishlist successfully");
+        window.location.reload();
+      } else if (response.status === 409) {
+        console.log("Product already exists in the wishlist");
+      } else {
+        console.error("Failed to add to wishlist:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
     }
-  } catch (error) {
-    console.error("Error adding to wishlist:", error);
-  }
-};
+  };
 
-// Function to remove a product from the wishlist
-const removeFromWishlist = async (productId) => {
-  try {
-    const response = await fetch('https://localhost:7092/api/Wishlist/RemoveFromWishlist', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        productId: productId,
-        userId: userId // Assuming userId is accessible in this scope
-      })
-    });
-    if (response.ok) {
-      console.log("Removed from wishlist successfully");
-      window.location.reload(); // Reload the page on success
-    } else if (response.status === 404) {
-      console.log("Wishlist item not found");
-      // Handle not found scenario if needed
-    } else {
-      console.error("Failed to remove from wishlist:", response.statusText);
-      // Handle other error scenarios if needed
+  const removeFromWishlist = async (productId) => {
+    try {
+      const response = await fetch('https://localhost:7092/api/Wishlist/RemoveFromWishlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          productId: productId,
+          userId: userId
+        })
+      });
+      if (response.ok) {
+        console.log("Removed from wishlist successfully");
+        window.location.reload();
+      } else if (response.status === 404) {
+        console.log("Wishlist item not found");
+      } else {
+        console.error("Failed to remove from wishlist:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
     }
-  } catch (error) {
-    console.error("Error removing from wishlist:", error);
-  }
-};
-
-
+  };
 
   useEffect(() => {
-    // Function to fetch wishlist items for the user
     const fetchWishlist = async () => {
       try {
         const response = await fetch(`https://localhost:7092/api/Wishlist/GetWishlistByUserId`, {
@@ -91,14 +81,10 @@ const removeFromWishlist = async (productId) => {
       }
     };
 
-    // Function to fetch products
     const fetchProducts = async () => {
       try {
-
         const resp = await fetch(`https://localhost:7092/api/ProductCategory/GetProductCategoryIdByUniqueName?uniqueName=${categoryId}`);
-        const categoryIdResponse = await resp.json(); // Convert response to JSON
-        console.log("Product Category ID:", categoryIdResponse); // Log the response
-
+        const categoryIdResponse = await resp.json();
         const response = await fetch(`https://localhost:7092/api/Product/GetAllProductsByCategoryId/${categoryIdResponse}`);
         const data = await response.json();
         setProducts(data);
@@ -107,7 +93,6 @@ const removeFromWishlist = async (productId) => {
       }
     };
 
-    // Function to fetch teams
     const fetchTeams = async () => {
       try {
         const response = await fetch('https://localhost:7092/api/Team/GetTeams');
@@ -122,16 +107,15 @@ const removeFromWishlist = async (productId) => {
       }
     };
 
-    fetchWishlist(); // Fetch wishlist items
-    fetchProducts(); // Fetch products
-    fetchTeams(); // Fetch teams
-  }, [categoryId, userId]); // Add userId to the dependency array
+    fetchWishlist();
+    fetchProducts();
+    fetchTeams();
+  }, [categoryId, userId]);
 
   const handleProductClick = (productId) => {
     console.log('Clicked product ID:', productId);
   };
 
-  // Function to check if a product is wishlisted
   const isProductWishlisted = (productId) => {
     return wishlistedProducts.includes(productId);
   };
@@ -151,7 +135,12 @@ const removeFromWishlist = async (productId) => {
               <p className="product-names">{product.productName}</p>
             </a>
             <p className="team-name">Team: {teams[product.teamId]}</p>
-            <p className="product-price">Price: ${product.price}</p>
+            <p className="product-price">Price: ₹{product.price}</p>
+            {product.stockQuantity === 0 ? (
+              <p className="out-of-stock">Out Of Stock</p>
+            ) : (
+              <p className='Stocks'>Stocks: {product.stockQuantity}</p>
+            )}
             <div className="product-heart">
               {isProductWishlisted(product.productId) ? (
                 <React.Fragment>

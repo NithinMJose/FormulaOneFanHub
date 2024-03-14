@@ -4,6 +4,8 @@ import UserNavbar from '../../LoginSignup/UserNavbar';
 import './ProductDetails.css';
 import jwt_decode from 'jwt-decode';
 import Footer from '../../LoginSignup/Footer';
+import displayRazorPay from '../../../utils/PaymentGatewayProduct';
+
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -102,6 +104,36 @@ const ProductDetails = () => {
     }
   };
 
+  const handleBuyNow = async () => {
+    const discountAmount = 0;
+    const orderDate = new Date();
+    console.log('Buy now clicked');
+    const productId = product.productId;
+    const price = product.price;
+    const quantity = selectedQuantity;
+
+    const productsToBuy = {
+      productId: productId,
+      price: price,
+      quantity: quantity,
+      discountAmount: discountAmount,
+      orderDate: orderDate
+    };
+    console.log("PRODUCTS TO BUY", productsToBuy);
+
+    const dataToTransfer = {
+      userId: userId,
+      products: productsToBuy
+    };
+    const totalPrice = (price * quantity) - discountAmount;
+
+    console.log("Just before displayRazorPay")
+    console.log("Total Amount:", totalPrice);
+    console.log("Data To Tranfer :", dataToTransfer);
+    displayRazorPay(totalPrice, dataToTransfer, navigate);
+
+  };
+
   return (
     <>
       <UserNavbar />
@@ -129,13 +161,19 @@ const ProductDetails = () => {
               </div>
             </div>
             <div className="product-info-container">
-              <div className="product-info">
-                <h2 className="productNames">{product.productName}</h2>
-                <p className="productPrice">₹{product.price}</p>
-                <p className="stock-quantity">Stock Available: {product.stockQuantity}</p>
+            <div className="product-info">
+            <h2 className="productNames">{product.productName}</h2>
+            <p className="productPrice">₹{product.price}</p>
+            {product.stockQuantity === 0 ? (
+              <p className="out-of-stock">Out of Stock</p>
+            ) : (
+              <p className="stock-quantity">Stock Available: {product.stockQuantity}</p>
+            )}
+            {product.stockQuantity > 0 && (
+              <>
                 <div className="quantity-selection">
-                  <label htmlFor="quantity" className='quantityHeading'>Select Quantity:</label>
-                  <input type="number" id="quantity" name="quantity" className='quantityBox' value={selectedQuantity} min="1" max={product.stockQuantity} onChange={handleQuantityChange} />
+                  <label htmlFor="quantity" className="quantityHeading">Select Quantity:</label>
+                  <input type="number" id="quantity" name="quantity" className="quantityBox" value={selectedQuantity} min="1" max={product.stockQuantity} onChange={handleQuantityChange} />
                   {error && <p className="errorMessage">{error}</p>}
                 </div>
                 <div className="team-details">
@@ -145,15 +183,19 @@ const ProductDetails = () => {
                     <p className="team-name">{team.name}</p>
                   </div>
                 </div>
-                <h3 className="description-heading" onClick={() => setExpanded(!expanded)}>Description<span className="plus-symbol">{expanded ? '-' : '+'}</span></h3>   
+                <h3 className="description-heading" onClick={() => setExpanded(!expanded)}>Description<span className="plus-symbol">{expanded ? '-' : '+'}</span></h3>
                 {expanded && (
                   <>
-                    <p className="product-description">{product.description}</p> 
+                    <p className="product-description">{product.description}</p>
                   </>
                 )}
                 <hr />
                 <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-              </div>
+                {/*<button className="buy-now-button" onClick={handleBuyNow}>Buy Now</button>*/}
+              </>
+            )}
+          </div>
+          
             </div>
           </div>
         ) : (

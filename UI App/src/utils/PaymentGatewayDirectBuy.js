@@ -40,7 +40,7 @@ export default async function displayRazorPay(totalAmount, dataToTransfer, navig
         console.log('Payment Date : ', paymentDate);
         console.log('Total Amount : ', totalAmount);
 
-        navigate('/DirectBuyingFinalPage', { replace: true, state: { receivedData, paymentId, orderId, paymentDate, totalAmount } });
+        navigate('/BuyingFinalPage', { replace: true, state: { receivedData, paymentId, orderId, paymentDate, totalAmount } });
       },
       prefill: {
         name: "Formula One Fan Hub",

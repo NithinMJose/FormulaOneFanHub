@@ -155,5 +155,62 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok("All cart items for the user have been removed successfully.");
         }
+
+        [HttpPost("MoveWishListToCart")]
+        public IActionResult MoveWishListToCart([FromBody] CartItemDto cartItemDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Check if the product exists
+            var product = _fanHubContext.Products.Find(cartItemDto.ProductId);
+            if (product == null)
+            {
+                return NotFound("Product not found.");
+            }
+
+            // Check if there's an existing active cart item for the same user and product
+            var existingCartItem = _fanHubContext.CartItems.FirstOrDefault(c => c.UserId == cartItemDto.UserId && c.ProductId == cartItemDto.ProductId && c.Status == "active");
+
+            if (existingCartItem != null)
+            {
+                // If an active cart item already exists, update its quantity
+                existingCartItem.Quantity += cartItemDto.Quantity;
+                _fanHubContext.SaveChanges();
+            }
+            else
+            {
+                // Create a new cart item for the wishlist item
+                var newCartItem = new CartItem
+                {
+                    ProductId = cartItemDto.ProductId,
+                    UserId = cartItemDto.UserId,
+                    Quantity = cartItemDto.Quantity,
+                    Price = cartItemDto.Price,
+                    Timestamp = DateTime.Now,
+                    Status = "active", // Set default status to active
+                    Size = cartItemDto.Size
+                };
+
+                // Add the new cart item to the database
+                _fanHubContext.CartItems.Add(newCartItem);
+                _fanHubContext.SaveChanges();
+            }
+
+            // Remove the wishlist item
+            var wishlistItem = _fanHubContext.WishLists.FirstOrDefault(w => w.UserId == cartItemDto.UserId && w.ProductId == cartItemDto.ProductId);
+            if (wishlistItem != null)
+            {
+                _fanHubContext.WishLists.Remove(wishlistItem);
+                _fanHubContext.SaveChanges();
+            }
+
+            return Ok("Wishlist item moved to cart successfully.");
+        }
+
+
+
     }
 }

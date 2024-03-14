@@ -87,7 +87,47 @@ const UserWishList = () => {
       toast.error('Error removing item from wishlist.'); // Show error toast
     }
   };
+
+  const handleMoveToCart = async (productId) => {
+    const selectedQuantity = 1; // Default quantity
+    
+    const cartItemData = {
+      productId: productId,
+      userId: parseInt(userId),
+      quantity: selectedQuantity,
+      // You may need to adjust the price calculation here based on your backend logic
+      price: productDetails[productId]?.price * selectedQuantity,
+      timestamp: new Date().toISOString(),
+      status: 'inCart',
+      size: 'medium'
+    };
+    
+    try {
+      const response = await fetch('https://localhost:7092/api/CartItem/MoveWishListToCart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cartItemData)
+      });
+
+      console.log("Data Send to Endpoint is ", cartItemData);
   
+      if (response.ok) {
+        // If successfully moved to cart, remove the wishlist item from state
+        setWishListItems(prevItems => prevItems.filter(item => item.productId !== productId));
+        toast.success('Item moved to cart successfully.');
+      } else {
+        console.error('Failed to move item to cart:', response.statusText);
+        toast.error('Failed to move item to cart.');
+      }
+    } catch (error) {
+      console.error('Error moving item to cart:', error);
+      toast.error('Error moving item to cart.');
+    }
+  };
+  
+
   useEffect(() => {
     if (removeSuccess) {
       navigate('/UserWishList');
@@ -108,13 +148,15 @@ const UserWishList = () => {
             <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold' }}>Your WishList is Empty</Typography>
           ) : (
             <Grid container spacing={2}>
-              {wishListItems.map((item, index) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={item.wishListId}>
-                  <Paper elevation={3} className="wishlist-item">
-                    <div className="wishlist-item-content">
-                      <img src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`} alt={productDetails[item.productId]?.productName} className="product-image" />
-                      <Typography variant="subtitle1" className="product-name">{productDetails[item.productId]?.productName}</Typography>
-                      <Typography variant="body1" className="price">Price: ₹{productDetails[item.productId]?.price}</Typography>
+            {wishListItems.map((item, index) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={item.wishListId}>
+                <Paper elevation={3} className="wishlist-item">
+                  <div className="wishlist-item-content">
+                    <img src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`} alt={productDetails[item.productId]?.productName} className="product-image" />
+                    <Typography variant="subtitle1" className="product-name">{productDetails[item.productId]?.productName}</Typography>
+                    <Typography variant="body1" className="price">Price: ₹{productDetails[item.productId]?.price}</Typography>
+                    <Typography variant="body2" className="stock Quantity">Stock: {productDetails[item.productId]?.stockQuantity}</Typography>
+                    <div className="button-container">
                       <Button 
                         className='remove-button-wishlist' 
                         variant="contained" 
@@ -123,11 +165,23 @@ const UserWishList = () => {
                       >
                         Remove
                       </Button>
+                      {productDetails[item.productId]?.stockQuantity > 0 && ( // Conditionally render the button
+                        <Button 
+                          className='move-to-cart-button' 
+                          variant="contained" 
+                          color="primary"
+                          onClick={() => handleMoveToCart(item.productId)}
+                        >
+                          Move to Cart
+                        </Button>
+                      )}
                     </div>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
+                  </div>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+          
           )}
         </div>
       </div>

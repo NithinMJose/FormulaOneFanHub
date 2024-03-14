@@ -71,7 +71,7 @@ function UserNavbar() {
               </div>
             </li>
             
-            <li><Link to="/TopicListUser" className="nav-links">Open Forum</Link></li>
+            <li><Link to="/" className="nav-links">Open Forum</Link></li>
             
             <li><Link to="/PollListUser" className="nav-links">Poll</Link></li>
             

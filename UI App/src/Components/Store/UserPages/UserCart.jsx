@@ -11,7 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { useNavigate } from 'react-router-dom';
 import './UserCart.css';
-import displayRazorPay from '../../../utils/PaymentGatewayProduct';
+import displayRazorPay from '../../../utils/PaymentGatewayDirectBuy';
 import Footer from '../../LoginSignup/Footer';
 
 const UserCart = () => {
@@ -157,6 +157,7 @@ const UserCart = () => {
     console.log("Total Amount:", getTotalAmount());
     console.log("Data To Tranfer :", dataToTransfer);
     displayRazorPay(getTotalAmount(), dataToTransfer, navigate);
+
   };
   
 

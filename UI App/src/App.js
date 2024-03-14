@@ -102,6 +102,7 @@ import BuyingFinalPage from './Components/Store/BuyingFinalPage';
 import OrderHistory from './Components/Store/UserPages/OrderHistory';
 import TeamSellingHistory from './Components/Team/TeamSellingHistory';
 import UpdateProductStock from './Components/Store/UpdateProductStock';
+import DirectBuyingFinalPage from './Components/Store/DirectBuyingFinalPage';
 
 
 
@@ -210,7 +211,8 @@ function App() {
           <Route path='/BuyingFinalPage' element={<BuyingFinalPage />} />
           <Route path='/OrderHistory' element={<OrderHistory />} />
           <Route path='/TeamSellingHistory' element={<TeamSellingHistory />} />
-          <Route path='/UpdateProductStock' element={<UpdateProductStock />} />          
+          <Route path='/UpdateProductStock' element={<UpdateProductStock />} />       
+          <Route path='/DirectBuyingFinalPage' element={<DirectBuyingFinalPage />} />   
         </Routes>
         <ToastContainer />
       </div>
