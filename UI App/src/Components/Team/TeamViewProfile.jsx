@@ -13,7 +13,6 @@ import {
   Typography,
   TextField,
 } from '@mui/material';
-import UserNavbar from '../LoginSignup/AdminNavbar';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import Footer from '../LoginSignup/Footer';
@@ -38,33 +37,30 @@ const TeamViewProfile = () => {
     chassis: '',
     imageFile: null,
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      toast.error('You are not authorized to access this page');
-      navigate('/Signin');
-    } else {
+    const fetchData = async () => {
       try {
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+          toast.error('You are not authorized to access this page');
+          navigate('/Signin');
+          return;
+        }
         const tokenPayload = jwt_decode(token);
         const userName = tokenPayload.userName;
 
-        axios
-          .get(`https://localhost:7092/api/Team/GetTeamByUserName?userName=${userName}`)
-          .then((response) => {
-            setTeamData(response.data);
-            setEditedData({ ...response.data });
-          })
-          .catch((error) => {
-            console.error('Error fetching team data:', error);
-            toast.error('An error occurred while fetching team data');
-          });
+        const response = await axios.get(`https://localhost:7092/api/Team/GetTeamByUserName?userName=${userName}`);
+        setTeamData(response.data);
+        setEditedData({ ...response.data });
       } catch (error) {
-        console.error('Error decoding token:', error);
-        toast.error('An error occurred while decoding the token');
-        navigate('/Signin');
+        console.error('Error fetching team data:', error);
+        toast.error('An error occurred while fetching team data');
       }
-    }
+    };
+
+    fetchData();
   }, [navigate]);
 
   const handleInputChange = (e) => {
@@ -74,13 +70,23 @@ const TeamViewProfile = () => {
       ...prevData,
       [name]: value,
     }));
+
+    const newErrors = { ...errors };
+    if (name === 'name' && !value.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (name === 'email' && !value.trim()) {
+      newErrors.email = 'Email is required';
+    } else {
+      delete newErrors[name];
+    }
+    setErrors(newErrors);
   };
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
 
     if (!file || (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
-      toast.error('Please upload a valid PNG or JPG image.');
+      setErrors((prevErrors) => ({ ...prevErrors, image: 'Please upload a valid PNG or JPG image.' }));
       return;
     }
 
@@ -95,7 +101,23 @@ const TeamViewProfile = () => {
     setIsEditing(true);
   };
 
-  const handleUpdateProfile = () => {
+  const validateInputs = () => {
+    const newErrors = {};
+    if (!editedData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    if (!editedData.email.trim()) {
+      newErrors.email = 'Email is required';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleUpdateProfile = async () => {
+    if (!validateInputs()) {
+      return;
+    }
+    
     const token = localStorage.getItem('jwtToken');
     if (!token) {
       toast.error('You are not authorized to access this page');
@@ -106,10 +128,8 @@ const TeamViewProfile = () => {
     const tokenPayload = jwt_decode(token);
     const teamId = tokenPayload.teamId;
     
-    // Create a FormData object
     const formData = new FormData();
     
-    // Append data fields to the FormData object
     formData.append('name', editedData.name);
     formData.append('phoneNumber', editedData.phoneNumber);
     formData.append('address1', editedData.address1);
@@ -125,63 +145,53 @@ const TeamViewProfile = () => {
       formData.append('imageFile', editedData.imageFile);
     }
 
-    // Log the formData object just before sending
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
-    }
-    
-    axios
-      .put(`https://localhost:7092/api/Team/UpdateTeam?teamId=${teamId}`, formData, {
+    try {
+      const response = await axios.put(`https://localhost:7092/api/Team/UpdateTeam?teamId=${teamId}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Set content type to multipart/form-data
+          'Content-Type': 'multipart/form-data',
         },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success('Profile updated successfully');
-          navigate('/TeamHome');
-          setIsEditing(false);
-        } else {
-          // Handle unexpected response status
-          console.error('Unexpected response status:', response.status);
-          toast.error('An unexpected error occurred while updating team profiles');
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.error('Server responded with error data:', error.response.data);
-          console.error('Server responded with error status:', error.response.status);
-          toast.error('An error occurred while updating team profiles: ' + error.response.data);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.error('No response received from server:', error.request);
-          toast.error('No response received from server. Please try again later.');
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error('Error setting up the request:', error.message);
-          toast.error('An unexpected error occurred. Please try again later.');
-        }
       });
+      if (response.status === 200) {
+        toast.success('Profile updated successfully');
+        navigate('/TeamHome');
+        setIsEditing(false);
+      } else {
+        console.error('Unexpected response status:', response.status);
+        toast.error('An unexpected error occurred while updating team profiles');
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error('Server responded with error data:', error.response.data);
+        console.error('Server responded with error status:', error.response.status);
+        toast.error('An error occurred while updating team profiles: ' + error.response.data);
+      } else if (error.request) {
+        console.error('No response received from server:', error.request);
+        toast.error('No response received from server. Please try again later.');
+      } else {
+        console.error('Error setting up the request:', error.message);
+        toast.error('An unexpected error occurred. Please try again later.');
+      }
+    }
   };
   
   const renderTeamData = () => {
-    const renderField = (label, value) => {
+    const renderField = (label, value, fieldName) => {
       return isEditing ? (
         <TextField
           fullWidth
           variant="outlined"
-          name={label}
-          value={editedData[label] || ''}
+          name={fieldName}
+          value={editedData[fieldName] || ''}
           onChange={handleInputChange}
-          label={label.charAt(0).toUpperCase() + label.slice(1)}
+          label={label}
+          error={errors[fieldName] !== undefined}
+          helperText={errors[fieldName]}
         />
       ) : (
         <Typography variant="body1">{value}</Typography>
       );
     };
-  
+
     const renderImage = () => {
       if (!isEditing && teamData.imagePath) {
         return (
@@ -204,6 +214,7 @@ const TeamViewProfile = () => {
             <TableCell className="attribute">Logo</TableCell>
             <TableCell className="data">
               <input type="file" accept="image/*" onChange={handleImageUpload} />
+              {errors.image && <Typography variant="body2" color="error">{errors.image}</Typography>}
             </TableCell>
           </TableRow>
         );
@@ -211,7 +222,6 @@ const TeamViewProfile = () => {
         return null;
       }
     };
-    
 
     return (
       <div>
@@ -223,48 +233,49 @@ const TeamViewProfile = () => {
             <TableBody>
               <TableRow>
                 <TableCell className="attribute">Name</TableCell>
-                <TableCell className="data">{renderField('name', teamData.name)}</TableCell>
+                <TableCell className="data">{renderField('Name', teamData.name, 'name')}</TableCell>
               </TableRow>
-  
+              <TableRow>
+                <TableCell className="attribute">Email</TableCell>
+                <TableCell className="data">{renderField('Email', teamData.email, 'email')}</TableCell>
+              </TableRow>
               <TableRow>
                 <TableCell className="attribute">Phone Number</TableCell>
-                <TableCell className="data">{renderField('phoneNumber', teamData.phoneNumber)}</TableCell>
+                <TableCell className="data">{renderField('Phone Number', teamData.phoneNumber, 'phoneNumber')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Address1</TableCell>
-                <TableCell className="data">{renderField('address1', teamData.address1)}</TableCell>
+                <TableCell className="data">{renderField('Address1', teamData.address1, 'address1')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Address2</TableCell>
-                <TableCell className="data">{renderField('address2', teamData.address2)}</TableCell>
+                <TableCell className="data">{renderField('Address2', teamData.address2, 'address2')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Address3</TableCell>
-                <TableCell className="data">{renderField('address3', teamData.address3)}</TableCell>
+                <TableCell className="data">{renderField('Address3', teamData.address3, 'address3')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Country</TableCell>
-                <TableCell className="data">{renderField('country', teamData.country)}</TableCell>
+                <TableCell className="data">{renderField('Country', teamData.country, 'country')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Team Principal</TableCell>
-                <TableCell className="data">{renderField('teamPrincipal', teamData.teamPrincipal)}</TableCell>
+                <TableCell className="data">{renderField('Team Principal', teamData.teamPrincipal, 'teamPrincipal')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Technical Chief</TableCell>
-                <TableCell className="data">{renderField('technicalChief', teamData.technicalChief)}</TableCell>
+                <TableCell className="data">{renderField('Technical Chief', teamData.technicalChief, 'technicalChief')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Engine Supplier</TableCell>
-                <TableCell className="data">{renderField('engineSupplier', teamData.engineSupplier)}</TableCell>
+                <TableCell className="data">{renderField('Engine Supplier', teamData.engineSupplier, 'engineSupplier')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="attribute">Chassis</TableCell>
-                <TableCell className="data">{renderField('chassis', teamData.chassis)}</TableCell>
+                <TableCell className="data">{renderField('Chassis', teamData.chassis, 'chassis')}</TableCell>
               </TableRow>
-  
               {renderImage()}
-  
               <TableRow>
                 <TableCell colSpan="2" className="edit">
                   {isEditing ? (

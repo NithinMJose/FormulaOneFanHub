@@ -30,7 +30,7 @@ const UpdateProductTeam = () => {
     price: 0,
     stockQuantity: 0,
     productCategoryId: 0,
-   // discountAmount: 0,
+    // discountAmount: 0,
     imagePath1: '',
     imageFile1: null,
     imagePath2: '',
@@ -51,6 +51,12 @@ const UpdateProductTeam = () => {
   });
 
   const [categories, setCategories] = useState([]);
+  const [errors, setErrors] = useState({
+    productName: '',
+    description: '',
+    price: '',
+    stockQuantity: '',
+  });
 
   useEffect(() => {
     axios
@@ -68,7 +74,7 @@ const UpdateProductTeam = () => {
       .get(`https://localhost:7092/api/Product/GetProductById?id=${productId}`)
       .then((response) => {
         setProductData(response.data);
-  //      console.log("HHHHHHHHHHHHHHHHHHHHH : ", response.data);
+        //      console.log("HHHHHHHHHHHHHHHHHHHHH : ", response.data);
       })
       .catch((error) => {
         console.error('Error fetching product data:', error);
@@ -77,18 +83,20 @@ const UpdateProductTeam = () => {
 
   const handleFieldChange = (field, value) => {
     setProductData((prevData) => ({ ...prevData, [field]: value }));
+    // Clear previous errors when the user starts typing
+    setErrors((prevErrors) => ({ ...prevErrors, [field]: '' }));
   };
 
   const handleImageUpload = (event, imageNumber) => {
     const file = event.target.files[0];
-  
+
     if (!file || (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
       toast.error('Please upload a valid PNG or JPG image.');
       return;
     }
-  
+
     const imageUrl = URL.createObjectURL(file);
-  
+
     switch (imageNumber) {
       case 1:
         setProductData((prevData) => ({
@@ -128,6 +136,35 @@ const UpdateProductTeam = () => {
   };
 
   const handleUpdateClick = () => {
+    // Validation
+    let formIsValid = true;
+    const newErrors = {};
+
+    if (!productData.productName.trim()) {
+      newErrors.productName = 'Product name is required';
+      formIsValid = false;
+    }
+
+    if (!productData.description.trim()) {
+      newErrors.description = 'Description is required';
+      formIsValid = false;
+    }
+
+    if (productData.price <= 0) {
+      newErrors.price = 'Price must be greater than 0';
+      formIsValid = false;
+    }
+
+    if (productData.stockQuantity < 0) {
+      newErrors.stockQuantity = 'Stock quantity cannot be negative';
+      formIsValid = false;
+    }
+
+    if (!formIsValid) {
+      setErrors(newErrors);
+      return;
+    }
+
     const formData = new FormData();
     formData.append('productId', productId);
     formData.append('productName', productData.productName);
@@ -138,7 +175,7 @@ const UpdateProductTeam = () => {
     //formData.append('discountAmount', productData.discountAmount);
     formData.append('productCategoryId', productData.productCategoryId);
     formData.append('isActive', productData.isActive);
-  
+
     if (productData.imageFile1) {
       formData.append('imageFile1', productData.imageFile1);
     }
@@ -151,7 +188,7 @@ const UpdateProductTeam = () => {
     if (productData.imageFile4) {
       formData.append('imageFile4', productData.imageFile4);
     }
-  
+
     axios
       .put(`https://localhost:7092/api/Product/UpdateProduct/${productId}`, formData)
       .then((response) => {
@@ -187,6 +224,8 @@ const UpdateProductTeam = () => {
                       fullWidth
                       value={productData.productName}
                       onChange={(e) => handleFieldChange('productName', e.target.value)}
+                      error={!!errors.productName}
+                      helperText={errors.productName}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -195,6 +234,8 @@ const UpdateProductTeam = () => {
                       fullWidth
                       value={productData.description}
                       onChange={(e) => handleFieldChange('description', e.target.value)}
+                      error={!!errors.description}
+                      helperText={errors.description}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -204,6 +245,8 @@ const UpdateProductTeam = () => {
                       fullWidth
                       value={productData.price}
                       onChange={(e) => handleFieldChange('price', e.target.value)}
+                      error={!!errors.price}
+                      helperText={errors.price}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -213,23 +256,10 @@ const UpdateProductTeam = () => {
                       fullWidth
                       value={productData.stockQuantity}
                       onChange={(e) => handleFieldChange('stockQuantity', e.target.value)}
+                      error={!!errors.stockQuantity}
+                      helperText={errors.stockQuantity}
                     />
                   </Grid>
-
-                {/*
-                  <Grid item xs={12}>
-                    <TextField
-                      label="Discount Amount"
-                      type="number"
-                      fullWidth
-                      value={productData.discountAmount}
-                      onChange={(e) => handleFieldChange('discountAmount', e.target.value)}
-                    />
-                  </Grid>
-                */}
-
-
-
                   <Grid item xs={12}>
                     <FormControl fullWidth>
                       <InputLabel>Product Category</InputLabel>

@@ -85,7 +85,6 @@ const OrderHistory = () => {
                 expandedOrderId === order.orderId && (
                   <div>
   <Typography variant="body1" className="expanded-text">
-    ORDER ID IS {order.orderId}
   </Typography>
   {/* Display product details */}
   <div className='HHHHH'>

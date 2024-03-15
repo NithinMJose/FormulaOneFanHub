@@ -66,10 +66,11 @@ function TeamNavbar() {
             <li className="nav-item dropdown">
               <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">{userName}</span>
               <div className="dropdown-menu m-0">
-                <div className='dropdown-item'><Link to="/TeamViewProfile">View Profile</Link></div>
-                <div className='dropdown-item' onClick={handleLogout}><Link to="/">Logout</Link></div>
+                <div ><Link to="/TeamViewProfile" className='dropdown-item' >View Profile</Link></div>
+                <div  ><Link to="/" className='dropdown-item' onClick={handleLogout} >Logout</Link></div>
               </div>
             </li>
+
           </ul>
         </div>
       </nav>

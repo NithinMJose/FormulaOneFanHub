@@ -5,6 +5,29 @@ import TeamSidebar from '../../sidebar/TeamSidebar'; // Import the AdminSidebar 
 import './TeamHome.css'; // Ensure to include your TeamHome.css file
 import jwt_decode from 'jwt-decode';
 import TeamNavbar from './TeamNavbar';
+import { BrowserRouter as Router, Switch, Route, Link,  } from 'react-router-dom';
+
+
+const BackButtonListner = ({ children }) => {
+  React.useEffect(() => {
+     const handleBackButton = () => {
+       console.log("Hello World");
+     };
+ 
+     window.onpopstate = handleBackButton;
+ 
+     return () => {
+       window.onpopstate = null; // Clean up the event listener
+     };
+  }, []);
+ 
+  return (
+     <div>
+       {children}
+     </div>
+  );
+ };
+ 
 
 const TeamHome = () => {
   useEffect(() => {
@@ -29,6 +52,18 @@ const TeamHome = () => {
       // Redirect to the appropriate page
       window.location.replace('/SignIn');
     }
+
+    const handleBeforeUnload = (event) => {
+      const confirmationMessage = 'Are you sure you want to leave?';
+      (event || window.event).returnValue = confirmationMessage;
+      return confirmationMessage;
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   return (
