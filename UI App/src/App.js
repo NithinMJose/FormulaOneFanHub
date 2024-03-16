@@ -103,6 +103,7 @@ import OrderHistory from './Components/Store/UserPages/OrderHistory';
 import TeamSellingHistory from './Components/Team/TeamSellingHistory';
 import UpdateProductStock from './Components/Store/UpdateProductStock';
 import DirectBuyingFinalPage from './Components/Store/DirectBuyingFinalPage';
+import OrderDetails from './Components/Store/UserPages/OrderDetails';
 
 
 
@@ -213,6 +214,7 @@ function App() {
           <Route path='/TeamSellingHistory' element={<TeamSellingHistory />} />
           <Route path='/UpdateProductStock' element={<UpdateProductStock />} />       
           <Route path='/DirectBuyingFinalPage' element={<DirectBuyingFinalPage />} />   
+          <Route path='/OrderDetails/:uniqueId' element={<OrderDetails />} />
         </Routes>
         <ToastContainer />
       </div>

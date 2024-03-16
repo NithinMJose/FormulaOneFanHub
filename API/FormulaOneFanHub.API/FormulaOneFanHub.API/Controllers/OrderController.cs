@@ -152,26 +152,88 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 return NotFound("No orders found for the specified user.");
             }
-
+                
             return Ok(ordersWithItems);
         }
 
 
-        [HttpGet("HelloWorld/{id}")]
-        public IActionResult HelloWorld(int id)
+        [HttpGet("GetFullOrdersByUserId/{userId}")]
+        public IActionResult GetFullOrdersByUserId(string userId)
         {
-            // Retrieve the order with its items
+            var ordersWithItems = _fanHubContext.Orders
+                .Include(o => o.OrderedItem) // Include related ordered items
+                .Where(o => o.UserId == userId)
+                .ToList();
+
+            if (ordersWithItems.Count == 0)
+            {
+                return NotFound("No orders found for the specified user.");
+            }
+
+            var fullOrders = ordersWithItems.Select(order =>
+            {
+                var orderData = new
+                {
+                    order.OrderId,
+                    order.UniqueId,
+                    order.OrderDate,
+                    order.UserId,
+                    order.Name,
+                    order.Email,
+                    order.PhoneNumber,
+                    order.Address,
+                    order.OrderStatus,
+                    order.ShippingDate,
+                    order.PaymentNumberRazor,
+                    order.PaymentStatus,
+                    order.PaymentDate,
+                    order.OrderIdRazor,
+                    order.OrderTotalAmount,
+                    orderItems = order.OrderedItem.Select(oi => new
+                    {
+                        oi.OrderedItemId,
+                        oi.ProductId,
+                        oi.Quantity,
+                        oi.Price,
+                        oi.DiscountPrice,
+                        oi.FinalPrice,
+                        ProductName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.ProductName)
+                            .FirstOrDefault(),
+                        ProductImagePath = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.ImagePath1)
+                            .FirstOrDefault(),
+                        UniqueName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.UniqueName)
+                            .FirstOrDefault(),
+                        TeamName = _fanHubContext.Products
+                        .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.Team.Name)
+                            .FirstOrDefault()
+                    })
+                };
+                return orderData;
+            });
+
+            return Ok(fullOrders);
+        }
+
+        [HttpGet("GetOrderByUniqueName/{uniqueName}")]
+        public IActionResult GetOrderByUniqueName(string uniqueName)
+        {
             var orderWithItems = _fanHubContext.Orders
-                .Include(o => o.OrderedItem)
-                .FirstOrDefault(o => o.OrderId == id);
+                .Include(o => o.OrderedItem) // Include related ordered items
+                .FirstOrDefault(o => o.UniqueId == uniqueName);
 
             if (orderWithItems == null)
             {
-                return NotFound();
+                return NotFound($"Order with unique name '{uniqueName}' not found.");
             }
 
-            // You can add more data here from the Order table if needed
-            var orderData = new
+            var responseData = new
             {
                 orderWithItems.OrderId,
                 orderWithItems.UniqueId,
@@ -207,12 +269,19 @@ namespace FormulaOneFanHub.API.Controllers
                     UniqueName = _fanHubContext.Products
                         .Where(p => p.ProductId == oi.ProductId)
                         .Select(p => p.UniqueName)
+                        .FirstOrDefault(),
+                    TeamName = _fanHubContext.Products
+                        .Where(p => p.ProductId == oi.ProductId)
+                        .Select(p => p.Team.Name)
                         .FirstOrDefault()
                 })
             };
 
-            return Ok(orderData);
+            return Ok(responseData);
         }
+
+
+
 
 
 

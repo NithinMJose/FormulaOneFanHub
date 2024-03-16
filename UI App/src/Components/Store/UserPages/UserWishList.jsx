@@ -152,8 +152,11 @@ const UserWishList = () => {
               <Grid item xs={12} sm={6} md={4} lg={3} key={item.wishListId}>
                 <Paper elevation={3} className="wishlist-item">
                   <div className="wishlist-item-content">
-                    <img src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`} alt={productDetails[item.productId]?.productName} className="product-image" />
-                    <Typography variant="subtitle1" className="product-name">{productDetails[item.productId]?.productName}</Typography>
+                  <a href={`/ProductDetails/${productDetails[item.productId]?.uniqueName}`} className="product-link">
+  <img src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`} alt={productDetails[item.productId]?.productName} className="product-image" />
+</a>
+  
+                  <Typography variant="subtitle1" className="product-name">{productDetails[item.productId]?.productName}</Typography>
                     <Typography variant="body1" className="price">Price: ₹{productDetails[item.productId]?.price}</Typography>
                     <Typography variant="body2" className="stock Quantity">Stock: {productDetails[item.productId]?.stockQuantity}</Typography>
                     <div className="button-container">
