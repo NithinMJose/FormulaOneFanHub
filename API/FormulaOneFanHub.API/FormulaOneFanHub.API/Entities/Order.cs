@@ -46,8 +46,11 @@ namespace FormulaOneFanHub.API.Entities
 
         public string? OrderIdRazor { get; set; }
         public decimal OrderTotalAmount { get; set; }
-
         public List<OrderedItem> OrderedItem { get; set; }
+        // Foreign key for DeliveryCompany
+        [ForeignKey("DeliveryCompany")]
+        public int DeliveryCompanyId { get; set; }
+        public DeliveryCompany DeliveryCompany { get; set; }
 
     }
 }

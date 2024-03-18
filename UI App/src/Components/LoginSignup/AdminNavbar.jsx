@@ -43,6 +43,8 @@ function AdminNavbar() {
               <div className="dropdown-menu m-0">
                 <Link to="/AddProductCategory" className="dropdown-item">Add New Category</Link>
                 <Link to="/ProductCategoryList" className="dropdown-item">View Category List</Link>
+                <Link to="/AddDeliveryCompany" className="dropdown-item">Add New Delivery Company</Link>
+                <Link to="/DeliveryCompanyList" className="dropdown-item">View Delivery Companies</Link>
               </div>
             </li>
 

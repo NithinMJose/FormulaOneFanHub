@@ -46,6 +46,11 @@ namespace FormulaOneFanHub.API.Data
                     .OnDelete(DeleteBehavior.Restrict); // You can adjust the delete behavior as per your requirement
             });
 
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.DeliveryCompany)  // An Order belongs to one DeliveryCompany
+                .WithMany()  // A DeliveryCompany can have many Orders
+                .HasForeignKey(o => o.DeliveryCompanyId)  // Foreign key for the DeliveryCompany in Order table
+                .OnDelete(DeleteBehavior.Restrict);  // You can adjust the delete behavior as per your requirement
 
         }
 
@@ -73,6 +78,7 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderedItem> OrderedItems { get; set; }
         public DbSet<SoldItem> SoldItems { get; set; }
+        public DbSet<DeliveryCompany> DeliveryCompanies { get; set; }
 
     }
 }
