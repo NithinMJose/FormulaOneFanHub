@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './DeliveryCompanyList.css';
 import AdminNavbar from '../../LoginSignup/AdminNavbar';
 import Footer from '../../LoginSignup/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const DeliveryCompanyList = () => {
     const [deliveryCompanies, setDeliveryCompanies] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDeliveryCompanies = async () => {
@@ -24,9 +26,10 @@ const DeliveryCompanyList = () => {
         fetchDeliveryCompanies();
     }, []);
 
-    const handleEdit = (companyId) => {
+    const handleEdit = (uniqueName) => {
         // Handle edit action for the given companyId
-        console.log('Edit button clicked for company:', companyId);
+        console.log('Edit button clicked for company:', uniqueName);
+        navigate(`/EditDeliveryCompany/${uniqueName}`);
     };
 
     return (
@@ -47,7 +50,7 @@ const DeliveryCompanyList = () => {
                                 <p><strong>Email:</strong> {company.email}</p>
                                 <p><strong>Contact Number:</strong> {company.contactNumber}</p>
                                 <p><strong>Address:</strong> {company.address}</p>
-                                <button onClick={() => handleEdit(company.deliveryCompanyId)}>Edit</button>
+                                <button onClick={() => handleEdit(company.uniqueName)}>Edit</button>
                             </div>
                         </li>
                     ))}

@@ -120,12 +120,59 @@ const Signin = () => {
     } catch (error) {
       console.error(error);
       if (error.response && error.response.status === 401) {
+        handleDeliveryCompanyLogin();
         toast.error('Invalid username or password');
       } else {
         toast.error('An error occurred during login');
       }
     }
   };
+
+  const handleDeliveryCompanyLogin = async () => {
+    try {
+      const response = await axios.post('https://localhost:7092/api/DeliveryCompany/Login', {
+        CompanyName: username, // Change 'userName' to 'CompanyName'
+        Password: password, // Change 'password' to 'Password'
+      });
+
+      if (response.data.token) {
+        // Store the token in local storage
+        localStorage.setItem('jwtToken', response.data.token);
+        console.log(response.data.token);
+
+        // Parse the token to get the RoleId and Status
+        const tokenPayload = jwt_decode(response.data.token);
+        const roleId = tokenPayload['RoleId'];
+        const status = tokenPayload['CompanyStatus'];
+        const deliveryCompanyId = tokenPayload['DeliveryCompanyId']; // Correct the case
+
+        console.log(roleId);
+        console.log(status);
+        console.log(deliveryCompanyId);
+
+        if (roleId === "DeliveryCompany") {
+          if (status === "active") {
+            toast.success('Login successful');
+            console.log('SUCCESSFUL LOGIN');
+            navigate('/');
+          } else if (status === "inactive") {
+            toast.error('Account has not been activated yet. Complete the profile to activate the account');
+            navigate('/');
+          }
+        }
+      } else if (response.data.message === "Wrong password") { // Change 'status' to 'message'
+        toast.error('Password is incorrect');
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 401) {
+        toast.error('Invalid username or password');
+      } else {
+        toast.error('An error occurred during login');
+      }
+    }
+  }
+
 
   return (
     <div>

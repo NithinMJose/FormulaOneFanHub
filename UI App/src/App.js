@@ -106,6 +106,7 @@ import DirectBuyingFinalPage from './Components/Store/DirectBuyingFinalPage';
 import OrderDetails from './Components/Store/UserPages/OrderDetails';
 import AddDeliveryCompany from './Components/Store/DeliveryCompany/AddDeliveryCompany';
 import DeliveryCompanyList from './Components/Store/DeliveryCompany/DeliveryCompanyList';
+import EditDeliveryCompany from './Components/Store/DeliveryCompany/EditDeliveryCompany';
 
 
 
@@ -219,6 +220,7 @@ function App() {
           <Route path='/OrderDetails/:uniqueId' element={<OrderDetails />} />
           <Route path='/AddDeliveryCompany' element={<AddDeliveryCompany />} />
           <Route path='/DeliveryCompanyList' element={<DeliveryCompanyList />} />
+          <Route path='/EditDeliveryCompany/:uniqueName' element={<EditDeliveryCompany />} />
         </Routes>
         <ToastContainer />
       </div>
