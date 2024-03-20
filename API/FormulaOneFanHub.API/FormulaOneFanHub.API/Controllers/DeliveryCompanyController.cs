@@ -227,7 +227,7 @@ namespace FormulaOneFanHub.API.Controllers
             new Claim("CompanyName", deliveryCompany.CompanyName),
             new Claim("DeliveryCompanyId", deliveryCompany.DeliveryCompanyId.ToString()),
             new Claim("CompanyStatus", deliveryCompany.CompanyStatus),
-            new Claim("DeliveryCompanyId", "DeliveryCompany") // Assuming "DeliveryCompanyId" is a unique identifier for the company
+            new Claim("Role", "DeliveryCompany") // Assuming "DeliveryCompanyId" is a unique identifier for the company
         };
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));

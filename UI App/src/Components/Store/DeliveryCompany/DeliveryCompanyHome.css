@@ -1,0 +1,12 @@
+.delivery-company-home-content {
+    padding-top: 20px;
+}
+
+/* Adapt these styles based on your site's design */
+.main {
+    flex-grow: 1;
+    padding: 3rem;
+    background-color: #f8f9fa;
+}
+
+/* Additional styles for your delivery company home page */

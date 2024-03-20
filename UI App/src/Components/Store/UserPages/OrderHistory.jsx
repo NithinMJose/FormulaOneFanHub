@@ -108,9 +108,9 @@ const OrderHistory = () => {
                   className="filter-select"
                 >
                   <option value="">All</option>
-                  <option value="On the way">On the way</option>
+                  <option value="InShipping">InShipping</option>
                   <option value="Delivered">Delivered</option>
-                  <option value="Cancelled">Cancelled</option>
+                  <option value="WrongAddress">Cancelled</option>
                   <option value="Returned">Returned</option>
                 </select>
               </div>

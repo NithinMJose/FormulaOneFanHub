@@ -1,0 +1,70 @@
+/* ListPendingOrders.css */
+
+.container {
+    margin-top: 120px;
+}
+
+.orders-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(400px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.order {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Two columns */
+}
+
+.order-details,
+.order-items {
+    padding: 15px;
+}
+
+.order-details h3,
+.order-items h4 {
+    margin: 10px 0;
+}
+
+.order-details div,
+.order-items ul {
+    margin-bottom: 5px;
+}
+
+.order-items ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.order-items li {
+    margin-bottom: 5px;
+}
+
+.headings {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.button-group {
+    grid-column: 1 / -1;
+    /* Span both columns */
+    display: flex;
+    justify-content: left;
+    margin-top: 15px;
+    margin-left: 10px;
+    /* Adjust the left margin to add space between buttons and container border */
+    margin-right: 10px;
+    /* Adjust the right margin to add space between buttons and container border */
+    margin-bottom: 20px;
+}
+
+
+
+.button-group button {
+    margin-right: 50px;
+}

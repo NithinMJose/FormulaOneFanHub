@@ -121,7 +121,6 @@ const Signin = () => {
       console.error(error);
       if (error.response && error.response.status === 401) {
         handleDeliveryCompanyLogin();
-        toast.error('Invalid username or password');
       } else {
         toast.error('An error occurred during login');
       }
@@ -142,22 +141,21 @@ const Signin = () => {
 
         // Parse the token to get the RoleId and Status
         const tokenPayload = jwt_decode(response.data.token);
-        const roleId = tokenPayload['RoleId'];
+        const role = tokenPayload['Role'];
         const status = tokenPayload['CompanyStatus'];
         const deliveryCompanyId = tokenPayload['DeliveryCompanyId']; // Correct the case
 
-        console.log(roleId);
+        console.log(role);
         console.log(status);
         console.log(deliveryCompanyId);
 
-        if (roleId === "DeliveryCompany") {
+        if (role === "DeliveryCompany") {
           if (status === "active") {
-            toast.success('Login successful');
+            toast.success('Login successful');  
             console.log('SUCCESSFUL LOGIN');
             navigate('/');
           } else if (status === "inactive") {
-            toast.error('Account has not been activated yet. Complete the profile to activate the account');
-            navigate('/');
+            toast.error('Account has been banned. Contact Admin for details');
           }
         }
       } else if (response.data.message === "Wrong password") { // Change 'status' to 'message'

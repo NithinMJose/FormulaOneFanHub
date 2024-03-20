@@ -53,6 +53,9 @@ export const HomePage = () => {
         else if(roleId === 'User'){
           navigate('/UserHome');
         }
+        else {
+          navigate('/DeliveryCompanyHome');
+        }
       } catch (error) {
         console.error('Error decoding token:', error);
         // Handle decoding error, maybe redirect to a login page

@@ -107,6 +107,9 @@ import OrderDetails from './Components/Store/UserPages/OrderDetails';
 import AddDeliveryCompany from './Components/Store/DeliveryCompany/AddDeliveryCompany';
 import DeliveryCompanyList from './Components/Store/DeliveryCompany/DeliveryCompanyList';
 import EditDeliveryCompany from './Components/Store/DeliveryCompany/EditDeliveryCompany';
+import DeliveryCompanyHome from './Components/Store/DeliveryCompany/DeliveryCompanyHome';
+import ListPendingOrders from './Components/Store/DeliveryCompany/ListPendingOrders';
+import ListShippingOrders from './Components/Store/DeliveryCompany/ListShippingOrders';
 
 
 
@@ -221,6 +224,9 @@ function App() {
           <Route path='/AddDeliveryCompany' element={<AddDeliveryCompany />} />
           <Route path='/DeliveryCompanyList' element={<DeliveryCompanyList />} />
           <Route path='/EditDeliveryCompany/:uniqueName' element={<EditDeliveryCompany />} />
+          <Route path='/DeliveryCompanyHome' element={<DeliveryCompanyHome />} />
+          <Route path='/ListPendingOrders' element={<ListPendingOrders />} />
+          <Route path='/ListShippingOrders' element={<ListShippingOrders />} />
         </Routes>
         <ToastContainer />
       </div>

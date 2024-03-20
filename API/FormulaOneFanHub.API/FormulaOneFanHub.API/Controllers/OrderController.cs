@@ -68,6 +68,7 @@ namespace FormulaOneFanHub.API.Controllers
                 PaymentStatus = "Payed",
                 PaymentDate = orderDto.PaymentDate,
                 OrderIdRazor = orderDto.OrderIdRazor,
+                DeliveryCompanyId =7,
                 OrderTotalAmount = orderDto.OrderTotalAmount,
                 OrderedItem = new List<OrderedItem>()
             };
@@ -279,7 +280,178 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok(responseData);
         }
+        [HttpGet("GetOrderDetailsForDeliveryCompany/{deliveryCompanyId}")]
+        public IActionResult GetOrderDetailsForDeliveryCompany(int deliveryCompanyId)
+        {
+            var orderDetails = _fanHubContext.Orders
+                .Where(o => o.DeliveryCompanyId == deliveryCompanyId && o.OrderStatus == "Ordered") // Added condition for OrderStatus
+                .Select(o => new
+                {
+                    o.OrderId,
+                    o.UniqueId,
+                    o.OrderDate,
+                    o.UserId,
+                    o.Name,
+                    o.Email,
+                    o.PhoneNumber,
+                    o.Address,
+                    o.OrderStatus,
+                    o.ShippingDate,
+                    o.PaymentNumberRazor,
+                    o.PaymentStatus,
+                    o.PaymentDate,
+                    o.OrderIdRazor,
+                    o.OrderTotalAmount,
+                    DeliveryCompanyId = o.DeliveryCompanyId,
+                    OrderItems = o.OrderedItem.Select(oi => new
+                    {
+                        oi.OrderedItemId,
+                        oi.ProductId,
+                        oi.Quantity,
+                        oi.Price,
+                        oi.DiscountPrice,
+                        oi.FinalPrice,
+                        ProductName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.ProductName)
+                            .FirstOrDefault(),
+                        ProductImagePath = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.ImagePath1)
+                            .FirstOrDefault(),
+                        UniqueName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.UniqueName)
+                            .FirstOrDefault(),
+                        TeamName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.Team.Name)
+                            .FirstOrDefault()
+                    }).ToList()
+                })
+                .ToList();
 
+            if (!orderDetails.Any())
+            {
+                return NotFound($"No 'Ordered' status orders found for the delivery company ID '{deliveryCompanyId}'.");
+            }
+
+            return Ok(orderDetails);
+        }
+
+
+        [HttpPut("UpdateOrderStatusToInShipping/{orderId}")]
+        public IActionResult UpdateOrderStatusToInShipping(int orderId)
+        {
+            var order = _fanHubContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound($"Order with ID {orderId} not found.");
+            }
+            order.OrderStatus = "InShipping";
+            _fanHubContext.SaveChanges();
+            return Ok($"Order with ID {orderId} status updated to 'InShipping'.");
+        }
+
+
+        [HttpGet("GetShippingOrderDetailsForDeliveryCompany/{deliveryCompanyId}")]
+        public IActionResult GetShippingOrderDetailsForDeliveryCompany(int deliveryCompanyId)
+        {
+            var orderDetails = _fanHubContext.Orders
+                .Where(o => o.DeliveryCompanyId == deliveryCompanyId && o.OrderStatus == "InShipping") 
+                .Select(o => new
+                {
+                    o.OrderId,
+                    o.UniqueId,
+                    o.OrderDate,
+                    o.UserId,
+                    o.Name,
+                    o.Email,
+                    o.PhoneNumber,
+                    o.Address,
+                    o.OrderStatus,
+                    o.ShippingDate,
+                    o.PaymentNumberRazor,
+                    o.PaymentStatus,
+                    o.PaymentDate,
+                    o.OrderIdRazor,
+                    o.OrderTotalAmount,
+                    DeliveryCompanyId = o.DeliveryCompanyId,
+                    OrderItems = o.OrderedItem.Select(oi => new
+                    {
+                        oi.OrderedItemId,
+                        oi.ProductId,
+                        oi.Quantity,
+                        oi.Price,
+                        oi.DiscountPrice,
+                        oi.FinalPrice,
+                        ProductName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.ProductName)
+                            .FirstOrDefault(),
+                        ProductImagePath = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.ImagePath1)
+                            .FirstOrDefault(),
+                        UniqueName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.UniqueName)
+                            .FirstOrDefault(),
+                        TeamName = _fanHubContext.Products
+                            .Where(p => p.ProductId == oi.ProductId)
+                            .Select(p => p.Team.Name)
+                            .FirstOrDefault()
+                    }).ToList()
+                })
+                .ToList();
+
+            if (!orderDetails.Any())
+            {
+                return NotFound($"No 'Ordered' status orders found for the delivery company ID '{deliveryCompanyId}'.");
+            }
+
+            return Ok(orderDetails);
+        }
+
+        [HttpPut("UpdateOrderStatusToDelivered/{orderId}")]
+        public IActionResult UpdateOrderStatusToDelivered(int orderId)
+        {
+            var order = _fanHubContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound($"Order with ID {orderId} not found.");
+            }
+            order.OrderStatus = "Delivered";
+            _fanHubContext.SaveChanges();
+            return Ok($"Order with ID {orderId} status updated to 'Delivered'.");
+        }
+
+        [HttpPut("UpdateOrderStatusToWrongAddress/{orderId}")]
+        public IActionResult UpdateOrderStatusToWrongAddress(int orderId)
+        {
+            var order = _fanHubContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound($"Order with ID {orderId} not found.");
+            }
+            order.OrderStatus = "WrongAddress";
+            _fanHubContext.SaveChanges();
+            return Ok($"Order with ID {orderId} status updated to 'WrongAddress'.");
+        }
+
+
+        [HttpPut("UpdateOrderStatusToReturned/{orderId}")]
+        public IActionResult UpdateOrderStatusToReturned(int orderId)
+        {
+            var order = _fanHubContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound($"Order with ID {orderId} not found.");
+            }
+            order.OrderStatus = "Returned";
+            _fanHubContext.SaveChanges();
+            return Ok($"Order with ID {orderId} status updated to 'Returned'.");
+        }
 
 
 
