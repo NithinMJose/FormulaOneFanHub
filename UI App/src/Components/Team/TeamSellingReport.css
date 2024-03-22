@@ -1,0 +1,17 @@
+.HeadingOne {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  /* Adjust the margin value to create the desired gap */
+}
+
+.StartDateField,
+.EndDateField {
+  max-width: 250px;
+  margin-right: 10px;
+  /* Adjust the margin value to create the desired gap */
+}
+
+.container-fluid {
+  margin-top: 0px;
+  /* Adjust the margin value to create the desired gap */
+}
