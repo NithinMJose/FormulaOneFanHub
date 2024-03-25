@@ -139,8 +139,10 @@ const UserCart = () => {
 
   const handleBuyNow = () => {
     const discountAmount = 0;
-    //Add current datetime as shipping date
     const orderDate = new Date();
+    console.log("Buy Now Clicked");
+
+
     const productsToBuy = cartItems.map(item => ({
       productId: item.productId,
       price: productDetails[item.productId]?.price,

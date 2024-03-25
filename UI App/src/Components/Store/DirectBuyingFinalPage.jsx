@@ -12,8 +12,7 @@ const DirectBuyingFinalPage = () => {
   const { state } = location;
 
   if (!state || !state.receivedData) {
-    // Toast an error messege
-
+    // Toast an error message
     navigate('/');
     return null; // or display an error message
   }
@@ -56,12 +55,12 @@ const DirectBuyingFinalPage = () => {
       console.log('ProductDetails', receivedData.products);
 
       // Map each item from receivedData.products and print the details of each product in console
-        console.log('Product ID:', receivedData.products.productId);
-        console.log('Product Price:', receivedData.products.price);
-        console.log('Product Quantity:',receivedData.products.quantity);
-        console.log('Total Price:', receivedData.products.price * receivedData.products.quantity);
-        console.log('Discount Amount:', receivedData.products.discountAmount);
-        console.log('Final Price:', (receivedData.products.price * receivedData.products.quantity) - receivedData.products.discountAmount);
+      console.log('Product ID:', receivedData.products.productId);
+      console.log('Product Price:', receivedData.products.price);
+      console.log('Product Quantity:', receivedData.products.quantity);
+      console.log('Total Price:', receivedData.products.price * receivedData.products.quantity);
+      console.log('Discount Amount:', receivedData.products.discountAmount);
+      console.log('Final Price:', (receivedData.products.price * receivedData.products.quantity) - receivedData.products.discountAmount);
 
       // Define the request body
       const requestBody = {
@@ -75,17 +74,22 @@ const DirectBuyingFinalPage = () => {
         paymentDate: paymentDateISO,
         orderIdRazor: orderId,
         orderTotalAmount: totalAmount / 100,
-        orderedItemsDto:{
-          productId: receivedData.products.productId,
-          quantity: receivedData.products.quantity,
-          price: receivedData.products.price,
-          total: receivedData.products.price * receivedData.products.quantity,
-          discountPrice: receivedData.products.discountAmount,
-          finalPrice: (receivedData.products.price * receivedData.products.quantity) - receivedData.products.discountAmount,
-        }
+        orderedItemsDto: [
+          {
+            productId: receivedData.products.productId,
+            quantity: receivedData.products.quantity,
+            price: receivedData.products.price,
+            total: receivedData.products.price * receivedData.products.quantity,
+            discountPrice: receivedData.products.discountAmount,
+            finalPrice: (receivedData.products.price * receivedData.products.quantity) - receivedData.products.discountAmount,
+          }
+        ]
       };
 
-      console.log('Request Body:', requestBody);
+
+      // Print the requestBody in JSON format
+      console.log('Request Body in JSON format:', JSON.stringify(requestBody, null, 2));
+
       var flag = 0;
 
       if (flag === 0) {
@@ -108,12 +112,10 @@ const DirectBuyingFinalPage = () => {
             console.error('Error creating order:', error);
           });
       }
-    }
-    )
+    })
     .catch((error) => {
       console.error('Error:', error);
     });
-
 
   return (
       <div>

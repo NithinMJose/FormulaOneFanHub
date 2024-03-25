@@ -6,7 +6,7 @@ const TicketBookingDto = { amount: 50000 };
 export default async function displayRazorPay(totalAmount, dataToTransfer, navigate) {
   try {
     console.log("==============================================================================================================================");
-    console.log("Inside displayRazorPay");
+    console.log("Inside displayRazorPayForSingleProductBuy");
     console.log("totalAmount", totalAmount);
     const receivedData = dataToTransfer;
     console.log("receivedData", receivedData);

@@ -112,6 +112,10 @@ const ProductDetails = () => {
     const price = product.price;
     const quantity = selectedQuantity;
 
+    console.log("PRODUCT ID", productId);
+    console.log("PRICE", price);
+    console.log("QUANTITY", quantity);
+
     const productsToBuy = {
       productId: productId,
       price: price,
@@ -191,7 +195,7 @@ const ProductDetails = () => {
                 )}
                 <hr />
                 <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-                {/*<button className="buy-now-button" onClick={handleBuyNow}>Buy Now</button>*/}
+                    <button className="buy-now-button" onClick={handleBuyNow}>Buy Now</button>
               </>
             )}
           </div>
