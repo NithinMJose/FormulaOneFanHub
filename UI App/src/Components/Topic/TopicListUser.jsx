@@ -31,14 +31,19 @@ const TopicListUser = () => {
     <div>
       <UserNavbar />
       <br />
-      <div className="topic-list-container">
+      <div className="topic-list-container" style={{ marginTop: "100px" }}>
         {topicList.map((topic) => (
           <div key={topic.topicId} className="topic-container" onClick={() => handleTopicClick(topic.topicId, topic.title)}>
             <h2 className="topic-title">{topic.title}</h2>
             <p className="topic-content">{topic.content}</p>
             <p className="topic-details">
-              Created on: {new Date(topic.createdOn).toLocaleString()} by {topic.user.userName}
+              Created on: {new Date(topic.createdOn).toLocaleString()} by {topic.teamName}
             </p>
+            {/* Add additional details here */}
+            <p className="topic-details">Team: {topic.teamName}</p>
+            <p className="topic-details">Country: {topic.country}</p>
+            <p className="topic-details">Status: {topic.status}</p>
+            <img src={topic.imagePath} alt={topic.teamName} className="topic-image" />
           </div>
         ))}
       </div>

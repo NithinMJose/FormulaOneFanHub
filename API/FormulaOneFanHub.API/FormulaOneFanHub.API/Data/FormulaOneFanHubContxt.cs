@@ -52,6 +52,18 @@ namespace FormulaOneFanHub.API.Data
                 .HasForeignKey(o => o.DeliveryCompanyId)  // Foreign key for the DeliveryCompany in Order table
                 .OnDelete(DeleteBehavior.Restrict);  // You can adjust the delete behavior as per your requirement
 
+            modelBuilder.Entity<TeamHistory>()
+                .HasOne(th => th.Team)  // A TeamHistory belongs to one Team
+                .WithMany(t => t.TeamHistories)  // A Team can have many TeamHistories
+                .HasForeignKey(th => th.TeamId)  // Foreign key for the Team in TeamHistory table
+                .OnDelete(DeleteBehavior.Restrict);  // You can adjust the delete behavior as per your requirement
+
+            modelBuilder.Entity<Topic>()
+                .HasOne(t => t.Team)  // A Topic belongs to one Team
+                .WithMany(t => t.Topics)  // A Team can have many Topics
+                .HasForeignKey(t => t.TeamId)  // Foreign key for the Team in Topic table
+                .OnDelete(DeleteBehavior.Restrict);  // You can adjust the delete behavior as per your requirement
+
         }
 
         public DbSet<User> Users { get; set; }

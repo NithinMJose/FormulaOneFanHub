@@ -37,8 +37,6 @@ const TopicComment = () => {
   const commentsRef = useRef(null);
 
   useEffect(() => {
-    console.log('User ID (from token):', userId);
-
     const fetchComments = async () => {
       try {
         const response = await fetch(`https://localhost:7092/api/Comment/TopicComments?topicId=${state?.topicId}`);
@@ -56,7 +54,6 @@ const TopicComment = () => {
 
       for (const userId of uniqueUserIds) {
         try {
-          console.log('Fetching details for User ID (from DB):', userId);
           const userResponse = await fetch(`https://localhost:7092/api/User/GetUserDetailsFromUserId?userId=${userId}`);
           const userData = await userResponse.json();
           setUserDetails((prevDetails) => ({ ...prevDetails, [userId]: userData }));
@@ -69,11 +66,11 @@ const TopicComment = () => {
     if (state && state.topicId) {
       fetchComments();
     }
-  }, [state, userId, userName]);
+ }, [state, userId, userName]);
 
   const getUserName = (userId) => {
     return userDetails[userId]?.userName || 'Unknown User';
-  };
+ };
 
   const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
@@ -82,16 +79,16 @@ const TopicComment = () => {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  };
+ };
 
   const handleAddCommentClick = () => {
     setShowCommentPopup(true);
-  };
+ };
 
   const handleCancelComment = () => {
     setShowCommentPopup(false);
     setNewComment('');
-  };
+ };
 
   const handleSaveComment = async () => {
     try {
@@ -126,7 +123,7 @@ const TopicComment = () => {
       setShowCommentPopup(false);
       setNewComment('');
     }
-  };
+ };
 
   const handleDeleteComment = async (commentId) => {
     try {
@@ -150,23 +147,26 @@ const TopicComment = () => {
       console.error('Comment deletion failed:', error);
       toast.error('Comment deletion failed');
     }
-  };
+ };
 
   useEffect(() => {
     if (commentsRef.current) {
       commentsRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [comments]);
+ }, [comments]);
 
   const fadeIn = useSpring({ opacity: 1, from: { opacity: 0 } });
+
+  // Create a new array that is the reverse of comments
+  const reversedComments = [...comments].reverse();
 
   return (
     <animated.div style={fadeIn}>
       <div>
         <UserNavbar />
-        <Typography variant="h2">{state?.title}</Typography>
+       <Typography variant="h2" style={{ marginTop: "100px" }}>{state?.title}</Typography>
         <List ref={commentsRef}>
-          {comments.map((comment) => (
+         {reversedComments.map((comment) => (
             <ListItem key={comment.commentId}>
               <Avatar style={{ backgroundColor: getRandomColor(), marginRight: '10px' }}>
                 {getUserName(comment.userId)?.charAt(0).toUpperCase()}
@@ -178,7 +178,7 @@ const TopicComment = () => {
                     padding: '10px',
                     marginBottom: '10px',
                     borderRadius: '20px',
-                  }}
+                 }}
                 >
                   <Typography variant="subtitle1">{`${getUserName(comment.userId)}`}</Typography>
                   <Typography variant="body1">{`${comment.content}`}</Typography>
@@ -198,6 +198,7 @@ const TopicComment = () => {
             </ListItem>
           ))}
         </List>
+       <br />
         <Box display="flex" justifyContent="center">
           <Button
             variant="contained"
@@ -232,7 +233,7 @@ const TopicComment = () => {
         <Footer />
       </div>
     </animated.div>
-  );
+ );
 };
 
 export default TopicComment;

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.Text.Json.Serialization;
 namespace FormulaOneFanHub.API.Entities
 {
     public class Topic
@@ -17,6 +17,7 @@ namespace FormulaOneFanHub.API.Entities
 
         // Foreign key to link the topic with the Team who created it (assuming your User entity has an Id property)
         public int TeamId { get; set; }
+        [JsonIgnore]
         public Team Team { get; set; } // Navigation property for the related Team entity
     }
 }

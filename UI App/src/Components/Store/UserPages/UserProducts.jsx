@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 import UserNavbars from '../../LoginSignup/UserNavbar';
 import './UserProducts.css';
 import jwt_decode from 'jwt-decode';
+import Footer from '../../LoginSignup/Footer';
 
 const UserProducts = () => {
   const { categoryId } = useParams();
   const [products, setProducts] = useState([]);
   const [teams, setTeams] = useState({});
   const [wishlistedProducts, setWishlistedProducts] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState('');
 
   const token = localStorage.getItem("jwtToken");
   const decoded = jwt_decode(token);
@@ -122,15 +124,29 @@ const UserProducts = () => {
 
   return (
     <div>
-      <UserNavbars />
-      <br />
-      <br />
-      <br />
-      <br />
-      <div className="product-container">
-        {products.map(product => (
-          <div key={product.productId} className="product-item">
-            <a href={`/ProductDetails/${product.uniqueName}`} className="product-link">
+      <div className='UserProductsWrapper'>
+        <UserNavbars />
+        <div className='DemoSideBar'>
+          <h1>Select Team</h1>
+          <select value={selectedTeam} onChange={(e) => setSelectedTeam(e.target.value)}>
+            <option value="">All Teams</option>
+            {Object.keys(teams).map((teamId) => (
+              <option key={teamId} value={teamId}>{teams[teamId]}</option>
+            ))}
+          </select>
+        </div>
+        <div className="productContainers" style={{ marginTop: "100px" }}>
+          {products.filter(product => !selectedTeam || Number(product.teamId) === Number(selectedTeam)).map(product => (
+
+            <div key={product.productId} className="product-item">
+              <a href={`/ProductDetails/${product.uniqueName}`} className="product-link">
+                <div className="product-heart">
+                  {isProductWishlisted(product.productId) ? (
+                    <span className="product-heart1">&#x2764;</span>
+                  ) : (
+                    <span className="product-heart2">&#x2661;</span>
+                  )}
+                </div>
               <img src={`https://localhost:7092/images/${product.imagePath1}`} alt={product.productName} className="product-imagess" />
               <p className="product-names">{product.productName}</p>
             </a>
@@ -142,21 +158,17 @@ const UserProducts = () => {
               <p className='Stocks'>Stocks: {product.stockQuantity}</p>
             )}
             <div className="product-heart">
-              {isProductWishlisted(product.productId) ? (
-                <React.Fragment>
-                  <span className="product-heart1">&#x2764;</span>
+                {isProductWishlisted(product.productId) ? (
                   <button onClick={() => removeFromWishlist(product.productId)}>Remove From Wish List</button>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <span className="product-heart2">&#x2661;</span>
-                  <button onClick={() => addToWishlist(product.productId)}>Add To Wish List</button>
-                </React.Fragment>
+                ) : (
+                    <button onClick={() => addToWishlist(product.productId)}>Add To Wish List</button>
               )}
             </div>
           </div>
-        ))}
+          ))}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

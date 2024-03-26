@@ -35,7 +35,7 @@ function UserNavbar() {
   return (
     <>
       {/* Navbar Start */}
-      <nav className="modern-navbar">
+      <nav className="modernNavbarUser">
         <div className="navbar-container">
           <div className="navbar-brand">
             {/* <img src="./img/logo.png" alt="Formula 1 Fan Hub Logo" className="logo" /> */}
@@ -71,7 +71,7 @@ function UserNavbar() {
               </div>
             </li>
             
-            <li><Link to="/" className="nav-links">Open Forum</Link></li>
+            <li><Link to="/TopicListUser" className="nav-links">Open Forum</Link></li>
             
             <li><Link to="/PollListUser" className="nav-links">Poll</Link></li>
             

@@ -108,7 +108,7 @@ const UserVote = () => {
   return (
     <div>
       <UserNavbar />
-      <Container maxWidth="md">
+      <Container maxWidth="md" style={{ marginTop: "100px" }}>
         <Paper elevation={3} style={{ padding: '20px', margin: '20px 0' }}>
           {pollDetails ? (
             <div>

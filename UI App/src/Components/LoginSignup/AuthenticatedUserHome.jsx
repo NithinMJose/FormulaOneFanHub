@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import { HomeCarousel } from './HomeCarousel';
 import About from './About'; // assuming that About.jsx is in the same directory
 import { Container, Typography, CssBaseline, Box } from '@mui/material';
+import './AuthenticatedUserHome.css';
 
 const AuthenticatedUserHome = () => {
   const navigate = useNavigate();
@@ -35,28 +36,19 @@ const AuthenticatedUserHome = () => {
   }, [navigate]);
 
   return (
-    <Box>
+    <div className="Containers" style={{ backgroundColor: "gray" }}>
       <CssBaseline />
       <UserNavbar />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Container maxWidth="xl">
+      <div className="greetingClass" style={{ maxWidth: "100%", marginTop: "70px" }}>
         <Box mt={2}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Hello {userName}
-          </Typography>
-          <Typography variant="h2" align="center" gutterBottom>
-            Welcome Back to the Fan Hub
-          </Typography>
         </Box>
-      </Container>
-      <HomeCarousel />
-      <About />
-      <Footer />
-    </Box>
+      </div>
+      <HomeCarousel className="HomeCarousel" />
+      <About className="About" />
+      <Footer className="Footer" />
+    </div>
   );
+
 };
 
 export default AuthenticatedUserHome;

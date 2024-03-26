@@ -10,5 +10,9 @@ namespace FormulaOneFanHub.API.Entities
         public string ImageUrl { get; set; }
 
         public string Caption { get; set; }
+
+        public string UniqueName { get; set; }
+
+        public string IsActive { get; set; }
     }
 }

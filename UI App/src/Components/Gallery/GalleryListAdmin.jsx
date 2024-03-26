@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import axios from 'axios';
 import Footer from '../LoginSignup/Footer';
+import './GalleryListAdmin.css';
 
 const StyledTableContainer = styled(TableContainer)`
   margin-top: 20px;
@@ -12,7 +13,7 @@ const StyledTableContainer = styled(TableContainer)`
 
 const StyledTableRow = styled(TableRow)`
   &:hover {
-    background-color: #f5f5f5; // Add a light background color on hover
+    background-color: #f5f5f5;
   }
 `;
 
@@ -24,23 +25,25 @@ const StyledImage = styled('img')`
 `;
 
 const StyledButton = styled(Button)`
-  background-color: #2196f3; // Change the button color
-  color: #fff; // Change the button text color
+  background-color: #2196f3;
+  color: #fff;
 
   &:hover {
-    background-color: #1565c0; // Change the button color on hover
+    background-color: #1565c0;
   }
 `;
 
 const GalleryListAdmin = () => {
   const navigate = useNavigate();
   const [galleryData, setGalleryData] = useState(null);
+  const [uniqueName, setUniqueName] = useState('');
 
   useEffect(() => {
     axios
       .get('https://localhost:7092/api/Gallery/GetAllImages')
       .then((response) => {
-        setGalleryData(response.data);
+        const filteredData = response.data.filter(image => image.isActive === "Yes");
+        setGalleryData(filteredData);
       })
       .catch((error) => {
         console.error('Error fetching gallery data:', error);
@@ -76,12 +79,8 @@ const GalleryListAdmin = () => {
                 </TableCell>
                 <TableCell>{image.caption}</TableCell>
                 <TableCell>
-                  <StyledButton
-                    variant="contained"
-                    onClick={() => handleEditImage(image.imageId)}
-                  >
-                    Edit
-                  </StyledButton>
+                  <StyledButton variant="contained" onClick={() => handleEditImage(image.uniqueName)}>Edit</StyledButton>
+                  <StyledButton variant="contained" onClick={() => handleRemoveImage(image.uniqueName)}>Remove</StyledButton>
                 </TableCell>
               </StyledTableRow>
             ))}
@@ -91,16 +90,32 @@ const GalleryListAdmin = () => {
     );
   };
 
-  const handleEditImage = (imageId) => {
-    // Redirect to the edit page with the specific imageId
-    navigate(`/EditGalleryImage/${imageId}`);
+  const handleEditImage = (uniqueName) => {
+    console.log('Unique Name:', uniqueName);
+    navigate(`/EditGallery/${uniqueName}`);
   };
+
+  const handleRemoveImage = (uniqueName) => {
+    axios.delete(`https://localhost:7092/api/Gallery/DeleteImage?uniqueName=${uniqueName}`)
+      .then(response => {
+        console.log("Image removed successfully.");
+        window.location.reload(); // Reload the page after successful removal
+      })
+      .catch(error => {
+        console.error('Error removing image:', error);
+        toast.error('An error occurred while removing the image');
+      });
+  };
+
+
 
   return (
     <div className="gallerylistadminpage">
       <AdminNavbar />
       <br />
-      {renderGalleryData()}
+      <div className='containerss'>
+        {renderGalleryData()}
+      </div>
       <br />
       <Footer />
     </div>

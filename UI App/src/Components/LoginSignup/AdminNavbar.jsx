@@ -57,6 +57,14 @@ function AdminNavbar() {
             </li>
 
             <li className="nav-item dropdown">
+              <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Gallery</span>
+              <div className="dropdown-menu m-0">
+                <Link to="/AddGallery" className="dropdown-item">Add Gallery Image</Link>
+                <Link to="/GalleryListAdmin" className="dropdown-item">GalleryListAdmin</Link>
+              </div>
+            </li>
+
+            <li className="nav-item dropdown">
               <span className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Team</span>
               <div className="dropdown-menu m-0">
                 <Link to="/AddTeam" className="dropdown-item">Add New Team</Link>

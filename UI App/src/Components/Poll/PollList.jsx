@@ -120,7 +120,9 @@ const PollList = () => {
     <div className="polllistpage">
       <AdminNavbar />
       <br />
-      {renderPollData()}
+      <div className='container' style={{ marginTop: "100px" }}>
+        {renderPollData()}
+      </div>
       <br />
       <Footer />
     </div>

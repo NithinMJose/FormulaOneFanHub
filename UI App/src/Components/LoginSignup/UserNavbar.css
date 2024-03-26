@@ -1,11 +1,18 @@
 /* UserNavbar.css */
 
-.modern-navbar {
-  background-color: #ffffff; /* White background */
+.modernNavbarUser {
+  background-color: rgba(255, 255, 255, 0.489);
+  backdrop-filter: blur(30px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: 'Bahnschrift', sans-serif;
-  height: 90px;
+  height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
+
 
 .navbar-container {
   display: flex;

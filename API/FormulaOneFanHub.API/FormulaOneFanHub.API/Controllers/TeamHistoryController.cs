@@ -18,19 +18,30 @@ namespace FormulaOneFanHub.API.Controllers
             _fanHubContext = fanHubContxt;
         }
 
+
+
+
         [HttpPost("CreateTeamHistory")]
-        public IActionResult CreateTeamHistory([FromBody] TeamHistory teamHistory)
+        public IActionResult CreateTeamHistory([FromBody] TeamHistoryDto teamHistoryDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var teamHistory = new TeamHistory
+            {
+                Heading = teamHistoryDto.Heading,
+                Paragraph = teamHistoryDto.Paragraph,
+                TeamId = teamHistoryDto.TeamId
+            };
+
             _fanHubContext.TeamHistories.Add(teamHistory);
             _fanHubContext.SaveChanges();
 
             return StatusCode(201);
         }
+
 
         [HttpGet("GetAllTeamHistories")]
         public IActionResult GetAllTeamHistories()
@@ -51,9 +62,8 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok(teamHistory);
         }
-
         [HttpPut("UpdateTeamHistory")]
-        public IActionResult UpdateTeamHistory(int id, [FromBody] TeamHistory teamHistory)
+        public IActionResult UpdateTeamHistory(int id, [FromBody] TeamHistoryDto teamHistoryDto)
         {
             if (!ModelState.IsValid)
             {
@@ -67,13 +77,15 @@ namespace FormulaOneFanHub.API.Controllers
                 return NotFound();
             }
 
-            existingTeamHistory.Heading = teamHistory.Heading;
-            existingTeamHistory.Paragraph = teamHistory.Paragraph;
+            existingTeamHistory.Heading = teamHistoryDto.Heading;
+            existingTeamHistory.Paragraph = teamHistoryDto.Paragraph;
+            existingTeamHistory.TeamId = teamHistoryDto.TeamId; // Update TeamId
 
             _fanHubContext.SaveChanges();
 
             return Ok();
         }
+
 
         [HttpDelete("DeleteTeamHistory")]
         public IActionResult DeleteTeamHistory(int id)
@@ -90,5 +102,31 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
+
+        [HttpGet("GetTeamHistoriesByTeamId")]
+        public IActionResult GetTeamHistoriesByTeamId(int teamId)
+        {
+            var teamHistories = _fanHubContext.TeamHistories
+                                            .Where(th => th.TeamId == teamId)
+                                            .ToList();
+
+            if (teamHistories == null || teamHistories.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(teamHistories);
+        }
+
+
+
+        public class TeamHistoryDto
+        {
+            public int TeamId { get; set; }
+            public string Heading { get; set; }
+            public string Paragraph { get; set; }
+        }
+
     }
 }

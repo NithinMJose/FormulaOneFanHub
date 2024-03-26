@@ -1,23 +1,27 @@
-.product-container {
+.UserProductsWrapper {
+  display: flex;
+  background-color: #ffffff;
+}
+
+.productContainers {
+  padding-left: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
 }
 
 .product-item {
   position: relative;
-  width: 250px;
-  margin: 20px;
+  width: 300px;
+    margin: 1px;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out; /* Add transition for smooth scaling */
-}
+  border: 1px solid #ffffff;
+    border-radius: 0px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    transition: transform 1s ease-in-out;
+    background-color: #ffffff;
+    margin-bottom: 50px;
+  }
 
-.product-item:hover {
-  transform: scale(1.02); /* Scale up the product container on hover */
-}
 
 .product-link {
   display: block;
@@ -27,39 +31,44 @@
 .product-imagess {
   width: 225px;
   height: 225px;
-  border-radius: 5px;
+  margin-top: 1px;
+    border-radius: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   object-fit: cover;
-    /* Optional: Maintain aspect ratio */
 }
 
+.product-imagess :hover {
+  transform: scale(1.05);
+}
 
 .product-heart {
   top: 10px;
   right: 10px;
   font-size: 35px;
+    /* Adjust the font-size as needed */
   color: rgb(255, 0, 0);
   border: none;
-  border-radius: 5px;
+  border-radius: 0px;
   cursor: pointer;
   height: auto;
-
-}
+  line-height: 35px;
+    /* Adjust this value to match the font-size */
+  }
 
 .product-heart1 {
   color: rgb(255, 0, 0);
   border: none;
-  border-radius: 5px;
+  border-radius: 0px;
   cursor: pointer;
 }
 
 .product-heart2 {
-  color: rgb(255, 0, 0);
+  color: rgb(255, 255, 255);
   border: none;
-  border-radius: 5px;
+  border-radius: 0px;
   cursor: pointer;
   width: 50px;
 }
@@ -71,17 +80,22 @@
 
 .product-names {
   margin-top: 10px;
+  margin-bottom: -25px;
   font-weight: bold;
-  font-size: 25px;
-    color: #333;
+  font-size: 15px;
+    color: #000000;
     text-transform: capitalize;
-    /* Capitalize the first letter of each word */
+  overflow: hidden;
+    height: 70px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
-
 
 .team-name {
   font-size: 14px;
-  color: #555;
+  color: #000000;
 }
 
 .product-price {
@@ -89,32 +103,89 @@
   font-size: 18px;
 }
 
-/* CSS for the buttons */
 .product-heart button {
-  font-size: 14px; /* Adjust font size */
-  width: 100%;
-  padding: 8px 15px; /* Adjust padding */
-  margin-top: 5px; /* Add some margin */
-  background-color: transparent; /* Set background color to transparent */
-  border: 1px solid #ccc; /* Add border */
-  border-radius: 5px; /* Add border radius */
-  color: #333; /* Set text color */
+  font-size: 14px;
+    width: 80%;
+    padding: 8px 15px;
+    margin-top: 5px;
+    background-color: transparent;
+    border: 1px solid #ff0000c0;
+    border-radius: 40px;
+    color: #333;
   transition: all 0.3s ease; /* Add transition for smooth hover effect */
 }
 
 .product-heart button:hover {
   background-color: #f0f0f0; /* Change background color on hover */
-  border-color: #999; /* Change border color on hover */
+  border-color: #ff0000c0;
+    /* Change border color on hover */
   color: #000; /* Change text color on hover */
 }
 
-.product-heart {
-  right: 5px; /* Adjust the right position */
-  font-size: 35px;
-  color: rgb(255, 0, 0);
-  cursor: pointer;
-  height: auto;
-  top :300px; 
+.product-imagess:hover {
+  transform: scale(1.07);
+  /* make it slowly */
+  transition: all 0.5s ease-in-out;
+  transition-duration: 0.9s;
 }
 
+.Stocks {
+  margin-bottom: 0px;
+  margin-top: -10px;
+}
 
+/* Style for the dropdown container */
+.DemoSideBar {
+  width: 20%;
+  padding: 20px;
+  padding-top: 100px;
+  background-color: #eebfbf;
+  min-width: 290px;
+  border-radius: 5px;
+  /* Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Add a subtle shadow for depth */
+}
+
+/* Style for the dropdown select element */
+.DemoSideBar select {
+  width: 100%;
+  /* Make the dropdown take full width of its container */
+  padding: 10px;
+  /* Add some padding */
+  border: 1px solid #ccc;
+  /* Add a border */
+  border-radius: 5px;
+  /* Match the border-radius of the container */
+  background-color: #fff;
+  /* Set a white background */
+  font-size: 16px;
+  /* Increase font size for better readability */
+  appearance: none;
+  /* Remove default browser styling */
+  -webkit-appearance: none;
+  /* For Safari */
+  -moz-appearance: none;
+  /* For Firefox */
+  background: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right .75rem center/8px 10px;
+  /* Add a custom dropdown arrow */
+  background-color: #fff;
+  /* Ensure the background is white */
+}
+ /* Style for the dropdown options */
+ .DemoSideBar select option {
+   padding: 10px;
+   /* Add some padding to options */
+   font-size: 16px;
+   /* Increase font size for better readability */
+ }
+
+ /* Style for the dropdown when it's focused */
+ .DemoSideBar select:focus {
+   outline: none;
+   /* Remove default focus outline */
+   border-color: #007bff;
+   /* Change border color on focus */
+   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+   /* Add a focus shadow */
+ }

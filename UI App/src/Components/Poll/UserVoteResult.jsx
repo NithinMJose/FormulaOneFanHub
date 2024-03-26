@@ -77,7 +77,7 @@ const UserVoteResult = () => {
   return (
     <div>
     <UserNavbar />
-    <div style={{ padding: '20px', marginLeft: '5%', marginRight: '5%' }}>
+      <div style={{ padding: '20px', marginLeft: '5%', marginRight: '5%', marginTop: "100px" }}>
       {loading ? (
         <div style={{ textAlign: 'center', margin: '20px' }}>
           <CircularProgress style={{ marginBottom: '10px' }} />

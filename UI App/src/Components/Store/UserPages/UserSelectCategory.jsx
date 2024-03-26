@@ -27,15 +27,19 @@ const UserSelectCategory = () => {
   };
 
   return (
-    <div>
+    <div className='HelloWorld'>
       <UserNavbar />
+      <div className='CategoriesContainer'>
+        <div className="SimpleSidebar">
+          {/* add an image */}
+        </div>
       <div className="category-list-container">
         {categories.map((category) => (
           <div key={category.productCategoryId} className="category-item">
             <Link to={`/UserProducts/${category.uniqueName}`}>
               <div className="category-image">
                 <img
-                  src={`https://localhost:7092/images/${category.imagePath}`} 
+                  src={`https://localhost:7092/images/${category.imagePath}`}
                   alt={`${category.pCategoryName}'s Image`}
                   className="category-image"
                 />
@@ -44,6 +48,8 @@ const UserSelectCategory = () => {
             <div className="CategoryName" onClick={() => handleCategoryClick(category.uniqueName)}>{category.pCategoryName}</div>
           </div>
         ))}
+
+        </div>
       </div>
       <Footer />
     </div>

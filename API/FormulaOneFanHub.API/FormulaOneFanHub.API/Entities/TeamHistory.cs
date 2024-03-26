@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FormulaOneFanHub.API.Entities
 {
@@ -10,5 +11,10 @@ namespace FormulaOneFanHub.API.Entities
         public String Heading { get; set; }
 
         public string Paragraph { get; set; }
+
+        public int TeamId { get; set; }  // Add TeamId property
+
+        [ForeignKey("TeamId")]  // Define foreign key relationship
+        public Team Team { get; set; }  // Navigation property for Team
     }
 }

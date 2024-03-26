@@ -39,7 +39,10 @@ namespace FormulaOneFanHub.API.Controllers
                 Gallery galleryToCreate = new Gallery
                 {
                     ImageUrl = fileName,
-                    Caption = galleryDto.Caption
+                    Caption = galleryDto.Caption,
+                    // Generate a unique name for the image wgich will be GUID_ImageUrl
+                    UniqueName = Guid.NewGuid().ToString() +"_"+fileName,
+                    IsActive = "Yes"
                 };
 
                 _fanHubContext.Galleries.Add(galleryToCreate);
@@ -71,15 +74,16 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(image);
         }
 
+
         [HttpPut("UpdateImage")]
-        public IActionResult UpdateImage(int id, [FromForm] GalleryDto galleryDto)
+        public IActionResult UpdateImage(string uniqueName, [FromForm] GalleryDto galleryDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existingImage = _fanHubContext.Galleries.Find(id);
+            var existingImage = _fanHubContext.Galleries.FirstOrDefault(g => g.UniqueName == uniqueName);
 
             if (existingImage == null)
             {
@@ -106,20 +110,38 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok();
         }
 
+
+
         [HttpDelete("DeleteImage")]
-        public IActionResult DeleteImage(int id)
+        public IActionResult DeleteImage(string uniqueName)
         {
-            var image = _fanHubContext.Galleries.Find(id);
+            var image = _fanHubContext.Galleries.FirstOrDefault(g => g.UniqueName == uniqueName);
 
             if (image == null)
             {
                 return NotFound();
             }
 
-            _fanHubContext.Galleries.Remove(image);
+            image.IsActive = "No";
             _fanHubContext.SaveChanges();
 
             return Ok();
         }
+
+        [HttpGet("GetGalleryByUniqueName")]
+        public IActionResult GetGalleryByUniqueName(string uniqueName)
+        {
+            var gallery = _fanHubContext.Galleries.FirstOrDefault(g => g.UniqueName == uniqueName);
+
+            if (gallery == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(gallery);
+        }
+
+
+
     }
 }

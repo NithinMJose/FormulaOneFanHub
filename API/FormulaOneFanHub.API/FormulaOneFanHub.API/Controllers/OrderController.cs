@@ -453,6 +453,19 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok($"Order with ID {orderId} status updated to 'Returned'.");
         }
 
+        [HttpPut("UpdateOrderStatusToCancelledByUser/{orderId}")]
+        public IActionResult UpdateOrderStatusToCancelledByUser(int orderId)
+        {
+            var order = _fanHubContext.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                return NotFound($"Order with ID {orderId} not found.");
+            }
+            order.OrderStatus = "CancelledByUser";
+            _fanHubContext.SaveChanges();
+            return Ok($"Order with ID {orderId} status updated to 'CancelledByUser'.");
+        }
+
 
 
 

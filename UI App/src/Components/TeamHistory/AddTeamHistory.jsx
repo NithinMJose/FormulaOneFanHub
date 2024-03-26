@@ -8,14 +8,22 @@ import Footer from '../LoginSignup/Footer';
 import { useNavigate } from 'react-router-dom';
 import TeamSidebar from '../sidebar/TeamSidebar';
 import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
+import jwt_decode from 'jwt-decode';
+
 
 
 const AddTeamHistory = () => {
   const { control, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwtToken");
+  const decoded = jwt_decode(token);
+  const teamId = decoded.teamId;
 
   const onSubmit = async (data) => {
     try {
+      // Include teamId in the data object
+      data.teamId = teamId;
+
       const response = await fetch('https://localhost:7092/api/TeamHistory/CreateTeamHistory', {
         method: 'POST',
         headers: {
@@ -37,6 +45,7 @@ const AddTeamHistory = () => {
       toast.error('Team History creation failed');
     }
   };
+
 
   const validateHeading = (value) => {
     return value.length >= 7 || 'Heading should be at least 7 characters';

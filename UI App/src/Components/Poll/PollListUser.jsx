@@ -29,7 +29,7 @@ const PollListUser = () => {
   return (
     <div>
       <UserNavbar />
-      <div className="poll-list-container">
+      <div className="poll-list-container" style={{ marginTop: "100px" }}>
         {pollList.map((poll) => (
           <div key={poll.pollId} className="poll-item" onClick={() => handleVoteClick(poll.pollId)}>
             {/* Use a div instead of Link, and add an onClick handler */}

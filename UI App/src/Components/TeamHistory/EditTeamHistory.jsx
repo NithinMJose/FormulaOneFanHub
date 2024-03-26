@@ -6,16 +6,21 @@ import Footer from '../LoginSignup/Footer';
 import { useNavigate, useLocation } from 'react-router-dom';
 import TeamSidebar from '../sidebar/TeamSidebar';
 import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
+import jwt_decode from 'jwt-decode';
 
 const EditTeamHistory = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
+  const token = localStorage.getItem('jwtToken');
+  const decoded = jwt_decode(token);
+  const teamId = decoded.teamId;
 
   const [teamHistory, setTeamHistory] = useState({
     historyId: state.historyId,
     heading: '',
     paragraph: '',
+    teamId: teamId // Add teamId to state
   });
 
   useEffect(() => {
@@ -88,6 +93,8 @@ const EditTeamHistory = () => {
                       onChange={(e) => setTeamHistory({ ...teamHistory, paragraph: e.target.value })}
                     />
                   </Grid>
+                  {/* Add hidden field to store teamId */}
+                  <input type="hidden" value={teamId} onChange={(e) => setTeamHistory({ ...teamHistory, teamId: e.target.value })} />
                   <Grid item xs={12}>
                     <Button variant="contained" color="primary" onClick={handleUpdate}>
                       Update Team History

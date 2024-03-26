@@ -6,21 +6,25 @@ import Footer from '../LoginSignup/Footer';
 import { useNavigate } from 'react-router-dom';
 import TeamSidebar from '../sidebar/TeamSidebar';
 import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
+import jwt_decode from 'jwt-decode';
 
 const TeamHistoryListTeam = () => {
   const navigate = useNavigate();
   const [teamHistories, setTeamHistories] = useState([]);
+  const token = localStorage.getItem("jwtToken");
+  const decoded = jwt_decode(token);
+  const teamId = decoded.teamId;
 
   useEffect(() => {
     axios
-      .get('https://localhost:7092/api/TeamHistory/GetAllTeamHistories')
+      .get(`https://localhost:7092/api/TeamHistory/GetTeamHistoriesByTeamId?teamId=${teamId}`)
       .then((response) => {
         setTeamHistories(response.data);
       })
       .catch((error) => {
         console.error('Error fetching Team histories:', error);
       });
-  }, []);
+  }, [teamId]); // Add teamId as dependency to refetch data when teamId changes
 
   const handleEditTeamHistory = (historyId) => {
     navigate(`/EditTeamHistory`, { replace: true, state: {historyId } });

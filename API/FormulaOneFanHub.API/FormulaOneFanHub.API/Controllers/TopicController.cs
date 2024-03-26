@@ -44,9 +44,25 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpGet("GetAllTopics")]
         public IActionResult GetAllTopics()
         {
-            var topics = _fanHubContext.Topics.Include(t => t.Team);
+            var topics = _fanHubContext.Topics
+                .Include(t => t.Team) // Include the related Team entity
+                .Select(topic => new
+                {
+                    topic.TopicId,
+                    topic.Title,
+                    topic.Content,
+                    topic.CreatedOn,
+                    topic.TeamId,
+                    TeamName = topic.Team.Name,
+                    topic.Team.Country,
+                    topic.Team.Status,
+                    topic.Team.ImagePath
+                })
+                .ToList();
+
             return Ok(topics);
         }
+
 
         [HttpGet("GetTopicById")]
         public IActionResult GetTopicById(int id)

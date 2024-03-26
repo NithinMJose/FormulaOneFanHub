@@ -149,7 +149,7 @@ const AddPoll = () => {
   return (
     <div>
       <AdminNavbar />
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" style={{ marginTop: "100px" }}>
         <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
           <Typography variant="h5" align="center" gutterBottom>
             Add Poll

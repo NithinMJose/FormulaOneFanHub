@@ -58,8 +58,9 @@ const GalleryUserView = () => {
   return (
     <div>
       <UserNavbar />
+      <div className='container-fluid' style={{ backgroundColor: '#f8f9fa', marginTop: "90px" }}>
       <StyledContainer>
-        <Typography variant="h4" align="center" gutterBottom>
+          <Typography variant="h4" align="center" gutterBottom >
           Gallery
         </Typography>
         <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -105,6 +106,7 @@ const GalleryUserView = () => {
       </Dialog>
       <Footer />
       <br />
+    </div>
     </div>
   );
 };

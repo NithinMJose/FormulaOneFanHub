@@ -74,7 +74,7 @@ const OrderHistory = () => {
       item.productName && item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.teamName && item.teamName.toLowerCase().includes(searchTerm.toLowerCase())
     ) &&
-    (orderStatusFilter === '' || order.orderStatus === orderStatusFilter) &&
+    (orderStatusFilter === '' || order.orderStatus === orderStatusFilter || (orderStatusFilter === 'Cancelled' && (order.orderStatus === 'Cancelled' || order.orderStatus === 'CancelledByUser'))) &&
     (orderTimeFilter === '' || filterOrderByTime(orderTimeFilter, order.orderDate))
   );
 
@@ -108,9 +108,10 @@ const OrderHistory = () => {
                   className="filter-select"
                 >
                   <option value="">All</option>
-                  <option value="InShipping">InShipping</option>
+                  <option value="InShipping">In Shipping</option>
                   <option value="Delivered">Delivered</option>
-                  <option value="WrongAddress">Cancelled</option>
+                  <option value="WrongAddress">Wrong Address</option>
+                  <option value="CancelledByUser">Cancelled By User</option>
                   <option value="Returned">Returned</option>
                 </select>
               </div>

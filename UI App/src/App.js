@@ -111,6 +111,7 @@ import DeliveryCompanyHome from './Components/Store/DeliveryCompany/DeliveryComp
 import ListPendingOrders from './Components/Store/DeliveryCompany/ListPendingOrders';
 import ListShippingOrders from './Components/Store/DeliveryCompany/ListShippingOrders';
 import TeamSellingReport from './Components/Team/TeamSellingReport';
+import EditGallery from './Components/Gallery/EditGallery';
 
 
 
@@ -229,6 +230,7 @@ function App() {
           <Route path='/ListPendingOrders' element={<ListPendingOrders />} />
           <Route path='/ListShippingOrders' element={<ListShippingOrders />} />
           <Route path='/TeamSellingReport' element={<TeamSellingReport />} />
+          <Route path='/EditGallery/:uniqueName' element={<EditGallery />} />
 
         </Routes>
         <ToastContainer />

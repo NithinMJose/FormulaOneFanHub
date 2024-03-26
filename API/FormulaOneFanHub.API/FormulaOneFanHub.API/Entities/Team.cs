@@ -25,6 +25,9 @@ namespace FormulaOneFanHub.API.Entities
         public string? ImagePath { get; set; } = null;
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public DateTime UpdatedOn { get; set; } = DateTime.Now;
+        public ICollection<TeamHistory>? TeamHistories { get; set; }
+        public List<Topic>? Topics { get; set; }
+
 
     }
 }
