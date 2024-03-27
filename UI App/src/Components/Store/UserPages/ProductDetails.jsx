@@ -181,12 +181,20 @@ const ProductDetails = () => {
                   {error && <p className="errorMessage">{error}</p>}
                 </div>
                 <div className="team-details">
+                      <hr />
                   <p className="team-genuine">Genuine product from:</p>
                   <div className="team-info">
                     {team.imagePath && <img src={`https://localhost:7092/images/${team.imagePath}`} alt={team.name} className="teamImage" />}
                     <p className="team-name">{team.name}</p>
                   </div>
                 </div>
+                    <div className='ProductGenuityText'>
+                      <p className="productGenuityTexts3">Assured Benefits !</p>
+                      <p className="productGenuityTexts4">Authenticity</p>
+                      <p className="productGenuityTexts5">Quality Assurance</p>
+                      <p className="productGenuityTexts6">Exclusive Access</p>
+                      <hr />
+                    </div>
                 <h3 className="description-heading" onClick={() => setExpanded(!expanded)}>Description<span className="plus-symbol">{expanded ? '-' : '+'}</span></h3>
                 {expanded && (
                   <>

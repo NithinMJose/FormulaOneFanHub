@@ -181,7 +181,7 @@ const UserCart = () => {
                 <Grid item xs={12} key={item.cartItemId}>
                   <Paper elevation={3} className="cart-item">
                     <div className="cart-item-content">
-                      <div className="image-container">
+                      <div className="imageContainers">
                         <img
                           src={`https://localhost:7092/images/${productDetails[item.productId]?.imagePath1}`}
                           alt={productDetails[item.productId]?.productName}

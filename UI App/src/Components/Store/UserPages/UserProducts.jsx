@@ -11,6 +11,13 @@ const UserProducts = () => {
   const [teams, setTeams] = useState({});
   const [wishlistedProducts, setWishlistedProducts] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState('');
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState({
+    under500: false,
+    '501-1000': false,
+    '1001-2000': false,
+    above2001: false,
+  });
+  const [sortBy, setSortBy] = useState('featured'); // New state for sorting
 
   const token = localStorage.getItem("jwtToken");
   const decoded = jwt_decode(token);
@@ -108,18 +115,51 @@ const UserProducts = () => {
         console.error('Error fetching teams:', error);
       }
     };
-
     fetchWishlist();
     fetchProducts();
     fetchTeams();
   }, [categoryId, userId]);
 
-  const handleProductClick = (productId) => {
-    console.log('Clicked product ID:', productId);
+  const handlePriceRangeChange = (e) => {
+    setSelectedPriceRanges({
+      ...selectedPriceRanges,
+      [e.target.value]: e.target.checked,
+    });
+  };
+
+  const isProductInPriceRange = (product) => {
+    if (!Object.values(selectedPriceRanges).some(value => value)) return true;
+
+    const price = product.price;
+    return Object.entries(selectedPriceRanges).some(([range, selected]) => {
+      if (!selected) return false;
+
+      switch (range) {
+        case 'under500':
+          return price <= 500;
+        case '501-1000':
+          return price >= 501 && price <= 1000;
+        case '1001-2000':
+          return price >= 1001 && price <= 2000;
+        case 'above2001':
+          return price > 2001;
+        default:
+          return false;
+      }
+    });
   };
 
   const isProductWishlisted = (productId) => {
     return wishlistedProducts.includes(productId);
+  };
+
+  const sortProducts = (products) => {
+    // Sorting products based on selected sort option
+    if (sortBy === 'price') {
+      return [...products].sort((a, b) => a.price - b.price);
+    } else {
+      return products; // Keep the original order for "Featured"
+    }
   };
 
   return (
@@ -127,17 +167,54 @@ const UserProducts = () => {
       <div className='UserProductsWrapper'>
         <UserNavbars />
         <div className='DemoSideBar'>
-          <h1>Select Team</h1>
+
+          <h1 className='SortByText'>Sort By</h1>
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="featured">Featured</option>
+            <option value="price">Price</option>
+          </select>
+
+
+          <h1 className='TeamFilterText'>Filter by Team</h1>
           <select value={selectedTeam} onChange={(e) => setSelectedTeam(e.target.value)}>
             <option value="">All Teams</option>
             {Object.keys(teams).map((teamId) => (
               <option key={teamId} value={teamId}>{teams[teamId]}</option>
             ))}
           </select>
+
+          <h1 className='PriceFilterText'>Filter by Price</h1>
+          <div>
+            <label>
+              <input type="checkbox" value="under500" checked={selectedPriceRanges.under500} onChange={handlePriceRangeChange} />
+              Under 500
+            </label>
+            <label>
+              <input type="checkbox" value="501-1000" checked={selectedPriceRanges['501-1000']} onChange={handlePriceRangeChange} />
+              501 - 1000
+            </label>
+            <label>
+              <input type="checkbox" value="1001-2000" checked={selectedPriceRanges['1001-2000']} onChange={handlePriceRangeChange} />
+              1001 - 2000
+            </label>
+            <label>
+              <input type="checkbox" value="above2001" checked={selectedPriceRanges.above2001} onChange={handlePriceRangeChange} />
+              Above 2001
+            </label>
+          </div>
+
+          {/*}
+          <div className='TicketBookingAd'>
+            <h1 className='TicketBookingAdText'>Book Your Tickets Now</h1>
+            <div className="imageBox">
+              <div className='TicketText'>Dont miss the chance to Grab the Ticket!</div>
+            </div>
+          </div>
+        */}
+
         </div>
         <div className="productContainers" style={{ marginTop: "100px" }}>
-          {products.filter(product => !selectedTeam || Number(product.teamId) === Number(selectedTeam)).map(product => (
-
+          {sortProducts(products.filter(product => (!selectedTeam || Number(product.teamId) === Number(selectedTeam)) && isProductInPriceRange(product))).map(product => (
             <div key={product.productId} className="product-item">
               <a href={`/ProductDetails/${product.uniqueName}`} className="product-link">
                 <div className="product-heart">

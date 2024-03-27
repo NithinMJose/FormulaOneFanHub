@@ -187,8 +187,11 @@
     font-size: 20px;
     cursor: pointer;
   }
-  
-  .quantityHeading {
+.quantity-selection {
+  display: flex;
+  /* Use flexbox to align items in a row */
+  align-items: center;
+  /* Align items vertically in the center */
     margin-top: 10px;
     font-size: 18px;
     font-weight: bold;
@@ -196,16 +199,20 @@
     padding-right: 15px;
     margin-bottom: 20px;
 }
-
-.quantityBox {
-  width: 80px;
-  padding: 8px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  outline: none;
+  
+.quantityHeading {
+  margin-right: 10px;
+  /* Add some space between the label and the input */
 }
-
+.quantityBox {
+    width: 80px;
+      padding: 8px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+}
+  
 .quantityBox:focus {
   border-color: #007bff;
 }
@@ -216,3 +223,36 @@
   margin-top: 0px;
 }
 
+.productGenuityTexts {
+  font-size: 15px;
+  color: #333;
+  margin-top: 20px;
+}
+
+
+.productGenuityTexts p {
+  margin-bottom: 10px;
+}
+
+.productGenuityTexts3 {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.productGenuityTexts4,
+.productGenuityTexts5,
+.productGenuityTexts6 {
+  margin-left: 20px;
+  margin-top: -15px;
+}
+
+.productGenuityTexts4:before,
+.productGenuityTexts5:before,
+.productGenuityTexts6:before {
+  content: '•';
+  margin-right: 5px;
+}
+
+.productGenuityTexts7 {
+  margin-top: -15px;
+}

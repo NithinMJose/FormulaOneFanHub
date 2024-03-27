@@ -98,15 +98,6 @@ const DirectBuyingFinalPage = () => {
           .then((response) => {
             console.log('Order successfully created:', flag);
             flag = 1;
-            // Delete the cart items from the database using the endpoint https://localhost:7092/api/CartItem/RemoveUserCartById/3
-            axios
-              .delete(`https://localhost:7092/api/CartItem/RemoveUserCartById/${receivedData.userId}`)
-              .then((response) => {
-                console.log('Cart Items Deleted:', response);
-              })
-              .catch((error) => {
-                console.error('Error deleting cart items:', error);
-              });
           })
           .catch((error) => {
             console.error('Error creating order:', error);

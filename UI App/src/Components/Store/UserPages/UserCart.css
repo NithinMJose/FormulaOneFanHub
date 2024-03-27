@@ -24,8 +24,8 @@
 }
 
 .product-image {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+        height: 300px;
     border-radius: 5px;
 }
 
@@ -123,5 +123,9 @@
     background-color: #ffa000; /* Darker yellow on hover */
   }
   
+  .imageContainer {
+      display: flex;
+      justify-content: center;
+  }
   
   

@@ -8,16 +8,10 @@ body {
 .CategoriesContainer {
     display: flex;
     /* Use Flexbox for the container */
-    background-color: #ffffffda;
+    background-color: #ffffff;
 }
 
-.SimpleSidebar {
-    background-color: #5f2b2bda;
-    width: 30%;
-    padding: 20px;
-    padding-top: 100px;
 
-}
 .category-list-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -74,5 +68,38 @@ body {
         padding-right: 8px;
         padding-top: 3px;
         padding-bottom: 3px;
-    }
+}
 
+
+.SimpleSidebar {
+    background-color: #ffffff;
+    width: 30%;
+    padding: 20px;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.choose-category-text {
+    font-size: 3.0rem;
+    color: #000000;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 10px;
+    font-family: 'Encode Sans', sans-serif;
+    font-weight: bold;
+}
+
+.categoryDescription1 {
+    padding-top: 100px;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.categoryDescription4 {
+    padding-top: 100px;
+    color: #333;
+}

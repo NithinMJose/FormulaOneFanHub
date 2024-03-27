@@ -31,7 +31,13 @@ const UserSelectCategory = () => {
       <UserNavbar />
       <div className='CategoriesContainer'>
         <div className="SimpleSidebar">
-          {/* add an image */}
+          <div className="choose-category-text">GET YOUR GEARS HERE!</div>
+          <div className="categoryDescription1">
+            Unleash Your Formula One Passion with Our Exclusive Collection
+          </div>
+          <div className="categoryDescription4">
+            Start your journey today and discover the perfect piece to add to your collection!
+          </div>
         </div>
       <div className="category-list-container">
         {categories.map((category) => (
