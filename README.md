@@ -49,7 +49,7 @@ The "Formula 1 Connection Hub" academic project offers an opportunity to explore
 
 Thank you for your interest in the Formula 1 Connection Hub academic project! Contributions and feedback are welcome as we continue to explore and refine the concepts presented herein.
 
-i am attaching 2 screenshots for the reference
+i am attaching some screenshots for the reference
 
 
 ![SS1](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/16840002-831c-49ca-973c-410a568ade9e)
@@ -59,5 +59,8 @@ i am attaching 2 screenshots for the reference
 ![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/563c5c6a-6562-4657-8401-bf9b5fb2903c)
 
 ![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/5d9a95c5-ee46-4754-8152-248454d11d82)
+
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/4dd16846-2d1a-4787-a000-c8c4ef8a5019)
+
 
 
