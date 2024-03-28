@@ -56,3 +56,8 @@ i am attaching 2 screenshots for the reference
 
 ![SS2](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/76436121-87d8-4606-8642-e0a618eed19d)
 
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/563c5c6a-6562-4657-8401-bf9b5fb2903c)
+
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/5d9a95c5-ee46-4754-8152-248454d11d82)
+
+
