@@ -51,7 +51,7 @@ Thank you for your interest in the Formula 1 Connection Hub academic project! Co
 
 i am attaching some screenshots for the reference
 
-
+User sample screenshots
 ![SS1](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/16840002-831c-49ca-973c-410a568ade9e)
 
 ![SS2](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/76436121-87d8-4606-8642-e0a618eed19d)
@@ -61,6 +61,25 @@ i am attaching some screenshots for the reference
 ![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/5d9a95c5-ee46-4754-8152-248454d11d82)
 
 ![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/4dd16846-2d1a-4787-a000-c8c4ef8a5019)
+
+Team Management sample Screenshots
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/2d516814-4091-426d-a46e-5699a0ec910f)
+
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/d97cb930-0a66-4c88-abf1-52f611d3481c)
+
+Admin sample Screenshots
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/18900987-1d75-4b24-bc0b-6dd2cac0583f)
+
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/228344cb-7f42-44bb-bff1-7e9ec7c1c13f)
+
+Delivery Company sample screenshots
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/c47b7177-d49d-4862-9ac3-8d80ac9365c2)
+
+![image](https://github.com/NithinMJose/FormulaOneFanHub/assets/116726866/5b7f4162-0c2c-4812-abba-daf179d75b23)
+
+
+
+
 
 
 
