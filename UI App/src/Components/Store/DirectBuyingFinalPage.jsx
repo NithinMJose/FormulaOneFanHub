@@ -17,7 +17,7 @@ const DirectBuyingFinalPage = () => {
     return null; // or display an error message
   }
 
-  const { receivedData, paymentId, orderId, paymentDate, totalAmount } = state;
+  const { receivedData, paymentId, orderId, paymentDate, totalAmount, newAddress } = state;
 
   console.log('DISPLAYING DATA FROM THE DIRECT BUY FINAL PAGE');
   console.log('Received Data:', receivedData);
@@ -46,7 +46,7 @@ const DirectBuyingFinalPage = () => {
       console.log('Full Name', fullName);
       console.log('Email:', email);
       console.log('Phone Number:', phoneNumber);
-      console.log('Address:', address);
+      console.log('Edited Address:', newAddress);
       console.log('Shipping Date:', shippingDate);
       console.log('Payment ID:', paymentId);
       console.log('Payment Date:', paymentDateISO);
@@ -68,7 +68,7 @@ const DirectBuyingFinalPage = () => {
         name: fullName,
         email: email,
         phoneNumber: phoneNumber,
-        address: address,
+        address: newAddress,
         shippingDate: shippingDate,
         paymentNumberRazor: paymentId,
         paymentDate: paymentDateISO,

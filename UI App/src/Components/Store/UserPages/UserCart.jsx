@@ -9,6 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField'; // Import TextField for input field
 import { useNavigate } from 'react-router-dom';
 import './UserCart.css';
 import displayRazorPay from '../../../utils/PaymentGatewayDirectBuy';
@@ -18,13 +19,32 @@ const UserCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [productDetails, setProductDetails] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
-  const [cartItemIdToRemove, setCartItemIdToRemove] = useState(null);
   const token = localStorage.getItem("jwtToken");
   const decoded = jwt_decode(token);
   const userId = decoded.userId;
   const navigate = useNavigate();
+  const [userDetails, setUserDetails] = useState({});
+  const [newAddress, setNewAddress] = useState('');
+
 
   useEffect(() => {
+    fetchUserDetails();
+  }, []);
+  var deliveryAddress = newAddress;
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await fetch(`https://localhost:7092/api/User/GetUserDetailsFromUserId?userId=${userId}`);
+      const data = await response.json();
+      setUserDetails(data);
+      console.log("User DetailsZZZZZZZZ :", data);
+      setNewAddress(data.address);
+    } catch (error) {
+      console.error('Error fetching user details:', error);
+    }
+  };
+  useEffect(() => {
+
     const fetchCartItems = async () => {
       try {
         const response = await fetch(`https://localhost:7092/api/CartItem/GetCartItemsByUserId/${userId}`);
@@ -100,14 +120,18 @@ const UserCart = () => {
     }
   };
 
-  const handleOpenDialog = (cartItemId) => {
-    setCartItemIdToRemove(cartItemId);
-    setOpenDialog(true);
+  const handleOpenDialog = (actionType, cartItemId) => {
+    if (actionType === "RemoveItem") {
+      console.log("Remove Item Clicked");
+      handleRemoveFromCart(cartItemId);
+    }
   };
+
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
 
   const getSubtotal = (item) => {
     return item.quantity * productDetails[item.productId]?.price;
@@ -135,12 +159,27 @@ const UserCart = () => {
       // Handle error, perhaps show a message to the user
     }
   };
-  
+
+  const handleEditAddress = () => {
+    setNewAddress(userDetails.address);
+    setOpenDialog(true);
+  };
+
+  const handleConfirmEditAddress = () => {
+    console.log("New Address:", newAddress);
+    setNewAddress(newAddress);
+    // Perform actions with the new address
+    setOpenDialog(false);
+  };
+
+
 
   const handleBuyNow = () => {
+    console.log("New Address :", newAddress);
     const discountAmount = 0;
     const orderDate = new Date();
     console.log("Buy Now Clicked");
+
 
 
     const productsToBuy = cartItems.map(item => ({
@@ -154,18 +193,19 @@ const UserCart = () => {
     const dataToTransfer = {
       userId: userId,
       products: productsToBuy,
+      deliveryAddress: newAddress,
     };
     console.log("Just before displayRazorPay")
     console.log("Total Amount:", getTotalAmount());
     console.log("Data To Tranfer :", dataToTransfer);
-    displayRazorPay(getTotalAmount(), dataToTransfer, navigate);
+    displayRazorPay(getTotalAmount(), dataToTransfer, deliveryAddress, navigate);
 
   };
   
 
   return (
     <>
-    <UserNavbar />
+      <UserNavbar />
       <br />
       <br />
       <br />
@@ -205,13 +245,14 @@ const UserCart = () => {
                           <Typography variant="body1" className="price" style={{ fontSize: '18px', fontWeight: 'bold' }}>Price: ₹{productDetails[item.productId]?.price}</Typography>
                         </div>
                         <Button 
-                          className='remove-button-cart' 
-                          variant="contained" 
+                          className='remove-button-cart'
+                          variant="contained"
                           color="primary"
-                          onClick={() => handleOpenDialog(item.cartItemId)}
+                          onClick={() => handleOpenDialog("RemoveItem", item.cartItemId)} // Pass 'remove' as the action type
                         >
                           Remove
                         </Button>
+
                       </div>
                     </div>
                   </Paper>
@@ -229,10 +270,25 @@ const UserCart = () => {
                 <Typography variant="body1" className="price">₹{getSubtotal(item).toFixed(2)}</Typography>
               </div>
             ))}
+            <hr />
+            <div className="deliveryAddress">
+              <Typography variant="subtitle1">Delivery Address:</Typography>
+              <div style={{ whiteSpace: 'pre-line' }}>{newAddress}</div>
+              <br />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleEditAddress}
+              >
+                Edit Address
+              </Button>
+
+            </div>
             <div className="total-amount">
               <Typography variant="subtitle1">Total Amount:</Typography>
               <Typography variant="h6">₹{getTotalAmount().toFixed(2)}</Typography>
             </div>
+            <hr />
             <br />
             <div 
               className='buyNowButton'
@@ -246,18 +302,30 @@ const UserCart = () => {
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="edit-address-dialog-title"
+        aria-describedby="edit-address-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Confirmation"}</DialogTitle>
+        <DialogTitle id="edit-address-dialog-title">Edit Address</DialogTitle>
         <DialogContent>
-          <Typography variant="body1">Are you sure you want to remove this item from the cart?</Typography>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="address"
+            label="New Address"
+            type="text"
+            multiline // Set to true for multi-line input
+            fullWidth
+            rows={4} // Number of rows for multi-line input
+            value={newAddress}
+            onChange={(e) => setNewAddress(e.target.value)}
+          />
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => handleRemoveFromCart(cartItemIdToRemove)} color="primary" autoFocus>
+          <Button onClick={handleConfirmEditAddress} color="primary">
             Confirm
           </Button>
         </DialogActions>
@@ -265,6 +333,7 @@ const UserCart = () => {
       <Footer />
     </>
   );
+
 };
 
 export default UserCart;

@@ -3,13 +3,14 @@ import logo from "../Components/Assets/a.jpg";
 
 const TicketBookingDto = { amount: 50000 };
 
-export default async function displayRazorPay(totalAmount, dataToTransfer, navigate) {
+export default async function displayRazorPay(totalAmount, dataToTransfer, deliveryAddress, navigate) {
   try {
     console.log("==============================================================================================================================");
     console.log("Inside displayRazorPay");
     console.log("totalAmount", totalAmount);
     const receivedData = dataToTransfer;
     console.log("receivedData", receivedData);
+    console.log('New Address:', deliveryAddress);
 
     totalAmount = totalAmount * 100;
 
@@ -40,7 +41,7 @@ export default async function displayRazorPay(totalAmount, dataToTransfer, navig
         console.log('Payment Date : ', paymentDate);
         console.log('Total Amount : ', totalAmount);
 
-        navigate('/BuyingFinalPage', { replace: true, state: { receivedData, paymentId, orderId, paymentDate, totalAmount } });
+        navigate('/BuyingFinalPage', { replace: true, state: { receivedData, paymentId, orderId, paymentDate, totalAmount, deliveryAddress } });
       },
       prefill: {
         name: "Formula One Fan Hub",

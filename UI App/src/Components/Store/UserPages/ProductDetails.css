@@ -1,7 +1,6 @@
 .product-details-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 20px;
 }
 
 .page-title {
@@ -99,6 +98,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  float: right;
 }
 .add-to-cart-button:hover {
   background-color: #0056b3;
@@ -127,7 +127,7 @@
 
 .team-genuine {
   font-size: 15px;
-  color: #333;
+  color: #c7c2c2;
   margin-right: 10px;
   margin-bottom: 5px;
 }
@@ -255,4 +255,66 @@
 
 .productGenuityTexts7 {
   margin-top: -15px;
+}
+.additionalContainer {
+  flex: 1;
+  background-color: rgba(236, 232, 232, 0.71);
+  padding: 20px;
+  max-width: 300px;
+  border-radius: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.inner-content {
+  color: rgb(0, 0, 0);
+  /* Text color for better visibility */
+}
+
+.GrabNowText {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.addressText {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.NewAddressDisplay {
+  font-size: 16px;
+  margin-bottom: 20px;
+  white-space: pre-line;
+  /* Allow line breaks */
+}
+
+.totalAmountText {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.TotalAmountDisplay {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.ShippingText {
+  padding-top: 30px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ShippingDetailsDisplay {
+  font-size: 16px;
+}
+
+.ReturnText {
+  font-size: 16px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-weight: bold;
 }

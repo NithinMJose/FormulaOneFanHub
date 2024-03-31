@@ -18,7 +18,7 @@ const BuyingFinalPage = () => {
     return null; // or display an error message
   }
 
-  const { receivedData, paymentId, orderId, paymentDate, totalAmount } = state;
+  const { receivedData, paymentId, orderId, paymentDate, totalAmount, deliveryAddress } = state;
 
   console.log('DISPLAYING DATA FROM THE FINAL PAGE');
   console.log('Received Data:', receivedData);
@@ -26,8 +26,8 @@ const BuyingFinalPage = () => {
   console.log('Order ID:', orderId);
   console.log('Payment Date:', paymentDate);
   console.log('Total Amount:', totalAmount);
+  console.log('DDDDDDDDDDDDDDDDDDDDD:', deliveryAddress);
 
-  // GetUser Details From receivedData.userId using https://localhost:7092/api/User/GetUserDetailsFromUserId?userId=2
   axios.get(`https://localhost:7092/api/User/GetUserDetailsFromUserId?userId=${receivedData.userId}`)
     .then((response) => {
       console.log('User Details:', response.data);
@@ -47,7 +47,7 @@ const BuyingFinalPage = () => {
       console.log('Full Name', fullName);
       console.log('Email:', email);
       console.log('Phone Number:', phoneNumber);
-      console.log('Address:', address);
+      console.log('Address:', deliveryAddress);
       console.log('Shipping Date:', shippingDate);
       console.log('Payment ID:', paymentId);
       console.log('Payment Date:', paymentDateISO);
@@ -71,7 +71,7 @@ const BuyingFinalPage = () => {
         name: fullName,
         email: email,
         phoneNumber: phoneNumber,
-        address: address,
+        address: deliveryAddress,
         shippingDate: shippingDate,
         paymentNumberRazor: paymentId,
         paymentDate: paymentDateISO,
