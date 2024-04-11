@@ -11,11 +11,11 @@ namespace FormulaOneFanHub.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             modelBuilder.Entity<TicketBooking>()
-             .HasOne(tb => tb.Race)
-             .WithMany()
-             .HasForeignKey(tb => tb.RaceId)
-             .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<TicketBooking>()
+            .HasOne(tb => tb.Race)
+            .WithMany()
+            .HasForeignKey(tb => tb.RaceId)
+            .OnDelete(DeleteBehavior.NoAction);
 
 
             modelBuilder.Entity<OrderedItem>(entity =>
@@ -91,6 +91,8 @@ namespace FormulaOneFanHub.API.Data
         public DbSet<OrderedItem> OrderedItems { get; set; }
         public DbSet<SoldItem> SoldItems { get; set; }
         public DbSet<DeliveryCompany> DeliveryCompanies { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<AttendanceRegister> AttendanceRegisters { get; set; }
 
     }
 }

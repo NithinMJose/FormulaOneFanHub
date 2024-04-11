@@ -24,6 +24,7 @@ namespace FormulaOneFanHub.API.Services
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
                         Convert.ToBase64String(Encoding.UTF8.GetBytes(razorKey + ":" + razorKeySecret)));
+
             var response = client.PostAsync("https://api.razorpay.com/v1/orders", requestContent).GetAwaiter().GetResult();
             var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 

@@ -24,6 +24,7 @@ const AddProductTeam = () => {
 
   const [productNameError, setProductNameError] = useState('');
   const [priceError, setPriceError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
   const [stockQuantityError, setStockQuantityError] = useState('');
   //const [discountAmountError, setDiscountAmountError] = useState('');
   const [imageFileErrors, setImageFileErrors] = useState([]);
@@ -60,25 +61,96 @@ const AddProductTeam = () => {
   }, []);
 
   const validateProductName = (value) => {
+
     if (!value.trim() || value.length < 3) {
       setProductNameError('Product name should be at least 3 characters long');
       return false;
-    } else {
-      setProductNameError('');
-      return true;
     }
+
+    // Check if the product name has at least 1 alphabet
+    if (!/[a-zA-Z]/.test(value)) {
+      setProductNameError('Product name must contain at least 1 alphabet');
+      return false;
+    }
+
+    // Check if the product name length is within the limit
+    if (value.length > 15) {
+      setProductNameError('Product name must be at most 15 characters long');
+      return false;
+    }
+
+    // Check if the product name is not empty
+    if (!value.trim()) {
+      setProductNameError('Product name is required');
+      return false;
+    }
+
+    // If all conditions are met, clear the error
+    setProductNameError('');
+    return true;
   };
+
 
   const validatePrice = (value) => {
     const parsedPrice = parseFloat(value);
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
       setPriceError('Price must be a valid number greater than 0');
       return false;
-    } else {
+    }
+    // Check if the price is not empty
+    if (!value.trim()) {
+      setPriceError('Price is required');
+      return false;
+    }
+    //maximum 2 decimal places
+    if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+      setPriceError('Price must have at most 2 decimal places');
+      return false;
+    }
+    //maximum value is 100000
+    if (parsedPrice > 100000) {
+      setPriceError('Price must be at most 100000');
+      return false;
+    }
+
+    //maximum no. of character is 9
+    if (value.length > 9) {
+      setPriceError('Price must be at most 9 characters long');
+      return false;
+    }
+    //first 2 numbers should not be 0 and entering like 000005 is not allowed but like 0.5 is allowed
+    if (value.length > 1 && value[0] === '0' && value[1] !== '.') {
+      setPriceError('Avoid unnecessary leading zeros in price');
+      return false;
+    }
+
+    else {
       setPriceError('');
       return true;
     }
   };
+
+  const validateDescription = (value) => {
+    // Remove whitespace from the description and check its length
+    const nonWhiteSpaceChars = value.replace(/\s/g, '');
+
+    // Check if the description has at least 3 non-whitespace characters
+    if (nonWhiteSpaceChars.length < 3) {
+      setDescriptionError('Description should contain at least 3 non-whitespace characters');
+      return false;
+    }
+
+    //maximum 300 characters
+    if (value.length > 300) {
+      setDescriptionError('Description must be at most 300 characters long');
+      return false;
+    }
+    else {
+      setDescriptionError('');
+      return true;
+    }
+  };
+
 
   const validateStockQuantity = (value) => {
     const parsedQuantity = parseInt(value);
@@ -222,7 +294,13 @@ const AddProductTeam = () => {
                     variant="outlined"
                     fullWidth
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      validateDescription(e.target.value);
+                    }
+                    }
+                    error={Boolean(descriptionError)}
+                    helperText={descriptionError}
                     style={{ marginBottom: '20px' }}
                   />
                   <TextField

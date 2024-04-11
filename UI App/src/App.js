@@ -112,7 +112,9 @@ import ListPendingOrders from './Components/Store/DeliveryCompany/ListPendingOrd
 import ListShippingOrders from './Components/Store/DeliveryCompany/ListShippingOrders';
 import TeamSellingReport from './Components/Team/TeamSellingReport';
 import EditGallery from './Components/Gallery/EditGallery';
-
+import AccessCamera from './Components/Seminar/AccessCamera';
+import AttendanceRegister from './Components/LoginSignup/AttendanceRegister'
+import AttendanceRegisterAdmin from './Components/LoginSignup/AttendanceRegisterAdmin'
 
 
 function App() {
@@ -231,6 +233,9 @@ function App() {
           <Route path='/ListShippingOrders' element={<ListShippingOrders />} />
           <Route path='/TeamSellingReport' element={<TeamSellingReport />} />
           <Route path='/EditGallery/:uniqueName' element={<EditGallery />} />
+          <Route path='/AccessCamera' element={<AccessCamera />} />
+          <Route path='/AttendanceRegister' element={<AttendanceRegister />} />
+          <Route path='/AttendanceRegisterAdmin' element={<AttendanceRegisterAdmin />} />
 
         </Routes>
         <ToastContainer />

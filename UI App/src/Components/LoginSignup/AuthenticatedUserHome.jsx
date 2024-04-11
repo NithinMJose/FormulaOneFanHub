@@ -12,6 +12,7 @@ import './AuthenticatedUserHome.css';
 const AuthenticatedUserHome = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
+  const [detectedFaceName, setDetectedFaceName] = useState('');
 
   useEffect(() => {
     // Check if the JWT token is present in local storage
@@ -30,7 +31,16 @@ const AuthenticatedUserHome = () => {
         navigate('/AdminHome');
       } else if (tokenPayload.RoleId === 'User') {
         setUserName(tokenPayload.userName);
-        // Rest of your code here
+
+        // Fetch the detected face name
+        fetch('http://127.0.0.1:8100/get_detected_face_name/')
+          .then(response => response.json())
+          .then(data => {
+            setDetectedFaceName(data.detected_face_name);
+          })
+          .catch(error => {
+            console.error('Error fetching detected face name:', error);
+          });
       }
     }
   }, [navigate]);
@@ -43,12 +53,18 @@ const AuthenticatedUserHome = () => {
         <Box mt={2}>
         </Box>
       </div>
+      {/* 
+      <br />
+      <br />
+      <h1>Detected Face Name : {detectedFaceName}</h1> 
+      <br />
+      <br />
+      */}
       <HomeCarousel className="HomeCarousel" />
       <About className="About" />
       <Footer className="Footer" />
     </div>
   );
-
 };
 
 export default AuthenticatedUserHome;

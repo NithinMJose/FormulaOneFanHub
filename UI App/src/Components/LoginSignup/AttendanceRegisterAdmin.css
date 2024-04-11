@@ -1,0 +1,98 @@
+.containerss {
+  display: flex;
+  width: 100%;
+}
+
+.leftContainerss {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.rightContainerss {
+  flex: 1;
+  margin-top: 70px;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.info {
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  flex: 1;
+}
+
+.activeEmployeesContainer,
+.allEmployeesContainer {
+  margin-bottom: 20px;
+}
+
+.active-employees-title,
+.all-employees-title {
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+
+.active-employees {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.active-employees th,
+.active-employees td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.active-employees th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.active-employees td {
+  text-align: left;
+}
+
+.active-employees tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.active-employees tr:hover {
+  background-color: #ddd;
+}
+
+.all-employees {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.all-employees th,
+.all-employees td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.all-employees th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.all-employees td {
+  text-align: left;
+}
+
+.all-employees tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.all-employees tr:hover {
+  background-color: #ddd;
+}
