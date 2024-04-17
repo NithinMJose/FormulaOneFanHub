@@ -16,12 +16,18 @@ namespace FormulaOneFanHub.API.Controllers
         {
             _fanHubContext = fanHubContxt;
         }
-
         [HttpPost("CreateEmployee")]
         public IActionResult CreateEmployee([FromBody] EmployeeAddDto employeeDto)
         {
             if (!ModelState.IsValid)
             {
+                return BadRequest(ModelState);
+            }
+
+            // Check if the provided EmployeeId is "PROCESSING" or empty
+            if (string.IsNullOrEmpty(employeeDto.EmployeeId) || employeeDto.EmployeeId.Trim().ToUpper() == "PROCESSING")
+            {
+                ModelState.AddModelError("EmployeeId", "EmployeeId must not be 'PROCESSING' or empty.");
                 return BadRequest(ModelState);
             }
 
@@ -44,6 +50,7 @@ namespace FormulaOneFanHub.API.Controllers
 
             return StatusCode(201);
         }
+
 
         [HttpGet("GetEmployees")]
         public IActionResult GetEmployees()
