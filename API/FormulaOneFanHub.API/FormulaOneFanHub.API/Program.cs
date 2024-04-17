@@ -4,6 +4,7 @@ using FormulaOneFanHub.API.Middlewares;
 using FormulaOneFanHub.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -32,6 +33,14 @@ builder.Services.AddTransient<RazorPayService>();
 
 builder.Services.AddDbContext<FormulaOneFanHubContxt>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FormulaOneFanHubContext")));
+
+var connectionString = builder.Configuration.GetConnectionString("FormulaOneFanHubContext");
+var storageConnectionString = builder.Configuration.GetConnectionString("StorageConnectionString");
+
+builder.Services.AddAzureClients(azureBuilder =>
+{
+    azureBuilder.AddBlobServiceClient(storageConnectionString);
+});
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

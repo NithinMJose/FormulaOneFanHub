@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using FormulaOneFanHub.API.Controllers;
+
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -13,32 +17,36 @@ namespace FormulaOneFanHub.API.Controllers
     public class DriverController : ControllerBase
     {
         private readonly FormulaOneFanHubContxt _fanHubContext;
+        private readonly BlobServiceClient _blobServiceClient;
 
-        public DriverController(FormulaOneFanHubContxt fanHubContxt)
+        public DriverController(FormulaOneFanHubContxt fanHubContxt, BlobServiceClient blobServiceClient)
         {
             _fanHubContext = fanHubContxt;
+            _blobServiceClient = blobServiceClient;
         }
 
         [HttpPost("CreateDriver")]
-        public IActionResult CreateDriver([FromForm] DriverDto driverDto)
+        public async Task<IActionResult> CreateDriver([FromForm] DriverDto driverDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            string imagePath = null;
             if (driverDto.ImageFile != null && driverDto.ImageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + "_" + driverDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = driverDto.ImageFile.OpenReadStream())
                 {
-                    driverDto.ImageFile.CopyTo(stream);
+                    await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
-                // Set the ImagePath here
-                driverDto.ImagePath = fileName;
+                imagePath = blobClient.Uri.AbsoluteUri; // Store the blob URI as the image path
             }
 
             Driver driverToCreate = new Driver
@@ -47,16 +55,17 @@ namespace FormulaOneFanHub.API.Controllers
                 Dob = driverDto.Dob,
                 TeamIdRef = driverDto.TeamIdRef,
                 Description = driverDto.Description,
-                ImagePath = driverDto.ImagePath, // Set the ImagePath property
+                ImagePath = imagePath, // Use the blob URI as the image path
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now
             };
 
             _fanHubContext.Drivers.Add(driverToCreate);
-            _fanHubContext.SaveChanges();
+            await _fanHubContext.SaveChangesAsync();
 
             return StatusCode(201);
         }
+
 
 
 
