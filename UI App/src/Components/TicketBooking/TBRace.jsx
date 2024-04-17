@@ -5,6 +5,7 @@ import Footer from '../LoginSignup/Footer';
 import { TextField, InputAdornment, Grid, Card, CardContent, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import UserNavbar from '../LoginSignup/UserNavbar';
+import { BASE_URL } from '../../config';
 
 const TBRace = () => {
   const navigate = useNavigate();
@@ -16,11 +17,11 @@ const TBRace = () => {
   useEffect(() => {
     const fetchRacesBySeason = async () => {
       try {
-        const seasonResponse = await axios.get(`https://localhost:7092/api/Season/GetSeasonIdFromSeasonUniqueName?uniqueSeasonName=${uniqueSeasonName}`);
+        const seasonResponse = await axios.get(`${BASE_URL}/api/Season/GetSeasonIdFromSeasonUniqueName?uniqueSeasonName=${uniqueSeasonName}`);
         const seasonId = seasonResponse.data;
         console.log('Fetched Season ID:', seasonId);
         
-        const racesResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceBySeason?seasonId=${seasonId}`);
+        const racesResponse = await axios.get(`${BASE_URL}/api/Race/GetRaceBySeason?seasonId=${seasonId}`);
         const fetchedRaces = racesResponse.data;
         console.log('Fetched Race Data:', fetchedRaces);
         setRaces(fetchedRaces);
@@ -74,7 +75,7 @@ const TBRace = () => {
           <Grid item key={race.raceId} xs={12} sm={6} md={3} lg={3} sx={{ margin: '8px' }}>
             <Card onClick={() => handleRaceClick(race.uniqueRaceName)} sx={{ cursor: 'pointer', height: '100%', width: '90%' }}>
               <img
-                src={`https://localhost:7092/images/${race.imagePath}`}
+                src={`${BASE_URL}/images/${race.imagePath}`}
                 alt={`Race ${race.raceName} Image`}
                 style={{ width: '100%', height: '150px', objectFit: 'cover' }}
               />

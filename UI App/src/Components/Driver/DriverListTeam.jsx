@@ -106,13 +106,17 @@ const DriverListTeam = () => {
                 <TableCell>
                   {driver.imagePath ? (
                     <img
-                      src={`https://localhost:7092/images/${driver.imagePath}`}
-                      alt={`Image for ${driver.name}`}
+                      src={driver.imagePath}
+                      alt={`Image for ${driver.imagePath}`}
                       className="driver-image"
                       style={{ maxWidth: '100%', maxHeight: '100%', width: '150px', height: '150px' }}
                       onLoad={() => console.log(`Image loaded for ${driver.name}: ${driver.imagePath}`)}
-                      onError={() => console.error(`Error loading image for ${driver.name}: ${driver.imagePath}`)}
+                      onError={(e) => {
+                        console.error(`Error loading image for ${driver.name}: ${driver.imagePath}`, e);
+                        // Optionally, display a default image or a message when an error occurs
+                      }}
                     />
+
                   ) : (
                     <span>No Image</span>
                   )}
@@ -133,6 +137,7 @@ const DriverListTeam = () => {
       </TableContainer>
     );
   };
+
 
   return (
     <div className="driverlistpage">

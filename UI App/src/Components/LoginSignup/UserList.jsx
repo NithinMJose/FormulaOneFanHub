@@ -16,6 +16,7 @@ import axios from 'axios';
 import Footer from './Footer';
 import AdminNavbar from './AdminNavbar';
 import jwt_decode from 'jwt-decode';
+import { BASE_URL } from '../../config';
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const UserList = () => {
       }
 
       axios
-        .get(`https://localhost:7092/api/Admin/ListUsers`, {
+        .get(`${BASE_URL}/api/Admin/ListUsers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -73,14 +74,14 @@ const UserList = () => {
 
     if (confirmDelete) {
       axios
-        .delete(`https://localhost:7092/api/User/DeleteUser?userName=${userName}`, {
+        .delete(`${BASE_URL}/api/User/DeleteUser?userName=${userName}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then(() => {
           axios
-            .get(`https://localhost:7092/api/Admin/ListUsers`, {
+            .get(`${BASE_URL}/api/Admin/ListUsers`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -107,7 +108,7 @@ const UserList = () => {
     if (confirmDeactivate) {
       axios
         .put(
-          `https://localhost:7092/api/User/DeactivateUser?userName=${userName}`,
+          `${BASE_URL}/api/User/DeactivateUser?userName=${userName}`,
           null,
           {
             headers: {
@@ -117,13 +118,13 @@ const UserList = () => {
         )
         .then(() => {
           // Call the SendBanEmail endpoint after deactivating the user
-          axios.post('https://localhost:7092/api/User/SendBanEmail', {
+          axios.post(`${BASE_URL}/api/User/SendBanEmail`, {
             userName: userName,
           })
           .then(() => {
             // Fetch updated user data after sending ban email
             axios
-              .get(`https://localhost:7092/api/Admin/ListUsers`, {
+              .get(`${BASE_URL}/api/Admin/ListUsers`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -156,7 +157,7 @@ const UserList = () => {
     if (confirmActivate) {
       axios
         .put(
-          `https://localhost:7092/api/User/ActivateUser?userName=${userName}`,
+          `${BASE_URL}/api/User/ActivateUser?userName=${userName}`,
           null,
           {
             headers: {
@@ -166,13 +167,13 @@ const UserList = () => {
         )
         .then(() => {
           // Call the SendAcivateEmail endpoint after Activating the user
-          axios.post('https://localhost:7092/api/User/SendActivateEmail', {
+          axios.post(`${BASE_URL}/api/User/SendActivateEmail`, {
             userName: userName,
           })
           .then(() => {
             // Fetch updated user data after sending Activation email
             axios
-              .get(`https://localhost:7092/api/Admin/ListUsers`, {
+              .get(`${BASE_URL}/api/Admin/ListUsers`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -200,10 +201,10 @@ const UserList = () => {
 
   const handleUpgradeToAdmin = (userName) => {
     axios
-      .post(`https://localhost:7092/api/User/UpgradeUser?userName=${userName}`)
+      .post(`${BASE_URL}/api/User/UpgradeUser?userName=${userName}`)
       .then(() => {
         axios
-          .get(`https://localhost:7092/api/Admin/ListUsers`, {
+          .get(`${BASE_URL}/api/Admin/ListUsers`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

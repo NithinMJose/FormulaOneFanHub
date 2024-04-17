@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import Footer from '../LoginSignup/Footer';
 import { set } from 'react-hook-form';
+import { BASE_URL } from '../../config';
 
 const TBConfirm = () => {
   const location = useLocation();
@@ -53,7 +54,7 @@ const TBConfirm = () => {
   
       const fetchData = async () => {
         try {
-          const response = await axios.get(`https://localhost:7092/api/Corner/GetDetailsFromCornerId?cornerId=${cornerId}&ticketCategoryId=${ticketCategoryId}`);
+          const response = await axios.get(`${BASE_URL}/api/Corner/GetDetailsFromCornerId?cornerId=${cornerId}&ticketCategoryId=${ticketCategoryId}`);
           setConfirmationData(response.data); // Set the response data to state
           const cornerNumber = response.data.cornerNumber;
           setCornerNumber(cornerNumber);
@@ -73,7 +74,7 @@ const TBConfirm = () => {
         }
   
         try {
-          const response = await axios.get(`https://localhost:7092/api/User/getUserDetailFromUsername?userName=${decodedToken.userName}`);
+          const response = await axios.get(`${BASE_URL}/api/User/getUserDetailFromUsername?userName=${decodedToken.userName}`);
           setUserDetails(response.data);
         } catch (error) {
           console.error('Error fetching user details:', error);
@@ -87,7 +88,7 @@ const TBConfirm = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`https://localhost:7092/api/User/getUserDetailFromUsername?userName=${userName}`);
+        const response = await axios.get(`${BASE_URL}/api/User/getUserDetailFromUsername?userName=${userName}`);
         setUserDetails(response.data);
         console.log(response.data);
         console.log('fetchUserDetails has been called');
@@ -103,7 +104,7 @@ const TBConfirm = () => {
   useEffect(() => {
     const fetchConfirmationData = async () => {
       try {
-        const response = await axios.post('https://localhost:7092/api/TicketConfirm/ConfirmTickets', {
+        const response = await axios.post(`${BASE_URL}/api/TicketConfirm/ConfirmTickets`, {
           seasonId: state.seasonId,
           raceId: state.raceId,
           cornerId: state.cornerId,
@@ -185,7 +186,7 @@ useEffect(() => {
       });
 
       // Send a request to book the ticket
-      const response = await axios.post('https://localhost:7092/api/TicketBooking/BookTickets', {
+      const response = await axios.post(`${BASE_URL}/api/TicketBooking/BookTickets`, {
         UserId: userDetails.id,
         SeasonId: state.seasonId,
         RaceId: state.raceId,
@@ -232,7 +233,7 @@ useEffect(() => {
   const handlePayment = async () => {
     try {
       // Replace with your backend API endpoint for creating Razorpay order
-      const response = await axios.post('https://localhost:7092/api/Razor/order', {
+      const response = await axios.post(`${BASE_URL}/api/Razor/order`, {
         amount: 100,
         currency: 'INR',
         receipt: '12121',
@@ -364,7 +365,7 @@ useEffect(() => {
                       component="img"
                       alt="Ticket Category"
                       height="140"
-                      image={`https://localhost:7092/wwwroot/images/${ticketCategory.imagePath}`}
+                      image={`${BASE_URL}/wwwroot/images/${ticketCategory.imagePath}`}
                     />
                   </Card>
                 </Grid>

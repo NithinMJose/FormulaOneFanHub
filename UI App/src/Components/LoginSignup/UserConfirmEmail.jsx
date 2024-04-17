@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import jwt_decode from 'jwt-decode';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
+import { BASE_URL } from '../../config';
 
 const UserConfirmEmail = (props) => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const UserConfirmEmail = (props) => {
       }
 
       const response = await axios.post(
-        'https://localhost:7092/api/User/TestEndPoint', // Updated endpoint URL
+        `${BASE_URL}/api/User/TestEndPoint`, // Updated endpoint URL
         {
           userName: confirmData.userName,
           otpToken: confirmData.otpToken,

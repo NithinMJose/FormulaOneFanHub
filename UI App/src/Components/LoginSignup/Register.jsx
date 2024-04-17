@@ -8,6 +8,7 @@ import userIcon from '../Assets/abc.png';
 import emailIcon from '../Assets/def.png';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
+import { BASE_URL } from '../../config';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -50,7 +51,7 @@ const Register = () => {
 
       setLoading(true);
       try {
-        const response = await fetch('https://localhost:7092/api/User/RegisterOne', {
+        const response = await fetch(`${BASE_URL}/api/User/RegisterOne`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -138,7 +139,7 @@ const Register = () => {
         setUsername(value);
         validateName(value, setUsernameError, 'Username');
         try {
-          const response = await fetch(`https://localhost:7092/api/User/CheckUsernameAvailability?username=${value}`);
+          const response = await fetch(`${BASE_URL}/api/User/CheckUsernameAvailability?username=${value}`);
           if (response.ok) {
             const data = await response.json();
             setIsUsernameTaken(data.isUsernameTaken);

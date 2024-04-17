@@ -7,6 +7,7 @@ import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 import passwordIcon from '../Assets/ghi.png';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../config';
 
 
 const Registerthree = () => {
@@ -33,7 +34,7 @@ const Registerthree = () => {
     validateForm();
     if ((!passwordError || passwordError === 'Strong password') && (!confirmPasswordError || confirmPasswordSuccess === 'Passwords match')) {
       try {
-        const response = await fetch('https://localhost:7092/api/User/RegisterUser', {
+        const response = await fetch(`${BASE_URL}/api/User/RegisterUser`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import { Button, Container, Typography, TextField, Box } from '@mui/material';
 import { Edit, Check, Delete } from '@mui/icons-material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const F1HistoryUpdate = () => {
   const { historyId } = useParams();
@@ -19,7 +20,7 @@ const F1HistoryUpdate = () => {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:7092/api/F1History/GetF1HistoryById?id=${historyId}`)
+      .get(`${BASE_URL}/api/F1History/GetF1HistoryById?id=${historyId}`)
       .then((response) => {
         setHistoryData(response.data);
       })
@@ -50,7 +51,7 @@ const F1HistoryUpdate = () => {
     };
 
     axios
-      .put(`https://localhost:7092/api/F1History/UpdateF1History?id=${historyId}`, updateData)
+      .put(`${BASE_URL}/api/F1History/UpdateF1History?id=${historyId}`, updateData)
       .then((response) => {
         console.log(`${editableField} Update successful:`, response);
       })

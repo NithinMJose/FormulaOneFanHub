@@ -4,6 +4,7 @@ import UserNavbar from '../LoginSignup/UserNavbar';
 import Footer from '../LoginSignup/Footer';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_URL } from '../../config';
 
 
 // ... (previous imports)
@@ -24,27 +25,27 @@ const TBTicket = () => {
     const fetchTicketDetails = async () => {
       try {
         if (state?.ticketBookingId) {
-          const response = await axios.get(`https://localhost:7092/api/TicketBooking/GetTicketDetailsById/${state?.ticketBookingId?.ticketBookingId}`);
+          const response = await axios.get(`${BASE_URL}/api/TicketBooking/GetTicketDetailsById/${state?.ticketBookingId?.ticketBookingId}`);
           setTicketDetails(response.data);
           console.log('Ticket Details:', response.data);
 
           // Fetch race details using the raceId from the ticket details
-          const raceResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceById?id=${response.data.raceId}`);
+          const raceResponse = await axios.get(`${BASE_URL}/api/Race/GetRaceById?id=${response.data.raceId}`);
           setRaceDetails(raceResponse.data);
           console.log('Race Details:', raceResponse.data);
 
           // Fetch corner details using the cornerId from the ticket details
-          const cornerResponse = await axios.get(`https://localhost:7092/api/Corner/GetCornerById?id=${response.data.cornerId}`);
+          const cornerResponse = await axios.get(`${BASE_URL}/api/Corner/GetCornerById?id=${response.data.cornerId}`);
           setCornerDetails(cornerResponse.data);
           console.log('Corner Details:', cornerResponse.data);
 
           // Fetch category details using the ticketCategoryId from the ticket details
-          const categoryResponse = await axios.get(`https://localhost:7092/api/TicketCategory/GetTicketCategoryById?id=${response.data.ticketCategoryId}`);
+          const categoryResponse = await axios.get(`${BASE_URL}/api/TicketCategory/GetTicketCategoryById?id=${response.data.ticketCategoryId}`);
           setCategoryDetails(categoryResponse.data);
           console.log('Category Details:', categoryResponse.data);
 
           // Fetch season details using the seasonId from the ticket details
-          const seasonResponse = await axios.get(`https://localhost:7092/api/Season/GetSeasonById?id=${response.data.seasonId}`);
+          const seasonResponse = await axios.get(`${BASE_URL}/api/Season/GetSeasonById?id=${response.data.seasonId}`);
           setSeasonDetails(seasonResponse.data);
           console.log('Season Details:', seasonResponse.data);
         }
@@ -62,27 +63,27 @@ const TBTicket = () => {
     const fetchTicketDetails = async () => {
       try {
         if (state?.ticketBookingId) {
-          const response = await axios.get(`https://localhost:7092/api/TicketBooking/GetTicketDetailsById/${state?.ticketBookingId?.ticketBookingId}`);
+          const response = await axios.get(`${BASE_URL}/api/TicketBooking/GetTicketDetailsById/${state?.ticketBookingId?.ticketBookingId}`);
           setTicketDetails(response.data);
           console.log('Ticket Details:', response.data);
 
           // Fetch race details using the raceId from the ticket details
-          const raceResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceById?id=${response.data.raceId}`);
+          const raceResponse = await axios.get(`${BASE_URL}/api/Race/GetRaceById?id=${response.data.raceId}`);
           setRaceDetails(raceResponse.data);
           console.log('Race Details:', raceResponse.data);
 
           // Fetch corner details using the cornerId from the ticket details
-          const cornerResponse = await axios.get(`https://localhost:7092/api/Corner/GetCornerById?id=${response.data.cornerId}`);
+          const cornerResponse = await axios.get(`${BASE_URL}/api/Corner/GetCornerById?id=${response.data.cornerId}`);
           setCornerDetails(cornerResponse.data);
           console.log('Corner Details:', cornerResponse.data);
 
           // Fetch category details using the ticketCategoryId from the ticket details
-          const categoryResponse = await axios.get(`https://localhost:7092/api/TicketCategory/GetTicketCategoryById?id=${response.data.ticketCategoryId}`);
+          const categoryResponse = await axios.get(`${BASE_URL}/api/TicketCategory/GetTicketCategoryById?id=${response.data.ticketCategoryId}`);
           setCategoryDetails(categoryResponse.data);
           console.log('Category Details:', categoryResponse.data);
 
           // Fetch season details using the seasonId from the ticket details
-          const seasonResponse = await axios.get(`https://localhost:7092/api/Season/GetSeasonById?id=${response.data.seasonId}`);
+          const seasonResponse = await axios.get(`${BASE_URL}/api/Season/GetSeasonById?id=${response.data.seasonId}`);
           setSeasonDetails(seasonResponse.data);
           console.log('Season Details:', seasonResponse.data);
         }

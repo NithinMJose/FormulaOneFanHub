@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const AddSeason = () => {
   const [year, setYear] = useState('');
@@ -95,7 +96,7 @@ const AddSeason = () => {
         formData.append('champion', champion || 'Not_Yet_Decided'); // Set default value if not provided
         formData.append('imageFile', imageFile);
 
-        const createSeasonResponse = await fetch('https://localhost:7092/api/Season/CreateSeason', {
+        const createSeasonResponse = await fetch(`${BASE_URL}/api/Season/CreateSeason`, {
           method: 'POST',
           body: formData,
         });

@@ -8,6 +8,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
+import { BASE_URL } from '../../config';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -24,9 +25,9 @@ const Signin = () => {
       const roleId = tokenPayload['RoleId'];
 
       // Redirect based on the RoleId
-      if (roleId === '2') {
+      if (roleId === '4') {
         navigate('/AdminHome');
-      } else if (roleId === '1') {
+      } else if (roleId === '3') {
         navigate('/UserHome');
       } else {
         navigate('/');
@@ -36,24 +37,24 @@ const Signin = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://localhost:7092/api/User/Login', {
+      const response = await axios.post(`${BASE_URL}/api/User/Login`, {
         userName: username,
         password: password,
       });
-  
+
       if (response.data.token) {
         // Store the token in local storage
         localStorage.setItem('jwtToken', response.data.token);
         console.log(response.data.token);
-  
+
         // Parse the token to get the RoleId and Status
         const tokenPayload = jwt_decode(response.data.token);
         const roleId = tokenPayload['RoleId'];
         const status = tokenPayload['Status'];
-  
+
         if (status === "active") {
           toast.success('Login successful');
-  
+
           // Navigate based on the RoleId
           if (roleId === "Admin") {
             navigate('/AdminHome');
@@ -83,16 +84,16 @@ const Signin = () => {
 
   const handleTeamLogin = async () => {
     try {
-      const response = await axios.post('https://localhost:7092/api/Team/Login', {
+      const response = await axios.post(`${BASE_URL}/api/Team/Login`, {
         userName: username,
         password: password,
       });
-  
+
       if (response.data.token) {
         // Store the token in local storage
         localStorage.setItem('jwtToken', response.data.token);
         console.log(response.data.token);
-  
+
         // Parse the token to get the RoleId and Status
         const tokenPayload = jwt_decode(response.data.token);
         const roleId = tokenPayload['RoleId'];
@@ -104,14 +105,14 @@ const Signin = () => {
 
         if (roleId === "Team") {
           if (status === "active") {
-          toast.success('Login successful');
-          console.log('SUCCESSFUL LOGIN');
-          navigate('/');
-        } else if (status === "inactive") {
-          toast.error('Account has not been activated yet. Complete the profile to activate the account');        
-          navigate('/');
+            toast.success('Login successful');
+            console.log('SUCCESSFUL LOGIN');
+            navigate('/');
+          } else if (status === "inactive") {
+            toast.error('Account has not been activated yet. Complete the profile to activate the account');
+            navigate('/');
+          }
         }
-      }
       } else if (response.data.status === "inactive") {
         toast.error('Account has been banned. Contact Admin for details');
       } else {
@@ -129,7 +130,7 @@ const Signin = () => {
 
   const handleDeliveryCompanyLogin = async () => {
     try {
-      const response = await axios.post('https://localhost:7092/api/DeliveryCompany/Login', {
+      const response = await axios.post(`${BASE_URL}/api/DeliveryCompany/Login`, {
         CompanyName: username, // Change 'userName' to 'CompanyName'
         Password: password, // Change 'password' to 'Password'
       });
@@ -151,7 +152,7 @@ const Signin = () => {
 
         if (role === "DeliveryCompany") {
           if (status === "active") {
-            toast.success('Login successful');  
+            toast.success('Login successful');
             console.log('SUCCESSFUL LOGIN');
             navigate('/');
           } else if (status === "inactive") {
@@ -193,32 +194,32 @@ const Signin = () => {
             </Typography>
             <Box component="form" noValidate sx={{ mt: 3 }}>
               <TextField
-              name="username"
-              id="username"
+                name="username"
+                id="username"
                 margin="normal"
                 required
                 fullWidth
-                
+
                 label="Username"
                 autoComplete="username"
                 autoFocus
                 value={username}
-                
+
 
                 onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
-              name="password"
-              id="password"
+                name="password"
+                id="password"
                 margin="normal"
                 required
                 fullWidth
                 label="Password"
                 type="password"
-                
+
                 autoComplete="current-password"
                 value={password}
-                
+
 
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -230,10 +231,10 @@ const Signin = () => {
                 </Grid>
               </Grid>
               <Button
-              id = "testid"
+                id="testid"
                 fullWidth
-                
-                name = "testid"
+
+                name="testid"
                 variant="contained"
                 color="primary"
                 onClick={handleLogin}

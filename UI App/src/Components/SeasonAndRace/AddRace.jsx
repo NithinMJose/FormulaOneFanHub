@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, InputAdornment, Typography, Container } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 
 const AddRace = () => {
@@ -95,7 +96,7 @@ const AddRace = () => {
       setLoading(true);
 
       try {
-        const seasonIdResponse = await fetch(`https://localhost:7092/api/Season/SeasonIdFromYear?year=${seasonYear}`);
+        const seasonIdResponse = await fetch(`${BASE_URL}/api/Season/SeasonIdFromYear?year=${seasonYear}`);
         const seasonIdData = await seasonIdResponse.json();
 
         if (seasonIdResponse.ok) {
@@ -107,7 +108,7 @@ const AddRace = () => {
           formData.append('imageFile', imageFile);
 
           console.log('formData:', formData);
-          const createRaceResponse = await fetch('https://localhost:7092/api/Race/CreateRace', {
+          const createRaceResponse = await fetch(`${BASE_URL}/api/Race/CreateRace`, {
             method: 'POST',
             body: formData,
           });

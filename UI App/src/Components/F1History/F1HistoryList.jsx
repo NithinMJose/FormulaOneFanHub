@@ -3,13 +3,15 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
+import './F1HistoryList.css';
+import { BASE_URL } from '../../config';
 
 const F1HistoryList = () => {
   const [f1Histories, setF1Histories] = useState([]);
 
   useEffect(() => {
     axios
-      .get('https://localhost:7092/api/F1History/GetAllF1Histories')
+      .get(`${BASE_URL}/api/F1History/GetAllF1Histories`)
       .then((response) => {
         setF1Histories(response.data);
       })

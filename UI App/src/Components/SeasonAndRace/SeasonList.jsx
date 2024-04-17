@@ -6,6 +6,7 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import axios from 'axios';
 import './SeasonList.css'; // Make sure to include your SeasonList.css file
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 const SeasonList = () => {
   const navigate = useNavigate();
   const [seasonsData, setSeasonsData] = useState(null);
@@ -24,7 +25,7 @@ const SeasonList = () => {
       // Add token decoding logic if needed
 
       axios
-        .get(`https://localhost:7092/api/Season/GetSeasons`, {
+        .get(`${BASE_URL}/api/Season/GetSeasons`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -82,7 +83,7 @@ const SeasonList = () => {
                 <TableCell>
                   {season.imagePath ? (
                     <img
-                      src={`https://localhost:7092/images/${season.imagePath}`}
+                      src={`${BASE_URL}/images/${season.imagePath}`}
                       alt={`Image for ${season.year}`}
                       className="season-image"
                       style={{ maxWidth: '100%', maxHeight: '100%', width: '150px', height: '150px' }}

@@ -7,6 +7,7 @@ import AdminNavbar from './AdminNavbar';
 import Footer from './Footer';
 import './AddF1History.css';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../config';
 
 // ... (import statements)
 
@@ -16,7 +17,7 @@ const AddF1History = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('https://localhost:7092/api/F1History/CreateF1History', {
+            const response = await fetch(`${BASE_URL}/api/F1History/CreateF1History`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

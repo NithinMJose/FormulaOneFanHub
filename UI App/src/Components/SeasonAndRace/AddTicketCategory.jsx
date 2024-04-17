@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Container, InputAdornment } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const AddTicketCategory = () => {
   const [categoryName, setCategoryName] = useState('');
@@ -71,7 +72,7 @@ const AddTicketCategory = () => {
         formData.append('ticketPrice', ticketPrice);
         formData.append('imageFile', imageFile);
 
-        const createTicketCategoryResponse = await fetch('https://localhost:7092/api/TicketCategory/InsertTicketCategory', {
+        const createTicketCategoryResponse = await fetch(`${BASE_URL}/api/TicketCategory/InsertTicketCategory`, {
           method: 'POST',
           body: formData,
         });

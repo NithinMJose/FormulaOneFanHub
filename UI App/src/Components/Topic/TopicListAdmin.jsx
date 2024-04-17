@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import axios from 'axios';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 
 const TopicListAdmin = () => {
@@ -24,7 +25,7 @@ const TopicListAdmin = () => {
 
     try {
       axios
-        .get(`https://localhost:7092/api/Topic/GetAllTopics`, {
+        .get(`${BASE_URL}/api/Topic/GetAllTopics`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

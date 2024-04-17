@@ -15,6 +15,7 @@ import {
   Paper,
 } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import { BASE_URL } from '../../config';
 
 const UpdateDriver = () => {
   const location = useLocation();
@@ -36,7 +37,7 @@ const UpdateDriver = () => {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:7092/api/Driver/GetDriverById?id=${driverId}`)
+      .get(`${BASE_URL}/api/Driver/GetDriverById?id=${driverId}`)
       .then((response) => {
         const formattedDate = response.data.dob
           ? new Date(response.data.dob).toISOString().split('T')[0]
@@ -94,7 +95,7 @@ const UpdateDriver = () => {
     }
 
     axios
-      .put(`https://localhost:7092/api/Driver/UpdateDriver`, formData)
+      .put(`${BASE_URL}/api/Driver/UpdateDriver`, formData)
       .then((response) => {
         console.log('Update successful:', response);
         toast.success('Update successful');

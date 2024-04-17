@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, InputAdornment, Typography, Container, Grid } from '@mui/material';
 import TeamSidebar from '../sidebar/TeamSidebar'; // Import the AdminSidebar component
 import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
+import { BASE_URL } from '../../config';
 
 
 const AddDriverTeam = () => {
@@ -116,7 +117,7 @@ const AddDriverTeam = () => {
         console.log('Request Body:', JSON.stringify(requestBody));
 
         // Check if the driver is already added
-        const checkDriverResponse = await fetch('https://localhost:7092/api/Driver/CheckDriver', {
+        const checkDriverResponse = await fetch(`${BASE_URL}/api/Driver/CheckDriver`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -140,7 +141,7 @@ const AddDriverTeam = () => {
         formData.append('teamIdRef', numericUserId);
         formData.append('imageFile', imageFile);
 
-        const createDriverResponse = await fetch('https://localhost:7092/api/Driver/CreateDriver', {
+        const createDriverResponse = await fetch(`${BASE_URL}/api/Driver/CreateDriver`, {
           method: 'POST',
           body: formData,
         });

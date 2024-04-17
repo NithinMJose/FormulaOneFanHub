@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomeNavbar from './HomeNavbar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../config';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -121,7 +122,7 @@ const Signup = () => {
     validatePhone(phone, setPhoneError);
     validateAddress(address, setAddressError);
   
-    const url = 'https://localhost:7092/api/User/TestEndPoint';
+    const url = `${BASE_URL}/api/User/TestEndPoint`;
   
     setLoading(true);
   
@@ -180,7 +181,7 @@ const Signup = () => {
       return;
     }
 
-    const url = 'https://localhost:7092/api/User/Register';
+    const url = `${BASE_URL}/api/User/Register`;
 
     try {
       const response = await axios.post(url, {

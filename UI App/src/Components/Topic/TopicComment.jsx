@@ -186,6 +186,7 @@ const TopicComment = () => {
                 </Paper>
                 {comment.userId === userId && (
                   <Button
+                   name="deleteComment"
                     variant="outlined"
                     color="secondary"
                     style={{ width: '80px', alignSelf: 'flex-end', marginTop: '10px' }}
@@ -201,6 +202,7 @@ const TopicComment = () => {
        <br />
         <Box display="flex" justifyContent="center">
           <Button
+            className="addComment"
             variant="contained"
             color="primary"
             style={{ marginBottom: '10px' }}
@@ -212,6 +214,7 @@ const TopicComment = () => {
         <Dialog open={showCommentPopup} onClose={handleCancelComment}>
           <DialogContent style={{ background: '#f0f0f0' , width: '500px'}}>
             <TextField
+              className="commentTextField"
               label="Enter your comment"
               variant="outlined"
               fullWidth

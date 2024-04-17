@@ -7,6 +7,7 @@ import AdminNavbar from '../LoginSignup/AdminNavbar';
 import axios from 'axios';
 import './SeasonList.css'; // Make sure to include your TicketCategoryList.css file
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const TicketCategoryList = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const TicketCategoryList = () => {
 
     try {
       axios
-        .get(`https://localhost:7092/api/TicketCategory/GetAllTicketCategories`, {
+        .get(`${BASE_URL}/api/TicketCategory/GetAllTicketCategories`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -89,7 +90,7 @@ const TicketCategoryList = () => {
                 <TableCell>
                   {ticketCategory.imagePath ? (
                     <img
-                      src={`https://localhost:7092/images/${ticketCategory.imagePath}`}
+                      src={`${BASE_URL}/images/${ticketCategory.imagePath}`}
                       alt={`Image for ${ticketCategory.categoryName}`}
                       className="category-image"
                       style={{ maxWidth: '100%', maxHeight: '100%', width: '150px', height: '150px' }}

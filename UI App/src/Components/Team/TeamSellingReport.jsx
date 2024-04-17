@@ -254,6 +254,17 @@ const TeamSellingReport = () => {
                       </TableRow>
                     ))}
                   </TableBody>
+                  {/* Display the total amount */}
+                  <TableBody>
+                    <TableRow>
+                      <br />
+                      <br />
+                      <TableCell className='totalAmountHeading' style={{ fontSize: '25px' }} colSpan={3} align="right">Total Amount</TableCell>
+                      <TableCell className='totalAmountMoney' style={{ fontSize: '25px', fontWeight: 'bold' }}>{filteredItems.reduce((acc, item) => acc + item.totalPrice, 0)}</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableBody>
+
                 </Table>
               </TableContainer>
               <br />

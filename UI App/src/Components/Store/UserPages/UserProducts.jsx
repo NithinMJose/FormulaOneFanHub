@@ -238,7 +238,7 @@ const UserProducts = () => {
                 {isProductWishlisted(product.productId) ? (
                   <button onClick={() => removeFromWishlist(product.productId)}>Remove From Wish List</button>
                 ) : (
-                    <button onClick={() => addToWishlist(product.productId)}>Add To Wish List</button>
+                    <button name="addToWishButton" className='addToWishButton' onClick={() => addToWishlist(product.productId)}>Add To Wish List</button>
               )}
             </div>
           </div>

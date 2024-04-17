@@ -17,6 +17,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import TeamSidebar from '../sidebar/TeamSidebar'; // Import TeamSidebar
 import TeamNavbar from '../LoginSignup/Team/TeamNavbar';
+import { BASE_URL } from '../../config';
 
 const UpdateDriverTeam = () => {
   const location = useLocation();
@@ -38,7 +39,7 @@ const UpdateDriverTeam = () => {
 
   useEffect(() => {
     axios
-      .get(`https://localhost:7092/api/Driver/GetDriverById?id=${driverId}`)
+      .get(`${BASE_URL}/api/Driver/GetDriverById?id=${driverId}`)
       .then((response) => {
         const formattedDate = response.data.dob
           ? new Date(response.data.dob).toISOString().split('T')[0]
@@ -96,7 +97,7 @@ const UpdateDriverTeam = () => {
     }
 
     axios
-      .put(`https://localhost:7092/api/Driver/UpdateDriver`, formData)
+      .put(`${BASE_URL}/api/Driver/UpdateDriver`, formData)
       .then((response) => {
         console.log('Update successful:', response);
         toast.success('Update successful');

@@ -115,7 +115,8 @@ import EditGallery from './Components/Gallery/EditGallery';
 import AccessCamera from './Components/Seminar/AccessCamera';
 import AttendanceRegister from './Components/LoginSignup/AttendanceRegister'
 import AttendanceRegisterAdmin from './Components/LoginSignup/AttendanceRegisterAdmin'
-
+import AttendanceRegisterExitCamera from './Components/LoginSignup/AttendanceRegisterExitCamera';
+import AttendanceRegisterEntranceCamera from './Components/LoginSignup/AttendanceRegisterEntranceCamera';
 
 function App() {
   return (
@@ -236,6 +237,8 @@ function App() {
           <Route path='/AccessCamera' element={<AccessCamera />} />
           <Route path='/AttendanceRegister' element={<AttendanceRegister />} />
           <Route path='/AttendanceRegisterAdmin' element={<AttendanceRegisterAdmin />} />
+          <Route path='/AttendanceRegisterExitCamera' element={<AttendanceRegisterExitCamera />} />
+          <Route path='/AttendanceRegisterEntranceCamera' element={<AttendanceRegisterEntranceCamera />} />
 
         </Routes>
         <ToastContainer />

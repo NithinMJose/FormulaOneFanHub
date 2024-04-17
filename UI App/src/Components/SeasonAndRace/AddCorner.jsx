@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Container } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const AddCorner = () => {
   const [cornerNumber, setCornerNumber] = useState('');
@@ -71,7 +72,7 @@ const AddCorner = () => {
           raceId: parseInt(raceId),
         };
 
-        const createCornerResponse = await fetch('https://localhost:7092/api/Corner/InsertCorner', {
+        const createCornerResponse = await fetch(`${BASE_URL}/api/Corner/InsertCorner`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import UserNavbar from '../LoginSignup/UserNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const TBCategory = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const TBCategory = () => {
         console.log('Selected Tickets:', selectedTickets);
 
         // use the endpoint 
-        const response = await axios.get(`https://localhost:7092/api/TicketCategory/GetAllTicketCategories`);
+        const response = await axios.get(`${BASE_URL}/api/TicketCategory/GetAllTicketCategories`);
         const data = response.data;
         console.log('Fetched Ticket Categories:', data);
         setTicketCategories(data);
@@ -61,7 +62,7 @@ const TBCategory = () => {
       <div className="driver-list-container">
         {ticketCategories.map(category => (
           <div key={category.ticketCategoryId} className="driver-item" onClick={() => handleCategoryClick(category.ticketCategoryId, category.ticketPrice)}>
-            <img src={`https://localhost:7092/images/${category.imagePath}`} alt={`Category ${category.categoryName} Image`} className="driver-image" />
+            <img src={`${BASE_URL}/images/${category.imagePath}`} alt={`Category ${category.categoryName} Image`} className="driver-image" />
             {/* Display ticket category details as needed */}
             <h2>{`Category - ${category.categoryName}`}</h2>
             <p>{`Description: ${category.description || 'N/A'}`}</p>

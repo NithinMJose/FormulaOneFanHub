@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DriverListUser.css';
 import UserNavbar from '../LoginSignup/UserNavbar';
+import { BASE_URL } from '../../config';
 
 const DriverListUser = () => {
   const [driverList, setDriverList] = useState([]);
@@ -8,7 +9,7 @@ const DriverListUser = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://localhost:7092/api/Driver/GetDrivers');
+        const response = await fetch(`${BASE_URL}/api/Driver/GetDrivers`);
         const data = await response.json();
         setDriverList(data);
       } catch (error) {

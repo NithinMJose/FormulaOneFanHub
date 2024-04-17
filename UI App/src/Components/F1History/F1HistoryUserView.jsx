@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import './F1HistoryUserView.css';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import UserNavbar from '../LoginSignup/UserNavbar';
+import { BASE_URL } from '../../config';
 
 const F1HistoryUserView = () => {
   const [historyData, setHistoryData] = useState([]);
@@ -11,7 +12,7 @@ const F1HistoryUserView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://localhost:7092/api/F1History/GetAllF1Histories');
+        const response = await fetch(`${BASE_URL}/api/F1History/GetAllF1Histories`);
         const data = await response.json();
         setHistoryData(data);
       } catch (error) {

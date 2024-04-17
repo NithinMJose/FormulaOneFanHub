@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UserNavbar from '../LoginSignup/UserNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const TBSeason = () => {
   const [seasonsData, setSeasonsData] = useState(null);
@@ -11,7 +12,7 @@ const TBSeason = () => {
   useEffect(() => {
     const fetchSeasonDetails = async () => {
       try {
-        const response = await axios.get('https://localhost:7092/api/Season/SeasonsForBooking');
+        const response = await axios.get(`${BASE_URL}/api/Season/SeasonsForBooking`);
         const fetchedSeasonsData = response.data;
 
         // Log the structure of fetchedSeasonsData
@@ -56,7 +57,7 @@ const TBSeason = () => {
           season && (
             <div key={index} className="driver-item">
             <img
-            src={`https://localhost:7092/images/${season.imagePath}`} 
+                src={`${BASE_URL}/images/${season.imagePath}`} 
             alt={`Season ${season.year} Image`}
             className="driver-image"
             onClick={() => handleImageClick(season.uniqueSeasonName)}

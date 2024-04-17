@@ -17,6 +17,7 @@ import UserNavbar from './UserNavbar';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import Footer from './Footer';
+import { BASE_URL } from '../../config';
 
 const UserViewProfile = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const UserViewProfile = () => {
         const userName = tokenPayload.userName;
 
         axios
-          .get(`https://localhost:7092/api/User/viewProfile?userName=${userName}`)
+          .get(`${BASE_URL}/api/User/viewProfile?userName=${userName}`)
           .then((response) => {
             setUserData(response.data);
             setEditedData({ ...response.data });
@@ -198,13 +199,13 @@ const UserViewProfile = () => {
     };
 
     axios
-      .post(`https://localhost:7092/api/User/UpdaterUser`, updatePayload)
+      .post(`${BASE_URL}/api/User/UpdaterUser`, updatePayload)
       .then((response) => {
         toast.success('Profile updated successfully');
         setIsEditing(false);
 
         axios
-          .get(`https://localhost:7092/api/User/viewProfile?userName=${updatePayload.userName}`)
+          .get(`${BASE_URL}/api/User/viewProfile?userName=${updatePayload.userName}`)
           .then((response) => {
             setUserData(response.data);
           })

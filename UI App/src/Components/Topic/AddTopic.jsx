@@ -14,6 +14,7 @@ import {
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
 import TeamSidebar from '../sidebar/TeamSidebar';
+import { BASE_URL } from '../../config';
 
 const AddTopic = () => {
   const [title, setTitle] = useState('');
@@ -84,7 +85,7 @@ const AddTopic = () => {
       try {
         const decodedToken = jwt_decode(token);
         const numericUserId = parseInt(decodedToken.userId);
-        const createTopicResponse = await fetch('https://localhost:7092/api/Topic/InsertTopic', {
+        const createTopicResponse = await fetch(`${BASE_URL}/api/Topic/InsertTopic`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

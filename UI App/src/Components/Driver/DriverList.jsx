@@ -7,6 +7,7 @@ import axios from 'axios';
 import './DriverList.css'; // Make sure to include your DriverList.css file
 import Footer from '../LoginSignup/Footer';
 import jwt_decode from 'jwt-decode';
+import { BASE_URL } from '../../config';
 
 const DriverList = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const DriverList = () => {
       }
 
       axios
-        .get(`https://localhost:7092/api/Driver/GetDrivers`, {
+        .get(`${BASE_URL}/api/Driver/GetDrivers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -97,7 +98,7 @@ const DriverList = () => {
                 <TableCell>
                   {driver.imagePath ? (
                     <img
-                      src={`https://localhost:7092/images/${driver.imagePath}`}
+                      src={`${BASE_URL}/images/${driver.imagePath}`}
                       alt={`Image for ${driver.name}`}
                       className="driver-image"
                       style={{ maxWidth: '100%', maxHeight: '100%', width: '150px', height: '150px' }}

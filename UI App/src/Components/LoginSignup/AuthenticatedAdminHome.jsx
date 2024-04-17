@@ -6,6 +6,7 @@ import Footer from './Footer';
 import './AuthenticatedAdminHome.css';
 import { HomeCarousel } from './HomeCarousel';
 import FooterAdmin from './FooterAdmin';
+import { BASE_URL } from '../../config';
 
 const AuthenticatedAdminHome = () => {
 
@@ -27,7 +28,7 @@ const AuthenticatedAdminHome = () => {
     const handleListUsers = async () => {
         try {
             // Make an API request to fetch the list of users
-            const response = await fetch('https://localhost:7092/api/Admin/ListUsers', {
+            const response = await fetch(`${BASE_URL}/api/Admin/ListUsers`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`, // Include JWT token in the request headers

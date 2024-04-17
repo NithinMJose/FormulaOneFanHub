@@ -45,9 +45,9 @@ function UserNavbar() {
             <li><Link to="/" className="nav-links">Home</Link></li>
             
             <li className="nav-item dropdown">
-              <span className="nav-links dropdown-toggle" data-bs-toggle="dropdown">Store</span>
+              <span className="nav-links dropdown-toggle" data-bs-toggle="dropdown" name='StoreNavBar' >Store</span>
               <div className="dropdown-menu m-0">
-                <Link to="/UserSelectCategory" className="dropdown-item">Explore Store</Link>
+                <Link to="/UserSelectCategory" className="dropdown-item" id='ExpStore' name='ExpStore' >Explore Store</Link>
                 <Link to="/OrderHistory" className="dropdown-item">Purchase History</Link>
               </div>
             </li>
@@ -71,7 +71,7 @@ function UserNavbar() {
               </div>
             </li>
             
-            <li><Link to="/TopicListUser" className="nav-links">Open Forum</Link></li>
+            <li><Link to="/TopicListUser" name='OpenForums' className="nav-links">Open Forum</Link></li>
             
             <li><Link to="/PollListUser" className="nav-links">Poll</Link></li>
             

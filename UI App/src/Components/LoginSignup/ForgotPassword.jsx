@@ -6,6 +6,7 @@ import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { BASE_URL } from '../../config';
 
 const ForgotPass = () => {
   const [username, setUsername] = useState('');
@@ -23,7 +24,7 @@ const ForgotPass = () => {
 
   const handleSendVerification = async () => {
     try {
-      await axios.post('https://localhost:7092/api/User/SendOtp', { userName: username });
+      await axios.post(`${BASE_URL}/api/User/SendOtp`, { userName: username });
       setIsUsernameSubmitted(true);
       toast.success('Verification email is being sent. Check your inbox.');
     } catch (error) {
@@ -39,7 +40,7 @@ const ForgotPass = () => {
     }
 
     try {
-      await axios.post('https://localhost:7092/api/User/VerifyOtp', { userName: username, otp: otp });
+      await axios.post(`${BASE_URL}/api/User/VerifyOtp`, { userName: username, otp: otp });
       setIsOtpVerified(true);
       toast.success('Email verified. Please proceed with the new Password');
     } catch (error) {
@@ -64,7 +65,7 @@ const ForgotPass = () => {
 
     try {
       // Your API endpoint for password reset
-      await axios.post('https://localhost:7092/api/User/UpdatePassword', {
+      await axios.post(`${BASE_URL}/api/User/UpdatePassword`, {
         userName: username,
         newPassword: newPassword,
       });

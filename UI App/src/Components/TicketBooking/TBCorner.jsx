@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../LoginSignup/Footer';
 import UserNavbar from '../LoginSignup/UserNavbar';
+import { BASE_URL } from '../../config';
 
 const TBCorner = () => {
   const location = useLocation();
@@ -17,11 +18,11 @@ const TBCorner = () => {
   useEffect(() => {
     const fetchCornersByRace = async () => {
       try {
-        const raceResponse = await axios.get(`https://localhost:7092/api/Race/GetRaceIdByUniqueRaceName?uniqueRaceName=${uniqueRaceName}`);
+        const raceResponse = await axios.get(`${BASE_URL}/api/Race/GetRaceIdByUniqueRaceName?uniqueRaceName=${uniqueRaceName}`);
         const raceId = raceResponse.data;
         console.log('Fetched Race ID:', raceId);
 
-        const response = await axios.get(`https://localhost:7092/api/Corner/GetCornerByRace?raceId=${raceId}`);
+        const response = await axios.get(`${BASE_URL}/api/Corner/GetCornerByRace?raceId=${raceId}`);
         const fetchedCorners = response.data;
         setCorners(fetchedCorners);
         console.log('Fetched Corner Data:', fetchedCorners);

@@ -18,6 +18,9 @@ const AttendanceRegisterAdmin = () => {
 
 
   useEffect(() => {
+    fetchEmployees();
+    console.log("Fetching employees");
+    updateActiveList();
     const intervalId = setInterval(printHelloWorld, 6000); // Define intervalId here
     return null;
   }, []);
@@ -177,6 +180,7 @@ const AttendanceRegisterAdmin = () => {
         <Typography variant="h4" className="title">
           Attendance Register
         </Typography>
+        {/*
         <Typography variant="h5" className="info">
           Detected Face Name: {detectedFaceName}
         </Typography>
@@ -194,6 +198,7 @@ const AttendanceRegisterAdmin = () => {
             Mark Leave
           </Button>
         </div>
+  */}
       </div>
       <div className="rightContainerss">
         <div className="activeEmployeesContainer">

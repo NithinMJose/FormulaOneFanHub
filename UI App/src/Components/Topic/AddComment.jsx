@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const AddComment = () => {
   const [topicId, setTopicId] = useState(''); // New state for Topic Id
@@ -61,7 +62,7 @@ const AddComment = () => {
       try {
         const decodedToken = jwt_decode(token);
         const numericUserId = parseInt(decodedToken.userId);
-        const createCommentResponse = await fetch('https://localhost:7092/api/Comment/InsertComment', {
+        const createCommentResponse = await fetch(`${BASE_URL}/api/Comment/InsertComment`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

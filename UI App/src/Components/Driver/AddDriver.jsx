@@ -6,6 +6,7 @@ import Footer from '../LoginSignup/Footer';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, InputAdornment, Typography, Container, Grid } from '@mui/material';
+import { BASE_URL } from '../../config';
 
 
 const AddDriver = () => {
@@ -107,7 +108,7 @@ const AddDriver = () => {
         console.log('Request Body:', JSON.stringify(requestBody));
 
         // Check if the driver is already added
-        const checkDriverResponse = await fetch('https://localhost:7092/api/Driver/CheckDriver', {
+        const checkDriverResponse = await fetch(`${BASE_URL}/api/Driver/CheckDriver`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -130,7 +131,7 @@ const AddDriver = () => {
         formData.append('description', description);
         formData.append('imageFile', imageFile);
 
-        const createDriverResponse = await fetch('https://localhost:7092/api/Driver/CreateDriver', {
+        const createDriverResponse = await fetch(`${BASE_URL}/api/Driver/CreateDriver`, {
           method: 'POST',
           body: formData,
         });

@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import axios from 'axios';
 import AdminNavbar from '../LoginSignup/AdminNavbar';
 import Footer from '../LoginSignup/Footer';
+import { BASE_URL } from '../../config';
 
 const CornerListAdmin = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const CornerListAdmin = () => {
 
     try {
       axios
-        .get(`https://localhost:7092/api/Corner/GetAllCorners`, {
+        .get(`${BASE_URL}/api/Corner/GetAllCorners`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
