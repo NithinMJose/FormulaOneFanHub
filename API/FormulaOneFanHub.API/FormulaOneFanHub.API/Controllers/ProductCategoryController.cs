@@ -3,8 +3,8 @@ using FormulaOneFanHub.API.Dtos;
 using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.IO;
-using System.Linq;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -13,14 +13,16 @@ namespace FormulaOneFanHub.API.Controllers
     public class ProductCategoryController : ControllerBase
     {
         private readonly FormulaOneFanHubContxt _fanHubContext;
+        private readonly BlobServiceClient _blobServiceClient;
 
-        public ProductCategoryController(FormulaOneFanHubContxt fanHubContext)
+        public ProductCategoryController(FormulaOneFanHubContxt fanHubContext, BlobServiceClient blobServiceClient)
         {
             _fanHubContext = fanHubContext;
+            _blobServiceClient = blobServiceClient;
         }
 
         [HttpPost("CreateProductCategory")]
-        public IActionResult CreateProductCategory([FromForm] ProductCategoryDto productCategoryDto)
+        public async Task<IActionResult> CreateProductCategory([FromForm] ProductCategoryDto productCategoryDto)
         {
             if (!ModelState.IsValid)
             {
@@ -32,32 +34,32 @@ namespace FormulaOneFanHub.API.Controllers
             if (productCategoryDto.ImageFile != null && productCategoryDto.ImageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + "_" + productCategoryDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = productCategoryDto.ImageFile.OpenReadStream())
                 {
-                    productCategoryDto.ImageFile.CopyTo(stream);
+                    await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
-                // Set the ImagePath here
-                imagePath = fileName;
+                imagePath = blobClient.Uri.AbsoluteUri; // Store the blob URI as the image path
             }
 
             ProductCategory productCategoryToCreate = new ProductCategory
             {
                 PCategoryName = productCategoryDto.PCategoryName,
-                ImagePath = imagePath, // Set the ImagePath property
+                ImagePath = imagePath, // Use the blob URI as the image path
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now,
                 UniqueName = $"{Guid.NewGuid()}_{productCategoryDto.PCategoryName}"
             };
 
             _fanHubContext.ProductCategories.Add(productCategoryToCreate);
-            _fanHubContext.SaveChanges();
+            await _fanHubContext.SaveChangesAsync();
 
             return StatusCode(201);
-        }   
-
+        }
 
         [HttpGet("GetProductCategories")]
         public IActionResult GetProductCategories()
@@ -74,7 +76,7 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         [HttpPut("UpdateProductCategory")]
-        public IActionResult UpdateProductCategory(int id, [FromForm] ProductCategoryDto productCategoryDto)
+        public async Task<IActionResult> UpdateProductCategory(int id, [FromForm] ProductCategoryDto productCategoryDto)
         {
             if (!ModelState.IsValid)
             {
@@ -93,23 +95,26 @@ namespace FormulaOneFanHub.API.Controllers
             if (productCategoryDto.ImageFile != null && productCategoryDto.ImageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + "_" + productCategoryDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = productCategoryDto.ImageFile.OpenReadStream())
                 {
-                    productCategoryDto.ImageFile.CopyTo(stream);
+                    await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
-                existingProductCategory.ImagePath = fileName;
+                existingProductCategory.ImagePath = blobClient.Uri.AbsoluteUri; // Update the image path to the new blob URI
             }
 
             existingProductCategory.UpdatedOn = DateTime.Now;
             existingProductCategory.UniqueName = $"{Guid.NewGuid()}_{productCategoryDto.PCategoryName}";
 
-            _fanHubContext.SaveChanges();
+            await _fanHubContext.SaveChangesAsync();
 
             return Ok();
         }
+
 
         [HttpGet("GetAllProductCategories")]
         public IActionResult GetAllProductCategories()

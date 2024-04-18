@@ -84,7 +84,7 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         [HttpPut("UpdateDriver")]
-        public IActionResult UpdateDriver([FromForm] DriverDto driverDto)
+        public async Task<IActionResult> UpdateDriver([FromForm] DriverDto driverDto)
         {
             if (!ModelState.IsValid)
             {
@@ -105,22 +105,25 @@ namespace FormulaOneFanHub.API.Controllers
             if (driverDto.ImageFile != null && driverDto.ImageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + "_" + driverDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = driverDto.ImageFile.OpenReadStream())
                 {
-                    driverDto.ImageFile.CopyTo(stream);
+                    await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
-                existingDriver.ImagePath = fileName;
+                existingDriver.ImagePath = blobClient.Uri.AbsoluteUri; // Update the image path to the new blob URI
             }
 
             existingDriver.UpdatedOn = DateTime.Now;
 
-            _fanHubContext.SaveChanges();
+            await _fanHubContext.SaveChangesAsync();
 
             return Ok();
         }
+
 
 
 

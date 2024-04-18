@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -14,10 +16,12 @@ namespace FormulaOneFanHub.API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly FormulaOneFanHubContxt _fanHubContext;
+        private readonly BlobServiceClient _blobServiceClient;
 
-        public ProductController(FormulaOneFanHubContxt fanHubContxt)
+        public ProductController(FormulaOneFanHubContxt fanHubContext, BlobServiceClient blobServiceClient)
         {
-            _fanHubContext = fanHubContxt;
+            _fanHubContext = fanHubContext;
+            _blobServiceClient = blobServiceClient;
         }
 
         [HttpPost("CreateProduct")]
@@ -40,14 +44,16 @@ namespace FormulaOneFanHub.API.Controllers
                 if (imageFile != null)
                 {
                     var fileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
-                    var filePath = Path.Combine("wwwroot/images", fileName);
+                    var blobContainerName = "web"; // Replace with your actual container name
+                    var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                    var blobClient = blobContainerClient.GetBlobClient(fileName);
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    using (var stream = imageFile.OpenReadStream())
                     {
-                        imageFile.CopyTo(stream);
+                        blobClient.Upload(stream, true);
                     }
 
-                    imagePaths.Add(fileName);
+                    imagePaths.Add(blobClient.Uri.AbsoluteUri);
                 }
             }
 
@@ -66,7 +72,6 @@ namespace FormulaOneFanHub.API.Controllers
 
                 return BadRequest("At least 2 images are required.");
             }
-
 
             Product productToCreate = new Product
             {
@@ -91,8 +96,6 @@ namespace FormulaOneFanHub.API.Controllers
             return StatusCode(201);
         }
 
-
-
         [HttpGet("GetProducts")]
         public IActionResult GetProducts()
         {
@@ -109,7 +112,7 @@ namespace FormulaOneFanHub.API.Controllers
 
 
         [HttpPut("UpdateProduct/{id}")]
-        public IActionResult UpdateProduct(int id, [FromForm] ProductDto productDto)
+        public async Task<IActionResult> UpdateProduct(int id, [FromForm] ProductDto productDto)
         {
             if (!ModelState.IsValid)
             {
@@ -137,22 +140,22 @@ namespace FormulaOneFanHub.API.Controllers
             // Update images if provided
             if (productDto.ImageFile1 != null)
             {
-                UpdateImage(existingProduct, productDto.ImageFile1, 1);
+                existingProduct.ImagePath1 = await UpdateImage(existingProduct, productDto.ImageFile1);
             }
 
             if (productDto.ImageFile2 != null)
             {
-                UpdateImage(existingProduct, productDto.ImageFile2, 2);
+                existingProduct.ImagePath2 = await UpdateImage(existingProduct, productDto.ImageFile2);
             }
 
             if (productDto.ImageFile3 != null)
             {
-                UpdateImage(existingProduct, productDto.ImageFile3, 3);
+                existingProduct.ImagePath3 = await UpdateImage(existingProduct, productDto.ImageFile3);
             }
 
             if (productDto.ImageFile4 != null)
             {
-                UpdateImage(existingProduct, productDto.ImageFile4, 4);
+                existingProduct.ImagePath4 = await UpdateImage(existingProduct, productDto.ImageFile4);
             }
 
             _fanHubContext.SaveChanges();
@@ -161,34 +164,19 @@ namespace FormulaOneFanHub.API.Controllers
         }
 
         // Helper method to update image paths
-        private void UpdateImage(Product product, IFormFile imageFile, int imageNumber)
+        private async Task<string> UpdateImage(Product product, IFormFile imageFile)
         {
             var fileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
-            var filePath = Path.Combine("wwwroot/images", fileName);
+            var blobContainerName = "web"; // Replace with your actual container name
+            var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+            var blobClient = blobContainerClient.GetBlobClient(fileName);
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            using (var stream = imageFile.OpenReadStream())
             {
-                imageFile.CopyTo(stream);
+                await blobClient.UploadAsync(stream, overwrite: true);
             }
 
-            // Update the corresponding image path property
-            switch (imageNumber)
-            {
-                case 1:
-                    product.ImagePath1 = fileName;
-                    break;
-                case 2:
-                    product.ImagePath2 = fileName;
-                    break;
-                case 3:
-                    product.ImagePath3 = fileName;
-                    break;
-                case 4:
-                    product.ImagePath4 = fileName;
-                    break;
-                default:
-                    break;
-            }
+            return blobClient.Uri.AbsoluteUri;
         }
 
         [HttpGet("GetAllProductsByCategoryId/{categoryId}")]
@@ -223,10 +211,6 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok(product);
         }
-
-
-
-
 
 
         public class ProductQuantityAndActiveDto
