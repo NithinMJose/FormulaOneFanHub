@@ -68,7 +68,7 @@ namespace FormulaOneFanHub.API.Controllers
                 PaymentStatus = "Payed",
                 PaymentDate = orderDto.PaymentDate,
                 OrderIdRazor = orderDto.OrderIdRazor,
-                DeliveryCompanyId =7,
+                DeliveryCompanyId =1,
                 OrderTotalAmount = orderDto.OrderTotalAmount,
                 OrderedItem = new List<OrderedItem>()
             };

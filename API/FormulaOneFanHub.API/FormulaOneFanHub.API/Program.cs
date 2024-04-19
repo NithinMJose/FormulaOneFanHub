@@ -84,7 +84,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowLocalhost3000", builder =>
     {
         builder
-            .WithOrigins("http://localhost:3000", "https://reactdeploy-ea6a1.web.app") // Allow requests from this origin
+            .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
