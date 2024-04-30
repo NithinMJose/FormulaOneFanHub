@@ -4,6 +4,7 @@ using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -96,21 +97,6 @@ namespace FormulaOneFanHub.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet("GetProducts")]
-        public IActionResult GetProducts()
-        {
-            var products = _fanHubContext.Products;
-            return Ok(products);
-        }
-
-        [HttpGet("GetProductById")]
-        public IActionResult GetProductById(int id)
-        {
-            var product = _fanHubContext.Products.Find(id);
-            return Ok(product);
-        }
-
-
         [HttpPut("UpdateProduct/{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromForm] ProductDto productDto)
         {
@@ -140,31 +126,31 @@ namespace FormulaOneFanHub.API.Controllers
             // Update images if provided
             if (productDto.ImageFile1 != null)
             {
-                existingProduct.ImagePath1 = await UpdateImage(existingProduct, productDto.ImageFile1);
+                existingProduct.ImagePath1 = await UpdateImage(existingProduct.ImagePath1, productDto.ImageFile1);
             }
 
             if (productDto.ImageFile2 != null)
             {
-                existingProduct.ImagePath2 = await UpdateImage(existingProduct, productDto.ImageFile2);
+                existingProduct.ImagePath2 = await UpdateImage(existingProduct.ImagePath2, productDto.ImageFile2);
             }
 
             if (productDto.ImageFile3 != null)
             {
-                existingProduct.ImagePath3 = await UpdateImage(existingProduct, productDto.ImageFile3);
+                existingProduct.ImagePath3 = await UpdateImage(existingProduct.ImagePath3, productDto.ImageFile3);
             }
 
             if (productDto.ImageFile4 != null)
             {
-                existingProduct.ImagePath4 = await UpdateImage(existingProduct, productDto.ImageFile4);
+                existingProduct.ImagePath4 = await UpdateImage(existingProduct.ImagePath4, productDto.ImageFile4);
             }
 
-            _fanHubContext.SaveChanges();
+            await _fanHubContext.SaveChangesAsync(); // Corrected to use SaveChangesAsync()
 
             return Ok("Product updated successfully.");
         }
 
         // Helper method to update image paths
-        private async Task<string> UpdateImage(Product product, IFormFile imageFile)
+        private async Task<string> UpdateImage(string existingImagePath, IFormFile imageFile)
         {
             var fileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
             var blobContainerName = "web"; // Replace with your actual container name
@@ -177,6 +163,22 @@ namespace FormulaOneFanHub.API.Controllers
             }
 
             return blobClient.Uri.AbsoluteUri;
+        }
+
+
+
+        [HttpGet("GetProducts")]
+        public IActionResult GetProducts()
+        {
+            var products = _fanHubContext.Products;
+            return Ok(products);
+        }
+
+        [HttpGet("GetProductById")]
+        public IActionResult GetProductById(int id)
+        {
+            var product = _fanHubContext.Products.Find(id);
+            return Ok(product);
         }
 
         [HttpGet("GetAllProductsByCategoryId/{categoryId}")]
@@ -243,7 +245,21 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok("Stock quantity and isActive status updated successfully.");
         }
 
+        [HttpDelete("DeleteProduct/{id}")]
+        public IActionResult DeleteProduct(int id)
+        {
+            var existingProduct = _fanHubContext.Products.Find(id);
 
+            if (existingProduct == null)
+            {
+                return NotFound("Product not found.");
+            }
+
+            _fanHubContext.Products.Remove(existingProduct);
+            _fanHubContext.SaveChanges();
+
+            return Ok("Product deleted successfully.");
+        }
 
     }
 }

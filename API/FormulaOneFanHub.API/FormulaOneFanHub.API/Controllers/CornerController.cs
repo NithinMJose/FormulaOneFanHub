@@ -26,11 +26,21 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Lookup the RaceId based on the provided season year and race name
+            var race = _fanHubContext.Races
+                .Include(r => r.Season)
+                .FirstOrDefault(r => r.Season.Year == cornerDto.SeasonYear && r.RaceName == cornerDto.RaceName);
+
+            if (race == null)
+            {
+                return NotFound("Race not found for the provided season year and race name.");
+            }
+
             var cornerToCreate = new Corner
             {
                 CornerNumber = cornerDto.CornerNumber,
                 CornerCapacity = cornerDto.CornerCapacity,
-                RaceId = cornerDto.RaceId,
+                RaceId = race.RaceId,
                 AvailableCapacity = cornerDto.CornerCapacity
             };
 
@@ -40,12 +50,28 @@ namespace FormulaOneFanHub.API.Controllers
             return StatusCode(201);
         }
 
+
         [HttpGet("GetAllCorners")]
         public IActionResult GetAllCorners()
         {
-            var corners = _fanHubContext.Corners.Include(c => c.Race);
+            var corners = _fanHubContext.Corners
+                .Include(c => c.Race)
+                    .ThenInclude(r => r.Season) // Include the related Season entity
+                .Select(c => new
+                {
+                    c.CornerId,
+                    c.CornerNumber,
+                    c.CornerCapacity,
+                    c.AvailableCapacity,
+                    c.RaceId,
+                    c.Race,
+                    SeasonYear = c.Race.Season.Year
+                })
+                .ToList();
+
             return Ok(corners);
         }
+
 
         [HttpGet("GetCornerById")]
         public IActionResult GetCornerById(int id)

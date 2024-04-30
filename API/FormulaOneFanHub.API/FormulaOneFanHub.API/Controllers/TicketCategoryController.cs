@@ -1,10 +1,10 @@
 ﻿using FormulaOneFanHub.API.Data;
 using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -13,14 +13,16 @@ namespace FormulaOneFanHub.API.Controllers
     public class TicketCategoryController : ControllerBase
     {
         private readonly FormulaOneFanHubContxt _fanHubContext;
+        private readonly BlobServiceClient _blobServiceClient;
 
-        public TicketCategoryController(FormulaOneFanHubContxt fanHubContext)
+        public TicketCategoryController(FormulaOneFanHubContxt fanHubContext, BlobServiceClient blobServiceClient)
         {
             _fanHubContext = fanHubContext;
+            _blobServiceClient = blobServiceClient;
         }
 
         [HttpPost("InsertTicketCategory")]
-        public IActionResult InsertTicketCategory([FromForm] TicketCategoryDto ticketCategoryDto)
+        public async Task<IActionResult> InsertTicketCategory([FromForm] TicketCategoryDto ticketCategoryDto)
         {
             if (!ModelState.IsValid)
             {
@@ -30,15 +32,17 @@ namespace FormulaOneFanHub.API.Controllers
             if (ticketCategoryDto.ImageFile != null && ticketCategoryDto.ImageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + "_" + ticketCategoryDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var stream = ticketCategoryDto.ImageFile.OpenReadStream())
                 {
-                    ticketCategoryDto.ImageFile.CopyTo(stream);
+                    await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
                 // Set the ImagePath here
-                ticketCategoryDto.ImagePath = fileName;
+                ticketCategoryDto.ImagePath = blobClient.Uri.AbsoluteUri;
             }
 
             var ticketCategoryToCreate = new TicketCategory
@@ -53,6 +57,45 @@ namespace FormulaOneFanHub.API.Controllers
             _fanHubContext.SaveChanges();
 
             return StatusCode(201);
+        }
+
+        [HttpPut("UpdateTicketCategory")]
+        public async Task<IActionResult> UpdateTicketCategory([FromForm] TicketCategoryDto ticketCategoryDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingTicketCategory = _fanHubContext.TicketCategories.Find(ticketCategoryDto.TicketCategoryId);
+
+            if (existingTicketCategory == null)
+            {
+                return NotFound();
+            }
+
+            if (ticketCategoryDto.ImageFile != null && ticketCategoryDto.ImageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + "_" + ticketCategoryDto.ImageFile.FileName;
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
+
+                using (var stream = ticketCategoryDto.ImageFile.OpenReadStream())
+                {
+                    await blobClient.UploadAsync(stream, overwrite: true);
+                }
+
+                existingTicketCategory.ImagePath = blobClient.Uri.AbsoluteUri;
+            }
+
+            existingTicketCategory.CategoryName = ticketCategoryDto.CategoryName;
+            existingTicketCategory.Description = ticketCategoryDto.Description;
+            existingTicketCategory.TicketPrice = ticketCategoryDto.TicketPrice;
+
+            _fanHubContext.SaveChanges();
+
+            return Ok();
         }
 
         [HttpGet("GetAllTicketCategories")]
@@ -75,42 +118,6 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(ticketCategory);
         }
 
-        [HttpPut("UpdateTicketCategory")]
-        public IActionResult UpdateTicketCategory([FromForm] TicketCategoryDto ticketCategoryDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingTicketCategory = _fanHubContext.TicketCategories.Find(ticketCategoryDto.TicketCategoryId);
-
-            if (existingTicketCategory == null)
-            {
-                return NotFound();
-            }
-
-            existingTicketCategory.CategoryName = ticketCategoryDto.CategoryName;
-            existingTicketCategory.Description = ticketCategoryDto.Description;
-            existingTicketCategory.TicketPrice = ticketCategoryDto.TicketPrice;
-
-            if (ticketCategoryDto.ImageFile != null && ticketCategoryDto.ImageFile.Length > 0)
-            {
-                var fileName = Guid.NewGuid().ToString() + "_" + ticketCategoryDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    ticketCategoryDto.ImageFile.CopyTo(stream);
-                }
-
-                existingTicketCategory.ImagePath = fileName;
-            }
-
-            _fanHubContext.SaveChanges();
-
-            return Ok();
-        }
 
         [HttpDelete("DeleteTicketCategory")]
         public IActionResult DeleteTicketCategory(int id)

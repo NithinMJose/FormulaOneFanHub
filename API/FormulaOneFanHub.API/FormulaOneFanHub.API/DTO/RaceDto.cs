@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FormulaOneFanHub.API.Entities
 {
@@ -11,8 +9,8 @@ namespace FormulaOneFanHub.API.Entities
         [Required(ErrorMessage = "RaceName is required")]
         public string RaceName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "SeasonId is required")]
-        public int SeasonId { get; set; }
+        [Required(ErrorMessage = "SeasonYear is required")]
+        public int SeasonYear { get; set; }
 
         [DataType(DataType.Date)] // Specify that only the date should be included
         [Required(ErrorMessage = "RaceDate is required")]
@@ -25,5 +23,4 @@ namespace FormulaOneFanHub.API.Entities
         public string? ImagePath { get; set; }
 
     }
-
 }

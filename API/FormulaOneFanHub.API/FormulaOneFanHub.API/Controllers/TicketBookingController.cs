@@ -153,6 +153,24 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            // Get the corner associated with the ticket booking
+            var corner = _fanHubContext.Corners.FirstOrDefault(c => c.CornerId == ticketBookingDto.CornerId);
+
+            if (corner == null)
+            {
+                return NotFound("Corner not found");
+            }
+
+            // Check if the corner has enough available capacity
+            if (corner.AvailableCapacity < ticketBookingDto.NumberOfTicketsBooked)
+            {
+                return BadRequest("Not enough available capacity in the corner");
+            }
+
+            // Deduct the number of tickets booked from the available capacity of the corner
+            corner.AvailableCapacity -= ticketBookingDto.NumberOfTicketsBooked;
+
             var ticketBooking = new TicketBooking
             {
                 UniqueId = ticketBookingDto.UniqueId,
@@ -170,17 +188,20 @@ namespace FormulaOneFanHub.API.Controllers
                 FirstName = ticketBookingDto.FirstName,
                 LastName = ticketBookingDto.LastName,
                 PhoneContact = ticketBookingDto.PhoneContact,
-                PaymentStatus = "Paid" ,
+                PaymentStatus = "Paid",
                 PaymentDate = DateTime.Now,
                 ConfirmationNumber = ticketBookingDto.ConfirmationNumber,
                 BookingStatus = "Confirmed",
             };
 
             _fanHubContext.TicketBookings.Add(ticketBooking);
+
+            // Update the corner in the database
             _fanHubContext.SaveChanges();
 
             return StatusCode(201, new { Message = "Ticket booking saved successfully." });
         }
+
 
 
 

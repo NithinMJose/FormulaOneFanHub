@@ -61,6 +61,7 @@ namespace FormulaOneFanHub.API.Controllers
             return StatusCode(201);
         }
 
+
         [HttpGet("GetProductCategories")]
         public IActionResult GetProductCategories()
         {
@@ -107,6 +108,7 @@ namespace FormulaOneFanHub.API.Controllers
                 existingProductCategory.ImagePath = blobClient.Uri.AbsoluteUri; // Update the image path to the new blob URI
             }
 
+            // If a new image file is not uploaded, skip updating the image path
             existingProductCategory.UpdatedOn = DateTime.Now;
             existingProductCategory.UniqueName = $"{Guid.NewGuid()}_{productCategoryDto.PCategoryName}";
 
@@ -114,6 +116,8 @@ namespace FormulaOneFanHub.API.Controllers
 
             return Ok();
         }
+
+
 
 
         [HttpGet("GetAllProductCategories")]

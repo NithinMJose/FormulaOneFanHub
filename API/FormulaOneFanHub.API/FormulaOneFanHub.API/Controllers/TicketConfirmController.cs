@@ -36,6 +36,11 @@ namespace FormulaOneFanHub.API.Controllers
             {
                 return NotFound("One or more entities not found.");
             }
+            // Check if the corner has available capacity
+            if (corner.AvailableCapacity == 0)
+            {
+                return BadRequest("The corner is full. Please select another corner.");
+            }
 
             // Prepare the response data
             var confirmationResponse = new

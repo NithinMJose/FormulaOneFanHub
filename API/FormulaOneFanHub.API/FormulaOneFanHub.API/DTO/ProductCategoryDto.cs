@@ -7,7 +7,7 @@ namespace FormulaOneFanHub.API.Dtos
     {
         [Required(ErrorMessage = "Category name is required")]
         public string PCategoryName { get; set; }
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
         public string? ImagePath { get; set; } // Add ImagePath property
     }
 }

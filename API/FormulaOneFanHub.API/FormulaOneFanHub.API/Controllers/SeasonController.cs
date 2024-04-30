@@ -2,9 +2,10 @@
 using FormulaOneFanHub.API.Dtos;
 using FormulaOneFanHub.API.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 
 namespace FormulaOneFanHub.API.Controllers
 {
@@ -13,14 +14,16 @@ namespace FormulaOneFanHub.API.Controllers
     public class SeasonController : ControllerBase
     {
         private readonly FormulaOneFanHubContxt _fanHubContext;
+        private readonly BlobServiceClient _blobServiceClient;
 
-        public SeasonController(FormulaOneFanHubContxt fanHubContxt)
+        public SeasonController(FormulaOneFanHubContxt fanHubContxt, BlobServiceClient blobServiceClient)
         {
             _fanHubContext = fanHubContxt;
+            _blobServiceClient = blobServiceClient;
         }
 
         [HttpPost("CreateSeason")]
-        public IActionResult CreateSeason([FromForm] SeasonDto seasonDto)
+        public async Task<IActionResult> CreateSeason([FromForm] SeasonDto seasonDto)
         {
             if (!ModelState.IsValid)
             {
@@ -35,25 +38,29 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest("Year is already added in the database");
             }
 
-            if (seasonDto.ImageFile != null && seasonDto.ImageFile.Length > 0)
-            {
-                var fileName = Guid.NewGuid().ToString() + "_" + seasonDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
+            var imageFile = seasonDto.ImageFile;
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
+
+                using (var stream = imageFile.OpenReadStream())
                 {
-                    seasonDto.ImageFile.CopyTo(stream);
+                    await blobClient.UploadAsync(stream, overwrite: true);
                 }
 
                 // Set the ImagePath here
-                seasonDto.ImagePath = fileName;
+                seasonDto.ImagePath = blobClient.Uri.AbsoluteUri;
             }
 
             Season seasonToCreate = new Season
             {
                 Year = seasonDto.Year,
                 Champion = seasonDto.Champion,
-                ImagePath = seasonDto.ImagePath, 
+                ImagePath = seasonDto.ImagePath,
                 UniqueSeasonName = $"{Guid.NewGuid()}_{seasonDto.Year}"
             };
 
@@ -61,6 +68,46 @@ namespace FormulaOneFanHub.API.Controllers
             _fanHubContext.SaveChanges();
 
             return StatusCode(201);
+        }
+
+        [HttpPut("UpdateSeason")]
+        public async Task<IActionResult> UpdateSeason([FromForm] SeasonDto seasonDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingSeason = _fanHubContext.Seasons.Find(seasonDto.SeasonId);
+
+            if (existingSeason == null)
+            {
+                return NotFound();
+            }
+
+            var imageFile = seasonDto.ImageFile;
+
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
+                var blobContainerName = "web"; // Replace with your actual container name
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);
+                var blobClient = blobContainerClient.GetBlobClient(fileName);
+
+                using (var stream = imageFile.OpenReadStream())
+                {
+                    await blobClient.UploadAsync(stream, overwrite: true);
+                }
+
+                existingSeason.ImagePath = blobClient.Uri.AbsoluteUri;
+            }
+
+            existingSeason.Year = seasonDto.Year;
+            existingSeason.Champion = seasonDto.Champion;
+
+            _fanHubContext.SaveChanges();
+
+            return Ok();
         }
 
         [HttpGet("GetSeasonById")]
@@ -97,43 +144,6 @@ namespace FormulaOneFanHub.API.Controllers
             return Ok(season.SeasonId);
         }
 
-
-
-        [HttpPut("UpdateSeason")]
-        public IActionResult UpdateSeason([FromForm] SeasonDto seasonDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingSeason = _fanHubContext.Seasons.Find(seasonDto.SeasonId);
-
-            if (existingSeason == null)
-            {
-                return NotFound();
-            }
-
-            existingSeason.Year = seasonDto.Year;
-            existingSeason.Champion = seasonDto.Champion;
-
-            if (seasonDto.ImageFile != null && seasonDto.ImageFile.Length > 0)
-            {
-                var fileName = Guid.NewGuid().ToString() + "_" + seasonDto.ImageFile.FileName;
-                var filePath = Path.Combine("wwwroot/images", fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    seasonDto.ImageFile.CopyTo(stream);
-                }
-
-                existingSeason.ImagePath = fileName;
-            }
-
-            _fanHubContext.SaveChanges();
-
-            return Ok();
-        }
 
         [HttpGet("GetSeasons")]
         public IActionResult GetSeasons()
