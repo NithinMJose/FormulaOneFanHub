@@ -36,6 +36,15 @@ namespace FormulaOneFanHub.API.Controllers
                 return NotFound("Race not found for the provided season year and race name.");
             }
 
+            // Check if a corner with the same corner number already exists for the provided race ID
+            var existingCorner = _fanHubContext.Corners
+                .FirstOrDefault(c => c.CornerNumber == cornerDto.CornerNumber && c.RaceId == race.RaceId);
+
+            if (existingCorner != null)
+            {
+                return Conflict("A corner with the same corner number already exists for this race.");
+            }
+
             var cornerToCreate = new Corner
             {
                 CornerNumber = cornerDto.CornerNumber,
@@ -49,6 +58,7 @@ namespace FormulaOneFanHub.API.Controllers
 
             return StatusCode(201);
         }
+
 
 
         [HttpGet("GetAllCorners")]

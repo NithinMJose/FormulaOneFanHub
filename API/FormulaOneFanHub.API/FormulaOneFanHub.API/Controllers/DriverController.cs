@@ -70,11 +70,29 @@ namespace FormulaOneFanHub.API.Controllers
 
 
         [HttpGet("GetDrivers")]
-        public IActionResult GetDrivers()
+public IActionResult GetDrivers()
+{
+    var driversWithTeamName = _fanHubContext.Drivers
+        .Select(d => new
         {
-            var drivers = _fanHubContext.Drivers;
-            return Ok(drivers);
-        }
+            d.DriverId,
+            d.TeamIdRef,
+            d.Name,
+            d.Dob,
+            d.Description,
+            d.ImagePath,
+            d.CreatedOn,
+            d.UpdatedOn,
+            TeamName = _fanHubContext.Teams
+                .Where(t => t.TeamId == d.TeamIdRef)
+                .Select(t => t.Name)
+                .FirstOrDefault()
+        })
+        .ToList();
+
+    return Ok(driversWithTeamName);
+}
+
 
         [HttpGet("GetDriverById")]
         public IActionResult GetDriverById(int id)

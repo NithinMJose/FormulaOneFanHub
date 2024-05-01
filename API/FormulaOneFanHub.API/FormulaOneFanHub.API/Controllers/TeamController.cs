@@ -37,6 +37,11 @@ namespace FormulaOneFanHub.API.Controllers
                 return Unauthorized();
             }
 
+            if (team.Status == "inactive")
+            {
+                return Ok(new { message = "Inactive account" });
+            }
+
             var isPasswordMatch = BCrypt.Net.BCrypt.Verify(loginDto.Password, team.Password);
 
             if (!isPasswordMatch)
@@ -49,6 +54,7 @@ namespace FormulaOneFanHub.API.Controllers
             // Always return success:true even if the status is inactive
             return Ok(new { token = token, success = true });
         }
+
 
 
         private string GenerateToken(Team team)
@@ -105,7 +111,7 @@ namespace FormulaOneFanHub.API.Controllers
                 userName = teamCreateDto.UserName,
                 Email = teamCreateDto.Email,
                 Password = hashedPassword, // Set hashed password
-                Status = "inactive", // Set default value for Status
+                Status = "not_updated", // Set default value for Status
                 CreatedOn = DateTime.Now, // Set default value for CreatedOn
                 UpdatedOn = DateTime.Now // Set default value for UpdatedOn
             };
@@ -253,6 +259,47 @@ namespace FormulaOneFanHub.API.Controllers
 
 
 
+
+            // Save the changes to the database
+            _fanHubContext.SaveChanges();
+
+            // Return a JSON response with success:true
+            return Ok(new { success = true });
+        }
+
+
+        [HttpPut("DeactivateTeam")]
+        public IActionResult DeactivateTeam(int teamId)
+        {
+            var team = _fanHubContext.Teams.FirstOrDefault(t => t.TeamId == teamId);
+
+            if (team == null)
+            {
+                return NotFound("Team not found.");
+            }
+
+            // Set the status to inactive
+            team.Status = "inactive";
+
+            // Save the changes to the database
+            _fanHubContext.SaveChanges();
+
+            // Return a JSON response with success:true
+            return Ok(new { success = true });
+        }
+
+        [HttpPut("ActivateTeam")]
+        public IActionResult ActivateTeam(int teamId)
+        {
+            var team = _fanHubContext.Teams.FirstOrDefault(t => t.TeamId == teamId);
+
+            if (team == null)
+            {
+                return NotFound("Team not found.");
+            }
+
+            // Set the status to active
+            team.Status = "active";
 
             // Save the changes to the database
             _fanHubContext.SaveChanges();
