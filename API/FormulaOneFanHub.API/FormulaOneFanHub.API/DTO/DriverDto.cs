@@ -12,6 +12,7 @@ namespace FormulaOneFanHub.API.Entities
         public string Description { get; set; } = string.Empty;
         public IFormFile? ImageFile { get; set; }
         public string? ImagePath { get; set; }
+        public string? Status { get; set; }
     }
 
 }

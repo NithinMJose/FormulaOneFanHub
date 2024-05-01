@@ -721,9 +721,28 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpGet("CheckUsernameAvailability")]
         public IActionResult CheckUsernameAvailability(string username)
         {
-            bool isUsernameTaken = _fanHubContext.Users.Any(u => u.UserName == username);
+            // Check if the username is already taken in the User entity
+            bool isUsernameTakenInUser = _fanHubContext.Users.Any(u => u.UserName == username);
+
+            // Check if the username is already taken in the Team entity
+            bool isUsernameTakenInTeam = _fanHubContext.Teams.Any(t => t.userName == username);
+
+            // Check if the username is already taken in the DeliveryCompany entity
+            bool isUsernameTakenInDeliveryCompany = _fanHubContext.DeliveryCompanies.Any(dc => dc.UniqueName == username);
+
+            // Check if the username is "admin" or "Admin"
+            bool isReservedUsername = username.ToLower() == "admin";
+
+            // Combine all checks to determine overall username availability
+            bool isAvailable = !isUsernameTakenInUser && !isUsernameTakenInTeam && !isUsernameTakenInDeliveryCompany && !isReservedUsername;
+
+            // Invert the availability status to indicate whether the username is taken
+            bool isUsernameTaken = !isAvailable;
+
             return Ok(new { isUsernameTaken });
         }
+
+
 
 
 

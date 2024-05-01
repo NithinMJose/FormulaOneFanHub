@@ -25,6 +25,12 @@ namespace FormulaOneFanHub.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Check if the polling date is in the past or more than 30 days from now
+            if (pollDto.PollingDate <= DateTime.Now || pollDto.PollingDate > DateTime.Now.AddDays(30))
+            {
+                return BadRequest("DateNotSuitable");
+            }
+
             var poll = new Poll
             {
                 Question = pollDto.Question,
@@ -40,6 +46,8 @@ namespace FormulaOneFanHub.API.Controllers
 
             return StatusCode(201);
         }
+
+
 
         [HttpGet("GetAllPolls")]
         public IActionResult GetAllPolls()

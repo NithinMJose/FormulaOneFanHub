@@ -57,7 +57,8 @@ namespace FormulaOneFanHub.API.Controllers
                 Description = driverDto.Description,
                 ImagePath = imagePath, // Use the blob URI as the image path
                 CreatedOn = DateTime.Now,
-                UpdatedOn = DateTime.Now
+                UpdatedOn = DateTime.Now,
+                Status = "active"
             };
 
             _fanHubContext.Drivers.Add(driverToCreate);
@@ -83,6 +84,7 @@ public IActionResult GetDrivers()
             d.ImagePath,
             d.CreatedOn,
             d.UpdatedOn,
+            d.Status,
             TeamName = _fanHubContext.Teams
                 .Where(t => t.TeamId == d.TeamIdRef)
                 .Select(t => t.Name)
@@ -119,6 +121,7 @@ public IActionResult GetDrivers()
             existingDriver.Name = driverDto.Name;
             existingDriver.Dob = driverDto.Dob;
             existingDriver.Description = driverDto.Description;
+            existingDriver.Status = driverDto.Status;
 
             if (driverDto.ImageFile != null && driverDto.ImageFile.Length > 0)
             {
