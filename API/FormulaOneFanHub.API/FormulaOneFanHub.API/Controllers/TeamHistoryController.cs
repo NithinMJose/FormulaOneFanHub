@@ -46,9 +46,20 @@ namespace FormulaOneFanHub.API.Controllers
         [HttpGet("GetAllTeamHistories")]
         public IActionResult GetAllTeamHistories()
         {
-            var teamHistories = _fanHubContext.TeamHistories.ToList();
+            var teamHistories = _fanHubContext.TeamHistories
+                                    .Include(th => th.Team)  // Include the related Team entity
+                                    .Select(th => new {  // Select only the required properties
+                                        HistoryId = th.HistoryId,
+                                        Heading = th.Heading,
+                                        Paragraph = th.Paragraph,
+                                        TeamId = th.TeamId,
+                                        TeamName = th.Team.Name  // Include the team name
+                                    })
+                                    .ToList();
+
             return Ok(teamHistories);
         }
+
 
         [HttpGet("GetTeamHistoryById")]
         public IActionResult GetTeamHistoryById(int id)
